@@ -454,25 +454,18 @@ function updateProgress(){
   var plbl=document.getElementById('plbl');
   if(pbf)pbf.style.width=pct+'%';
   if(plbl)plbl.textContent=pct+'% · '+totalDone+' de '+total+' hoy';
-  // Drive SVG rings
-  var C2=157.08;
-  function setRing(rid,tid,pct2){
-    var c=document.getElementById(rid);
-    var t=document.getElementById(tid);
-    if(c)c.setAttribute('stroke-dasharray',(C2*pct2/100).toFixed(1)+' '+(C2-C2*pct2/100).toFixed(1));
-    if(t)t.textContent=pct2+'%';
-  }
-  setRing('r-ru','t-ru',SCHED.length>0?Math.round(countTrue(done)/SCHED.length*100):0);
-  setRing('r-en','t-en',ENG.length>0?Math.round(countTrue(engD)/ENG.length*100):0);
-  var vT=0;try{
-    var vEjs=getVozDayExercises();
-    vT=vEjs?vEjs.length:0;
-    // Only count vozD keys that belong to today's exercises
-    var vozTodayDone=vEjs?vEjs.filter(function(e){return !!vozD[e.id];}).length:0;
-  }catch(e){vozTodayDone=0;}
-  setRing('r-vz','t-vz',vT>0?Math.round(vozTodayDone/vT*100):0);
-  var pnlT2=4;try{if(isWk)pnlT2=getPnlDailyTotal();}catch(e){}
-  setRing('r-pn','t-pn',pnlT2>0?Math.round(countTrue(pnlD)/pnlT2*100):0);
+  // Drive single RUTINA ring
+  var C2=175.9;
+  var schedPct2=SCHED.length>0?Math.round(countTrue(done)/SCHED.length*100):0;
+  var rc=document.getElementById('r-ru');
+  var rt=document.getElementById('t-ru');
+  var rd=document.getElementById('ring-done');
+  var rl=document.getElementById('ring-total');
+  if(rc)rc.setAttribute('stroke-dasharray',(C2*schedPct2/100).toFixed(1)+' '+(C2*(1-schedPct2/100)).toFixed(1));
+  if(rt)rt.textContent=schedPct2+'%';
+  if(rd)rd.textContent=countTrue(done);
+  if(rl)rl.textContent='de '+SCHED.length+' hoy';
+
   try{saveDailySnapshot(totalDone,total);}catch(e){}
 }
 
@@ -656,12 +649,11 @@ function renderHoy(){
   }
 
   // Stats bar
-  h+=`<div class"rings-hoy" style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--wh);border-radius:16px;padding:14px 8px;box-shadow:var(--shad);margin-bottom:14px">
-    <div style="text-align:center"><svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="rgba(45,26,14,.1)" stroke-width="5"/><circle id="r-ru" cx="32" cy="32" r="25" fill="none" stroke="var(--tr)" stroke-width="5" stroke-dasharray="0 157.1" stroke-dashoffset="39.3" stroke-linecap="round" style="transition:stroke-dasharray .5s ease"/><text id="t-ru" x="32" y="36" text-anchor="middle" fill="var(--tr)" font-size="12" font-weight="700" font-family="DM Sans,sans-serif">0%</text></svg><div style="font-size:9px;color:var(--mu);letter-spacing:.8px;text-transform:uppercase;margin-top:2px">Rutina</div></div>
-    <div style="text-align:center"><svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="rgba(45,26,14,.1)" stroke-width="5"/><circle id="r-en" cx="32" cy="32" r="25" fill="none" stroke="var(--gd)" stroke-width="5" stroke-dasharray="0 157.1" stroke-dashoffset="39.3" stroke-linecap="round" style="transition:stroke-dasharray .5s ease"/><text id="t-en" x="32" y="36" text-anchor="middle" fill="var(--gd)" font-size="12" font-weight="700" font-family="DM Sans,sans-serif">0%</text></svg><div style="font-size:9px;color:var(--mu);letter-spacing:.8px;text-transform:uppercase;margin-top:2px">Inglés</div></div>
-    <div style="text-align:center"><svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="rgba(45,26,14,.1)" stroke-width="5"/><circle id="r-vz" cx="32" cy="32" r="25" fill="none" stroke="#9060C0" stroke-width="5" stroke-dasharray="0 157.1" stroke-dashoffset="39.3" stroke-linecap="round" style="transition:stroke-dasharray .5s ease"/><text id="t-vz" x="32" y="36" text-anchor="middle" fill="#9060C0" font-size="12" font-weight="700" font-family="DM Sans,sans-serif">0%</text></svg><div style="font-size:9px;color:var(--mu);letter-spacing:.8px;text-transform:uppercase;margin-top:2px">Voz</div></div>
-    <div style="text-align:center"><svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="rgba(45,26,14,.1)" stroke-width="5"/><circle id="r-pn" cx="32" cy="32" r="25" fill="none" stroke="#5A9E8A" stroke-width="5" stroke-dasharray="0 157.1" stroke-dashoffset="39.3" stroke-linecap="round" style="transition:stroke-dasharray .5s ease"/><text id="t-pn" x="32" y="36" text-anchor="middle" fill="#5A9E8A" font-size="12" font-weight="700" font-family="DM Sans,sans-serif">0%</text></svg><div style="font-size:9px;color:var(--mu);letter-spacing:.8px;text-transform:uppercase;margin-top:2px">PNL</div></div>
+  h+=`<div clas"day-ring" style="display:flex;align-items:center;gap:16px;background:var(--wh);border-radius:16px;padding:14px 16px;box-shadow:var(--shad);margin-bottom:14px">
+    <svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="28" fill="none" stroke="rgba(45,26,14,.08)" stroke-width="6"/><circle id="r-ru" cx="36" cy="36" r="28" fill="none" stroke="var(--tr)" stroke-width="6" stroke-dasharray="0 175.9" stroke-dashoffset="44" stroke-linecap="round" style="transition:stroke-dasharray .6s ease"/><text id="t-ru" x="36" y="40" text-anchor="middle" fill="var(--tr)" font-size="13" font-weight="700" font-family="DM Sans,sans-serif">0%</text></svg>
+    <div style="flex:1"><div style="font-size:18px;font-weight:800;color:var(--br)" id="ring-done">0</div><div style="font-size:11px;color:var(--mu);margin-bottom:2px">actividades completadas</div><div style="font-size:10px;color:var(--mu)" id="ring-total">de 0 hoy</div></div>
   </div>`
+
 
 ;
 
@@ -763,7 +755,7 @@ function renderCuerpo(){
 
   w.ex.forEach((ex,i)=>{
     const k=`x_${dow}_${i}`;const done2=!!exD[k];
-    h+=`<div class="ex-card ${done2?"done":""}" onclick="togX('${k}')">
+    h+=`<div class="ex-card ${done2?"done":""}" >
       <span style="font-size:20px">${done2?"✅":"⬜"}</span>
       <div style="flex:1">
         <div class="ex-name ${done2?"done":""}">${ex.n}${ex.big?" ⭐":""}</div>
@@ -943,70 +935,82 @@ function renderMente(){
 // ═══════════════════════════════════════════
 function renderVision(){
   var now=new Date();
-  var dow=now.getDay();
-  var day=now.getDate();
-  var mon=now.getMonth();
+  var day=now.getDate(), mon=now.getMonth(), dow=now.getDay();
   var moon=getMoon(now);
+
   var QUOTES=[
-    {q:"I am becoming fluent in English and it opens every door I dream of.",a:"Helen — tu alter ego"},
-    {q:"Mi cuerpo es fuerte, capaz y merece cada cuidado que le doy.",a:"Tu yo fisico en transformacion"},
-    {q:"El conocimiento de datos que adquiero este ano vale mas que cualquier titulo.",a:"Tu yo profesional emergente"},
-    {q:"Merezco prosperidad. La abundancia fluye hacia mi con naturalidad.",a:"Tu yo prospera"},
-    {q:"Cada manana que me levanto a las 6 estoy votando por quien quiero ser.",a:"James Clear — Atomic Habits"},
+    {q:"En diciembre de 2026 converso en inglés sin pensar. Ya está pasando.",a:"Tu yo de diciembre, escribiéndote hoy"},
+    {q:"Mi cuerpo cambia porque soy consistente, no porque soy perfecta.",a:"Tu yo físico en construcción"},
+    {q:"Encontrar mi pasión no es un evento. Es un proceso que ya empecé.",a:"Tu yo profesional emergente"},
+    {q:"6k mensuales no es un sueño. Es el resultado natural de quien me estoy convirtiendo.",a:"Tu yo próspera"},
+    {q:"Cada mañana que me levanto a las 6 estoy votando por quien quiero ser.",a:"James Clear — Atomic Habits"},
     {q:"Mi voz tiene poder. Mis palabras cambian salas enteras.",a:"Tu yo oradora"},
-    {q:"En 6 meses sere una persona diferente. En 12, sere irreconocible.",a:"Tu yo del futuro, escribiendote hoy"},
-    {q:"No compito con nadie. Mi unica carrera es con quien fui ayer.",a:"Tu yo libre"}
+    {q:"No compito con nadie. Mi única carrera es con quien fui ayer.",a:"Tu yo libre"},
+    {q:"El iPhone, los sillones, los dientes — todo llega cuando yo llego primero.",a:"Tu yo abundante"},
   ];
   var q=QUOTES[day%QUOTES.length];
-  var MOON_RITUAL={
-    "Nueva":    {r:"Escribe 3 intenciones para este ciclo lunar.",e:"Siembra"},
-    "Creciente":{r:"Que accion concreta puedes dar HOY hacia tu meta mas importante?",e:"Actua"},
-    "Llena":    {r:"Celebra todo lo que has avanzado. Escribe 5 cosas logradas.",e:"Celebra"},
-    "Menguante":{r:"Que creencia puedes soltar? Escribe en tu diario.",e:"Suelta"}
-  };
-  var moonKey=moon.n.split(' ')[moon.n.split(' ').length-1];
-  var moonRit=MOON_RITUAL[moonKey]||{r:'Conecta con tu ciclo natural y descansa.',e:'Presencia'};
   var moonDone=!!localStorage.getItem('moonrit_'+todayKey());
+  var seedDone=!!localStorage.getItem('seed_'+todayKey());
+  var MOON_RITUAL={
+    "Nueva":{r:"Escribe 3 intenciones para este ciclo. ¿Qué quieres crear?",e:"Siembra"},
+    "Creciente":{r:"¿Qué acción concreta puedes dar HOY hacia tu meta más importante?",e:"Actúa"},
+    "Llena":{r:"Celebra lo que has avanzado. Escribe 5 cosas que ya lograste.",e:"Celebra"},
+    "Menguante":{r:"¿Qué hábito o creencia puedes soltar esta semana?",e:"Suelta"}
+  };
+  var moonKey=moon.n.split(' ').pop();
+  var moonRit=MOON_RITUAL[moonKey]||{r:'Conecta con tu ciclo natural.',e:'Presencia'};
   var SEEDS=[
-    {s:"Escucha 10 min de ingles mientras desayunas. Sin subtitulos.",w:"Inmersion pasiva = input comprensible (Krashen)"},
-    {s:"Di en voz alta tu afirmacion de identidad 3 veces antes de salir.",w:"Repeticion activa mieliniza el circuito neural"},
-    {s:"Anota una creencia limitante que notaste hoy y su reencuadre.",w:"El diario es cirugia neuronal escrita"},
-    {s:"Aprende 5 palabras nuevas en ingles y usalas en una oracion hoy.",w:"Uso activo fija el vocabulario 3x mas que solo leerlo"},
-    {s:"Visualiza 3 minutos tu vida en diciembre de 2026.",w:"El hipocampo no distingue recuerdo real de imaginado vivido"},
-    {s:"Haz 5 minutos de respiracion diafragmatica antes de dormir.",w:"Activa el nervio vago y prepara el sueno profundo"},
-    {s:"Llama a alguien que quieres. Solo para saber como esta.",w:"Las conexiones seguras regulan el sistema nervioso"}
+    {s:"Escucha 10 min de inglés mientras desayunas. Sin subtítulos.",w:"Inmersión pasiva = input comprensible (Krashen)"},
+    {s:"Di en voz alta 3 veces: 'Soy la versión que estoy construyendo hoy.'",w:"Repetición activa mieliniza el circuito de identidad"},
+    {s:"Anota una oportunidad que viste hoy y no tomaste. ¿Por qué?",w:"La metacognición acelera el aprendizaje 3x"},
+    {s:"Aprende 5 palabras en inglés y úsalas en una oración hoy.",w:"Uso activo fija vocabulario 3x más que solo leerlo"},
+    {s:"Visualiza 3 minutos tu vida en diciembre de 2026.",w:"El hipocampo no distingue recuerdo real de imaginado vívido"},
+    {s:"Llama a alguien de tu familia. Solo para saber cómo está.",w:"Las conexiones seguras regulan el sistema nervioso"},
+    {s:"Haz 5 min de respiración diafragmática antes de dormir.",w:"Activa el nervio vago y prepara el sueño profundo"},
   ];
   var seed=SEEDS[(day+mon)%SEEDS.length];
-  var seedDone=!!localStorage.getItem('seed_'+todayKey());
+
   var GOALS_DATA=[
-    {id:"g1",cat:"Salud",n:"Despertar a las 6 AM de lunes a viernes"},
-    {id:"g2",cat:"Salud",n:"Meditar 20 minutos cada manana"},
-    {id:"g3",cat:"Salud",n:"Ejercicio 5 veces por semana"},
-    {id:"g4",cat:"Salud",n:"Skincare completo manana y noche"},
-    {id:"g5",cat:"Salud",n:"Nutricion y proteina consciente"},
-    {id:"g6",cat:"Salud",n:"8 horas de sueno consistente"},
-    {id:"g7",cat:"Salud",n:"Paseo diario con Bow 🐾"},
-    {id:"g8",cat:"Carrera",n:"Completar curso de ciencia de datos"},
-    {id:"g9",cat:"Carrera",n:"Trabajar en algo de datos antes de diciembre"},
-    {id:"g10",cat:"Carrera",n:"Dominar Excel y SQL nivel profesional"},
-    {id:"g11",cat:"Carrera",n:"Crear portafolio de proyectos de datos"},
-    {id:"g12",cat:"Dinero",n:"Ingreso adicional activo antes de junio"},
-    {id:"g13",cat:"Dinero",n:"Vivir desde la abundancia, no la escasez"},
-    {id:"g14",cat:"Dinero",n:"Decisiones financieras conscientes"},
-    {id:"g15",cat:"Vida",n:"Ingles fluido en diciembre"},
-    {id:"g16",cat:"Vida",n:"Oratoria: hablar en publico con seguridad"},
-    {id:"g17",cat:"Vida",n:"Estilo personal definido y autentico"},
-    {id:"g18",cat:"Vida",n:"Viajar a al menos un lugar nuevo"},
-    {id:"g19",cat:"Familia",n:"Calidad de tiempo con familia"},
-    {id:"g20",cat:"Familia",n:"Construir o nutrir una relacion que me llene"}
+    // 💚 SALUD
+    {id:"g1", cat:"Salud", e:"💚", n:"Masa muscular piernas y pompis — programa definido", m3:"Rutina de fuerza 3x/semana consistente", m6:"Cambio visible en piernas y glúteos", m12:"Cuerpo transformado, fotos de progreso"},
+    {id:"g2", cat:"Salud", e:"💚", n:"Subir masa muscular, no grasa", m3:"Proteína diaria y entrenamiento de fuerza", m6:"Composición corporal mejorada", m12:"Masa muscular consolidada"},
+    {id:"g3", cat:"Salud", e:"💚", n:"Mejorar textura de piel", m3:"Skincare consistente mañana y noche", m6:"Textura notablemente mejorada", m12:"Piel que refleja quién eres"},
+    {id:"g4", cat:"Salud", e:"💚", n:"Encontrar el estilo correcto de mi cabello", m3:"Probar 2 estilos diferentes", m6:"Definir el look que me representa", m12:"Cabello como parte de mi identidad"},
+    {id:"g5", cat:"Salud", e:"💚", n:"Mejorar mis ojeras", m3:"Rutina específica para contorno de ojos", m6:"Mejora visible", m12:"Resuelto"},
+    {id:"g6", cat:"Salud", e:"💚", n:"Mejorar mis dientes — retenedores", m3:"Proceso iniciado", m6:"En tratamiento activo", m12:"Sonrisa que me encanta"},
+    // 🚀 CARRERA
+    {id:"g7", cat:"Carrera", e:"🚀", n:"Completar curso de ciencia de datos", m3:"50% del curso completado", m6:"Curso terminado + primer proyecto", m12:"Portafolio activo"},
+    {id:"g8", cat:"Carrera", e:"🚀", n:"Ingresar a carrera universitaria de ciencia de datos", m3:"Investigar opciones y requisitos", m6:"Proceso de admisión iniciado", m12:"Matriculada"},
+    {id:"g9", cat:"Carrera", e:"🚀", n:"Encontrar mi pasión y aceptar las oportunidades correctas", m3:"Explorar 3 áreas de interés", m6:"Claridad sobre dirección profesional", m12:"Trabajando en algo que me llena"},
+    {id:"g10", cat:"Carrera", e:"🚀", n:"Dominar Excel y SQL nivel profesional", m3:"Excel avanzado", m6:"SQL funcional en proyectos reales", m12:"Ambos en CV con proyectos demostrados"},
+    // 💰 DINERO
+    {id:"g11", cat:"Dinero", e:"💰", n:"Ganar más de 6k mensuales", m3:"Identificar fuente de ingreso adicional", m6:"Primer mes sobre 4k", m12:"6k consistente o superado"},
+    {id:"g12", cat:"Dinero", e:"💰", n:"Generar ingreso mensual activo con algo propio", m3:"Idea validada y en marcha", m6:"Primeros ingresos propios", m12:"Fuente de ingreso establecida"},
+    {id:"g13", cat:"Dinero", e:"💰", n:"Cambiar los sillones de mi sala", m3:"Ahorrar para eso", m6:"Elegidos y comprados", m12:"Sala que me representa"},
+    // 🇬🇧 INGLÉS
+    {id:"g14", cat:"Inglés", e:"🇬🇧", n:"Llegar a nivel intermedio en 6 meses", m3:"Conversación básica fluida", m6:"Intermedio confirmado", m12:"Avanzado — conversación natural"},
+    {id:"g15", cat:"Inglés", e:"🇬🇧", n:"Escribir en inglés con seguridad", m3:"Journaling diario en inglés", m6:"Emails y mensajes sin traductor", m12:"Escritura fluida y natural"},
+    {id:"g16", cat:"Inglés", e:"🇬🇧", n:"Cantar mi música favorita con seguridad", m3:"Aprender letra + pronunciación de 5 canciones", m6:"Cantar sin vergüenza", m12:"Cantar en público si se da la oportunidad"},
+    // ✨ ESTILO DE VIDA
+    {id:"g17", cat:"Vida", e:"✨", n:"Estilo personal definido y auténtico", m3:"Depurar armario, identificar mi estética", m6:"Armario mejorado, me visto con intención", m12:"Mi estilo me representa al 100%"},
+    {id:"g18", cat:"Vida", e:"✨", n:"Viajar a al menos un lugar nuevo", m3:"Destino elegido y planificado", m6:"Viaje realizado", m12:"Al menos un viaje más"},
+    {id:"g19", cat:"Vida", e:"✨", n:"Hablar en público con seguridad", m3:"Dicción y oratoria consistente", m6:"Hablar en reuniones sin miedo", m12:"Presentación en público lograda"},
+    {id:"g20", cat:"Vida", e:"✨", n:"iPhone 16 Pro 256GB Titanio Desierto", m3:"Ahorrando con intención", m6:"Meta de ahorro alcanzada", m12:"iPhone en mano"},
+    // 💛 FAMILIA Y RELACIONES
+    {id:"g21", cat:"Familia", e:"💛", n:"Salir a comer con familia 1 vez al mes", m3:"3 salidas realizadas", m6:"Hábito establecido", m12:"12 salidas — tradición creada"},
+    {id:"g22", cat:"Familia", e:"💛", n:"Salir con amigos 1 vez al mes", m3:"3 salidas con amigos", m6:"Conexiones fortalecidas", m12:"Red social activa y nutritiva"},
+    {id:"g23", cat:"Familia", e:"💛", n:"Ayudar a que el alcohol no domine las reuniones", m3:"Proponer planes alternativos 1 vez", m6:"Nuevas tradiciones de reunión", m12:"Ambiente familiar más sano"},
   ];
+
   var CAT_META=[
-    {k:"Salud",    e:"🌿",n:"Salud y Energia"},
-    {k:"Carrera",  e:"🚀",n:"Carrera y Datos"},
-    {k:"Dinero",   e:"💰",n:"Prosperidad"},
-    {k:"Vida",     e:"✨",n:"Estilo de vida"},
-    {k:"Familia",  e:"💛",n:"Familia y Amor"}
+    {k:"Salud",   e:"💚", n:"Salud y Cuerpo"},
+    {k:"Carrera", e:"🚀", n:"Carrera y Datos"},
+    {k:"Dinero",  e:"💰", n:"Prosperidad"},
+    {k:"Inglés",  e:"🇬🇧", n:"Inglés"},
+    {k:"Vida",    e:"✨", n:"Estilo de Vida"},
+    {k:"Familia", e:"💛", n:"Familia y Relaciones"},
   ];
+
   var HELEN_MSGS=[
     "Today I learned something new. That is enough.",
     "My accent is part of who I am. My words are what matter.",
@@ -1014,66 +1018,80 @@ function renderVision(){
     "Every conversation makes me better. I show up anyway.",
     "I am Helen. I speak English. I belong in every room.",
     "Progress, not perfection. Always.",
-    "I am becoming fluent. It's already happening."
+    "I am becoming fluent. It's already happening.",
   ];
   var helenMsg=HELEN_MSGS[(day+dow)%HELEN_MSGS.length];
   var h='';
-  h+='<div style="background:linear-gradient(160deg,#1E0F05 0%,#2A1060 50%,#1E0F05 100%);border-radius:20px;padding:24px 20px;margin-bottom:16px;position:relative;overflow:hidden">';
-  h+='<div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:10px">✨ Mensaje de tu yo futuro</div>';
-  h+='<div style="font-family:\'Playfair Display\',serif;font-size:17px;font-style:italic;color:var(--c);line-height:1.6;margin-bottom:10px">"'+q.q+'"</div>';
-  h+='<div style="font-size:10px;color:rgba(248,242,232,.45)">— '+q.a+'</div></div>';
-  h+='<div style="border-radius:18px;overflow:hidden;margin-bottom:16px;box-shadow:0 8px 32px rgba(30,15,5,.4)">';
-  h+='<img src="'+VB_IMG+'" style="width:100%;display:block"/></div>';
-  h+='<div class="sec-ttl"><span>Mi progreso hoy</span><div class="sec-ln"></div></div>';
-  var tdv=countTrue(done)+countTrue(engD)+countTrue(exD)+countTrue(vozD);
-  var ttv=SCHED.length+ENG.length;
-  var pctv=ttv>0?Math.round(tdv/ttv*100):0;
-  h+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shad)">';
-  h+='<div style="flex:1"><div style="font-size:10px;color:var(--mu);margin-bottom:5px;letter-spacing:.5px;text-transform:uppercase">Progreso del día</div>';
-  h+='<div style="height:5px;background:rgba(45,26,14,.08);border-radius:3px;overflow:hidden">';
-  h+='<div style="height:100%;width:'+pctv+'%;background:linear-gradient(90deg,var(--gd),var(--tr));border-radius:3px"></div></div></div>';
-  h+='<div style="font-size:22px;font-weight:800;color:var(--tr)">'+pctv+'%</div></div>';
 
+  // HERO QUOTE
+  h+='<div style="background:linear-gradient(160deg,#1E0F05 0%,#2A1060 50%,#1E0F05 100%);border-radius:20px;padding:22px 18px;margin-bottom:16px">';
+  h+='<div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:8px">Tu yo de diciembre te escribe</div>';
+  h+='<div style="font-family:\'Playfair Display\',serif;font-size:16px;font-style:italic;color:var(--c);line-height:1.6;margin-bottom:8px">\"'+q.q+'\"</div>';
+  h+='<div style="font-size:10px;color:rgba(248,242,232,.4)">— '+q.a+'</div></div>';
+
+  // VISION BOARD
+  h+='<div style="border-radius:18px;overflow:hidden;margin-bottom:16px;box-shadow:0 8px 32px rgba(30,15,5,.4)">';
+  h+='<img src="'+VB_IMG+'" style="width:100%;display:block" loading="lazy"/></div>';
+
+  // MOON RITUAL
   h+='<div class="sec-ttl"><span>'+moon.n+' — Ritual de hoy</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:'+(moonDone?'#F0F5EE':'var(--wh)')+';border:1.5px solid '+(moonDone?'#C2D8BA':'var(--bl)')+';border-radius:16px;padding:16px;margin-bottom:16px;cursor:pointer" onclick="toggleMoonRit()">';
-  h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">';
-  h+='<span style="font-size:28px">'+moon.n.split(" ")[0]+'</span>';
+  h+='<div style="background:'+(moonDone?'#F0F5EE':'var(--wh)')+';border:1.5px solid '+(moonDone?'#C2D8BA':'var(--bl)')+';border-radius:16px;padding:14px;margin-bottom:14px;cursor:pointer" onclick="toggleMoonRit()">';
+  h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">';
+  h+='<span style="font-size:26px">'+moon.n.split(" ")[0]+'</span>';
   h+='<div><div style="font-size:11px;font-weight:600;color:var(--gd);text-transform:uppercase;letter-spacing:1px">'+moonRit.e+'</div>';
   h+='<div style="font-size:11px;color:var(--mu)">'+moon.n+'</div></div>';
-  h+='<span style="margin-left:auto;font-size:22px">'+(moonDone?'✅':'○')+'</span></div>';
+  h+='<span style="margin-left:auto;font-size:20px">'+(moonDone?'✅':'○')+'</span></div>';
   h+='<div style="font-size:13px;color:var(--br);line-height:1.7;font-style:italic">'+moonRit.r+'</div></div>';
-  h+='<div class="sec-ttl"><span>🌱 Semilla del dia</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:'+(seedDone?'#F0F5EE':'linear-gradient(135deg,rgba(201,168,76,.06),rgba(196,112,79,.04))')+';border:1.5px solid '+(seedDone?'#C2D8BA':'rgba(201,168,76,.3)')+';border-radius:16px;padding:16px;margin-bottom:16px;cursor:pointer" onclick="toggleSeed()">';
+
+  // SEMILLA
+  h+='<div class="sec-ttl"><span>Semilla del día</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:'+(seedDone?'#F0F5EE':'linear-gradient(135deg,rgba(201,168,76,.06),rgba(196,112,79,.04))')+';border:1.5px solid '+(seedDone?'#C2D8BA':'rgba(201,168,76,.3)')+';border-radius:16px;padding:14px;margin-bottom:14px;cursor:pointer" onclick="toggleSeed()">';
   h+='<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">';
-  h+='<div><div style="font-size:13px;color:var(--br);line-height:1.7;margin-bottom:6px">'+seed.s+'</div>';
+  h+='<div><div style="font-size:13px;color:var(--br);line-height:1.7;margin-bottom:5px">'+seed.s+'</div>';
   h+='<div style="font-size:10px;color:var(--mu);font-style:italic">🔬 '+seed.w+'</div></div>';
-  h+='<span style="font-size:22px;flex-shrink:0">'+(seedDone?'✅':'🌱')+'</span></div></div>';
-  h+='<div class="sec-ttl"><span>🎯 Metas 2026</span><div class="sec-ln"></div></div>';
+  h+='<span style="font-size:20px;flex-shrink:0">'+(seedDone?'✅':'🌱')+'</span></div></div>';
+
+  // METAS 2026
+  h+='<div class="sec-ttl"><span>Metas 2026</span><div class="sec-ln"></div></div>';
   CAT_META.forEach(function(cat){
     var cg=GOALS_DATA.filter(function(g){return g.cat===cat.k;});
     var cd=cg.filter(function(g){return !!goals[g.id];}).length;
     var cp=Math.round(cd/cg.length*100);
     h+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:var(--shad)">';
     h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">';
-    h+='<span style="font-size:20px">'+cat.e+'</span>';
+    h+='<span style="font-size:18px">'+cat.e+'</span>';
     h+='<div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--br)">'+cat.n+'</div>';
-    h+='<div style="font-size:10px;color:var(--mu)">'+cd+'/'+cg.length+' · '+cp+'%</div></div></div>';
-    h+='<div style="height:4px;background:rgba(45,26,14,.08);border-radius:2px;margin-bottom:10px;overflow:hidden">';
-    h+='<div style="height:100%;width:'+cp+'%;background:linear-gradient(90deg,var(--gd),var(--tr));border-radius:2px"></div></div>';
+    h+='<div style="font-size:10px;color:var(--mu)">'+cd+'/'+cg.length+' completadas</div></div>';
+    h+='<div style="font-size:16px;font-weight:700;color:var(--tr)">'+cp+'%</div></div>';
+    h+='<div style="height:4px;background:rgba(45,26,14,.08);border-radius:2px;margin-bottom:12px;overflow:hidden">';
+    h+='<div style="height:100%;width:'+cp+'%;background:linear-gradient(90deg,var(--gd),var(--tr));border-radius:2px;transition:width .6s"></div></div>';
     cg.forEach(function(g){
       var isDone=!!goals[g.id];
-      h+='<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(45,26,14,.05);cursor:pointer" onclick="togGoal(\''+g.id+'\')">';
-      h+='<span style="font-size:16px">'+(isDone?'✅':'○')+'</span>';
-      h+='<div style="font-size:12px;color:'+(isDone?'var(--mu)':'var(--tx)')+';text-decoration:'+(isDone?'line-through':'none')+'">'+g.n+'</div></div>';
+      h+='<div style="padding:8px 0;border-bottom:1px solid rgba(45,26,14,.05);cursor:pointer" onclick="togGoal(\''+g.id+'\')">';
+      h+='<div style="display:flex;align-items:flex-start;gap:8px">';
+      h+='<span style="font-size:15px;margin-top:1px">'+(isDone?'✅':'○')+'</span>';
+      h+='<div style="flex:1">';
+      h+='<div style="font-size:12px;color:'+(isDone?'var(--mu)':'var(--tx)')+';text-decoration:'+(isDone?'line-through':'none')+';line-height:1.5">'+g.n+'</div>';
+      if(!isDone){
+        h+='<div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap">';
+        h+='<span style="font-size:9px;background:rgba(196,112,79,.1);color:var(--tr);padding:2px 6px;border-radius:10px">3m: '+g.m3+'</span>';
+        h+='<span style="font-size:9px;background:rgba(201,168,76,.1);color:var(--gd);padding:2px 6px;border-radius:10px">6m: '+g.m6+'</span>';
+        h+='</div>';
+      }
+      h+='</div></div></div>';
     });
     h+='</div>';
   });
-  h+='<div class="sec-ttl"><span>🎙️ Helen hoy</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:linear-gradient(135deg,#0F1E3D,#1E0F05);border-radius:16px;padding:18px;margin-bottom:16px">';
+
+  // HELEN
+  h+='<div class="sec-ttl"><span>Helen hoy</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:linear-gradient(135deg,#0F1E3D,#1E0F05);border-radius:16px;padding:16px;margin-bottom:16px">';
   h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:8px">Helen habla hoy</div>';
-  h+='<div style="font-family:\'Playfair Display\',serif;font-size:16px;font-style:italic;color:var(--c);line-height:1.6">"'+helenMsg+'"</div></div>';
+  h+='<div style="font-family:\'Playfair Display\',serif;font-size:15px;font-style:italic;color:var(--c);line-height:1.6">\"'+helenMsg+'\"</div></div>';
+
   return h;
 }
+
 
 function toggleMoonRit(){
   var k='moonrit_'+todayKey();
