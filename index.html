@@ -736,129 +736,173 @@ function renderHoy(){
 // ═══════════════════════════════════════════
 function renderCuerpo(){
   var now=new Date(), dow=now.getDay();
-  var isWeekend=(dow===0||dow===6);
+  if(dow===0||dow===6) return renderWeekend();
 
-  if(isWeekend) return renderWeekend();
+  // CALENTAMIENTO — siempre igual
+  var CALEN=[
+    {n:"Movilidad cadera + rodillas", s:"2 min", r:"—"},
+    {n:"Puentes de glúteo sin peso",  s:"2×20",  r:"30s"},
+    {n:"Sentadilla lenta sin peso",   s:"2×15",  r:"30s"},
+    {n:"Patadas de glúteo sin peso",  s:"1×20/pierna", r:"30s"},
+  ];
 
-  var WK_DATA={
+  var WK={
     1:{
-      name:"Piernas y Glúteos",
-      goal:"Hipertrofia de cuádriceps, isquiotibiales y glúteo mayor",
-      sci:"El volumen de entrenamiento de piernas libera más testosterona y GH que cualquier otro grupo. Los glúteos son el músculo más grande — priorizarlos acelera toda la composición corporal.",
-      sha:"La energía de la tierra vive en tus piernas. Cada sentadilla es un acto de enraizamiento — conectas con tu fuerza más ancestral. Los pueblos indígenas llamaban a las piernas 'las raíces del árbol humano'.",
+      name:"Glúteo Pesado",
+      tag:"Lunes",
       color:"rgba(196,112,79,.08)",
+      batido:true,
+      stretch:["Glúteo acostada 30s/pierna","Cuádriceps 30s/pierna","Femoral 30s/pierna"],
+      sci:"El glúteo mayor es el músculo más grande del cuerpo. Entrenarlo pesado 2× semana con estímulos diferentes (pesado + estético) maximiza la hipertrofia. El hip thrust activa el glúteo 3× más que la sentadilla.",
+      sha:"La energía de la tierra vive en tus piernas. Cada hip thrust es un acto de enraizamiento — conectas con tu fuerza más ancestral.",
       ex:[
-        {n:"Sentadilla con barra o goblet squat", sets:"4 × 10–12", rest:"90s", tip:"Rodillas hacia afuera, pecho arriba. Profundidad por debajo del paralelo."},
-        {n:"Peso muerto rumano (RDL)", sets:"3 × 12", rest:"90s", tip:"Bisagra de cadera, espalda neutral. Sientes el estiramiento en isquiotibiales."},
-        {n:"Hip thrust con barra o banda", sets:"4 × 15", rest:"60s", tip:"Aprieta glúteo en la cima 1 segundo. Es EL ejercicio para pompis."},
-        {n:"Prensa de pierna", sets:"3 × 15", rest:"60s", tip:"Pies altos y separados para más glúteo."},
-        {n:"Curl femoral acostada", sets:"3 × 12", rest:"60s", tip:"Movimiento lento en la bajada."},
-        {n:"Elevaciones de pantorrilla", sets:"4 × 20", rest:"45s", tip:"Rango completo — abajo hasta estirar."},
+        {n:"Hip thrust con pesa",          s:"4×12",         r:"120s", tip:"Aprieta glúteo 1 segundo arriba. Es EL ejercicio para pompis."},
+        {n:"Sentadilla goblet profunda",    s:"4×10",         r:"90s",  tip:"Profundidad por debajo del paralelo. Pecho arriba."},
+        {n:"Patada de glúteo con pesa",     s:"3×15/pierna",  r:"60s",  tip:"Sin arquear la espalda. Contrae glúteo en la cima."},
+        {n:"Abducciones",                   s:"3×20",         r:"60s",  tip:"Movimiento lento en la vuelta. Glúteo medio."},
       ]
     },
     2:{
-      name:"Empuje — Pecho, Hombros, Tríceps",
-      goal:"Fuerza y masa en tren superior anterior",
-      sci:"El patrón de empuje horizontal activa pectoral mayor y anterior del deltoides. El empuje vertical (press sobre la cabeza) desarrolla el deltoides medio — clave para hombros anchos que crean ilusión de cintura.",
-      sha:"El pecho es el centro del corazón energético (anahata). Abrir el pecho es abrir la capacidad de dar y recibir. Cada press es una expansión de tu presencia en el mundo.",
+      name:"Espalda + Brazos — Postura",
+      tag:"Martes",
       color:"rgba(90,158,138,.08)",
+      batido:false,
+      stretch:["Espalda 30s","Bíceps y tríceps 30s cada uno","Hombros 30s"],
+      sci:"El triángulo invertido (hombros anchos, sin cadera) se equilibra con espalda y brazos bien definidos. Romo + pull over construyen la forma V y mejoran postura, contrarrestando el daño de estar sentada.",
+      sha:"La espalda es tu protección ancestral. Fortalecerla es honrar tus raíces mientras te preparas para avanzar. Cada jalón es soltar lo que ya no necesitas cargar.",
       ex:[
-        {n:"Press de banca o press con mancuernas", sets:"4 × 10", rest:"90s", tip:"Escápulas retraídas, arco natural. Baja lento, empuja explosivo."},
-        {n:"Press militar con mancuernas", sets:"3 × 12", rest:"90s", tip:"Core activado. No arquees la espalda baja."},
-        {n:"Aperturas con mancuernas (flies)", sets:"3 × 15", rest:"60s", tip:"Codos ligeramente flexionados. Estiramiento completo en la bajada."},
-        {n:"Elevaciones laterales", sets:"4 × 15", rest:"45s", tip:"Peso ligero, control total. Brazos a 90° — no más arriba."},
-        {n:"Extensiones de tríceps en polea", sets:"3 × 15", rest:"60s", tip:"Codos pegados al cuerpo, solo mueve el antebrazo."},
-        {n:"Fondos en banco o paralelas", sets:"3 × 12", rest:"60s", tip:"Baja hasta 90° en codo."},
+        {n:"Remo con mancuernas",   s:"3×10",  r:"75s", tip:"Espalda plana. Codo cerca al cuerpo, aprieta escápula arriba."},
+        {n:"Pull over con pesa",    s:"3×12",  r:"75s", tip:"Estiramiento de dorsal. Codos ligeramente flexionados."},
+        {n:"Curl de bíceps",        s:"3×12",  r:"60s", tip:"Supinación completa arriba (gira la muñeca). Adiós alas."},
+        {n:"Tríceps francés",       s:"3×12",  r:"60s", tip:"Codos pegados. Rango completo. El tríceps define el brazo."},
       ]
     },
     3:{
-      name:"Tirón — Espalda y Bíceps",
-      goal:"Anchura de espalda, postura y fuerza de jale",
-      sci:"Desarrollar el dorsal ancho crea la forma de V que estiliza la figura. Los músculos posturales (romboides, trapecio medio) contrarrestan el daño de estar sentada — clave para look erguido y seguro.",
-      sha:"La espalda es tu protección ancestral. Los chamanes decían que la espalda lleva el pasado — fortalecerla es honrar tus raíces mientras te preparas para avanzar. Cada jalón es soltar lo que ya no necesitas cargar.",
+      name:"Pierna Completa",
+      tag:"Miércoles",
       color:"rgba(100,120,200,.08)",
+      batido:true,
+      stretch:["Glúteo","Femoral","Cuádriceps — 30s cada uno, 2 rondas"],
+      sci:"El triángulo invertido necesita piernas y cadera desarrolladas para equilibrar la figura. La sentadilla búlgara y el peso muerto rumano son los ejercicios más efectivos para crear curva en la parte inferior del cuerpo.",
+      sha:"Miércoles es el punto de equilibrio de la semana. Tu cuerpo está en su pico de adaptación. Lo que entrenas hoy se consolida mientras duermes esta noche.",
       ex:[
-        {n:"Jalones al pecho en polea (lat pulldown)", sets:"4 × 10–12", rest:"90s", tip:"Agarre amplio. Lleva la barra al esternón, no a la cara."},
-        {n:"Remo con barra o mancuerna", sets:"4 × 10", rest:"90s", tip:"Espalda plana. Codo cerca del cuerpo, aprieta escápula arriba."},
-        {n:"Remo en polea sentada (cable row)", sets:"3 × 12", rest:"60s", tip:"No balancees el torso. Solo brazos."},
-        {n:"Facepull en polea alta", sets:"3 × 15", rest:"45s", tip:"Esencial para salud del manguito. Codos a la altura de los hombros."},
-        {n:"Curl de bíceps con mancuernas", sets:"3 × 12", rest:"60s", tip:"Supinación completa arriba (gira la muñeca hacia afuera)."},
-        {n:"Curl martillo", sets:"3 × 12", rest:"60s", tip:"Trabaja braquialis — da grosor al brazo."},
+        {n:"Peso muerto rumano (RDL)",  s:"4×10",         r:"120s", tip:"Bisagra de cadera. Sientes el estiramiento en isquiotibiales."},
+        {n:"Zancadas atrás",            s:"3×12/pierna",  r:"90s",  tip:"Rodilla trasera casi toca el suelo."},
+        {n:"Sentadilla búlgara",        s:"3×10/pierna",  r:"90s",  tip:"Todo el peso en la pierna delantera. Muy efectiva para glúteo."},
+        {n:"Curl femoral con pesa",     s:"3×15",         r:"60s",  tip:"Movimiento lento en la bajada. Isquiotibiales."},
       ]
     },
     4:{
-      name:"Piernas — Énfasis Glúteo",
-      goal:"Volumen en glúteo medio y mayor, definición posterior",
-      sci:"El glúteo medio (responsable de la forma redondeada lateral) responde mejor a ejercicios unilaterales. El entrenamiento de piernas 2x/semana con estímulos diferentes maximiza la hipertrofia sin fatiga excesiva.",
-      sha:"Jueves es el día de Júpiter — expansión y abundancia. Tu cuerpo se expande hoy, crea nuevo espacio. El glúteo fuerte es estabilidad, es base, es la afirmación física de 'aquí estoy, ocupo mi espacio'.",
-      color:"rgba(196,112,79,.08)",
+      name:"Abdomen + Cintura",
+      tag:"Jueves",
+      color:"rgba(201,168,76,.08)",
+      batido:false,
+      cardio:"Caminata suave 10–15 min (opcional, baja intensidad — puedes hablar)",
+      stretch:["Abdomen suave","Lumbar","Cadera"],
+      sci:"Para triángulo invertido, la cintura definida es prioridad. El core estabiliza la columna en todos los movimientos compuestos. Hollow hold y dead bug son superiores a los crunches porque trabajan el core profundo (transverso abdominal).",
+      sha:"Jueves es el día de Júpiter — expansión y abundancia. El centro de tu cuerpo es el centro de tu poder. Core fuerte, vida más estable.",
       ex:[
-        {n:"Zancadas (lunges) caminando", sets:"3 × 12 c/lado", rest:"60s", tip:"Rodilla trasera casi toca el suelo."},
-        {n:"Abducción en máquina o banda", sets:"4 × 20", rest:"45s", tip:"Movimiento lento en la vuelta. El glúteo medio es el objetivo."},
-        {n:"Step-up en cajón", sets:"3 × 12 c/lado", rest:"60s", tip:"Todo el peso en el talón de la pierna de arriba."},
-        {n:"Good morning con barra ligera", sets:"3 × 15", rest:"60s", tip:"Cadera atrás, espalda neutral. Estira isquiotibiales."},
-        {n:"Patada trasera en polea o cuadrupedia", sets:"3 × 15 c/lado", rest:"45s", tip:"Contrae glúteo en la cima. Sin arquear la espalda."},
-        {n:"Puente de glúteos con banda", sets:"3 × 20", rest:"45s", tip:"Finisher perfecto. Banda justo encima de rodillas."},
+        {n:"Plancha",               s:"3×40s",  r:"45s", tip:"Cadera ni arriba ni abajo. Respira. Core apretado."},
+        {n:"Dead bug",              s:"3×12",   r:"45s", tip:"Espalda baja pegada al suelo siempre. Sin arquear."},
+        {n:"Elevaciones de piernas",s:"3×10",   r:"60s", tip:"Controlado. Sin balanceo. Core activo."},
+        {n:"Hollow hold",           s:"3×20s",  r:"45s", tip:"Posición de banana. El core profundo trabaja todo."},
       ]
     },
     5:{
-      name:"Full Body + Core",
-      goal:"Integración de movimiento, core fuerte, cierre de semana",
-      sci:"El entrenamiento de core no es estético — es funcional. El core estabiliza la columna en todos los movimientos compuestos. Un core fuerte mejora todos los demás ejercicios y reduce lesiones.",
-      sha:"Viernes cierra el ciclo. Los aztecas dedicaban el último día a integrar — reunir todo lo sembrado en la semana. Tu cuerpo consolida hoy todo el estímulo de 4 días. Honra el proceso completo.",
-      color:"rgba(201,168,76,.08)",
+      name:"Glúteo Estético — Bombeo",
+      tag:"Viernes",
+      color:"rgba(196,112,79,.08)",
+      batido:true,
+      stretch:["Glúteo + pierna completa — con cariño (7 min)"],
+      sci:"Viernes cierra el ciclo con alto volumen y bajo peso — el protocolo de bombeo aumenta el flujo sanguíneo, crea sensación de llenura muscular y potencia la síntesis proteica del fin de semana. Es diferente al lunes a propósito.",
+      sha:"Viernes integra. Los aztecas dedicaban el último día a reunir todo lo sembrado. Tu cuerpo consolida hoy 4 días de trabajo. Honra el proceso completo.",
       ex:[
-        {n:"Peso muerto convencional", sets:"3 × 8", rest:"120s", tip:"El rey de los ejercicios. Espalda neutral, empuja el suelo."},
-        {n:"Press de banca inclinado", sets:"3 × 10", rest:"90s", tip:"Enfatiza la parte superior del pecho y el deltoides anterior."},
-        {n:"Dominadas o jalones asistidos", sets:"3 × máx", rest:"90s", tip:"Mueve el peso, no te balancees."},
-        {n:"Plancha frontal", sets:"3 × 45s", rest:"45s", tip:"Cadera ni arriba ni abajo. Respira."},
-        {n:"Plancha lateral", sets:"3 × 30s c/lado", rest:"30s", tip:"Cadera arriba, cuerpo en línea recta."},
-        {n:"Dead bug", sets:"3 × 10 c/lado", rest:"45s", tip:"Espalda baja pegada al suelo siempre."},
+        {n:"Hip thrust ligero",     s:"4×20",         r:"60s", tip:"Más reps, menos peso. Siente el glúteo cada repetición."},
+        {n:"Step ups",              s:"3×12/pierna",  r:"60s", tip:"Todo el peso en el talón de la pierna de arriba."},
+        {n:"Sentadilla sumo",       s:"3×15",         r:"60s", tip:"Pies anchos y puntas hacia afuera. Activa el glúteo interno."},
+        {n:"Pulsos de glúteo",      s:"2×40",         r:"45s", tip:"Finisher perfecto. Pequeño rango de movimiento, máxima contracción."},
       ]
     }
   };
 
-  var wkDay=WK_DATA[dow];
-  if(!wkDay) return '<div class="sec-ttl"><span>Descanso activo</span><div class="sec-ln"></div></div><div style="padding:20px;text-align:center;color:var(--mu)">Movilidad, caminata o descanso completo.</div>';
+  var wkDay=WK[dow];
+  if(!wkDay) return '<div style="padding:20px;text-align:center;color:var(--mu)">Descanso activo.</div>';
 
-  var h='';
+  var h2='';
 
   // HEADER
-  h+='<div style="background:'+wkDay.color+';border:1px solid var(--bl);border-radius:16px;padding:16px;margin-bottom:14px">';
-  h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gd);margin-bottom:4px">Entrenamiento del día</div>';
-  h+='<div style="font-size:18px;font-weight:700;color:var(--br);margin-bottom:4px">'+wkDay.name+'</div>';
-  h+='<div style="font-size:11px;color:var(--mu)">'+wkDay.goal+'</div></div>';
+  h2+='<div style="background:'+wkDay.color+';border:1px solid var(--bl);border-radius:16px;padding:16px;margin-bottom:12px">';
+  h2+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gd);margin-bottom:4px">'+wkDay.tag+'</div>';
+  h2+='<div style="font-size:20px;font-weight:700;color:var(--br);margin-bottom:4px">'+wkDay.name+'</div>';
+  if(wkDay.batido){
+    h2+='<div style="font-size:11px;color:#5A9E8A;font-weight:600">🥤 Batido 15–30 min post-entreno</div>';
+  } else {
+    h2+='<div style="font-size:11px;color:var(--mu)">Sin batido hoy</div>';
+  }
+  h2+='</div>';
 
-  // CIENCIA
-  h+='<div style="background:rgba(45,26,14,.04);border-left:3px solid var(--gd);border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:12px">';
-  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gd);margin-bottom:5px">Neurociencia y fisiología</div>';
-  h+='<div style="font-size:12px;color:var(--br);line-height:1.7">'+wkDay.sci+'</div></div>';
+  // CIENCIA + ENERGIA
+  h2+='<div style="background:rgba(45,26,14,.04);border-left:3px solid var(--gd);border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:10px">';
+  h2+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gd);margin-bottom:4px">Por qué funciona</div>';
+  h2+='<div style="font-size:12px;color:var(--br);line-height:1.6">'+wkDay.sci+'</div></div>';
 
-  // SHAMANISMO
-  h+='<div style="background:rgba(100,80,180,.06);border-left:3px solid #9060C0;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:14px">';
-  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#9060C0;margin-bottom:5px">Energía del día</div>';
-  h+='<div style="font-size:12px;color:var(--br);line-height:1.7;font-style:italic">'+wkDay.sha+'</div></div>';
+  h2+='<div style="background:rgba(100,80,180,.06);border-left:3px solid #9060C0;border-radius:0 12px 12px 0;padding:10px 14px;margin-bottom:14px">';
+  h2+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#9060C0;margin-bottom:4px">Energía del día</div>';
+  h2+='<div style="font-size:12px;color:var(--br);line-height:1.6;font-style:italic">'+wkDay.sha+'</div></div>';
+
+  // CALENTAMIENTO
+  h2+='<div class="sec-ttl"><span>Calentamiento (8–10 min)</span><div class="sec-ln"></div></div>';
+  h2+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;padding:12px 14px;margin-bottom:12px;box-shadow:var(--shad)">';
+  h2+='<div style="font-size:10px;color:var(--mu);margin-bottom:8px;font-style:italic">Si sudas mucho acá, ya empezaste mal. Esto es activación, no castigo.</div>';
+  CALEN.forEach(function(c,i){
+    h2+='<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(45,26,14,.05)">';
+    h2+='<div style="font-size:12px;color:var(--br)">'+c.n+'</div>';
+    h2+='<div style="text-align:right"><div style="font-size:11px;font-weight:600;color:var(--tr)">'+c.s+'</div>';
+    if(c.r!=="—") h2+='<div style="font-size:10px;color:var(--mu)">'+c.r+'</div>';
+    h2+='</div></div>';
+  });
+  h2+='</div>';
 
   // EJERCICIOS
-  h+='<div class="sec-ttl"><span>Ejercicios de hoy</span><div class="sec-ln"></div></div>';
+  h2+='<div class="sec-ttl"><span>Rutina principal</span><div class="sec-ln"></div></div>';
   wkDay.ex.forEach(function(ex,i){
     var expKey='cx_'+dow+'_'+i;
     var isOpen=!!localStorage.getItem(expKey);
-    h+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;margin-bottom:8px;overflow:hidden;box-shadow:var(--shad)">';
-    h+='<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer" onclick="togCxExp('+dow+','+i+')">';
-    h+='<div style="width:32px;height:32px;border-radius:8px;background:'+wkDay.color+';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--tr);flex-shrink:0">'+(i+1)+'</div>';
-    h+='<div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--br)">'+ex.n+'</div>';
-    h+='<div style="font-size:11px;color:var(--gd);font-weight:600">'+ex.sets+'</div></div>';
-    h+='<span style="font-size:11px;color:var(--mu);background:rgba(45,26,14,.06);padding:2px 8px;border-radius:10px">'+ex.rest+'</span></div>';
+    h2+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;margin-bottom:8px;overflow:hidden;box-shadow:var(--shad)">';
+    h2+='<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer" onclick="togCxExp('+dow+','+i+')">';
+    h2+='<div style="width:32px;height:32px;border-radius:8px;background:'+wkDay.color+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--tr);flex-shrink:0">'+(i+1)+'</div>';
+    h2+='<div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--br)">'+ex.n+'</div>';
+    h2+='<div style="font-size:11px;color:var(--gd);font-weight:600">'+ex.s+'</div></div>';
+    h2+='<div style="text-align:right"><div style="font-size:10px;color:var(--mu);background:rgba(45,26,14,.06);padding:2px 7px;border-radius:10px">descanso '+ex.r+'</div></div></div>';
     if(isOpen){
-      h+='<div style="padding:4px 14px 14px;font-size:12px;color:var(--tr);font-style:italic;line-height:1.6">💡 '+ex.tip+'</div>';
+      h2+='<div style="padding:4px 14px 14px;font-size:12px;color:var(--tr);line-height:1.6;font-style:italic">💡 '+ex.tip+'</div>';
     }
-    h+='</div>';
+    h2+='</div>';
   });
 
-  return h;
-}
+  // CARDIO si aplica
+  if(wkDay.cardio){
+    h2+='<div style="background:rgba(90,158,138,.08);border-radius:12px;padding:12px 14px;margin-bottom:10px">';
+    h2+='<div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#5A9E8A;margin-bottom:4px">Cardio opcional</div>';
+    h2+='<div style="font-size:12px;color:var(--br)">'+wkDay.cardio+'</div></div>';
+  }
 
+  // ESTIRAMIENTO
+  h2+='<div class="sec-ttl"><span>Estiramiento post-entreno</span><div class="sec-ln"></div></div>';
+  h2+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;padding:12px 14px;margin-bottom:14px;box-shadow:var(--shad)">';
+  wkDay.stretch.forEach(function(s){
+    h2+='<div style="font-size:12px;color:var(--br);padding:5px 0;border-bottom:1px solid rgba(45,26,14,.05)">• '+s+'</div>';
+  });
+  h2+='</div>';
+
+  // REGLAS
+  h2+='<div style="background:rgba(45,26,14,.04);border-radius:12px;padding:12px 14px;font-size:11px;color:var(--mu);line-height:1.8">';
+  h2+='<b style="color:var(--br)">Reglas:</b> Ejercicio grande (sentadilla, hip thrust, peso muerto) → descansos largos. Accesorio (patadas, curls) → descansos cortos.<br>';
+  h2+='Si terminas pierna sin sensación de llenura → sube peso. Si la cintura se mantiene y piernas se sienten pesadas → todo bien.';
+  h2+='</div>';
+
+  return h2;
+}
 function togCxExp(dow,i){
   var k='cx_'+dow+'_'+i;
   if(localStorage.getItem(k)) localStorage.removeItem(k);
@@ -980,7 +1024,18 @@ function toggleWeekOpt(k, el){
 }
 
 function renderMente(){
-  var now=new Date(), dow=now.getDay(), day=now.getDate();
+  var now=new Date(), dow=now.getDay(), day=now.getDate(), mon=now.getMonth();
+  // Start date: March 9, 2026
+  var startDate=new Date(2026,2,9);
+  var weeksElapsed=Math.floor((now-startDate)/(7*24*60*60*1000));
+  if(weeksElapsed<0) weeksElapsed=0;
+  var currentPhase=0;
+  if(weeksElapsed>=1&&weeksElapsed<=3) currentPhase=1;
+  else if(weeksElapsed>=4&&weeksElapsed<=7) currentPhase=2;
+  else if(weeksElapsed>=8&&weeksElapsed<=11) currentPhase=3;
+  else if(weeksElapsed>=12&&weeksElapsed<=15) currentPhase=4;
+  else if(weeksElapsed>=16) currentPhase=5;
+
   var HELEN_MSGS=[
     "Today I learned something new. That is enough.",
     "My accent is part of who I am. My words are what matter.",
@@ -988,103 +1043,202 @@ function renderMente(){
     "Every conversation makes me better. I show up anyway.",
     "I am Helen. I speak English. I belong in every room.",
     "Progress, not perfection. Always.",
-    "I am becoming fluent. It\'s already happening.",
+    "I am becoming fluent. It's already happening.",
     "My English improves every single day. I trust the process.",
   ];
   var helenMsg=HELEN_MSGS[day%HELEN_MSGS.length];
 
-  var h='';
+  var FASES=[
+    {n:"Fase 0 — Fundamento Mental", tiempo:"Semana 1", nivel:"Inicio",
+     meta:"Reprogramar creencias, instalar el ecosistema de herramientas.",
+     color:"rgba(201,168,76,.08)", border:"var(--gd)",
+     mañana:[
+       {t:"5 min","a":"Anki — repasa tarjetas del día. Nunca lo saltes."},
+       {t:"10 min","a":"Shadowing — video corto BBC Learning English. Repite en voz alta simultáneamente."},
+       {t:"5 min","a":"Pronunciación con Elsa Speak — practica palabras del día."},
+     ],
+     tarde:[
+       {t:"15 min","a":"Input comprensible — YouTube BBC Learning English o EnglishClass101."},
+       {t:"15 min","a":"Gramática funcional — solo lo que usarás hoy. Present Simple/Continuous."},
+     ],
+     noche:[
+       {t:"15 min","a":"Vocabulario — aprende 10 palabras en FRASES completas, no palabras solas."},
+       {t:"10 min","a":"Escritura libre — escribe sobre tu día. Sin traductor. Los errores son tu maestro."},
+       {t:"15 min","a":"Escucha pasiva — podcast de fondo (ESL Pod, 6 Minute English)."},
+     ],
+     tip:"Instala Anki, Language Reactor (Chrome), Elsa Speak. Cambia el idioma de tu cel a inglés."
+    },
+    {n:"Fase 1 — Supervivencia", tiempo:"Semanas 2–4", nivel:"A1",
+     meta:"500 palabras core, sonidos del inglés, primeras frases. 90 min/día.",
+     color:"rgba(196,112,79,.08)", border:"var(--tr)",
+     mañana:[
+       {t:"5 min","a":"Anki — repaso matutino. Consolida memoria del sueño anterior."},
+       {t:"10 min","a":"Shadowing — BBC Learning English. Escucha una vez, luego repite simultáneamente."},
+       {t:"5 min","a":"Pronunciación Elsa Speak."},
+     ],
+     tarde:[
+       {t:"15 min","a":"Input comprensible — videos YouTube para principiantes sobre temas que conoces bien."},
+       {t:"15 min","a":"Gramática: S2: Present Simple. S3: Past Simple + preguntas. S4: Future (will/going to)."},
+     ],
+     noche:[
+       {t:"15 min","a":"Vocabulario Anki — 10 palabras nuevas en frases completas."},
+       {t:"10 min","a":"Escritura libre — sin traductor. Pega en Claude y pide corrección con explicación."},
+       {t:"15 min","a":"Escucha pasiva — ESL Pod o 6 Minute English de fondo."},
+     ],
+     tip:"Las 1000 palabras más frecuentes cubren el 85% del inglés cotidiano. Enfócate ahí."
+    },
+    {n:"Fase 2 — Construcción", tiempo:"Mes 2", nivel:"A1–A2",
+     meta:"Gramática funcional completa, 1500 palabras activas, primeras conversaciones reales. 100 min/día.",
+     color:"rgba(90,158,138,.08)", border:"#5A9E8A",
+     mañana:[
+       {t:"10 min","a":"Anki — ya tienes más tarjetas."},
+       {t:"15 min","a":"Shadowing avanzado con Netflix + Language Reactor. Pausa frases, lee traducción, repite 3 veces."},
+     ],
+     tarde:[
+       {t:"20 min","a":"Lectura — News in Levels. Subraya solo palabras que bloquean comprensión del párrafo."},
+       {t:"20 min","a":"Producción oral — habla SOLA EN VOZ ALTA. Describe lo que ves, lo que harás, lo que opinas."},
+     ],
+     noche:[
+       {t:"20 min","a":"Conversación en Italki o Tandem — mínimo 3 veces/semana. No te prepares demasiado."},
+       {t:"15 min","a":"Escritura — 3–5 frases sobre algo que aprendiste. Pide corrección."},
+     ],
+     tip:"El output comprensible (hablar) activa circuitos que la comprensión pasiva no puede alcanzar (Swain, 1985)."
+    },
+    {n:"Fase 3 — Inmersión Total", tiempo:"Mes 3", nivel:"A2",
+     meta:"Comprensión auditiva funcional, empezar a pensar en inglés. 120 min/día.",
+     color:"rgba(100,120,200,.08)", border:"#9060C0",
+     mañana:[
+       {t:"10 min","a":"Anki."},
+       {t:"20 min","a":"Shadowing con material natural — podcasts, entrevistas, TED Talks."},
+     ],
+     tarde:[
+       {t:"20 min","a":"Lectura de libro en inglés — algo que ya leíste en español. Lee por contexto."},
+       {t:"25 min","a":"Grábate hablando 3 minutos sobre un tema. Escúchate. Identifica errores propios."},
+     ],
+     noche:[
+       {t:"30 min","a":"Serie o película en inglés con Language Reactor."},
+       {t:"15 min","a":"Escritura — diario, opinión o historia corta."},
+     ],
+     tip:"Señal neurológica real: si empiezas a soñar en inglés, es que tu cerebro lo está procesando como idioma propio."
+    },
+    {n:"Fase 4 — Fluidez Táctica", tiempo:"Mes 4", nivel:"A2–B1",
+     meta:"Pensar en inglés, eliminar el traductor interno. 120 min/día.",
+     color:"rgba(45,26,14,.06)", border:"var(--br)",
+     mañana:[
+       {t:"10 min","a":"Anki — vocabulario avanzado."},
+       {t:"20 min","a":"Shadowing con TED Talks o entrevistas a personas que admiras."},
+     ],
+     tarde:[
+       {t:"30 min","a":"Conversación en Italki — enfocada en fluidez, no perfección."},
+       {t:"20 min","a":"Lectura de artículos auténticos — Medium, The Guardian en inglés."},
+     ],
+     noche:[
+       {t:"30 min","a":"Serie sin subtítulos — 60–70% comprensión es suficiente y normal."},
+       {t:"10 min","a":"Journaling en inglés — escribe tus pensamientos reales."},
+     ],
+     tip:"Empieza a pensar en inglés en situaciones cotidianas. Cuando te bañes, cuando camines con Bow."
+    },
+    {n:"Fase 5 — Pulimiento", tiempo:"Meses 5–6", nivel:"B1–B2",
+     meta:"Acento claro, vocabulario avanzado, confianza total. El inglés es parte de tu identidad.",
+     color:"linear-gradient(135deg,rgba(201,168,76,.06),rgba(196,112,79,.04))", border:"var(--gd)",
+     mañana:[
+       {t:"10 min","a":"Anki — raíces latinas (60% del vocabulario avanzado inglés viene del latín que ya conoces)."},
+       {t:"20 min","a":"Shadowing con material nativo: comedias, news, podcasts sin transcripción."},
+     ],
+     tarde:[
+       {t:"30 min","a":"Conversación profunda — temas complejos, opiniones, debates."},
+       {t:"20 min","a":"Lectura auténtica — libros, artículos académicos ligeros."},
+     ],
+     noche:[
+       {t:"30 min","a":"Serie, película o documental en inglés — puro placer, sin estudio."},
+       {t:"10 min","a":"Canta tu canción favorita. En voz alta. Como Helen."},
+     ],
+     tip:"En diciembre eres B2. Te defiendes en cualquier situación. El inglés es parte de quién eres."
+    },
+  ];
+
+  var fase=FASES[currentPhase];
+  var h2='';
 
   // HELEN HERO
-  h+='<div style="background:linear-gradient(135deg,#1E0F05,#0F2040);border-radius:18px;padding:18px;margin-bottom:16px">';
-  h+='<div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,168,76,.7);margin-bottom:6px">Tu alter ego</div>';
-  h+='<div style="font-family:\'Playfair Display\',serif;font-size:28px;font-style:italic;color:var(--c);margin-bottom:8px">Helen</div>';
-  h+='<div style="font-size:13px;color:rgba(248,242,232,.75);line-height:1.7;margin-bottom:12px">Helen no duda. Helen habla. Helen no dice "sorry, my English is not very good" — ella dice lo que tiene que decir y punto. Helen ya vive en un mundo bilingüe.</div>';
-  h+='<div style="background:rgba(201,168,76,.08);border-left:3px solid var(--gd);border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:12px">';
-  h+='<div style="font-size:11px;color:rgba(201,168,76,.8);font-style:italic;line-height:1.6">Beyoncé tiene a Sasha Fierce. La neurociencia llama a esto "self-distancing": asumir una identidad alterna reduce la autocrítica y activa conductas que el yo habitual bloquea por miedo.</div></div>';
-  h+='<div style="font-size:12px;color:rgba(248,242,232,.6)">Antes de cada sesión di en voz alta: <span style="color:var(--gd);font-style:italic">"I am Helen. I speak English."</span></div></div>';
+  h2+='<div style="background:linear-gradient(135deg,#1E0F05,#0F2040);border-radius:18px;padding:18px;margin-bottom:14px">';
+  h2+='<div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,168,76,.7);margin-bottom:6px">Tu alter ego</div>';
+  h2+='<div style="font-family:\'Playfair Display\',serif;font-size:28px;font-style:italic;color:var(--c);margin-bottom:8px">Helen</div>';
+  h2+='<div style="background:rgba(201,168,76,.08);border-left:3px solid var(--gd);border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:10px">';
+  h2+='<div style="font-size:11px;color:rgba(201,168,76,.8);font-style:italic;line-height:1.6">Beyoncé tiene a Sasha Fierce. La neurociencia llama a esto "self-distancing": asumir una identidad alterna reduce la autocrítica y activa conductas que el yo habitual bloquea por miedo. No es fantasía — es regulación emocional aplicada al aprendizaje.</div></div>';
+  h2+='<div style="font-size:13px;color:rgba(248,242,232,.6);margin-bottom:10px">Antes de cada sesión di en voz alta: <span style="color:var(--gd);font-style:italic">"I am Helen. I speak English."</span></div>';
+  h2+='<div style="font-family:\'Playfair Display\',serif;font-size:14px;font-style:italic;color:var(--c);border-top:1px solid rgba(255,255,255,.1);padding-top:10px">"'+helenMsg+'"</div></div>';
 
-  // HELEN HOY
-  h+='<div style="background:linear-gradient(135deg,#0F1E3D,#1E0F05);border-radius:14px;padding:14px;margin-bottom:16px">';
-  h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:6px">Helen hoy dice</div>';
-  h+='<div style="font-family:\'Playfair Display\',serif;font-size:15px;font-style:italic;color:var(--c);line-height:1.6">\"'+helenMsg+'\"</div></div>';
+  // FASE ACTUAL
+  var nivelBadge='<span style="font-size:10px;background:rgba(201,168,76,.15);color:var(--gd);padding:2px 8px;border-radius:10px;font-weight:600">'+fase.nivel+'</span>';
+  h2+='<div style="background:'+fase.color+';border:1.5px solid '+fase.border+';border-radius:16px;padding:16px;margin-bottom:14px">';
+  h2+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">';
+  h2+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:'+fase.border+'">'+fase.tiempo+'</div>'+nivelBadge+'</div>';
+  h2+='<div style="font-size:16px;font-weight:700;color:var(--br);margin-bottom:6px">'+fase.n+'</div>';
+  h2+='<div style="font-size:12px;color:var(--mu);margin-bottom:10px">'+fase.meta+'</div>';
+  h2+='<div style="font-size:11px;color:'+fase.border+';font-style:italic;background:rgba(255,255,255,.4);border-radius:8px;padding:8px">💡 '+fase.tip+'</div></div>';
 
-  // PLAN DEL DÍA
-  h+='<div class="sec-ttl"><span>Tu plan de inglés hoy</span><div class="sec-ln"></div></div>';
-
-  var ENG_PLAN=[
-    {i:"📦", n:"Anki — Repaso de tarjetas",        t:"5–10 min", ph:"Mañana",
-     sci:"Repetición espaciada consolida la memoria del sueño anterior (Walker, 2017). Nunca lo saltes — es el núcleo del sistema.",
-     tip:"Haz tus repasos antes de ver el cel. Tu cerebro está en modo absorción."},
-    {i:"🎭", n:"Shadowing — imitar a nativo",       t:"10–15 min", ph:"Mañana",
-     sci:"El shadowing activa el sistema motor del habla y el área de Broca simultáneamente. Conecta escucha y producción.",
-     tip:"Elige un video de alguien que habla como quieres hablar tú. Imita TODO: ritmo, pausas, emoción."},
-    {i:"📖", n:"Gramática en contexto",              t:"15–20 min", ph:"Tarde",
-     sci:"La gramática aprendida en contexto real se retiene 4x más que reglas aisladas (Nation, 2001).",
-     tip:"Aprende una estructura nueva y úsala inmediatamente en 3 oraciones sobre tu vida."},
-    {i:"💬", n:"Conversación / Speaking practice",   t:"20–30 min", ph:"Tarde",
-     sci:"El output comprensible fuerza al cerebro a procesar el idioma profundamente (Swain, 1985).",
-     tip:"Habla sola frente al espejo o usa ChatGPT en inglés. Sin vergüenza — Helen nunca tiene vergüenza."},
-    {i:"📺", n:"Series / Podcast en inglés",         t:"30–45 min", ph:"Noche",
-     sci:"El input auditivo masivo construye el 'oído' para el idioma. 30 min diarios = +200 horas al año.",
-     tip:"Friends, The Office, Gilmore Girls. Primero con subtítulos en inglés, luego sin nada."},
-    {i:"✍️", n:"Journaling en inglés",               t:"5–10 min", ph:"Noche",
-     sci:"Escribir activa diferentes redes neuronales que hablar. Consolida vocabulario y gramática juntos.",
-     tip:"3 oraciones sobre tu día. No te corrijas mientras escribes — fluye primero."},
-    {i:"🎵", n:"Canciones — letra y pronunciación",  t:"10 min", ph:"Libre",
-     sci:"La música usa redes de memoria distintas al lenguaje. Las letras se retienen más fácil que frases normales.",
-     tip:"Elige una canción que ames. Aprende letra, entiende cada palabra, cántala como Helen."},
-    {i:"🔊", n:"Pronunciación — sonidos del inglés", t:"10 min", ph:"Libre",
-     sci:"Los fonemas del inglés que no existen en español requieren entrenamiento motor explícito.",
-     tip:"Trabaja los sonidos th, v/b, æ, ɪ. 5 min diarios = acento mejorado en 3 meses."},
+  // PLAN DEL DÍA - 3 bloques
+  var bloques=[
+    {label:"Mañana — 6:50",  icon:"🌅", items:fase.mañana},
+    {label:"Tarde — 14:00",  icon:"☀️", items:fase.tarde},
+    {label:"Noche — 19:30",  icon:"🌙", items:fase.noche},
   ];
 
-  ENG_PLAN.forEach(function(task,i){
-    var expKey='eng_exp_'+i;
-    var isOpen=!!localStorage.getItem(expKey);
-    h+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;margin-bottom:8px;overflow:hidden;box-shadow:var(--shad)">';
-    h+='<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer" onclick="togEngExp('+i+')">';
-    h+='<span style="font-size:20px">'+task.i+'</span>';
-    h+='<div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--br)">'+task.n+'</div>';
-    h+='<div style="font-size:10px;color:var(--mu)">'+task.t+' · '+task.ph+'</div></div>';
-    h+='<span style="font-size:12px;color:var(--mu)">'+(isOpen?'▲':'▼')+'</span></div>';
-    if(isOpen){
-      h+='<div style="padding:0 14px 14px">';
-      h+='<div style="background:rgba(45,26,14,.04);border-radius:10px;padding:10px;margin-bottom:8px">';
-      h+='<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--gd);margin-bottom:4px">Neurociencia</div>';
-      h+='<div style="font-size:12px;color:var(--br);line-height:1.6">'+task.sci+'</div></div>';
-      h+='<div style="font-size:12px;color:var(--tr);font-style:italic;line-height:1.5">💡 '+task.tip+'</div></div>';
-    }
-    h+='</div>';
+  h2+='<div class="sec-ttl"><span>Tu plan de hoy</span><div class="sec-ln"></div></div>';
+  bloques.forEach(function(b){
+    var totalMin=b.items.reduce(function(acc,i){return acc+parseInt(i.t);},0);
+    h2+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shad)">';
+    h2+='<div style="padding:10px 14px;border-bottom:1px solid var(--bl);display:flex;align-items:center;gap:8px">';
+    h2+='<span style="font-size:16px">'+b.icon+'</span>';
+    h2+='<div style="font-size:12px;font-weight:600;color:var(--br)">'+b.label+'</div>';
+    h2+='<div style="margin-left:auto;font-size:10px;color:var(--mu)">'+totalMin+' min</div></div>';
+    b.items.forEach(function(item){
+      h2+='<div style="padding:10px 14px;border-bottom:1px solid rgba(45,26,14,.05);display:flex;gap:10px">';
+      h2+='<div style="font-size:10px;font-weight:700;color:var(--gd);white-space:nowrap;margin-top:1px">'+item.t+'</div>';
+      h2+='<div style="font-size:12px;color:var(--br);line-height:1.6">'+item.a+'</div></div>';
+    });
+    h2+='</div>';
   });
 
-  // RECURSOS
-  h+='<div class="sec-ttl" style="margin-top:8px"><span>Recursos esenciales</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;padding:14px;box-shadow:var(--shad)">';
-  var recursos=[
-    {e:"📦",n:"Anki",d:"Apps/Anki"},
-    {e:"🎤",n:"Elsa Speak",d:"Pronunciación IA"},
-    {e:"💬",n:"HelloTalk",d:"Conversación real"},
-    {e:"📺",n:"Netflix + extensión LLN",d:"Series con doble sub"},
-    {e:"🎵",n:"LyricsTraining",d:"Canciones interactivas"},
-    {e:"📖",n:"Grammarly",d:"Escritura en inglés"},
+  // PROGRESO MES A MES
+  h2+='<div class="sec-ttl" style="margin-top:4px"><span>Tu progreso mes a mes</span><div class="sec-ln"></div></div>';
+  var NIVELES=[
+    {m:"Mes 1",n:"A1",  desc:"Entiendes el 30% de conversación simple. Te presentas."},
+    {m:"Mes 2",n:"A1–A2",desc:"Entiendes el 50% de series con subtítulos."},
+    {m:"Mes 3",n:"A2",  desc:"Conversación 15 min. Comienzas a soñar en inglés."},
+    {m:"Mes 4",n:"A2–B1",desc:"Piensas en inglés en situaciones cotidianas."},
+    {m:"Mes 5",n:"B1–B2",desc:"Expresas opiniones complejas. Lees artículos auténticos."},
+    {m:"Mes 6",n:"B2",  desc:"Te defiendes en cualquier situación. El inglés es tu identidad."},
   ];
-  recursos.forEach(function(r){
-    h+='<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(45,26,14,.05)">';
-    h+='<span style="font-size:18px">'+r.e+'</span>';
-    h+='<div><div style="font-size:12px;font-weight:500;color:var(--br)">'+r.n+'</div>';
-    h+='<div style="font-size:10px;color:var(--mu)">'+r.d+'</div></div></div>';
+  h2+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;overflow:hidden;box-shadow:var(--shad);margin-bottom:14px">';
+  NIVELES.forEach(function(n,i){
+    var isPast=i<currentPhase;
+    var isCurrent=i===currentPhase;
+    h2+='<div style="padding:10px 14px;border-bottom:1px solid rgba(45,26,14,.05);display:flex;align-items:center;gap:10px;background:'+(isCurrent?'rgba(201,168,76,.06)':'transparent')+'">';
+    h2+='<div style="font-size:16px">'+(isPast?'✅':(isCurrent?'▶':'○'))+'</div>';
+    h2+='<div style="flex:1"><div style="font-size:11px;font-weight:600;color:'+(isCurrent?'var(--gd)':'var(--br)')+'">'+n.m+' · '+n.n+'</div>';
+    h2+='<div style="font-size:11px;color:var(--mu)">'+n.desc+'</div></div></div>';
   });
-  h+='</div>';
+  h2+='</div>';
 
-  return h;
-}
+  // ERRORES A EVITAR
+  h2+='<div class="sec-ttl"><span>Errores fatales a evitar</span><div class="sec-ln"></div></div>';
+  h2+='<div style="background:rgba(200,50,50,.04);border:1px solid rgba(200,50,50,.15);border-radius:14px;padding:14px;margin-bottom:14px">';
+  var errores=[
+    "Estudiar gramática en exceso sin usar el idioma.",
+    "Esperar ser perfecta para hablar. Habla roto desde el día 1.",
+    "Sesiones largas esporádicas. 30 min diarios supera 4 horas los sábados.",
+    "Depender de subtítulos en español. Son una muleta.",
+    "Solo escuchar sin hablar ni escribir.",
+    "Compararte con el ritmo de otros. Tu cerebro es único.",
+  ];
+  errores.forEach(function(e){
+    h2+='<div style="font-size:12px;color:var(--br);padding:5px 0;border-bottom:1px solid rgba(45,26,14,.05);display:flex;gap:8px"><span style="color:rgba(200,50,50,.6)">✕</span>'+e+'</div>';
+  });
+  h2+='</div>';
 
-function togEngExp(i){
-  var k='eng_exp_'+i;
-  if(localStorage.getItem(k)) localStorage.removeItem(k);
-  else localStorage.setItem(k,'1');
-  render();
+  return h2;
 }
 
 
