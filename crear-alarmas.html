@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crear Alarmas — Rutina Sagrada</title>
+<style>
+  *{box-sizing:border-box}
+  body{font-family:sans-serif;background:#1E0F05;color:#F8F2E8;display:flex;flex-direction:column;align-items:center;min-height:100vh;margin:0;padding:30px 20px}
+  h1{font-size:22px;margin-bottom:6px;color:#C9A84C;text-align:center}
+  p{color:rgba(248,242,232,.65);font-size:13px;margin-bottom:20px;text-align:center;line-height:1.7}
+  input{width:100%;max-width:480px;padding:12px;border-radius:10px;border:1px solid rgba(201,168,76,.3);background:rgba(255,255,255,.06);color:#F8F2E8;font-size:13px;margin-bottom:14px}
+  button{background:#C4704F;color:#fff;border:none;padding:14px 32px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;width:100%;max-width:480px;margin-bottom:20px}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  #log{width:100%;max-width:480px;font-size:12px;line-height:2.2;background:rgba(0,0,0,.3);border-radius:12px;padding:14px;display:none;max-height:400px;overflow-y:auto}
+  .ok{color:#6FCF97}.err{color:#EB5757}.info{color:#C9A84C}.warn{color:#F2C94C}
+  #errbox{background:rgba(235,87,87,.08);border:1px solid rgba(235,87,87,.3);border-radius:10px;padding:12px;margin-top:10px;font-size:11px;color:#EB5757;display:none;white-space:pre-wrap;word-break:break-all;max-width:480px;width:100%}
+  #progress{width:100%;max-width:480px;height:6px;background:rgba(255,255,255,.1);border-radius:3px;margin-bottom:16px;display:none}
+  #bar{height:100%;width:0%;background:#C9A84C;border-radius:3px;transition:width .4s}
+</style>
+</head>
+<body>
+<h1>🔔 Crear Alarmas</h1>
+<p>Sube este archivo a tu GitHub junto con el index.html.<br>
+Luego abrelo desde <strong style="color:#C9A84C">mariacastilloa1314-sys.github.io/2026Rutina/crear-alarmas.html</strong><br>
+Pega tu API key y presiona el botón.<br>
+<strong style="color:#C9A84C">⏱ Tarda ~4 minutos — no cierres la página</strong></p>
+
+<input type="password" id="apikey" placeholder="Pega tu API key aquí" />
+<div id="progress"><div id="bar"></div></div>
+<button id="btn" onclick="crearTodas()">🚀 Crear las 19 alarmas</button>
+<div id="log"></div>
+<div id="errbox"></div>
+
+<script>
+const TOPIC = "rutina-maria-2026";
+const URL_NTFY = "https://ntfy.sh/" + TOPIC;
+
+const ALARMAS = [
+  {h:6,  m:0,  title:"Buenos dias!",           body:"Hora de despertar. Sin pantalla los primeros 10 minutos."},
+  {h:6,  m:10, title:"Agua y Skincare",         body:"Hidratate. Vaso de agua y rutina facial despacio."},
+  {h:6,  m:25, title:"Meditacion 20 min",       body:"Antes de que el mundo entre. Respiracion 4-7-8."},
+  {h:6,  m:50, title:"Ingles 20 min",           body:"Mente fresca. Shadowing, Anki o podcast activo."},
+  {h:7,  m:10, title:"Desayuno",                body:"Sin pantalla. Mastica despacio. Activa el nervio vago."},
+  {h:7,  m:40, title:"Paseo con Bow",           body:"30 min. Camina despacio, respira, observa."},
+  {h:8,  m:15, title:"Diccion y Oratoria",      body:"30 min. Lee en voz alta, grabate y escuchate."},
+  {h:13, m:0,  title:"Almuerzo",                body:"Proteina + carbohidrato + verduras. Sin pantallas."},
+  {h:13, m:45, title:"15 min sin hacer nada",   body:"Acuestate. Deja que la mente divague. Sin cel."},
+  {h:14, m:0,  title:"Ingles tarde 30 min",     body:"Gramatica, conversacion o pronunciacion mas profunda."},
+  {h:14, m:35, title:"Lectura 1 hora",          body:"Apaga notificaciones. Solo tu y el libro."},
+  {h:16, m:58, title:"Ejercicio en 2 minutos",  body:"Preparate. Tu cuerpo esta en su pico biologico."},
+  {h:17, m:0,  title:"Ejercicio 1 hora",        body:"Temperatura corporal y fuerza en su pico. Vamos!"},
+  {h:18, m:0,  title:"Ducha y recuperacion",    body:"Ducha tibia con final frio. Stretching suave."},
+  {h:18, m:30, title:"Cena ligera",             body:"Poca cena y temprana. 3-4h antes de dormir."},
+  {h:19, m:30, title:"Ingles noche 40 min",     body:"Series, podcasts, canciones."},
+  {h:20, m:15, title:"Skincare de noche",       body:"Luces tenues. Ritual de cierre del dia."},
+  {h:20, m:35, title:"Descompresion nocturna",  body:"Diario, musica suave. Sin redes. 3 cosas buenas."},
+  {h:22, m:0,  title:"Hora de dormir",          body:"Habitacion fresca y oscura. El sueno es sagrado."},
+];
+
+async function crearTodas(){
+  const key = document.getElementById('apikey').value.trim();
+  if(!key){ alert('Pega tu API key primero'); return; }
+
+  const btn=document.getElementById('btn');
+  const log=document.getElementById('log');
+  const errb=document.getElementById('errbox');
+  const prog=document.getElementById('progress');
+  const bar=document.getElementById('bar');
+
+  btn.disabled=true;
+  log.style.display='block';
+  prog.style.display='block';
+  errb.style.display='none';
+  log.innerHTML='<span class="info">Iniciando... 19 alarmas · ~4 minutos</span><br><br>';
+
+  let ok=0, fail=0, lastErr='';
+
+  for(let i=0;i<ALARMAS.length;i++){
+    const a=ALARMAS[i];
+    const hh=String(a.h).padStart(2,'0');
+    const mm=String(a.m).padStart(2,'0');
+    const label=hh+':'+mm+' — '+a.title;
+    bar.style.width=Math.round((i/ALARMAS.length)*100)+'%';
+
+    try{
+      const res=await fetch('https://api.cron-job.org/jobs',{
+        method:'PUT',
+        headers:{
+          'Authorization':'Bearer '+key,
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+          job:{
+            url:URL_NTFY,
+            title:a.title,
+            enabled:true,
+            saveResponses:false,
+            requestMethod:1,
+            extendedData:{
+              headers:{"Title":a.title,"Priority":"max"},
+              body:a.body
+            },
+            schedule:{
+              timezone:"America/Lima",
+              hours:[a.h],
+              minutes:[a.m],
+              mdays:[-1],
+              months:[-1],
+              wdays:[1,2,3,4,5]
+            }
+          }
+        })
+      });
+
+      const text=await res.text();
+
+      if(res.ok){
+        ok++;
+        log.innerHTML+='<span class="ok">✅ '+label+'</span><br>';
+      } else {
+        fail++;
+        lastErr='HTTP '+res.status+'\n'+text;
+        log.innerHTML+='<span class="err">❌ '+label+' ('+res.status+')</span><br>';
+        if(res.status===429){
+          log.innerHTML+='<span class="warn">   ⏸ Rate limit — esperando 65s extra...</span><br>';
+          await new Promise(r=>setTimeout(r,65000));
+        }
+      }
+    }catch(e){
+      fail++;
+      lastErr=e.message;
+      log.innerHTML+='<span class="err">❌ '+label+' — '+e.message+'</span><br>';
+    }
+
+    log.scrollTop=log.scrollHeight;
+
+    if(i<ALARMAS.length-1){
+      await new Promise(r=>setTimeout(r,12000));
+    }
+  }
+
+  bar.style.width='100%';
+  log.innerHTML+='<br>';
+  if(fail===0){
+    log.innerHTML+='<span class="ok">🎉 Todas las 19 alarmas creadas. Suenan L-V en hora Lima.</span>';
+  } else {
+    log.innerHTML+='<span class="warn">'+ok+' creadas, '+fail+' fallidas.</span>';
+    if(lastErr){
+      errb.style.display='block';
+      errb.textContent='Ultimo error:\n'+lastErr;
+    }
+  }
+  btn.disabled=false;
+}
+</script>
+</body>
+</html>

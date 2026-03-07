@@ -519,15 +519,20 @@ function getMoon(d){
 function playChime(){
   try{
     const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    [523,659,784,1047].forEach((f,i)=>{
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);
-      o.type="sine";o.frequency.value=f;
-      const t=ctx.currentTime+i*.18;
-      g.gain.setValueAtTime(0,t);
-      g.gain.linearRampToValueAtTime(.15,t+.05);
-      g.gain.exponentialRampToValueAtTime(.001,t+.5);
-      o.start(t);o.stop(t+.55);
+    // Crystalline chime — two harmonics per note for glass/crystal texture
+    const notes=[1047,1319,1568,2093];
+    notes.forEach((f,i)=>{
+      [1, 2.756].forEach(harm=>{
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);
+        o.type="sine";o.frequency.value=f*harm;
+        const t=ctx.currentTime+i*.22;
+        const vol=harm===1?.18:.06;
+        g.gain.setValueAtTime(0,t);
+        g.gain.linearRampToValueAtTime(vol,t+.01);
+        g.gain.exponentialRampToValueAtTime(.001,t+1.2);
+        o.start(t);o.stop(t+1.25);
+      });
     });
   }catch(e){}
 }
