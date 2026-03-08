@@ -651,18 +651,27 @@ function getCurrent(){
 function getMoon(d){
   const ref=new Date(2025,0,29);
   const days=((d-ref)/(864e5)%29.53+29.53)%29.53;
+  const illum=Math.round((1-Math.cos(2*Math.PI*days/29.53))/2*100);
   const phases=[
-    {d:1.85, n:"Luna Nueva 🌑",     energy:"Intención y semilla"},
-    {d:7.38, n:"Creciente 🌒",      energy:"Acción y arranque"},
-    {d:9.22, n:"Cuarto Creciente 🌓",energy:"Decisión y compromiso"},
-    {d:14.77,n:"Gibosa Creciente 🌔",energy:"Refinamiento"},
-    {d:16.61,n:"Luna Llena 🌕",     energy:"Manifestación máxima"},
-    {d:22.15,n:"Gibosa Menguante 🌖",energy:"Gratitud y integración"},
-    {d:23.99,n:"Cuarto Menguante 🌗",energy:"Liberación"},
-    {d:29.53,n:"Menguante 🌘",      energy:"Descanso y reflexión"},
+    {d:1.85, n:"Luna Nueva 🌑",      energy:"Intención y semilla",
+     sci:"La Luna está entre la Tierra y el Sol. No refleja luz visible desde aquí. Es el mejor momento del mes para ver estrellas — el cielo está completamente oscuro."},
+    {d:7.38, n:"Creciente 🌒",       energy:"Acción y arranque",
+     sci:"Ves el lado derecho iluminado. La Luna sale al mediodía y se pone a medianoche. La sombra curved que ves se llama terminador — es la línea día/noche lunar."},
+    {d:9.22, n:"Cuarto Creciente 🌓", energy:"Decisión y compromiso",
+     sci:"Exactamente la mitad iluminada. La Luna está a 90° del Sol vista desde la Tierra. La gravedad lunar está jalando las mareas al máximo — igual que tus decisiones, todo se tensiona."},
+    {d:14.77,n:"Gibosa Creciente 🌔", energy:"Refinamiento",
+     sci:"Más de la mitad iluminada, casi llena. 'Gibosa' viene del latín gibbus: joroba. El lado visible crece cada noche. Ya se ve claramente en el cielo diurno por las tardes."},
+    {d:16.61,n:"Luna Llena 🌕",      energy:"Manifestación máxima",
+     sci:"La Tierra está entre el Sol y la Luna. Toda la cara visible está iluminada. Sale al atardecer exacto y se pone al amanecer exacto. Las mareas son las más altas del mes."},
+    {d:22.15,n:"Gibosa Menguante 🌖", energy:"Gratitud y integración",
+     sci:"La iluminación empieza a reducirse por la izquierda. Sale a las 9pm y se ve en el cielo matutino. La Luna ya pasó su punto máximo — el ciclo empieza a cerrar."},
+    {d:23.99,n:"Cuarto Menguante 🌗", energy:"Liberación",
+     sci:"Exactamente la mitad iluminada, pero ahora el lado izquierdo. Sale a medianoche y se ve toda la mañana. Es el espejo exacto del Cuarto Creciente, dos semanas después."},
+    {d:29.53,n:"Balsámica 🌘",      energy:"Descanso y soltar",
+     sci:"Solo un arco delgado visible justo antes del amanecer. La Luna sale 2-3h antes del Sol. En 1-2 días será Luna Nueva y el ciclo de 29.5 días comienza de nuevo."},
   ];
-  for(const p of phases)if(days<p.d)return p;
-  return phases[0];
+  for(const p of phases)if(days<p.d)return {...p, illum, days:Math.round(days)};
+  return {...phases[0], illum, days:Math.round(days)};
 }
 
 function playChime(){
@@ -726,9 +735,15 @@ function tick(){
   // moon + element
   const moon=getMoon(now);
   const elem=ELEMENTS[now.getDay()];
-  document.getElementById("moon-badge").textContent=moon.n;
+  var mb=document.getElementById("moon-badge");
+  mb.textContent=moon.n+" · "+moon.illum+"%";
   var energyEl=document.getElementById("moon-energy-lbl");
-  if(energyEl) energyEl.textContent=moon.energy;
+  if(energyEl){
+    energyEl.textContent=moon.energy;
+    energyEl.setAttribute("data-sci", moon.sci||"");
+    energyEl.setAttribute("data-illum", moon.illum||0);
+    energyEl.setAttribute("data-days", moon.days||0);
+  }
   const eb=document.getElementById("elem-badge");
   eb.textContent=elem.n;eb.style.background=elem.c;eb.style.color=elem.tc;
 
@@ -1731,7 +1746,7 @@ function renderVision(){
   // HERO QUOTE
   h+='<div style="background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);border-radius:20px;padding:22px 18px;margin-bottom:16px">';
   h+='<div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,169,110,.6);margin-bottom:8px">Tu yo de diciembre te escribe</div>';
-  h+='<div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ink);line-height:1.6;margin-bottom:8px">\"'+q.q+'\"</div>';
+  h+='<div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ivory);line-height:1.6;margin-bottom:8px">\"'+q.q+'\"</div>';
   h+='<div style="font-size:10px;color:rgba(248,242,232,.4)">— '+q.a+'</div></div>';
 
   // VISION BOARD
@@ -1792,7 +1807,7 @@ function renderVision(){
   h+='<div class="sec-ttl"><span>Helen hoy</span><div class="sec-ln"></div></div>';
   h+='<div style="background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:16px;padding:16px;margin-bottom:16px">';
   h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.6);margin-bottom:8px">Helen habla hoy</div>';
-  h+='<div style="font-family:var(--ff);font-size:15px;font-style:italic;color:var(--ink);line-height:1.6">\"'+helenMsg+'\"</div></div>';
+  h+='<div style="font-family:var(--ff);font-size:15px;font-style:italic;color:var(--ivory);line-height:1.6">\"'+helenMsg+'\"</div></div>';
 
   return h;
 }
@@ -1818,8 +1833,42 @@ function togGoal(id){
 
 
 function togMoonInfo(){
+  var overlay=document.getElementById("moon-overlay");
+  if(overlay){ overlay.remove(); return; }
   var el=document.getElementById("moon-energy-lbl");
-  if(el) el.style.display=el.style.display==="none"?"block":"none";
+  if(!el) return;
+  var sci=el.getAttribute("data-sci")||"";
+  var illum=el.getAttribute("data-illum")||"0";
+  var days=el.getAttribute("data-days")||"0";
+  var energy=el.textContent||"";
+  // Create overlay card
+  var card=document.createElement("div");
+  card.id="moon-overlay";
+  card.onclick=function(){card.remove()};
+  card.style.cssText="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;display:flex;align-items:flex-end;justify-content:center;background:rgba(26,18,16,.6);backdrop-filter:blur(4px);padding:20px";
+  card.innerHTML='<div style="background:var(--ink);border-radius:2px 2px 2px 2px;padding:24px 20px;max-width:360px;width:100%;border:1px solid rgba(201,169,110,.15);position:relative">'+
+    '<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,.5);margin-bottom:16px;font-family:var(--fb)">Luna de hoy</div>'+
+    '<div id="moon-badge-big" style="font-family:var(--ff);font-size:28px;font-style:italic;color:var(--ivory);margin-bottom:4px"></div>'+
+    '<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">'+
+      '<div style="text-align:center">'+
+        '<div style="font-family:var(--ff);font-size:36px;color:var(--gold);font-weight:400">'+illum+'%</div>'+
+        '<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5);font-family:var(--fb)">iluminación</div>'+
+      '</div>'+
+      '<div style="flex:1;border-left:1px solid rgba(201,169,110,.15);padding-left:16px">'+
+        '<div style="font-size:9px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;font-family:var(--fb);margin-bottom:4px">Energía del día</div>'+
+        '<div style="font-size:13px;font-family:var(--ff);font-style:italic;color:var(--ivory)">'+energy+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div style="background:rgba(250,247,244,.04);border-radius:2px;padding:12px 14px">'+
+      '<div style="font-size:10px;color:rgba(201,169,110,.6);letter-spacing:1.5px;text-transform:uppercase;font-family:var(--fb);margin-bottom:6px">📡 Dato astronómico</div>'+
+      '<div style="font-size:12px;color:rgba(250,247,244,.8);line-height:1.7;font-family:var(--fb);font-weight:300">'+sci+'</div>'+
+    '</div>'+
+    '<div style="text-align:center;margin-top:14px;font-size:9px;color:rgba(201,169,110,.35);font-family:var(--fb);letter-spacing:1px">Toca para cerrar</div>'+
+  '</div>';
+  // Set the name in the big badge
+  document.body.appendChild(card);
+  var bigBadge=document.getElementById("moon-badge-big");
+  if(bigBadge) bigBadge.textContent=document.getElementById("moon-badge").textContent.split(" · ")[0];
 }
 function render(){
   const el=document.getElementById("content");
