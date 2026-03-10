@@ -10,340 +10,493 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* Vogue palette — Cream · Mauve · Gold */
-  --ivory:#FAF7F4;        /* warm ivory bg */
-  --cream:#F5F0EB;        /* section bg */
+  --ivory:#FAF8F5;
+  --ivory2:#F5F1EC;
   --white:#FFFFFF;
-  --mist:#F0EBE6;
-  --mauve:#9E7A84;        /* dusty rose mauve */
-  --mauve2:#7A5560;       /* deep mauve */
-  --mauve3:#C4A8B0;       /* light mauve */
-  --gold:#C9A96E;         /* champagne gold */
+  --ink:#1C1410;
+  --ink2:#2E2018;
+  --mu:#A0928A;
+  --mu2:#C4B8B2;
+  --gold:#C9A96E;
   --gold2:#A8873F;
-  --gold3:#E8D5A8;        /* light gold */
-  --ink:#1A1210;          /* warm black */
-  --ink2:#3A2A28;
-  --mu:#A89490;           /* muted warm grey */
-  --border:#E8E0DC;
-  --border2:#D4C8C2;
-  --sage:#8B9E8A;
+  --gold3:#EDE0C4;
+  --mauve:#B8909A;
+  --mauve2:#D4B8C0;
+  --sage:#7A9E84;
+  --border:#EAE4DE;
+  --border2:#D8CFC8;
+  --card:#FFFFFF;
   --tx:var(--ink);
 
-  /* Back-compat aliases */
-  --c:var(--ivory);
-  --w:var(--gold3);
-  --br:var(--ink);
-  --br2:var(--ink2);
-  --br3:#5A3A36;
-  --tr:var(--mauve);
-  --tr2:var(--mauve2);
-  --gd:var(--gold);
-  --gd2:var(--gold2);
-  --sg:var(--sage);
-  --bl:var(--border);
-  --wh:var(--white);
-  --midnight:var(--ink);
-  --navy:var(--ink2);
-  --navy2:#4A2A28;
-  --ch:var(--gold);
-  --ch2:var(--gold2);
-  --ch3:var(--gold3);
+  /* back-compat */
+  --c:var(--ivory);--w:var(--gold3);--br:var(--ink);--br2:var(--ink2);
+  --br3:#4A3028;--tr:var(--mauve);--tr2:#9A6070;--gd:var(--gold);
+  --gd2:var(--gold2);--sg:var(--sage);--bl:var(--border);--wh:var(--white);
+  --midnight:var(--ink);--navy:var(--ink2);--navy2:#3A2818;
+  --ch:var(--gold);--ch2:var(--gold2);--ch3:var(--gold3);
 
-  --rad:14px;
-  --shad:0 2px 20px rgba(26,18,16,0.06);
-  --shad2:0 8px 40px rgba(26,18,16,0.1);
+  --r:16px;           /* card radius */
+  --r-sm:10px;
+  --r-pill:100px;
+  --shad:0 1px 12px rgba(28,20,16,0.07);
+  --shad2:0 4px 28px rgba(28,20,16,0.11);
+  --shad3:0 8px 40px rgba(28,20,16,0.14);
   --ff:'Bodoni Moda',serif;
   --fb:'DM Sans',sans-serif;
 }
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
 
 body{
-  background:var(--ivory);
+  background:var(--ivory2);
   font-family:var(--fb);
   color:var(--ink);
   min-height:100vh;
   overscroll-behavior:none;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* ── HEADER ── */
+/* ══ HEADER ══ */
 .hdr{
   background:var(--ink);
-  padding:12px 16px 10px;
+  padding:14px 18px 12px;
   position:sticky;top:0;z-index:200;
-  box-shadow:0 1px 20px rgba(26,18,16,0.15);
 }
 .hdr-row{display:flex;justify-content:space-between;align-items:center}
+.hdr-left{}
 .app-ttl{
   color:var(--ivory);
   font-family:var(--ff);
-  font-size:20px;
+  font-size:19px;
   font-style:italic;
   font-weight:400;
-  letter-spacing:1px;
-  line-height:1;
+  letter-spacing:.5px;
 }
 .app-sub{
-  color:var(--gold);
+  color:rgba(201,169,110,.6);
   font-size:8px;
-  letter-spacing:3.5px;
+  letter-spacing:3px;
   text-transform:uppercase;
-  margin-top:4px;
-  font-family:var(--fb);
+  margin-top:3px;
   font-weight:300;
 }
-.hdr-meta{display:flex;gap:7px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.hdr-meta{display:flex;gap:6px;align-items:center;margin-top:9px;flex-wrap:wrap}
 .moon-badge{
+  display:inline-flex;align-items:center;gap:5px;
   background:rgba(201,169,110,.1);
-  border:1px solid rgba(201,169,110,.2);
-  border-radius:2px;
-  padding:3px 10px;
-  font-size:9px;
-  color:var(--gold);
-  letter-spacing:1.5px;
-  font-family:var(--fb);
-  font-weight:300;
-  text-transform:uppercase;
+  border:1px solid rgba(201,169,110,.18);
+  border-radius:var(--r-pill);
+  padding:4px 12px;
+  font-size:9px;color:var(--gold);
+  letter-spacing:1px;font-weight:400;
+  cursor:pointer;transition:background .2s;
 }
-.elem-badge{border-radius:2px;padding:3px 10px;font-size:9px;letter-spacing:1.5px;font-weight:300;text-transform:uppercase}
+.moon-badge:hover{background:rgba(201,169,110,.16)}
+.elem-badge{
+  border-radius:var(--r-pill);
+  padding:4px 12px;font-size:9px;
+  letter-spacing:1px;font-weight:400;
+}
 .clk-wrap{text-align:right}
 .clk-time{
   color:var(--ivory);
   font-family:var(--fb);
-  font-size:16px;
-  font-weight:300;
-  line-height:1;
+  font-size:15px;font-weight:300;
   letter-spacing:3px;
 }
-.clk-date{color:rgba(250,247,244,.4);font-size:9px;margin-top:4px;letter-spacing:1.5px;font-weight:300;text-transform:uppercase}
-.pb{height:1px;background:rgba(255,255,255,0.1);margin-top:12px;overflow:hidden}
-.pbf{height:100%;background:var(--gold);transition:width .8s cubic-bezier(.4,0,.2,1)}
-.plbl{color:rgba(250,247,244,.35);font-size:8px;margin-top:4px;letter-spacing:2px;font-weight:300;text-transform:uppercase}
+.clk-date{
+  color:rgba(250,248,245,.35);
+  font-size:8px;margin-top:3px;
+  letter-spacing:1.5px;font-weight:300;
+  text-transform:uppercase;
+}
+.pb{height:2px;background:rgba(255,255,255,0.07);margin-top:11px;overflow:hidden}
+.pbf{height:100%;background:linear-gradient(90deg,var(--gold),rgba(201,169,110,.3));transition:width .9s cubic-bezier(.4,0,.2,1)}
 
-/* ── TABS ── */
+/* ══ TABS ══ */
 .tabs{
   display:flex;
   background:var(--ink);
-  border-bottom:1px solid rgba(201,169,110,.12);
+  border-bottom:1px solid rgba(255,255,255,.04);
   overflow-x:auto;scrollbar-width:none;
+  padding:0 4px;
 }
 .tabs::-webkit-scrollbar{display:none}
 .tbt{
-  flex:1;min-width:52px;
-  padding:10px 4px;
+  flex:1;min-width:48px;
+  padding:9px 2px 8px;
   background:none;border:none;
-  border-bottom:1px solid transparent;
-  color:rgba(250,247,244,.3);
-  font-size:8px;letter-spacing:2px;text-transform:uppercase;
-  cursor:pointer;font-family:var(--fb);font-weight:400;
-  transition:all .25s;white-space:nowrap;
+  border-bottom:2px solid transparent;
+  color:rgba(250,248,245,.25);
+  font-size:8px;letter-spacing:1.5px;
+  text-transform:uppercase;
+  cursor:pointer;font-family:var(--fb);
+  font-weight:500;transition:all .2s;
+  white-space:nowrap;
 }
 .tbt.on{color:var(--gold);border-bottom-color:var(--gold)}
-.tbt:hover{color:rgba(201,169,110,.7)}
 
-/* ── CONTENT ── */
-.content{padding:16px 16px 100px;max-width:500px;margin:0 auto;animation:fadeIn .3s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+/* ══ CONTENT ══ */
+.content{
+  padding:18px 16px 100px;
+  max-width:500px;margin:0 auto;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.content{animation:fadeIn .28s ease}
 
-/* ── CURRENT ACTIVITY ── */
-.now-section{margin-bottom:20px}
+/* ══ SECTION LABEL ══ */
+.sec-ttl{
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--mu);margin:0 0 10px;
+  display:flex;align-items:center;gap:10px;font-weight:400;
+}
+.sec-ln{flex:1;height:1px;background:var(--border)}
+
+/* ══ NOW CARD ══ */
+.now-section{margin-bottom:18px}
 .now-label{
   font-size:8px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--mauve);margin-bottom:10px;
-  display:flex;align-items:center;gap:8px;font-weight:400;
+  color:var(--gold);margin-bottom:10px;
+  display:flex;align-items:center;gap:7px;font-weight:400;
 }
-.now-pulse{width:5px;height:5px;background:var(--mauve);border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.7)}}
-
+.now-pulse{
+  width:5px;height:5px;
+  background:var(--gold);border-radius:50%;
+  box-shadow:0 0 0 0 rgba(201,169,110,.4);
+  animation:ripple 2s infinite;
+}
+@keyframes ripple{
+  0%{box-shadow:0 0 0 0 rgba(201,169,110,.4)}
+  70%{box-shadow:0 0 0 8px rgba(201,169,110,0)}
+  100%{box-shadow:0 0 0 0 rgba(201,169,110,0)}
+}
 .now-card{
   background:var(--ink);
-  border:1px solid rgba(201,169,110,.15);
-  border-radius:2px;
-  padding:22px 20px;
-  box-shadow:var(--shad2);
+  border-radius:20px;
+  padding:22px 20px 18px;
+  box-shadow:var(--shad3);
   position:relative;overflow:hidden;
-  animation:slideUp .35s ease;
 }
-@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.now-card::after{
-  content:'';position:absolute;top:-40px;right:-40px;
-  width:160px;height:160px;
-  background:radial-gradient(circle,rgba(201,169,110,.07),transparent 70%);
-  pointer-events:none;
+.now-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,169,110,.3),transparent);
 }
-.now-time{font-size:9px;color:var(--gold);font-weight:400;letter-spacing:3px;margin-bottom:8px;text-transform:uppercase}
-.now-icon{font-size:24px;margin-bottom:10px;display:block}
-.now-name{font-family:var(--ff);font-size:24px;font-weight:400;font-style:italic;color:var(--ivory);line-height:1.2;margin-bottom:12px}
-.now-sci{font-size:11px;color:rgba(250,247,244,.55);line-height:1.8;font-style:italic;border-left:1px solid rgba(201,169,110,.25);padding-left:12px;font-family:var(--fb);font-weight:300}
+.now-time{
+  font-size:9px;color:rgba(201,169,110,.6);
+  font-weight:400;letter-spacing:2.5px;
+  margin-bottom:6px;text-transform:uppercase;
+}
+.now-icon{font-size:22px;margin-bottom:10px;display:block}
+.now-name{
+  font-family:var(--ff);font-size:23px;
+  font-weight:400;font-style:italic;
+  color:var(--ivory);line-height:1.2;margin-bottom:12px;
+}
+.now-sci{
+  font-size:11px;color:rgba(250,248,245,.45);
+  line-height:1.75;font-style:italic;
+  border-left:1px solid rgba(201,169,110,.2);
+  padding-left:12px;font-weight:300;
+}
 .now-check{margin-top:16px;display:flex;justify-content:flex-end}
 .done-btn{
   background:var(--gold);color:var(--ink);
-  border:none;border-radius:2px;
-  padding:9px 24px;font-size:10px;
-  cursor:pointer;letter-spacing:2px;
+  border:none;border-radius:var(--r-pill);
+  padding:10px 26px;font-size:10px;
+  cursor:pointer;letter-spacing:1.5px;
   font-family:var(--fb);font-weight:600;
   transition:all .2s;text-transform:uppercase;
 }
-.done-btn:hover{background:var(--gold3);transform:translateY(-1px)}
-.done-btn.undone{background:transparent;border:1px solid rgba(201,169,110,.25);color:var(--mu)}
+.done-btn:active{transform:scale(.97)}
+.done-btn.undone{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  color:rgba(250,248,245,.4);
+}
 
-/* ── SECTION TITLES ── */
-.sec-ttl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);margin:4px 0 10px;display:flex;align-items:center;gap:10px;font-weight:400}
-.sec-ln{flex:1;height:1px;background:var(--border)}
-
-/* ── SCHEDULE CARDS ── */
-.scard{background:var(--white);border:1px solid var(--border);border-radius:2px;padding:12px 14px;margin-bottom:6px;cursor:pointer;transition:all .2s;box-shadow:var(--shad)}
-.scard:hover{box-shadow:var(--shad2);transform:translateY(-1px)}
-.scard.done{opacity:.5;background:rgba(139,158,138,.04);border-color:rgba(139,158,138,.2)}
+/* ══ SCHEDULE CARDS ══ */
+.scard{
+  background:var(--card);
+  border-radius:var(--r);
+  padding:13px 15px;margin-bottom:6px;
+  cursor:pointer;transition:transform .15s, box-shadow .15s;
+  box-shadow:var(--shad);
+  border:none;
+}
+.scard:active{transform:scale(.99)}
+.scard.done{
+  opacity:.5;
+  background:rgba(122,158,132,.06);
+  box-shadow:none;
+}
 .crow{display:flex;align-items:center;gap:10px}
 .cdot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.ctm{color:var(--mu);font-size:10px;min-width:36px;font-family:'DM Sans',monospace;font-weight:300;letter-spacing:.5px}
+.ctm{
+  color:var(--mu);font-size:10px;
+  min-width:38px;font-weight:300;
+  letter-spacing:.5px;
+}
 .cico{font-size:15px;flex-shrink:0}
-.clbl{flex:1;font-size:13px;font-weight:400;color:var(--ink)}
-.clbl.done{text-decoration:line-through;color:var(--mu);font-weight:300}
-.ckbtn{width:22px;height:22px;border-radius:50%;border:1px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-size:11px}
+.clbl{flex:1;font-size:14px;font-weight:400;color:var(--ink)}
+.clbl.done{text-decoration:line-through;color:var(--mu2);font-weight:300}
+.ckbtn{
+  width:24px;height:24px;border-radius:50%;
+  border:1.5px solid var(--border2);
+  background:transparent;cursor:pointer;
+  display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;
+  transition:all .2s;font-size:12px;
+}
 .ckbtn.on{background:var(--sage);border-color:var(--sage);color:white}
-.sci-box{margin-top:8px;padding:9px 12px;background:rgba(26,18,16,.03);border-left:1px solid var(--gold);border-radius:0 6px 6px 0;font-size:11px;color:var(--mu);line-height:1.7;font-style:italic;font-weight:300}
+.sci-box{
+  margin-top:9px;padding:10px 13px;
+  background:rgba(201,169,110,.04);
+  border-left:1.5px solid rgba(201,169,110,.25);
+  border-radius:0 8px 8px 0;
+  font-size:11px;color:var(--mu);
+  line-height:1.75;font-style:italic;font-weight:300;
+}
 
-/* ── PAST ACTIVITIES ── */
-.past-toggle{width:100%;background:none;border:none;padding:8px 0;font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);cursor:pointer;display:flex;align-items:center;gap:8px;margin-bottom:4px;font-family:var(--fb);font-weight:300}
-.pcard{background:rgba(250,247,244,.8);border:1px dashed var(--border);border-radius:2px;padding:8px 12px;margin-bottom:5px;opacity:.5;cursor:pointer}
-.pcard.done{opacity:.65;background:rgba(139,158,138,.04);border-color:rgba(139,158,138,.2)}
+/* ══ PAST ACTIVITIES ══ */
+.past-toggle{
+  width:100%;background:none;border:none;
+  padding:10px 0;font-size:8px;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--mu2);
+  cursor:pointer;display:flex;align-items:center;
+  gap:8px;margin-bottom:4px;font-family:var(--fb);font-weight:300;
+}
+.pcard{
+  background:rgba(250,248,245,.7);
+  border-radius:var(--r-sm);
+  padding:8px 13px;margin-bottom:5px;
+  opacity:.45;cursor:pointer;
+  box-shadow:none;
+}
+.pcard.done{opacity:.6;background:rgba(122,158,132,.06)}
 .prow{display:flex;align-items:center;gap:8px}
-.missed-tag{font-size:8px;color:var(--mauve);letter-spacing:1px;background:rgba(158,122,132,.08);padding:1px 7px;border-radius:2px}
+.missed-tag{
+  font-size:8px;color:var(--mauve);
+  letter-spacing:1px;background:rgba(184,144,154,.08);
+  padding:2px 8px;border-radius:var(--r-pill);
+}
 
-/* ── WORKOUT ── */
-.wk-hdr{background:var(--ink);border-radius:2px;padding:16px 18px;margin-bottom:14px;display:flex;align-items:center;gap:13px;position:relative;overflow:hidden}
-.wk-hdr::after{content:'';position:absolute;bottom:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(201,169,110,.06),transparent 70%)}
+/* ══ WORKOUT ══ */
+.wk-hdr{
+  background:var(--ink);border-radius:var(--r);
+  padding:16px 18px;margin-bottom:12px;
+  display:flex;align-items:center;gap:13px;
+  position:relative;overflow:hidden;
+  box-shadow:var(--shad2);
+}
 .wk-emo{font-size:28px}
-.wk-ttl{color:var(--ivory);font-family:var(--ff);font-size:18px;font-style:italic;font-weight:400}
-.wk-sub{color:var(--gold);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;margin-top:3px;font-weight:300}
-.ex-card{background:var(--white);border:1px solid var(--border);border-radius:2px;padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .2s;box-shadow:var(--shad)}
-.ex-card:hover{box-shadow:var(--shad2)}
-.ex-card.done{opacity:.55;background:rgba(139,158,138,.04);border-color:rgba(139,158,138,.2)}
-.ex-name{font-size:13px;font-weight:400;color:var(--ink)}
-.ex-name.done{text-decoration:line-through;color:var(--mu);font-weight:300}
-.ex-meta{font-size:10px;color:var(--mu);margin-top:2px;font-weight:300;letter-spacing:.5px}
-.tip-box{background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:2px;padding:11px 14px;font-size:12px;color:var(--ink2);line-height:1.7;margin-top:12px;font-style:italic;font-weight:300}
-.wu-box{background:rgba(139,158,138,.05);border:1px solid rgba(139,158,138,.2);border-radius:2px;padding:11px 14px;font-size:12px;color:#3A5A38;line-height:1.6;margin-bottom:12px;font-weight:300}
-.prot-box{background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:2px;padding:11px 14px;font-size:12px;color:var(--gold2);line-height:1.6;margin-top:10px;font-weight:300}
+.wk-ttl{color:var(--ivory);font-family:var(--ff);font-size:18px;font-style:italic}
+.wk-sub{color:rgba(201,169,110,.6);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;margin-top:3px;font-weight:300}
+.ex-card{
+  background:var(--card);border-radius:var(--r);
+  padding:13px 15px;margin-bottom:6px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:transform .15s;
+  box-shadow:var(--shad);
+}
+.ex-card:active{transform:scale(.99)}
+.ex-card.done{opacity:.5;background:rgba(122,158,132,.06);box-shadow:none}
+.ex-name{font-size:14px;font-weight:400;color:var(--ink)}
+.ex-name.done{text-decoration:line-through;color:var(--mu2);font-weight:300}
+.ex-meta{font-size:10px;color:var(--mu);margin-top:2px;font-weight:300;letter-spacing:.3px}
+.tip-box{
+  background:rgba(201,169,110,.05);
+  border-radius:var(--r-sm);
+  padding:12px 14px;font-size:12px;
+  color:var(--ink2);line-height:1.75;
+  margin-top:10px;font-style:italic;font-weight:300;
+}
+.wu-box{
+  background:rgba(122,158,132,.07);
+  border-radius:var(--r-sm);
+  padding:12px 14px;font-size:12px;
+  color:#3A5A40;line-height:1.65;margin-bottom:12px;font-weight:300;
+}
+.prot-box{
+  background:rgba(201,169,110,.06);
+  border-radius:var(--r-sm);
+  padding:12px 14px;font-size:12px;
+  color:var(--gold2);line-height:1.65;margin-top:10px;font-weight:300;
+}
 
-/* ── STATS ── */
+/* ══ STATS ══ */
 .stats-page{padding:4px 0}
 .stats-title{font-family:var(--ff);font-size:26px;color:var(--ink);text-align:center;margin-bottom:4px;font-style:italic}
 .stats-sub{text-align:center;font-size:9px;color:var(--mu);letter-spacing:2.5px;margin-bottom:18px;font-weight:300;text-transform:uppercase}
 .week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:18px}
 .day-orb{display:flex;flex-direction:column;align-items:center;gap:4px}
-.orb-ring{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-size:14px;font-weight:400;position:relative}
+.orb-ring{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-size:14px;font-weight:400}
 .orb-lbl{font-size:8px;color:var(--mu);letter-spacing:1.5px;text-transform:uppercase;font-weight:300}
-.big-stat{background:var(--white);border:1px solid var(--border);border-radius:2px;padding:16px;margin-bottom:10px;text-align:center}
-.big-num{font-family:var(--ff);font-size:48px;color:var(--mauve);font-weight:400;line-height:1}
+.big-stat{background:var(--card);border-radius:var(--r);padding:18px;margin-bottom:10px;text-align:center;box-shadow:var(--shad)}
+.big-num{font-family:var(--ff);font-size:50px;color:var(--mauve);font-weight:400;line-height:1}
 .big-lbl{font-size:9px;color:var(--mu);letter-spacing:2.5px;text-transform:uppercase;margin-top:4px;font-weight:300}
 .stats-row{display:flex;gap:8px;margin-bottom:8px}
-.mini-stat{flex:1;background:var(--white);border:1px solid var(--border);border-radius:2px;padding:12px 8px;text-align:center}
+.mini-stat{flex:1;background:var(--card);border-radius:var(--r);padding:14px 8px;text-align:center;box-shadow:var(--shad)}
 .mini-num{font-family:var(--ff);font-size:26px;color:var(--gold);font-weight:400}
 .mini-lbl{font-size:8px;color:var(--mu);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;font-weight:300}
-.week-msg{background:var(--ink);border-radius:2px;padding:18px;text-align:center;font-family:var(--ff);font-size:16px;color:var(--ivory);font-style:italic;line-height:1.8}
+.week-msg{background:var(--ink);border-radius:var(--r);padding:20px;text-align:center;font-family:var(--ff);font-size:17px;color:var(--ivory);font-style:italic;line-height:1.8}
 
-/* ── ENGLISH ── */
-.ph-tag{display:inline-block;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:2px;margin:10px 0 8px;font-weight:300}
-.eng-card{background:var(--white);border:1px solid var(--border);border-radius:2px;padding:12px 14px;margin-bottom:7px;cursor:pointer;transition:all .2s;box-shadow:var(--shad)}
-.eng-card.done{opacity:.55;background:rgba(139,158,138,.04);border-color:rgba(139,158,138,.2)}
+/* ══ ENGLISH ══ */
+.ph-tag{display:inline-block;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:3px 12px;border-radius:var(--r-pill);margin:10px 0 8px;font-weight:400}
+.eng-card{background:var(--card);border-radius:var(--r);padding:13px 15px;margin-bottom:6px;cursor:pointer;transition:transform .15s;box-shadow:var(--shad)}
+.eng-card:active{transform:scale(.99)}
+.eng-card.done{opacity:.5;background:rgba(122,158,132,.06);box-shadow:none}
 .eng-row{display:flex;align-items:center;gap:10px}
 
-/* ── VISION ── */
-.vb-img{width:100%;border-radius:2px;margin-bottom:16px;box-shadow:var(--shad2)}
-.quote-card{background:var(--ink);border-radius:2px;padding:24px 20px;margin-bottom:16px;position:relative;overflow:hidden}
-.quote-card::before{content:'“';position:absolute;top:8px;left:14px;font-size:56px;color:rgba(201,169,110,.1);font-family:serif;line-height:1}
-.quote-txt{font-family:var(--ff);font-size:18px;color:var(--ivory);line-height:1.8;text-align:center;font-style:italic;margin-bottom:8px}
-.quote-src{font-size:9px;color:rgba(201,169,110,.7);letter-spacing:2.5px;text-transform:uppercase;text-align:center;font-weight:300}
-.spirit-card{background:var(--white);border:1px solid var(--border);border-radius:2px;padding:14px;margin-bottom:10px;box-shadow:var(--shad)}
+/* ══ VISION ══ */
+.vb-img{width:100%;border-radius:var(--r);margin-bottom:16px;box-shadow:var(--shad3)}
+.quote-card{background:var(--ink);border-radius:20px;padding:24px 20px;margin-bottom:16px;position:relative;overflow:hidden}
+.quote-card::before{content:'“';position:absolute;top:10px;left:16px;font-size:56px;color:rgba(201,169,110,.08);font-family:serif;line-height:1}
+.quote-txt{font-family:var(--ff);font-size:17px;color:var(--ivory);line-height:1.8;text-align:center;font-style:italic;margin-bottom:8px}
+.quote-src{font-size:9px;color:rgba(201,169,110,.5);letter-spacing:2.5px;text-transform:uppercase;text-align:center;font-weight:300}
+.spirit-card{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--shad)}
 .spirit-hdr{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .spirit-ico{font-size:18px}
 .spirit-ttl{font-family:var(--ff);font-size:14px;font-weight:400;color:var(--ink)}
-.spirit-txt{font-size:12px;color:var(--mu);line-height:1.7;font-weight:300}
+.spirit-txt{font-size:12px;color:var(--mu);line-height:1.75;font-weight:300}
 .cat-section{margin-bottom:14px}
 .cat-hdr{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);margin-bottom:8px;display:flex;align-items:center;gap:8px;font-weight:300}
-.goal-item{display:flex;align-items:center;gap:10px;padding:10px 13px;background:var(--white);border:1px solid var(--border);border-radius:2px;margin-bottom:5px;cursor:pointer;transition:all .2s;box-shadow:var(--shad)}
-.goal-item:hover{border-color:var(--border2);transform:translateX(2px)}
-.goal-item.done{opacity:.6;background:rgba(139,158,138,.04);border-color:rgba(139,158,138,.2)}
-.goal-txt{flex:1;font-size:13px;font-weight:400;color:var(--ink)}
-.goal-txt.done{text-decoration:line-through;color:var(--mu)}
-.goal-chk{width:22px;height:22px;border-radius:50%;border:1px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:all .2s}
+.goal-item{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 15px;background:var(--card);
+  border-radius:var(--r);margin-bottom:5px;
+  cursor:pointer;transition:transform .15s;
+  box-shadow:var(--shad);
+}
+.goal-item:active{transform:scale(.99)}
+.goal-item.done{opacity:.5;background:rgba(122,158,132,.06);box-shadow:none}
+.goal-txt{flex:1;font-size:14px;font-weight:400;color:var(--ink)}
+.goal-txt.done{text-decoration:line-through;color:var(--mu2)}
+.goal-chk{
+  width:22px;height:22px;border-radius:50%;
+  border:1.5px solid var(--border2);
+  background:transparent;cursor:pointer;
+  display:flex;align-items:center;
+  justify-content:center;font-size:11px;
+  flex-shrink:0;transition:all .2s;
+}
 .goal-chk.on{background:var(--sage);border-color:var(--sage);color:white}
-.moon-section{background:var(--ink);border-radius:2px;padding:18px;margin-bottom:14px;text-align:center}
+.moon-section{background:var(--ink);border-radius:var(--r);padding:18px;margin-bottom:14px;text-align:center}
 .moon-emo{font-size:36px;display:block;margin-bottom:6px}
 .moon-name{color:var(--gold);font-family:var(--ff);font-size:16px;font-style:italic;margin-bottom:3px}
-.moon-energy{color:rgba(250,247,244,.5);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;font-weight:300}
+.moon-energy{color:rgba(250,248,245,.45);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;font-weight:300}
 
-/* ── PNL ── */
-.pnl-hero{background:var(--ink);border-radius:2px;padding:22px 18px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden}
-.pnl-hero-emo{font-size:36px;display:block;margin-bottom:8px}
+/* ══ PNL ══ */
+.pnl-hero{background:var(--ink);border-radius:20px;padding:22px 18px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shad2)}
+.pnl-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,110,.25),transparent)}
+.pnl-hero-emo{font-size:34px;display:block;margin-bottom:10px}
 .pnl-hero-ttl{color:var(--ivory);font-family:var(--ff);font-size:22px;font-style:italic;margin-bottom:4px}
-.pnl-hero-sub{color:rgba(201,169,110,.7);font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:300}
+.pnl-hero-sub{color:rgba(201,169,110,.5);font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:300}
 .pnl-tabs{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
 .pnl-tabs::-webkit-scrollbar{display:none}
-.pnl-tab{flex-shrink:0;padding:6px 14px;background:var(--white);border:1px solid var(--border);border-radius:2px;font-size:9px;cursor:pointer;color:var(--mu);transition:all .2s;font-family:var(--fb);font-weight:400;letter-spacing:1.5px;text-transform:uppercase}
-.pnl-tab.on{background:var(--ink);color:var(--gold);border-color:var(--ink)}
-.belief-card{background:var(--white);border:1px solid var(--border);border-radius:2px;padding:14px;margin-bottom:10px;cursor:pointer;box-shadow:var(--shad);transition:all .2s}
-.belief-card:hover{transform:translateY(-1px);box-shadow:var(--shad2)}
-.belief-card.done{background:rgba(139,158,138,.04);border-color:rgba(139,158,138,.2);opacity:.7}
-.belief-row{display:flex;align-items:flex-start;gap:10px}
-.belief-ico{font-size:20px;flex-shrink:0;margin-top:2px}
+.pnl-tab{
+  flex-shrink:0;padding:7px 16px;
+  background:var(--card);
+  border-radius:var(--r-pill);
+  font-size:9px;cursor:pointer;
+  color:var(--mu);transition:all .2s;
+  font-family:var(--fb);font-weight:500;
+  letter-spacing:1px;text-transform:uppercase;
+  box-shadow:var(--shad);border:none;
+}
+.pnl-tab.on{background:var(--ink);color:var(--gold)}
+.belief-card{background:var(--card);border-radius:var(--r);padding:15px;margin-bottom:8px;cursor:pointer;box-shadow:var(--shad);transition:transform .15s}
+.belief-card:active{transform:scale(.99)}
+.belief-card.done{opacity:.5;background:rgba(122,158,132,.06);box-shadow:none}
+.belief-row{display:flex;align-items:flex-start;gap:11px}
+.belief-ico{font-size:20px;flex-shrink:0;margin-top:1px}
 .belief-body{flex:1}
-.belief-ttl{font-size:13px;font-weight:400;color:var(--ink);margin-bottom:2px}
-.belief-ttl.done{text-decoration:line-through;color:var(--mu);font-weight:300}
-.belief-sub{font-size:11px;color:var(--mu);line-height:1.6;font-weight:300}
-.belief-expand{margin-top:10px;padding:10px 13px;background:rgba(26,18,16,.03);border-left:1px solid var(--gold);border-radius:0 6px 6px 0;font-size:12px;color:var(--ink2);line-height:1.8;font-weight:300}
-.reframe-box{background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:2px;padding:12px 14px;margin-top:10px}
+.belief-ttl{font-size:14px;font-weight:400;color:var(--ink);margin-bottom:2px}
+.belief-ttl.done{text-decoration:line-through;color:var(--mu2);font-weight:300}
+.belief-sub{font-size:12px;color:var(--mu);line-height:1.6;font-weight:300}
+.belief-expand{margin-top:10px;padding:11px 14px;background:rgba(28,20,16,.03);border-left:1.5px solid rgba(201,169,110,.3);border-radius:0 8px 8px 0;font-size:12px;color:var(--ink2);line-height:1.8;font-weight:300}
+.reframe-box{background:rgba(201,169,110,.05);border-radius:var(--r-sm);padding:12px 14px;margin-top:10px}
 .reframe-old{font-size:12px;color:var(--mu);text-decoration:line-through;margin-bottom:5px}
 .reframe-new{font-size:13px;color:var(--sage);font-weight:500}
-.identity-mirror{background:var(--ink);border-radius:2px;padding:20px 18px;margin-bottom:14px;text-align:center}
-.identity-you{color:rgba(250,247,244,.4);font-size:8px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;font-weight:300}
-.identity-new{color:var(--gold);font-family:var(--ff);font-size:24px;font-style:italic;line-height:1.3;margin-bottom:8px}
-.identity-sci{color:rgba(250,247,244,.55);font-size:11px;line-height:1.7;font-weight:300}
-.affirmation-card{background:var(--white);border:1px solid var(--border);border-radius:2px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s}
-.affirmation-card.done{background:rgba(139,158,138,.04);border-color:rgba(139,158,138,.2);opacity:.8}
-.aff-txt{flex:1;font-size:13px;font-style:italic;color:var(--ink);line-height:1.6;font-weight:300}
-.aff-txt.done{text-decoration:line-through;color:var(--mu);font-style:normal}
-.technique-card{background:var(--white);border:1px solid var(--border);border-radius:2px;padding:13px;margin-bottom:8px;cursor:pointer;box-shadow:var(--shad);transition:all .2s}
-.technique-card.done{background:rgba(139,158,138,.04);border-color:rgba(139,158,138,.2);opacity:.75}
-.tech-row{display:flex;align-items:center;gap:10px}
-.tech-num{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--gold);font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:500}
+.identity-mirror{background:var(--ink);border-radius:var(--r);padding:20px 18px;margin-bottom:14px;text-align:center;box-shadow:var(--shad2)}
+.identity-you{color:rgba(250,248,245,.35);font-size:8px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;font-weight:300}
+.identity-new{color:var(--gold);font-family:var(--ff);font-size:24px;font-style:italic;line-height:1.35;margin-bottom:8px}
+.identity-sci{color:rgba(250,248,245,.5);font-size:11px;line-height:1.75;font-weight:300}
+.affirmation-card{background:var(--card);border-radius:var(--r);padding:13px 15px;margin-bottom:6px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:transform .15s;box-shadow:var(--shad)}
+.affirmation-card:active{transform:scale(.99)}
+.affirmation-card.done{opacity:.5;background:rgba(122,158,132,.06);box-shadow:none}
+.aff-txt{flex:1;font-size:13px;font-style:italic;color:var(--ink);line-height:1.65;font-weight:300}
+.aff-txt.done{text-decoration:line-through;color:var(--mu2);font-style:normal}
+.technique-card{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:6px;cursor:pointer;box-shadow:var(--shad);transition:transform .15s}
+.technique-card:active{transform:scale(.99)}
+.technique-card.done{opacity:.5;background:rgba(122,158,132,.06);box-shadow:none}
+.tech-row{display:flex;align-items:center;gap:11px}
+.tech-num{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--gold);font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:600}
 .future-timeline{position:relative;padding-left:22px;margin-bottom:16px}
-.future-timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--gold),rgba(201,169,110,.1))}
-.tl-item{position:relative;margin-bottom:14px}
+.future-timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:1px;background:linear-gradient(180deg,var(--gold),rgba(201,169,110,.1))}
+.tl-item{position:relative;margin-bottom:12px}
 .tl-dot{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--gold);background:var(--ivory)}
 .tl-dot.done{background:var(--gold)}
-.tl-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:300}
-.tl-card{background:var(--white);border:1px solid var(--border);border-radius:2px;padding:11px 13px;cursor:pointer;margin-bottom:6px;transition:all .2s}
-.tl-card.done{background:rgba(139,158,138,.04);border-color:rgba(139,158,138,.2)}
+.tl-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;font-weight:300}
+.tl-card{background:var(--card);border-radius:var(--r-sm);padding:12px 14px;cursor:pointer;margin-bottom:5px;box-shadow:var(--shad);transition:transform .15s}
+.tl-card:active{transform:scale(.99)}
+.tl-card.done{opacity:.5;background:rgba(122,158,132,.06);box-shadow:none}
 
-/* ── NOTIFICATION BTN ── */
-.notif-btn{width:100%;background:var(--ink);color:var(--gold);border:1px solid rgba(201,169,110,.2);border-radius:2px;padding:13px;font-size:10px;cursor:pointer;font-family:var(--fb);font-weight:500;margin-bottom:14px;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
-.notif-btn:hover{background:var(--ink2)}
+/* ══ NOTIFICATION BTN ══ */
+.notif-btn{
+  width:100%;background:var(--ink);color:var(--gold);
+  border:none;border-radius:var(--r);
+  padding:14px;font-size:10px;cursor:pointer;
+  font-family:var(--fb);font-weight:500;
+  margin-bottom:14px;letter-spacing:2px;
+  text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:opacity .2s;box-shadow:var(--shad2);
+}
+.notif-btn:active{opacity:.85}
 
-/* ── TOAST ── */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--ivory);padding:11px 24px;border-radius:2px;font-size:11px;z-index:999;display:none;box-shadow:var(--shad2);white-space:nowrap;border:1px solid rgba(201,169,110,.15);letter-spacing:1px}
+/* ══ TOAST ══ */
+.toast{
+  position:fixed;bottom:84px;left:50%;
+  transform:translateX(-50%);
+  background:var(--ink);color:var(--ivory);
+  padding:12px 26px;border-radius:var(--r-pill);
+  font-size:12px;z-index:999;display:none;
+  box-shadow:var(--shad3);white-space:nowrap;
+  letter-spacing:.5px;font-weight:400;
+}
 
-/* ── MOTIVA ── */
-.motiva{background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:2px;padding:13px 15px;margin-bottom:14px;display:flex;gap:12px;align-items:center}
-.motiva-txt{flex:1;font-size:12px;color:var(--ink);line-height:1.7;font-style:italic;font-family:var(--ff)}
-.motiva-x{background:none;border:none;cursor:pointer;color:var(--mu);font-size:16px;padding:0 4px}
+/* ══ MOTIVA ══ */
+.motiva{
+  background:var(--card);
+  border-radius:var(--r);
+  padding:14px 15px;margin-bottom:14px;
+  display:flex;gap:12px;align-items:center;
+  box-shadow:var(--shad);
+}
+.motiva-txt{flex:1;font-size:12px;color:var(--ink);line-height:1.75;font-style:italic;font-family:var(--ff)}
+.motiva-x{background:none;border:none;cursor:pointer;color:var(--mu);font-size:18px;padding:0;line-height:1}
 
-/* ── STAT MINI ── */
+/* ══ STAT MINI ══ */
 .stat3{display:flex;gap:8px;margin-bottom:14px}
-.s3c{flex:1;background:var(--white);border:1px solid var(--border);border-radius:2px;padding:10px 6px;text-align:center}
+.s3c{flex:1;background:var(--card);border-radius:var(--r);padding:12px 6px;text-align:center;box-shadow:var(--shad)}
 .s3n{font-family:var(--ff);font-size:22px;color:var(--mauve);font-weight:400}
-.s3l{font-size:8px;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;margin-top:1px;font-weight:300}
+.s3l{font-size:8px;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;margin-top:2px;font-weight:300}
 
-/* ── RING ── */
+/* ══ RING ══ */
 #day-ring svg circle{transition:stroke-dasharray .8s cubic-bezier(.4,0,.2,1)}
 
-/* ── SCROLLBAR ── */
+/* ══ SCROLLBAR ══ */
 ::-webkit-scrollbar{width:2px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* ══ TAP STATES for mobile ══ */
+@media(hover:none){
+  .scard:hover,.ex-card:hover,.goal-item:hover,
+  .belief-card:hover,.eng-card:hover{transform:none;box-shadow:var(--shad)}
+}
 </style>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -370,7 +523,6 @@ body{
     </div>
   </div>
   <div class="pb"><div class="pbf" id="pbf" style="width:0%"></div></div>
-  <div class="plbl" id="plbl">—</div>
 </div>
 
 <div class="tabs">
@@ -590,19 +742,18 @@ function updateProgress(){
   }catch(e){vozDone=countTrue(vozD);}
   var pnlDone2=0;
   try{pnlDone2=getPnlDailyDone();}catch(e){pnlDone2=countTrue(pnlD);}
-  var totalDone=schedDone+engDone+exDone+vozDone+pnlDone2;
   var dow=new Date().getDay();
   var isWk=(dow>=1&&dow<=5);
   var exT=0,vozT=0,pnlT=0;
   try{if(isWk&&WK[dow]&&WK[dow].ex)exT=WK[dow].ex.length;}catch(e){}
   try{if(isWk&&VDIA&&VDIA[dow]&&VDIA[dow].ejs)vozT=VDIA[dow].ejs.length;}catch(e){}
   try{if(isWk)pnlT=getPnlDailyTotal();}catch(e){pnlT=4;}
+  // Global bar = ALL tabs
+  var totalDone=schedDone+engDone+exDone+vozDone+pnlDone2;
   var total=SCHED.length+ENG.length+exT+vozT+pnlT;
   var pct=total>0?Math.round(totalDone/total*100):0;
   var pbf=document.getElementById('pbf');
-  var plbl=document.getElementById('plbl');
   if(pbf)pbf.style.width=pct+'%';
-  if(plbl)plbl.textContent=pct+'% · '+totalDone+' de '+total+' hoy';
   // Drive single RUTINA ring
   var C2=175.9;
   var schedPct2=SCHED.length>0?Math.round(countTrue(done)/SCHED.length*100):0;
@@ -645,6 +796,15 @@ function getCurrent(){
     if(m>=t2m(SCHED[i].t)&&m<t2m(SCHED[i+1].t))return SCHED[i].id;
   }
   if(m>=t2m("22:00")||m<t2m("06:00"))return 20;
+  return null;
+}
+function getRecentlyPassed(){
+  // Returns the id of an activity that ended up to 3 min ago
+  const m=now2m();
+  for(let i=1;i<SCHED.length;i++){
+    const passed=t2m(SCHED[i].t);
+    if(m>=passed&&m<passed+3)return SCHED[i-1].id;
+  }
   return null;
 }
 
@@ -724,7 +884,15 @@ function tick(){
   const now=new Date();
   // update key if day changed
   const nk=todayKey();
-  if(nk!==TK){TK=nk;done={};engD={};exD={}}
+  if(nk!==TK){
+    TK=nk;
+    done=JSON.parse(localStorage.getItem("done_"+nk)||"{}");
+    engD=JSON.parse(localStorage.getItem("eng_"+nk)||"{}");
+    exD =JSON.parse(localStorage.getItem("ex_"+nk)||"{}");
+    vozD=JSON.parse(localStorage.getItem("voz_"+nk)||"{}");
+    pnlD=JSON.parse(localStorage.getItem("pnl_"+nk)||"{}");
+    render();
+  }
 
   const h=String(now.getHours()).padStart(2,"0");
   const m=String(now.getMinutes()).padStart(2,"0");
@@ -759,7 +927,7 @@ function tick(){
 
   // notify
   if(notifOK){
-    const cid=getCurrent();
+    const cid=getCurrent()||getRecentlyPassed();
     const nid=""+cid+"-"+h+":"+m;
     if(cid&&nid!==lastNid&&m==="00"||m==="30"){
       if(!done[cid]){
@@ -825,7 +993,7 @@ function renderHoy(){
   // Stats bar
   h+=`<div clas"day-ring" style="display:flex;align-items:center;gap:16px;background:var(--wh);border-radius:16px;padding:14px 16px;box-shadow:var(--shad);margin-bottom:14px">
     <svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="28" fill="none" stroke="rgba(26,18,16,.08)" stroke-width="6"/><circle id="r-ru" cx="36" cy="36" r="28" fill="none" stroke="var(--tr)" stroke-width="6" stroke-dasharray="0 175.9" stroke-dashoffset="44" stroke-linecap="round" style="transition:stroke-dasharray .6s ease"/><text id="t-ru" x="36" y="40" text-anchor="middle" fill="var(--tr)" font-size="13" font-weight="700" font-family="var(--fb)">0%</text></svg>
-    <div style="flex:1"><div style="font-size:18px;font-weight:800;color:var(--br)" id="ring-done">0</div><div style="font-size:11px;color:var(--mu);margin-bottom:2px">actividades completadas</div><div style="font-size:10px;color:var(--mu)" id="ring-total">de 0 hoy</div></div>
+    <div style="flex:1"><div style="font-family:var(--ff);font-size:26px;font-weight:400;font-style:italic;color:var(--ink)" id="ring-done">0</div><div style="font-size:9px;color:var(--mu);letter-spacing:1.5px;text-transform:uppercase;font-weight:300;margin-bottom:2px">completadas</div><div style="font-size:9px;color:var(--mu2);font-weight:300" id="ring-total">de 0 hoy</div></div>
   </div>`
 
 
@@ -1009,7 +1177,7 @@ function renderCuerpoWeekend(){
   // CIENCIA DEL DESCANSO
   h2+='<div style="background:rgba(26,18,16,.04);border-left:2px solid rgba(201,169,110,.4);border-radius:0 12px 12px 0;padding:13px 15px;margin-bottom:14px">';
   h2+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ch);margin-bottom:6px;font-weight:400">Por qué el descanso es obligatorio</div>';
-  h2+='<div style="font-size:12px;color:var(--ink);line-height:1.7;font-weight:300">La síntesis proteica muscular ocurre principalmente en las 24–48h post-entrenamiento. Sin descanso, el tejido no se repara — se rompe más. El cortisol elevado por falta de recuperación inhibe el crecimiento muscular y acumula grasa abdominal. Hoy descansas para que el trabajo de la semana cuente.</div></div>';
+  h2+='<div style="font-size:12px;color:var(--ivory);line-height:1.7;font-weight:300">La síntesis proteica muscular ocurre principalmente en las 24–48h post-entrenamiento. Sin descanso, el tejido no se repara — se rompe más. El cortisol elevado por falta de recuperación inhibe el crecimiento muscular y acumula grasa abdominal. Hoy descansas para que el trabajo de la semana cuente.</div></div>';
 
   // RITUALES DE RECUPERACIÓN
   h2+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);margin:0 0 10px;display:flex;align-items:center;gap:10px;font-weight:300">Rituales de recuperación<div style="flex:1;height:1px;background:var(--border)"></div></div>';
@@ -1388,9 +1556,9 @@ function renderMenteWeekend(){
   h2+='<div style="font-size:20px;font-weight:700;color:var(--c);margin-bottom:6px">Inmersión cultural 🎬</div>';
   h2+='<div style="font-size:12px;color:rgba(248,242,232,.6);line-height:1.7">Hoy no hay lecciones ni ejercicios.<br>Solo inglés que se siente como placer.</div></div>';
 
-  // HELEN
+  // HELLEN
   h2+='<div style="background:rgba(201,169,110,.06);border:1px solid rgba(201,169,110,.2);border-radius:14px;padding:14px;margin-bottom:14px">';
-  h2+='<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gd);margin-bottom:6px">Helen hoy dice</div>';
+  h2+='<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gd);margin-bottom:6px">Hellen hoy dice</div>';
   var helen_wkend=["Rest is productive. Your brain is consolidating everything you learned this week.",
     "Today, English is entertainment. Watch, listen, enjoy. That's it.",
     "Your brain learns even when you're having fun. Especially when you're having fun.",
@@ -1415,7 +1583,7 @@ function renderMenteWeekend(){
   h2+='<span style="font-size:32px">'+artista.e+'</span>';
   h2+='<div style="font-size:16px;font-weight:700;color:var(--br)">'+artista.n+'</div></div>';
   h2+='<div style="font-size:12px;color:var(--mu);line-height:1.6">'+artista.d+'</div>';
-  h2+='<div style="margin-top:10px;font-size:11px;color:var(--tr);font-style:italic">💡 Elige una canción, busca la letra, cántala como Helen. Sin vergüenza.</div></div>';
+  h2+='<div style="margin-top:10px;font-size:11px;color:var(--tr);font-style:italic">💡 Elige una canción, busca la letra, cántala como Hellen. Sin vergüenza.</div></div>';
 
   // FRASE DEL DÍA
   h2+='<div class="sec-ttl"><span>Expresión de la semana</span><div class="sec-ln"></div></div>';
@@ -1447,17 +1615,17 @@ function renderMente(){
   else if(weeksElapsed>=12&&weeksElapsed<=15) currentPhase=4;
   else if(weeksElapsed>=16) currentPhase=5;
 
-  var HELEN_MSGS=[
+  var HELLEN_MSGS=[
     "Today I learned something new. That is enough.",
     "My accent is part of who I am. My words are what matter.",
     "I don't apologize for my English. I own every word I say.",
     "Every conversation makes me better. I show up anyway.",
-    "I am Helen. I speak English. I belong in every room.",
+    "I am Hellen. I speak English. I belong in every room.",
     "Progress, not perfection. Always.",
     "I am becoming fluent. It's already happening.",
     "My English improves every single day. I trust the process.",
   ];
-  var helenMsg=HELEN_MSGS[day%HELEN_MSGS.length];
+  var helenMsg=HELLEN_MSGS[day%HELLEN_MSGS.length];
 
   var FASES=[
     {n:"Fase 0 — Fundamento Mental", tiempo:"Semana 1", nivel:"Inicio",
@@ -1562,7 +1730,7 @@ function renderMente(){
      ],
      noche:[
        {t:"30 min","a":"Serie, película o documental en inglés — puro placer, sin estudio."},
-       {t:"10 min","a":"Canta tu canción favorita. En voz alta. Como Helen."},
+       {t:"10 min","a":"Canta tu canción favorita. En voz alta. Como Hellen."},
      ],
      tip:"En diciembre eres B2. Te defiendes en cualquier situación. El inglés es parte de quién eres."
     },
@@ -1571,14 +1739,15 @@ function renderMente(){
   var fase=FASES[currentPhase];
   var h2='';
 
-  // HELEN HERO
-  h2+='<div style="background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:18px;padding:18px;margin-bottom:14px">';
-  h2+='<div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,169,110,.7);margin-bottom:6px">Tu alter ego</div>';
-  h2+='<div style="font-family:var(--ff);font-size:28px;font-style:italic;color:var(--c);margin-bottom:8px">Helen</div>';
-  h2+='<div style="background:rgba(201,169,110,.06);border-left:3px solid var(--gd);border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:10px">';
-  h2+='<div style="font-size:11px;color:rgba(201,169,110,.8);font-style:italic;line-height:1.6">Beyoncé tiene a Sasha Fierce. La neurociencia llama a esto "self-distancing": asumir una identidad alterna reduce la autocrítica y activa conductas que el yo habitual bloquea por miedo. No es fantasía — es regulación emocional aplicada al aprendizaje.</div></div>';
-  h2+='<div style="font-size:13px;color:rgba(248,242,232,.6);margin-bottom:10px">Antes de cada sesión di en voz alta: <span style="color:var(--gd);font-style:italic">"I am Helen. I speak English."</span></div>';
-  h2+='<div style="font-family:var(--ff);font-size:14px;font-style:italic;color:var(--ink);border-top:1px solid rgba(255,255,255,.1);padding-top:10px">"'+helenMsg+'"</div></div>';
+  // HELLEN HERO — clean, minimal, read every morning
+  h2+='<div style="margin-bottom:20px">';
+  h2+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:400">Lee esto cada mañana</div>';
+  h2+='<div style="background:var(--ink);border-radius:20px;padding:28px 24px;position:relative;overflow:hidden">';
+  h2+='<div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(201,169,110,.07),transparent 65%);pointer-events:none"></div>';
+  h2+='<div style="position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(184,144,154,.05),transparent 65%);pointer-events:none"></div>';
+  h2+='<div style="font-family:var(--ff);font-size:11px;font-style:italic;color:rgba(201,169,110,.4);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;font-weight:400">Hellen</div>';
+  h2+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:var(--ivory);line-height:1.85;font-weight:400">'+helenMsg+'</div>';
+  h2+='</div></div>';
 
   // FASE ACTUAL
   var nivelBadge='<span style="font-size:10px;background:rgba(201,169,110,.15);color:var(--gd);padding:2px 8px;border-radius:10px;font-weight:600">'+fase.nivel+'</span>';
@@ -1672,12 +1841,25 @@ function renderVision(){
   var moonDone=!!localStorage.getItem('moonrit_'+todayKey());
   var seedDone=!!localStorage.getItem('seed_'+todayKey());
   var MOON_RITUAL={
-    "Nueva":{r:"Escribe 3 intenciones para este ciclo. ¿Qué quieres crear?",e:"Siembra"},
-    "Creciente":{r:"¿Qué acción concreta puedes dar HOY hacia tu meta más importante?",e:"Actúa"},
-    "Llena":{r:"Celebra lo que has avanzado. Escribe 5 cosas que ya lograste.",e:"Celebra"},
-    "Menguante":{r:"¿Qué hábito o creencia puedes soltar esta semana?",e:"Suelta"}
+    "Nueva":{r:"Escribe 3 intenciones para este ciclo lunar. ¿Qué quieres crear, mejorar o iniciar en los próximos 29 días? Escríbelas en presente, como si ya estuvieran pasando.",e:"Siembra",t:"5 min · Papel y lápiz",sci:"La Luna Nueva activa el sistema reticular activador — escribir intenciones en este momento aumenta la probabilidad de que tu cerebro las detecte como oportunidades reales."},
+    "Creciente":{r:"Elige UNA meta de tu Visión y da una acción concreta HOY. No planees — actúa. La Luna Creciente es el momento de más energía del ciclo.",e:"Actúa",t:"10 min · Acción real",sci:"El momentum se construye en las fases crecientes. La dopamina sube cuando das pasos hacia una meta — cada acción pequeña refuerza el circuito de identidad."},
+    "Cuarto":{r:"Revisa lo que empezaste en Luna Nueva. ¿Qué está funcionando? ¿Qué necesita ajuste? Toma una decisión que hayas estado postergando.",e:"Decide",t:"5 min · Revisión",sci:"El Cuarto Creciente es el punto de máxima tensión del ciclo — como una cuerda tensa lista para disparar. Tu capacidad de decisión está en su pico."},
+    "Gibosa":{r:"Refina. Estás casi en la meta del ciclo. ¿Qué pequeño ajuste haría la mayor diferencia ahora mismo? Enfócate en calidad, no cantidad.",e:"Refina",t:"5 min · Ajuste fino",sci:"La Gibosa Creciente activa el córtex prefrontal para el detalle. Es el momento ideal para pulir, editar, mejorar — no para empezar cosas nuevas."},
+    "Llena":{r:"Celebra lo que has avanzado este ciclo. Escribe 5 cosas concretas que lograste. Luego sal afuera y mira la Luna Llena por 2 minutos — es el único ritual que no necesita instrucciones.",e:"Celebra",t:"10 min · Celebración",sci:"La Luna Llena tiene el mayor campo electromagnético del ciclo. La serotonina y la melatonina se ven afectadas por su luz. Celebrar activa el circuito de recompensa y consolida el aprendizaje."},
+    "Menguante":{r:"Identifica UN hábito, creencia o relación que ya no te sirve. Escríbela en papel y literalmente quémala o rómpela. El ciclo menguante es para soltar — no para iniciar.",e:"Suelta",t:"5 min · Soltar",sci:"La fase menguante es el momento de menor cortisol del ciclo. Tu sistema nervioso está naturalmente más receptivo a liberar tensiones y patrones acumulados."},
+    "Balsámica":{r:"Descansa sin culpa. No inicies nada nuevo. Duerme más. Reflexiona en silencio qué aprendiste este ciclo antes de que empiece el siguiente.",e:"Descansa",t:"Descanso · Sin agenda",sci:"La Balsámica tiene los niveles más bajos de luz lunar y coincide con mayor necesidad de sueño profundo. El cerebro consolida el aprendizaje de todo el ciclo en este período de integración."}
   };
-  var moonKey=moon.n.split(' ').pop();
+  var moonKey=(function(){
+    var n=moon.n;
+    if(n.includes('Nueva')) return 'Nueva';
+    if(n.includes('Gibosa Creciente')) return 'Gibosa';
+    if(n.includes('Cuarto Creciente')||n.includes('Cuarto Menguante')) return 'Cuarto';
+    if(n.includes('Creciente')) return 'Creciente';
+    if(n.includes('Llena')) return 'Llena';
+    if(n.includes('Menguante')||n.includes('Gibosa Menguante')) return 'Menguante';
+    if(n.includes('Balsámica')) return 'Balsámica';
+    return n.split(' ').pop();
+  })();
   var moonRit=MOON_RITUAL[moonKey]||{r:'Conecta con tu ciclo natural.',e:'Presencia'};
   var SEEDS=[
     {s:"Escucha 10 min de inglés mientras desayunas. Sin subtítulos.",w:"Inmersión pasiva = input comprensible (Krashen)"},
@@ -1731,16 +1913,17 @@ function renderVision(){
     {k:"Familia", e:"💛", n:"Familia y Relaciones"},
   ];
 
-  var HELEN_MSGS=[
-    "Today I learned something new. That is enough.",
-    "My accent is part of who I am. My words are what matter.",
-    "I don't apologize for my English. I own every word I say.",
-    "Every conversation makes me better. I show up anyway.",
-    "I am Helen. I speak English. I belong in every room.",
-    "Progress, not perfection. Always.",
-    "I am becoming fluent. It's already happening.",
+  var HELLEN_MSGS=[
+    "Mi nombre en inglés es Hellen. Soy alguien que piensa en inglés con naturalidad. Cada día que practico, mi cerebro se recablea.",
+    "Hellen habla inglés con calma y con confianza. No traduce — siente el idioma. Eso ya soy yo, construyéndome.",
+    "Soy Hellen. Mi acento es mi firma. Mi voz pertenece al inglés tanto como a cualquier hablante nativa.",
+    "Cada palabra que aprendo hoy se convierte en parte de mí. Mi cerebro no olvida — integra.",
+    "Hellen no teme equivocarse. Los errores son los bloques con los que construye su fluidez.",
+    "Entiendo más de lo que creo. Mi cerebro está aprendiendo en silencio, incluso cuando no estudio.",
+    "El inglés no es una barrera — es mi siguiente versión. Hellen ya existe. Yo la estoy alcanzando.",
+    "Progreso, no perfección. Cada día un poco más. Ya está pasando.",
   ];
-  var helenMsg=HELEN_MSGS[(day+dow)%HELEN_MSGS.length];
+  var helenMsg=HELLEN_MSGS[(day+dow)%HELLEN_MSGS.length];
   var h='';
 
   // HERO QUOTE
@@ -1754,14 +1937,17 @@ function renderVision(){
   h+='<img src="'+VB_IMG+'" style="width:100%;display:block" loading="lazy"/></div>';
 
   // MOON RITUAL
-  h+='<div class="sec-ttl"><span>'+moon.n+' — Ritual de hoy</span><div class="sec-ln"></div></div>';
+  h+='<div class="sec-ttl"><span>Ritual lunar · '+moon.n+'</span><div class="sec-ln"></div></div>';
   h+='<div style="background:'+(moonDone?'#F0F5EE':'var(--wh)')+';border:1.5px solid '+(moonDone?'#C2D8BA':'var(--bl)')+';border-radius:16px;padding:14px;margin-bottom:14px;cursor:pointer" onclick="toggleMoonRit()">';
   h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">';
   h+='<span style="font-size:26px">'+moon.n.split(" ")[0]+'</span>';
   h+='<div><div style="font-size:11px;font-weight:600;color:var(--gd);text-transform:uppercase;letter-spacing:1px">'+moonRit.e+'</div>';
   h+='<div style="font-size:11px;color:var(--mu)">'+moon.n+'</div></div>';
   h+='<span style="margin-left:auto;font-size:20px">'+(moonDone?'✅':'○')+'</span></div>';
-  h+='<div style="font-size:13px;color:var(--br);line-height:1.7;font-style:italic">'+moonRit.r+'</div></div>';
+  h+='<div style="font-size:9px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:400">⏱ '+moonRit.t+'</div>';
+  h+='<div style="font-size:13px;color:var(--ink);line-height:1.7">'+moonRit.r+'</div>';
+  if(moonRit.sci) h+='<div style="margin-top:8px;font-size:11px;color:var(--mu);font-style:italic;border-left:1px solid rgba(201,169,110,.3);padding-left:10px;line-height:1.6">'+moonRit.sci+'</div>';
+  h+='</div>';
 
   // SEMILLA
   h+='<div class="sec-ttl"><span>Semilla del día</span><div class="sec-ln"></div></div>';
@@ -1803,11 +1989,13 @@ function renderVision(){
     h+='</div>';
   });
 
-  // HELEN
-  h+='<div class="sec-ttl"><span>Helen hoy</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:16px;padding:16px;margin-bottom:16px">';
-  h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.6);margin-bottom:8px">Helen habla hoy</div>';
-  h+='<div style="font-family:var(--ff);font-size:15px;font-style:italic;color:var(--ivory);line-height:1.6">\"'+helenMsg+'\"</div></div>';
+  // HELLEN
+  h+='<div class="sec-ttl"><span>Hellen hoy</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--ink);border-radius:20px;padding:28px 24px;margin-bottom:16px;position:relative;overflow:hidden">';
+  h+='<div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(201,169,110,.07),transparent 65%);pointer-events:none"></div>';
+  h+='<div style="font-family:var(--ff);font-size:11px;font-style:italic;color:rgba(201,169,110,.4);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px">Hellen</div>';
+  h+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:var(--ivory);line-height:1.85">'+helenMsg+'</div>';
+  h+='</div>';
 
   return h;
 }
@@ -2239,7 +2427,14 @@ function renderPnl(){
   var pnlDone = getPnlDailyDone();
   var pnlTotal = getPnlDailyTotal();
   var pnlPct = pnlTotal>0 ? Math.round(pnlDone/pnlTotal*100) : 0;
-  var h = '<div class="pnl-hero"><span class="pnl-hero-emo">🧬</span><div class="pnl-hero-ttl">Programación del Ser</div><div class="pnl-hero-sub">Neurociencia · PNL · Transformación</div></div>';
+  var h = '<div class="pnl-hero"><span class="pnl-hero-emo">🧬</span><div class="pnl-hero-ttl">Programación del Ser</div><div class="pnl-hero-sub">Neurociencia · PNL · Transformación</div>'
+    +'<div style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:12px">'
+    +'<div style="text-align:center"><div style="font-family:var(--ff);font-size:36px;font-style:italic;color:var(--gold)">'+pnlPct+'%</div>'
+    +'<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:300">completado hoy</div></div>'
+    +'<div style="width:1px;height:40px;background:rgba(201,169,110,.15)"></div>'
+    +'<div style="text-align:center"><div style="font-family:var(--ff);font-size:28px;font-style:italic;color:var(--ivory)">'+pnlDone+'/'+pnlTotal+'</div>'
+    +'<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:300">prácticas</div></div>'
+    +'</div></div>';
   h += '<div style="background:'+pw.color+';border:1px solid rgba(201,169,110,.3);border-radius:12px;padding:12px 14px;margin-bottom:12px">';
   h += '<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gd);margin-bottom:4px">'+pw.label+' — Semana '+(w+1)+'</div>';
   h += '<div style="font-size:12px;color:var(--br);line-height:1.6;margin-bottom:8px">'+pw.frase+'</div>';
