@@ -497,6 +497,211 @@ body{
   .scard:hover,.ex-card:hover,.goal-item:hover,
   .belief-card:hover,.eng-card:hover{transform:none;box-shadow:var(--shad)}
 }
+
+
+/* ══ REDESIGN PATCHES ══ */
+
+/* Phase cards in INGLÉS — clean, minimal */
+.fase-card {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 18px 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shad2);
+  border: none;
+}
+.fase-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.fase-week {
+  font-size: 8px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--mu);
+  font-weight: 300;
+}
+.fase-badge {
+  font-size: 9px;
+  background: var(--ink);
+  color: var(--gold);
+  padding: 3px 12px;
+  border-radius: 100px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.fase-title {
+  font-family: var(--ff);
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.fase-meta {
+  font-size: 12px;
+  color: var(--mu);
+  line-height: 1.65;
+  font-weight: 300;
+}
+.fase-tip {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: rgba(201,169,110,.06);
+  border-radius: 10px;
+  font-size: 11px;
+  color: var(--gold2);
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+/* Plan del día blocks */
+.plan-block {
+  background: var(--white);
+  border-radius: 16px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: var(--shad);
+}
+.plan-block-hdr {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.plan-block-ttl {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  flex: 1;
+}
+.plan-block-min {
+  font-size: 10px;
+  color: var(--mu);
+  font-weight: 300;
+}
+.plan-item {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(28,20,16,.04);
+  display: flex;
+  gap: 12px;
+}
+.plan-item-time {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gold);
+  white-space: nowrap;
+  margin-top: 2px;
+  min-width: 28px;
+}
+.plan-item-txt {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* Month progress in INGLÉS */
+.nivel-row {
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(28,20,16,.04);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nivel-row.current {
+  background: rgba(201,169,110,.05);
+}
+.nivel-ico { font-size: 16px; flex-shrink: 0; }
+.nivel-info { flex: 1; }
+.nivel-name { font-size: 12px; font-weight: 500; color: var(--ink); }
+.nivel-name.gold { color: var(--gold); }
+.nivel-desc { font-size: 11px; color: var(--mu); margin-top: 1px; font-weight: 300; }
+
+/* Vision quote */
+.vision-quote {
+  background: var(--ink);
+  border-radius: 20px;
+  padding: 28px 22px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.vision-quote::before {
+  content: '\201C';
+  position: absolute;
+  top: 8px; left: 14px;
+  font-size: 72px;
+  color: rgba(201,169,110,.06);
+  font-family: serif;
+  line-height: 1;
+  pointer-events: none;
+}
+.vision-quote-txt {
+  font-family: var(--ff);
+  font-size: 17px;
+  font-style: italic;
+  color: var(--ivory);
+  line-height: 1.85;
+  margin-bottom: 10px;
+  position: relative;
+}
+.vision-quote-src {
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(201,169,110,.4);
+  font-weight: 300;
+}
+
+/* HOY ring card */
+.ring-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 22px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: var(--shad2);
+}
+.ring-info { flex: 1; }
+.ring-date {
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mu);
+  font-weight: 300;
+  margin-bottom: 6px;
+}
+.ring-count {
+  font-family: var(--ff);
+  font-size: 38px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1;
+}
+.ring-label {
+  font-size: 10px;
+  color: var(--mu);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 300;
+  margin-top: 4px;
+}
+.ring-sub {
+  font-size: 10px;
+  color: var(--mu2);
+  font-weight: 300;
+  margin-top: 2px;
+}
+
 </style>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -761,10 +966,12 @@ function updateProgress(){
   var rt=document.getElementById('t-ru');
   var rd=document.getElementById('ring-done');
   var rl=document.getElementById('ring-total');
+  var rb=document.getElementById('ring-bar');
   if(rc)rc.setAttribute('stroke-dasharray',(C2*schedPct2/100).toFixed(1)+' '+(C2*(1-schedPct2/100)).toFixed(1));
   if(rt)rt.textContent=schedPct2+'%';
   if(rd)rd.textContent=countTrue(done);
-  if(rl)rl.textContent='de '+SCHED.length+' hoy';
+  if(rl)rl.textContent='de '+SCHED.length;
+  if(rb)rb.style.background='linear-gradient(90deg,var(--gold) '+schedPct2+'%,var(--border) '+schedPct2+'%)';
 
   try{saveDailySnapshot(totalDone,total);}catch(e){}
 }
@@ -897,6 +1104,8 @@ function tick(){
   const h=String(now.getHours()).padStart(2,"0");
   const m=String(now.getMinutes()).padStart(2,"0");
   document.getElementById("clock").textContent=h+":"+m;
+  var rdl=document.getElementById("ring-date-lbl");
+  if(rdl) rdl.textContent=DAYS_ES[now.getDay()]+", "+now.getDate()+" de "+MONTHS_ES[now.getMonth()];
   document.getElementById("clk-date").textContent=
     DAYS_ES[now.getDay()]+", "+now.getDate()+" de "+MONTHS_ES[now.getMonth()];
 
@@ -990,10 +1199,15 @@ function renderHoy(){
     h+=`<button class="notif-btn" onclick="reqNotifAndSchedule()">🔔 Activar avisos con sonido</button>`;
   }
 
-  // Stats bar
-  h+=`<div clas"day-ring" style="display:flex;align-items:center;gap:16px;background:var(--wh);border-radius:16px;padding:14px 16px;box-shadow:var(--shad);margin-bottom:14px">
-    <svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="28" fill="none" stroke="rgba(26,18,16,.08)" stroke-width="6"/><circle id="r-ru" cx="36" cy="36" r="28" fill="none" stroke="var(--tr)" stroke-width="6" stroke-dasharray="0 175.9" stroke-dashoffset="44" stroke-linecap="round" style="transition:stroke-dasharray .6s ease"/><text id="t-ru" x="36" y="40" text-anchor="middle" fill="var(--tr)" font-size="13" font-weight="700" font-family="var(--fb)">0%</text></svg>
-    <div style="flex:1"><div style="font-family:var(--ff);font-size:26px;font-weight:400;font-style:italic;color:var(--ink)" id="ring-done">0</div><div style="font-size:9px;color:var(--mu);letter-spacing:1.5px;text-transform:uppercase;font-weight:300;margin-bottom:2px">completadas</div><div style="font-size:9px;color:var(--mu2);font-weight:300" id="ring-total">de 0 hoy</div></div>
+  // Stats — elegant text, no ring
+  h+=`<div id="day-ring" style="background:var(--white);border-radius:20px;padding:24px 22px;margin-bottom:16px;box-shadow:0 2px 20px rgba(28,20,16,.08)">
+    <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);font-weight:300;margin-bottom:14px" id="ring-date-lbl"></div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px">
+      <span style="font-family:'Bodoni Moda',serif;font-size:58px;font-style:italic;font-weight:400;color:var(--ink);line-height:1" id="ring-done">0</span>
+      <span style="font-family:'Bodoni Moda',serif;font-size:28px;font-style:italic;color:var(--mu2);font-weight:400" id="ring-total">de 0</span>
+    </div>
+    <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);font-weight:300">actividades completadas hoy</div>
+    <div style="margin-top:14px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)" id="ring-bar"></div>
   </div>`
 
 
@@ -1616,14 +1830,14 @@ function renderMente(){
   else if(weeksElapsed>=16) currentPhase=5;
 
   var HELLEN_MSGS=[
-    "Today I learned something new. That is enough.",
-    "My accent is part of who I am. My words are what matter.",
-    "I don't apologize for my English. I own every word I say.",
-    "Every conversation makes me better. I show up anyway.",
-    "I am Hellen. I speak English. I belong in every room.",
-    "Progress, not perfection. Always.",
-    "I am becoming fluent. It's already happening.",
-    "My English improves every single day. I trust the process.",
+    "Mi nombre en inglés es Hellen. Soy alguien que piensa en inglés con naturalidad. Cada día que practico, mi cerebro se recablea.",
+    "Hellen habla inglés con calma y con confianza. No traduce — siente el idioma. Eso ya soy yo, construyéndome.",
+    "Soy Hellen. Mi acento es mi firma. Mi voz pertenece al inglés tanto como a cualquier hablante nativa.",
+    "Cada palabra que aprendo hoy se convierte en parte de mí. Mi cerebro no olvida — integra.",
+    "Hellen no teme equivocarse. Los errores son los bloques con los que construye su fluidez.",
+    "Entiendo más de lo que creo. Mi cerebro aprende en silencio, incluso cuando no estudio.",
+    "El inglés no es una barrera — es mi siguiente versión. Hellen ya existe. Yo la estoy alcanzando.",
+    "Progreso, no perfección. Cada día un poco más. Ya está pasando.",
   ];
   var helenMsg=HELLEN_MSGS[day%HELLEN_MSGS.length];
 
@@ -1750,13 +1964,13 @@ function renderMente(){
   h2+='</div></div>';
 
   // FASE ACTUAL
-  var nivelBadge='<span style="font-size:10px;background:rgba(201,169,110,.15);color:var(--gd);padding:2px 8px;border-radius:10px;font-weight:600">'+fase.nivel+'</span>';
-  h2+='<div style="background:'+fase.color+';border:1.5px solid '+fase.border+';border-radius:16px;padding:16px;margin-bottom:14px">';
-  h2+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">';
-  h2+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:'+fase.border+'">'+fase.tiempo+'</div>'+nivelBadge+'</div>';
-  h2+='<div style="font-size:16px;font-weight:700;color:var(--br);margin-bottom:6px">'+fase.n+'</div>';
-  h2+='<div style="font-size:12px;color:var(--mu);margin-bottom:10px">'+fase.meta+'</div>';
-  h2+='<div style="font-size:11px;color:'+fase.border+';font-style:italic;background:rgba(255,255,255,.4);border-radius:8px;padding:8px">💡 '+fase.tip+'</div></div>';
+  var nivelBadge='<span class="fase-badge">'+fase.nivel+'</span>';
+  h2+='<div class="fase-card">';
+  h2+='<div class="fase-card-top">';
+  h2+='<div class="fase-week">'+fase.tiempo+'</div>'+nivelBadge+'</div>';
+  h2+='<div class="fase-title">'+fase.n+'</div>';
+  h2+='<div class="fase-meta">'+fase.meta+'</div>';
+  h2+='<div class="fase-tip">💡 '+fase.tip+'</div></div>';
 
   // PLAN DEL DÍA - 3 bloques
   var bloques=[
@@ -1768,15 +1982,15 @@ function renderMente(){
   h2+='<div class="sec-ttl"><span>Tu plan de hoy</span><div class="sec-ln"></div></div>';
   bloques.forEach(function(b){
     var totalMin=b.items.reduce(function(acc,i){return acc+parseInt(i.t);},0);
-    h2+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shad)">';
-    h2+='<div style="padding:10px 14px;border-bottom:1px solid var(--bl);display:flex;align-items:center;gap:8px">';
-    h2+='<span style="font-size:16px">'+b.icon+'</span>';
-    h2+='<div style="font-size:12px;font-weight:600;color:var(--br)">'+b.label+'</div>';
-    h2+='<div style="margin-left:auto;font-size:10px;color:var(--mu)">'+totalMin+' min</div></div>';
+    h2+='<div class="plan-block">';
+    h2+='<div class="plan-block-hdr">';
+    h2+='<span style="font-size:18px">'+b.icon+'</span>';
+    h2+='<div class="plan-block-ttl">'+b.label+'</div>';
+    h2+='<div class="plan-block-min">'+totalMin+' min</div></div>';
     b.items.forEach(function(item){
-      h2+='<div style="padding:10px 14px;border-bottom:1px solid rgba(26,18,16,.05);display:flex;gap:10px">';
-      h2+='<div style="font-size:10px;font-weight:700;color:var(--gd);white-space:nowrap;margin-top:1px">'+item.t+'</div>';
-      h2+='<div style="font-size:12px;color:var(--br);line-height:1.6">'+item.a+'</div></div>';
+      h2+='<div class="plan-item">';
+      h2+='<div class="plan-item-time">'+item.t+'</div>';
+      h2+='<div class="plan-item-txt">'+item.a+'</div></div>';
     });
     h2+='</div>';
   });
@@ -1791,14 +2005,14 @@ function renderMente(){
     {m:"Mes 5",n:"B1–B2",desc:"Expresas opiniones complejas. Lees artículos auténticos."},
     {m:"Mes 6",n:"B2",  desc:"Te defiendes en cualquier situación. El inglés es tu identidad."},
   ];
-  h2+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;overflow:hidden;box-shadow:var(--shad);margin-bottom:14px">';
+  h2+='<div style="background:var(--white);border-radius:16px;overflow:hidden;box-shadow:var(--shad);margin-bottom:14px">';
   NIVELES.forEach(function(n,i){
     var isPast=i<currentPhase;
     var isCurrent=i===currentPhase;
-    h2+='<div style="padding:10px 14px;border-bottom:1px solid rgba(26,18,16,.05);display:flex;align-items:center;gap:10px;background:'+(isCurrent?'rgba(201,169,110,.06)':'transparent')+'">';
-    h2+='<div style="font-size:16px">'+(isPast?'✅':(isCurrent?'▶':'○'))+'</div>';
-    h2+='<div style="flex:1"><div style="font-size:11px;font-weight:600;color:'+(isCurrent?'var(--gd)':'var(--br)')+'">'+n.m+' · '+n.n+'</div>';
-    h2+='<div style="font-size:11px;color:var(--mu)">'+n.desc+'</div></div></div>';
+    h2+='<div class="nivel-row'+(isCurrent?' current':'')+'">';
+    h2+='<div class="nivel-ico">'+(isPast?'✅':(isCurrent?'▶':'○'))+'</div>';
+    h2+='<div class="nivel-info"><div class="nivel-name'+(isCurrent?' gold':'')+'">'+n.m+' · '+n.n+'</div>';
+    h2+='<div class="nivel-desc">'+n.desc+'</div></div></div>';
   });
   h2+='</div>';
 
@@ -1927,10 +2141,10 @@ function renderVision(){
   var h='';
 
   // HERO QUOTE
-  h+='<div style="background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);border-radius:20px;padding:22px 18px;margin-bottom:16px">';
-  h+='<div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,169,110,.6);margin-bottom:8px">Tu yo de diciembre te escribe</div>';
-  h+='<div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ivory);line-height:1.6;margin-bottom:8px">\"'+q.q+'\"</div>';
-  h+='<div style="font-size:10px;color:rgba(248,242,232,.4)">— '+q.a+'</div></div>';
+  h+='<div class="vision-quote">';
+  h+='<div class="vision-quote-txt">'+q.q+'</div>';
+  h+='<div class="vision-quote-src">— '+q.a+'</div>';
+  h+='</div>';
 
   // VISION BOARD
   h+='<div style="border-radius:18px;overflow:hidden;margin-bottom:16px;box-shadow:0 8px 32px rgba(26,18,16,.4)">';
