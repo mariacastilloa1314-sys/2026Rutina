@@ -3065,6 +3065,26 @@ if('serviceWorker' in navigator){
 render();tick();updateProgress();
 setInterval(tick,15000);
 
+function selMarcaAngulo(i){
+  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
+  if(!d.nicho)d.nicho={};
+  d.nicho.angulo=i;
+  localStorage.setItem('marca_data',JSON.stringify(d));
+  render();
+}
+function usarBio(i){
+  var bios=[
+    'Estudio datos de día, quemo copal de noche — y no veo contradicción. Administración + data science + espiritualidad práctica. Documentando la transformación sin filtro.',
+    'No soy gurú ni perfecta. Soy la que mezcla Excel con tarot, ciencia del sueño con rituales, y te cuenta los números reales de todo.',
+    'Data scientist en construcción. Creo que los datos y el alma hablan el mismo idioma — solo hay que saber escuchar. Aquí lo aprendo en voz alta.',
+  ];
+  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
+  if(!d.bio)d.bio={};
+  d.bio.texto=bios[i];
+  localStorage.setItem('marca_data',JSON.stringify(d));
+  render();
+}
+
 function togBelly(){
   var b=localStorage.getItem('belly_open');
   localStorage.setItem('belly_open',b==='1'?'0':'1');
@@ -3092,7 +3112,7 @@ function renderMarca(){
   h+='</div>';
 
   // ─── PROGRESO DE CONSTRUCCIÓN ───
-  var steps=['ikigai','voz','pilares','bio','contenido'];
+  var steps=['ikigai','voz','pilares','nicho','bio','contenido'];
   var done_steps=steps.filter(function(s){return marcaData[s]&&marcaData[s].done;}).length;
   var pct=Math.round(done_steps/steps.length*100);
   h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
@@ -3212,12 +3232,19 @@ function renderMarca(){
   h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
   h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:12px;font-weight:300">Una bio poderosa dice <em style="color:var(--gold2)">quién eres, a quién ayudas y qué pueden esperar</em> — en menos de 3 líneas. No es tu CV. Es tu propuesta de valor.</div>';
 
-  h+='<div style="background:rgba(201,169,110,.05);border-radius:10px;padding:10px 12px;margin-bottom:12px">';
-  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:6px">Fórmula sugerida</div>';
-  h+='<div style="font-size:11px;color:var(--ink);line-height:1.8">';
-  h+='<span style="color:var(--mauve)">Soy [quién]</span> que ayuda a <span style="color:var(--gold2)">[a quién]</span><br>';
-  h+='a <span style="color:#7A9E84">[qué logran]</span><br>';
-  h+='a través de <span style="color:var(--mauve)">[cómo]</span>.</div>';
+  h+='<div style="background:rgba(184,144,154,.06);border-radius:10px;padding:12px;margin-bottom:12px">';
+  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mauve);margin-bottom:8px">Opciones para tu bio — edítalas como quieras</div>';
+  var bios=[
+    '"Estudio datos de día, quemo copal de noche — y no veo contradicción. Administración + data science + espiritualidad práctica. Documentando la transformación sin filtro."',
+    '"No soy gurú ni perfecta. Soy la que mezcla Excel con tarot, ciencia del sueño con rituales, y te cuenta los números reales de todo."',
+    '"Data scientist en construcción. Creo que los datos y el alma hablan el mismo idioma — solo hay que saber escuchar. Aquí lo aprendo en voz alta."',
+  ];
+  bios.forEach(function(b,i){
+    h+='<div onclick="usarBio('+i+')" style="cursor:pointer;padding:8px 0;border-bottom:1px solid rgba(184,144,154,.15)">';
+    h+='<div style="font-size:11px;color:var(--ink);line-height:1.65;font-style:italic">'+b+'</div>';
+    h+='<div style="font-size:9px;color:var(--mauve);margin-top:3px">— Toca para usar esta</div>';
+    h+='</div>';
+  });
   h+='</div>';
 
   var bio_val=bio.texto||'';
@@ -3226,6 +3253,57 @@ function renderMarca(){
   h+='<div style="font-size:10px;color:'+(bio_chars>150?'var(--mauve)':'var(--mu)')+';text-align:right;margin-top:4px">'+bio_chars+' caracteres '+(bio_chars>150?'— considera acortar':'')+'</div>';
   if(bio_val.length>20){
     h+='<button onclick="doneMarca(\'bio\')" style="margin-top:8px;width:100%;padding:10px;background:'+(bio.done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(bio.done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(bio.done?'✓ COMPLETADO':'MARCAR COMO LISTO')+'</button>';
+  }
+  h+='</div>';
+
+  // ─── MÓDULO 4.5: NICHO REFINADO (María-specific) ───
+  var nicho=marcaData.nicho||{};
+  h+='<div class="sec-ttl"><span>④½ Tu nicho — refinado</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:16px;padding:18px;margin-bottom:10px;box-shadow:var(--shad)">';
+
+  // Su combinación única — hardcoded con su perfil real
+  h+='<div style="background:rgba(201,169,110,.06);border-radius:12px;padding:14px;margin-bottom:16px">';
+  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;font-weight:300">Tu combinación única</div>';
+  var combo=[
+    {e:'📊',label:'Datos',desc:'Administración + Ciencia de datos — piensas en sistemas y patrones'},
+    {e:'🌀',label:'Espiritualidad',desc:'No la de cristales de Instagram — la de raíz, práctica y chamanería real'},
+    {e:'🧠',label:'Salud mental',desc:'Desde adentro hacia afuera — sin toxic positivity'},
+    {e:'✦',label:'Creatividad',desc:'Voz directa, sin filtro corporativo, que hace que la gente sienta algo'},
+  ];
+  combo.forEach(function(c){
+    h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">';
+    h+='<span style="font-size:18px;width:26px;text-align:center">'+c.e+'</span>';
+    h+='<div><div style="font-size:12px;font-weight:500;color:var(--ink)">'+c.label+'</div>';
+    h+='<div style="font-size:11px;color:var(--mu);font-weight:300">'+c.desc+'</div></div>';
+    h+='</div>';
+  });
+  h+='</div>';
+
+  // El nicho definido
+  h+='<div style="border-left:2px solid var(--mauve);padding-left:14px;margin-bottom:16px">';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:8px;font-weight:300">Lo que te hace inconfundible</div>';
+  h+='<div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ink);line-height:1.7">Eres la persona que estudia datos de día y quema copal de noche — y no ve contradicción en eso.</div>';
+  h+='<div style="font-size:12px;color:var(--mu);margin-top:8px;line-height:1.7;font-weight:300">La mayoría de data scientists son fríos. La mayoría de espirituales son vagos con los números. Tú eres el puente. Eso no existe en redes — todavía.</div>';
+  h+='</div>';
+
+  // 3 posibles ángulos de nicho para que ella elija
+  var ANGULOS=[
+    {t:'La científica espiritual',d:'Usas datos para entender patrones de vida — sueño, hábitos, ciclos, energía — y los mezclas con sabiduría ancestral. Tu contenido: "Le pregunté a mis datos qué día tengo más energía. La respuesta fue rara."',color:'var(--mauve)'},
+    {t:'La anti-gurú',d:'Documentas tu transformación real — con caídas, números honestos y cero filtro motivacional. Tu contenido es la versión sin editar de lo que todos muestran perfecto.',color:'var(--gold2)'},
+    {t:'Datos + alma',d:'Enseñas a tomar mejores decisiones (en negocios, vida, salud) mezclando análisis con intuición. Para personas que sienten que son "demasiado analíticas" o "demasiado emocionales" — cuando en realidad son las dos.',color:'#7A9E84'},
+  ];
+  var selAngulo=nicho.angulo||null;
+  h+='<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:300">¿Con cuál te identificas más?</div>';
+  ANGULOS.forEach(function(a,i){
+    var isSel=selAngulo===i;
+    h+='<div onclick="selMarcaAngulo('+i+')" style="border:1.5px solid '+(isSel?a.color:'var(--border)')+';border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;background:'+(isSel?'rgba(201,169,110,.04)':'transparent')+';transition:all .2s">';
+    h+='<div style="font-size:12px;font-weight:600;color:'+(isSel?a.color:'var(--ink)')+';margin-bottom:4px">'+a.t+'</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+a.d+'</div>';
+    h+='</div>';
+  });
+
+  if(selAngulo!==null){
+    h+='<button onclick="doneMarca(\'nicho\')" style="margin-top:6px;width:100%;padding:10px;background:'+(nicho.done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(nicho.done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(nicho.done?'✓ ELEGIDO':'CONFIRMAR ÁNGULO')+'</button>';
   }
   h+='</div>';
 
