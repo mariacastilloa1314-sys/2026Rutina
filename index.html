@@ -742,6 +742,7 @@ body{
   <button class="tbt" onclick="sw('voz',this)">Voz</button>
   <button class="tbt" onclick="sw('pnl',this)">PNL</button>
   <button class="tbt" onclick="sw('vision',this)">Visión</button>
+  <button class="tbt" onclick="sw('marca',this)">✦ Marca</button>
 </div>
 
 <div class="content" id="content"></div>
@@ -1585,6 +1586,101 @@ function renderCuerpo(){
   }
   h2+='</div>';
 
+  // ── CORTISOL SECTION ──
+  var CORTISOL_TIPS=[
+    {e:"🌅",t:"Sol en los primeros 30 min",txt:"Salir al sol antes de las 9am regula el eje cortisol-melatonina desde la raíz. 5–10 minutos bastan para calibrar tu reloj circadiano. Sin lentes de sol en ese momento — la luz necesita llegar a la retina directamente.",sci:"Huberman Lab, 2021: la exposición solar matutina reduce el cortisol vespertino en un 23% y mejora el sueño profundo esa noche."},
+    {e:"📵",t:"Sin cel los primeros 10 min",txt:"El scroll matutino eleva el cortisol más que el café. Tu cerebro recién despierto es hipersensible al estímulo social. Esos 10 minutos sin pantalla son el hábito de mayor retorno para el sistema nervioso.",sci:"APA, 2017: revisar el teléfono al despertar aumenta el cortisol basal un 18% durante las siguientes 4 horas."},
+    {e:"🫁",t:"Respiración 4-6 (en cualquier momento)",txt:"Inhala 4 segundos. Exhala 6 segundos. Repite 5 veces. La exhalación larga activa el nervio vago, que frena directamente la producción de cortisol. Puedes hacerlo en el baño, en el carro, en cualquier lugar.",sci:"McCraty, 2015: 5 minutos de respiración coherente reducen el cortisol salival en un 30% measurable."},
+    {e:"🌿",t:"Ashwagandha — el adaptógeno más estudiado",txt:"600mg al día (en cápsulas) durante 8 semanas reduce el cortisol en un 27%. Las raíces de esta planta se usaban en Ayurveda hace 3000 años para 'dar fuerza de caballo' — hoy sabemos que bloquea la respuesta del eje HPA al estrés crónico.",sci:"Chandrasekhar et al., 2012 (IPGT): el grupo de ashwagandha redujo cortisol sérico significativamente vs placebo."},
+    {e:"🧲",t:"Magnesio en la noche",txt:"Toma 300–400mg de magnesio glicinato o citrato 1 hora antes de dormir. El sistema nervioso necesita magnesio para apagar la respuesta de estrés. 70% de las personas tienen deficiencia subclínica y no lo saben.",sci:"Barbagallo & Dominguez, 2010: la deficiencia de magnesio amplifica la respuesta del cortisol al estrés. La suplementación la normaliza en 4 semanas."},
+    {e:"🛁",t:"Baño tibio 1h antes de dormir",txt:"Un baño de 10 min a 40°C, 1–2 horas antes de dormir, baja la temperatura corporal central al salir — señal biológica directa de que el cortisol puede descender. Los chamanes del vapor (temazcal) conocían esto antes que la ciencia.",sci:"Haghayegh et al., 2019: baño tibio 1–2h antes de dormir reduce el tiempo para conciliar el sueño en 36% y mejora la calidad del sueño profundo."},
+    {e:"🐾",t:"Acariciar a Bow",txt:"No es cliché — acariciar a tu perro durante 10 minutos baja el cortisol y sube la oxitocina en ambos. Es una de las formas más rápidas de activar el sistema nervioso parasimpático sin esfuerzo.",sci:"Beetz et al., 2012: interacción con el perro propio durante 10 min reduce cortisol salival de forma medible en adultos con estrés crónico."},
+  ];
+  var cortisolOpen=localStorage.getItem('cortisol_open')==='1';
+  var cortisolIdx=now.getDate()%CORTISOL_TIPS.length;
+  var cortTip=CORTISOL_TIPS[cortisolIdx];
+  h2+='<div class="sec-ttl"><span>Cortisol — cómo reducirlo hoy</span><div class="sec-ln"></div></div>';
+  h2+='<div style="background:var(--white);border:1.5px solid rgba(122,158,132,.3);border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:var(--shad)">';
+  h2+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">';
+  h2+='<span style="font-size:22px">'+cortTip.e+'</span>';
+  h2+='<div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--ink)">'+cortTip.t+'</div>';
+  h2+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#7A9E84;margin-top:2px;font-weight:300">Tip del día</div></div></div>';
+  h2+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300;margin-bottom:8px">'+cortTip.txt+'</div>';
+  h2+='<div style="font-size:11px;color:#7A9E84;font-style:italic;border-left:2px solid rgba(122,158,132,.3);padding-left:10px;line-height:1.6">🔬 '+cortTip.sci+'</div>';
+  h2+='</div>';
+  // Ver todos
+  h2+='<div style="background:rgba(122,158,132,.05);border-radius:12px;padding:10px 14px;margin-bottom:14px;cursor:pointer" onclick="togCortisolAll()">';
+  h2+='<div style="display:flex;align-items:center;justify-content:space-between">';
+  h2+='<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#7A9E84;font-weight:400">Ver los '+CORTISOL_TIPS.length+' hábitos anti-cortisol</div>';
+  h2+='<span style="color:#7A9E84">'+(cortisolOpen?'▾':'▸')+'</span></div>';
+  if(cortisolOpen){
+    CORTISOL_TIPS.forEach(function(tip,i){
+      if(i===cortisolIdx) return;
+      h2+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(122,158,132,.12)">';
+      h2+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">';
+      h2+='<span style="font-size:15px">'+tip.e+'</span>';
+      h2+='<div style="font-size:12px;font-weight:500;color:var(--ink)">'+tip.t+'</div></div>';
+      h2+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+tip.txt+'</div>';
+      h2+='</div>';
+    });
+  }
+  h2+='</div>';
+
+  // ── DESAYUNO DEL DÍA (rota) ──
+  var DESAYUNOS=[
+    {n:"Huevos revueltos con aguacate",e:"🥑",
+     ing:["2–3 huevos enteros","½ aguacate","Tomate cherry","Sal de mar + cúrcuma"],
+     why:"El huevo completo aporta 6g proteína + colina que activa el metabolismo desde la mañana. La grasa del aguacate enlentece la glucosa — sin pico de cortisol reactivo.",
+     anc:"En la tradición mesoamericana el aguacate era 'la mantequilla de los dioses' — energía densa que los guerreros comían antes del esfuerzo.",
+     kcal:"380 kcal · 24g proteína · excelente para músculo sin grasa"},
+    {n:"Bowl de avena proteico",e:"🥣",
+     ing:["50g avena en hojuelas","1 scoop proteína vainilla","1 cda mantequilla de maní","Canela + arándanos"],
+     why:"La avena tiene beta-glucano que reduce el cortisol matutino. La canela estabiliza la glucosa. Añade proteína para que no sea solo carbohidrato.",
+     anc:"Los incas usaban la quinua como grano sagrado de energía sostenida. La avena tiene el mismo perfil de carbohidrato complejo de liberación lenta.",
+     kcal:"420 kcal · 32g proteína · ideal para días de entrenamiento fuerte"},
+    {n:"Yogur griego con frutos rojos",e:"🫐",
+     ing:["200g yogur griego natural (sin azúcar)","Arándanos + fresas","1 cda semillas de chía","Miel de abeja cruda (poca)"],
+     why:"El yogur griego tiene 17g proteína por taza. Los probióticos reducen el estrés oxidativo intestinal directamente relacionado con el cortisol. Los arándanos son antiinflamatorios potentes.",
+     anc:"Las culturas del Cáucaso que llegaban a 100+ años tenían yogur fermentado como base diaria. El intestino sano = mente tranquila.",
+     kcal:"320 kcal · 22g proteína · antiinflamatorio y probiótico"},
+    {n:"Batido verde proteico",e:"🥬",
+     ing:["1 scoop proteína vainilla o neutro","1 puñado espinaca fresca","1 plátano maduro","200ml leche de almendra","1 cda aceite de coco"],
+     why:"La espinaca tiene magnesio biodisponible — exactamente lo que tu sistema nervioso necesita en la mañana para no activar el cortisol. El plátano aporta triptófano precursor de serotonina.",
+     anc:"Los chamanes amazónicos usaban plantas verdes en ayunas para 'limpiar el canal de energía'. La clorofila activa la producción de hemoglobina — hoy la ciencia lo confirma.",
+     kcal:"350 kcal · 28g proteína · mineral-rico y antiestresante"},
+    {n:"Tostada de centeno con salmón",e:"🐟",
+     ing:["2 rebanadas pan de centeno","80g salmón ahumado","Queso crema light","Alcaparras + eneldo","Limón"],
+     why:"El omega-3 del salmón es el antiinflamatorio más potente que existe — reduce directamente el cortisol crónico. El centeno tiene IG bajo: sin pico de glucosa, sin caída energética.",
+     anc:"Los pueblos nórdicos y los inuit vivían con estrés físico extremo pero cortisol bajo — su dieta rica en omega-3 era la razón.",
+     kcal:"390 kcal · 26g proteína · omega-3 máximo"},
+    {n:"Tortilla de espinaca y queso",e:"🧀",
+     ing:["3 huevos","1 puñado espinaca","30g queso feta o manchego","Aceite de oliva","Hierbas frescas"],
+     why:"Alta proteína + magnesio de la espinaca + grasas saciantes del queso = el desayuno que más tiempo te mantiene sin hambre y sin cortisol reactivo.",
+     anc:"El huevo en casi todas las culturas antiguas es símbolo de inicio, potencial y energía contenida. Cocinado con hierbas aromáticas — práctica mediterránea de 3000 años.",
+     kcal:"360 kcal · 26g proteína · muy saciante"},
+    {n:"Chia pudding de coco",e:"🥥",
+     ing:["3 cdas semillas de chía","200ml leche de coco","1 cda miel cruda","Mango o kiwi","Granola sin azúcar (poca)"],
+     why:"Las chías absorben 12× su peso en líquido — crean una digestión ultra lenta que estabiliza el azúcar por horas. El coco tiene ácido láurico con propiedades antiinflamatorias directas.",
+     anc:"Las semillas de chía eran el alimento de resistencia de los mensajeros mayas (los famosos 'corredores de la milpa'). Una cucharada les daba energía para correr kilómetros.",
+     kcal:"340 kcal · 14g proteína · digestión lenta, energía sostenida"},
+  ];
+  var dIdx=(now.getDate()+now.getMonth())%DESAYUNOS.length;
+  var des=DESAYUNOS[dIdx];
+  h2+='<div class="sec-ttl"><span>Desayuno de hoy — rota cada día</span><div class="sec-ln"></div></div>';
+  h2+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
+  h2+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">';
+  h2+='<span style="font-size:28px">'+des.e+'</span>';
+  h2+='<div><div style="font-family:var(--ff);font-size:17px;font-style:italic;color:var(--ink)">'+des.n+'</div>';
+  h2+='<div style="font-size:9px;color:var(--mu);font-weight:300;margin-top:2px;letter-spacing:.5px">'+des.kcal+'</div></div></div>';
+  // ingredientes
+  h2+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">';
+  des.ing.forEach(function(i){
+    h2+='<span style="font-size:10px;background:rgba(201,169,110,.08);color:var(--gold2);border-radius:20px;padding:3px 10px;font-weight:400">'+i+'</span>';
+  });
+  h2+='</div>';
+  h2+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300;margin-bottom:8px">🔬 '+des.why+'</div>';
+  h2+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-style:italic;border-left:2px solid rgba(201,169,110,.25);padding-left:10px">🌿 '+des.anc+'</div>';
+  h2+='</div>';
 
   // CALENTAMIENTO
   h2+='<div class="sec-ttl"><span>Calentamiento (8–10 min)</span><div class="sec-ln"></div></div>';
@@ -2302,6 +2398,7 @@ function render(){
   else if(tab==="mente")el.innerHTML=renderMente();
   else if(tab==="voz")el.innerHTML=renderVoz();
   else if(tab==="pnl")el.innerHTML=renderPnl();
+  else if(tab==="marca")el.innerHTML=renderMarca();
   else el.innerHTML=renderVision();
   updateProgress();
 }
@@ -2967,6 +3064,246 @@ if('serviceWorker' in navigator){
 }
 render();tick();updateProgress();
 setInterval(tick,15000);
+
+function togBelly(){
+  var b=localStorage.getItem('belly_open');
+  localStorage.setItem('belly_open',b==='1'?'0':'1');
+  render();
+}
+function togCortisolAll(){
+  var c=localStorage.getItem('cortisol_open');
+  localStorage.setItem('cortisol_open',c==='1'?'0':'1');
+  render();
+}
+
+// ═══════════════════════════════════════════
+//  RENDER MARCA PERSONAL
+// ═══════════════════════════════════════════
+function renderMarca(){
+  var now=new Date();
+  var marcaData=JSON.parse(localStorage.getItem('marca_data')||'{}');
+  var h='';
+
+  // ─── HEADER ───
+  h+='<div style="background:var(--white);border-radius:20px;padding:24px 20px 20px;margin-bottom:14px;box-shadow:var(--shad);border:1.5px solid rgba(201,169,110,.2)">';
+  h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;font-weight:300">Tu identidad pública</div>';
+  h+='<div style="font-family:var(--ff);font-size:26px;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:8px">Marca Personal</div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">Tu marca no es un logo ni un color — es la impresión que dejas cuando no estás en la sala. Es la intersección entre lo que sabes hacer, lo que te apasiona y lo que el mundo necesita.</div>';
+  h+='</div>';
+
+  // ─── PROGRESO DE CONSTRUCCIÓN ───
+  var steps=['ikigai','voz','pilares','bio','contenido'];
+  var done_steps=steps.filter(function(s){return marcaData[s]&&marcaData[s].done;}).length;
+  var pct=Math.round(done_steps/steps.length*100);
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
+  h+='<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">';
+  h+='<span style="font-family:var(--ff);font-size:42px;font-style:italic;color:var(--ink)">'+done_steps+'</span>';
+  h+='<span style="font-family:var(--ff);font-size:20px;font-style:italic;color:var(--mu2)">de '+steps.length+'</span>';
+  h+='</div>';
+  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);font-weight:300;margin-bottom:10px">módulos de marca completados</div>';
+  h+='<div style="height:2px;background:var(--border);border-radius:2px;overflow:hidden">';
+  h+='<div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,var(--gold),var(--mauve));transition:width .8s ease"></div>';
+  h+='</div></div>';
+
+  // ─── MÓDULO 1: IKIGAI / PROPÓSITO ───
+  var ikigai=marcaData.ikigai||{};
+  var ik_done=!!(ikigai.amas&&ikigai.sabes&&ikigai.mundo&&ikigai.pagan);
+  h+='<div class="sec-ttl"><span>① Ikigai — tu razón de ser</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:14px;font-weight:300">El ikigai es el punto donde se cruzan 4 preguntas. La respuesta a ese cruce <em style="color:var(--gold2)">es tu nicho</em>.</div>';
+
+  var ik_fields=[
+    {key:'amas',label:'¿Qué amas hacer?',placeholder:'ej. crear contenido, enseñar, transformar espacios, conectar personas…',color:'var(--mauve)',emoji:'❤️'},
+    {key:'sabes',label:'¿En qué eres buena?',placeholder:'ej. comunicar ideas complejas de forma simple, organizar, crear estrategias…',color:'var(--gold)',emoji:'⭐'},
+    {key:'mundo',label:'¿Qué necesita el mundo?',placeholder:'ej. más mujeres seguras de sí mismas, negocios con propósito, salud mental…',color:'#7A9E84',emoji:'🌍'},
+    {key:'pagan',label:'¿Por qué te pagarían?',placeholder:'ej. coaching, contenido, consultoría, productos, servicios creativos…',color:'var(--mauve2)',emoji:'💛'},
+  ];
+  ik_fields.forEach(function(f){
+    var val=ikigai[f.key]||'';
+    h+='<div style="margin-bottom:12px">';
+    h+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">';
+    h+='<span style="font-size:14px">'+f.emoji+'</span>';
+    h+='<div style="font-size:11px;font-weight:500;color:var(--ink)">'+f.label+'</div></div>';
+    h+='<textarea rows="2" placeholder="'+f.placeholder+'" style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);resize:none;outline:none;line-height:1.6" onchange="saveMarca(\'ikigai\',\''+f.key+'\',this.value)">'+val+'</textarea>';
+    h+='</div>';
+  });
+
+  if(ik_done){
+    h+='<div style="background:rgba(201,169,110,.06);border-left:2px solid var(--gold);border-radius:0 10px 10px 0;padding:12px;margin-top:4px">';
+    h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:6px">Tu cruce de ikigai</div>';
+    h+='<div style="font-family:var(--ff);font-size:14px;font-style:italic;color:var(--ink);line-height:1.7">'+ikigai.amas+' + '+ikigai.sabes+' → para personas que necesitan '+ikigai.mundo+'.</div>';
+    h+='</div>';
+    h+='<button onclick="doneMarca(\'ikigai\')" style="margin-top:10px;width:100%;padding:10px;background:var(--gold);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(ikigai.done?'✓ COMPLETADO':'MARCAR COMO LISTO')+'</button>';
+  }
+  h+='</div>';
+
+  // ─── MÓDULO 2: VOZ DE MARCA ───
+  var voz=marcaData.voz||{};
+  h+='<div class="sec-ttl"><span>② Voz de marca — cómo suenas</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:14px;font-weight:300">Tu voz es tu personalidad escrita. No es el tono — es la forma en que piensas y hablas. Las marcas más recordadas tienen voz inconfundible.</div>';
+
+  // Adjetivos de personalidad
+  var PERS_OPTS=['Directa','Cálida','Experta','Divertida','Inspiradora','Sofisticada','Cercana','Atrevida','Intelectual','Sensible','Poderosa','Auténtica','Misteriosa','Luminosa','Práctica'];
+  var sel_pers=voz.personalidad||[];
+  h+='<div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:8px">Elige 3 adjetivos que te definen:</div>';
+  h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">';
+  PERS_OPTS.forEach(function(p){
+    var isSel=sel_pers.indexOf(p)>-1;
+    h+='<button onclick="togMarcaPers(\''+p+'\')" style="padding:5px 12px;border-radius:20px;border:1.5px solid '+(isSel?'var(--gold)':'var(--border)')+';background:'+(isSel?'rgba(201,169,110,.1)':'transparent')+';color:'+(isSel?'var(--gold2)':'var(--mu)')+';font-family:var(--fb);font-size:11px;cursor:pointer;transition:all .2s">'+p+'</button>';
+  });
+  h+='</div>';
+
+  // No soy / sí soy
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">';
+  [['no_soy','❌ No soy…','ej. perfecta, corporativa, aburrida','var(--border)'],['si_soy','✓ Soy…','ej. honesta, imperfecta, específica','rgba(122,158,132,.3)']].forEach(function(f){
+    var val=voz[f[0]]||'';
+    h+='<div>';
+    h+='<div style="font-size:10px;font-weight:500;color:var(--ink);margin-bottom:5px">'+f[1]+'</div>';
+    h+='<textarea rows="2" placeholder="'+f[2]+'" style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid '+f[3]+';border-radius:10px;padding:8px 10px;font-family:var(--fb);font-size:11px;color:var(--ink);resize:none;outline:none" onchange="saveMarca(\'voz\',\''+f[0]+'\',this.value)">'+val+'</textarea>';
+    h+='</div>';
+  });
+  h+='</div>';
+  if(voz.si_soy||voz.no_soy){
+    h+='<button onclick="doneMarca(\'voz\')" style="width:100%;padding:10px;background:'+(voz.done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(voz.done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(voz.done?'✓ COMPLETADO':'MARCAR COMO LISTO')+'</button>';
+  }
+  h+='</div>';
+
+  // ─── MÓDULO 3: PILARES DE CONTENIDO ───
+  var pilares=marcaData.pilares||{list:[],done:false};
+  var pil_list=pilares.list||[];
+  h+='<div class="sec-ttl"><span>③ Pilares de contenido</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:12px;font-weight:300">Elige 3–5 temas sobre los que siempre podrías hablar. Todo tu contenido girará alrededor de ellos — esto es lo que te hace <em style="color:var(--gold2)">reconocible</em>.</div>';
+
+  var PILAR_SUGS=['Fitness & cuerpo','Nutrición consciente','Salud mental','Desarrollo personal','Emprendimiento','Moda & estilo','Bienestar holístico','Relaciones','Maternidad','Viajes','Finanzas personales','Creatividad','Liderazgo femenino','Espiritualidad','Productividad'];
+  h+='<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:8px;font-weight:300">Sugerencias — toca para agregar:</div>';
+  h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">';
+  PILAR_SUGS.forEach(function(p){
+    var isSel=pil_list.indexOf(p)>-1;
+    if(isSel) return;
+    h+='<button onclick="addPilar(\''+p+'\')" style="padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--mu);font-family:var(--fb);font-size:10px;cursor:pointer">+ '+p+'</button>';
+  });
+  h+='</div>';
+  if(pil_list.length>0){
+    h+='<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);margin-bottom:8px;font-weight:400">Tus pilares:</div>';
+    h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">';
+    pil_list.forEach(function(p,i){
+      h+='<div style="display:flex;align-items:center;gap:5px;background:rgba(201,169,110,.1);border:1.5px solid var(--gold);border-radius:20px;padding:5px 12px">';
+      h+='<span style="font-size:11px;color:var(--gold2);font-weight:500">'+p+'</span>';
+      h+='<button onclick="removePilar('+i+')" style="background:none;border:none;color:var(--mu);cursor:pointer;font-size:12px;padding:0;line-height:1">×</button>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+  // Custom pilar
+  h+='<div style="display:flex;gap:8px">';
+  h+='<input id="pilar-input" placeholder="Agregar pilar personalizado…" style="flex:1;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);outline:none">';
+  h+='<button onclick="addPilarCustom()" style="padding:8px 14px;background:var(--ink);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:11px;cursor:pointer">+</button>';
+  h+='</div>';
+  if(pil_list.length>=3){
+    h+='<button onclick="doneMarca(\'pilares\')" style="margin-top:10px;width:100%;padding:10px;background:'+(pilares.done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(pilares.done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(pilares.done?'✓ COMPLETADO':'MARCAR COMO LISTO')+'</button>';
+  }
+  h+='</div>';
+
+  // ─── MÓDULO 4: BIO DE MARCA ───
+  var bio=marcaData.bio||{};
+  h+='<div class="sec-ttl"><span>④ Tu bio — la primera impresión</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:12px;font-weight:300">Una bio poderosa dice <em style="color:var(--gold2)">quién eres, a quién ayudas y qué pueden esperar</em> — en menos de 3 líneas. No es tu CV. Es tu propuesta de valor.</div>';
+
+  h+='<div style="background:rgba(201,169,110,.05);border-radius:10px;padding:10px 12px;margin-bottom:12px">';
+  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:6px">Fórmula sugerida</div>';
+  h+='<div style="font-size:11px;color:var(--ink);line-height:1.8">';
+  h+='<span style="color:var(--mauve)">Soy [quién]</span> que ayuda a <span style="color:var(--gold2)">[a quién]</span><br>';
+  h+='a <span style="color:#7A9E84">[qué logran]</span><br>';
+  h+='a través de <span style="color:var(--mauve)">[cómo]</span>.</div>';
+  h+='</div>';
+
+  var bio_val=bio.texto||'';
+  h+='<textarea rows="4" placeholder="Escribe tu bio aquí…" style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:var(--fb);font-size:13px;color:var(--ink);resize:none;outline:none;line-height:1.7" onchange="saveMarca(\'bio\',\'texto\',this.value)">'+bio_val+'</textarea>';
+  var bio_chars=bio_val.length;
+  h+='<div style="font-size:10px;color:'+(bio_chars>150?'var(--mauve)':'var(--mu)')+';text-align:right;margin-top:4px">'+bio_chars+' caracteres '+(bio_chars>150?'— considera acortar':'')+'</div>';
+  if(bio_val.length>20){
+    h+='<button onclick="doneMarca(\'bio\')" style="margin-top:8px;width:100%;padding:10px;background:'+(bio.done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(bio.done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(bio.done?'✓ COMPLETADO':'MARCAR COMO LISTO')+'</button>';
+  }
+  h+='</div>';
+
+  // ─── MÓDULO 5: IDEA DE CONTENIDO DEL DÍA ───
+  var CONTENT_IDEAS=[
+    {tipo:'Storytelling',txt:'Cuenta una historia personal de transformación. Antes → conflicto → aprendizaje → ahora. Las historias de cambio real tienen el mayor alcance orgánico.',red:'Reels / Carrusel',hook:'"Lo que nadie me dijo cuando empecé a…"'},
+    {tipo:'Educativo',txt:'Explica un concepto de tu nicho en 3 pasos simples. El contenido que enseña algo concreto genera guardados — la métrica más valiosa de Instagram.',red:'Carrusel / TikTok',hook:'"3 cosas que cambiarán tu [tema] para siempre"'},
+    {tipo:'Opinión',txt:'Toma una posición sobre algo en tu industria que sea diferente a la mayoría. El contenido que genera debate tiene 3× más alcance que el contenido neutral.',red:'Video directo / Post',hook:'"Opinión impopular sobre [tema]:"'},
+    {tipo:'Detrás de cámara',txt:'Muestra tu proceso, tu espacio, tu rutina real. Las personas siguen personas — la autenticidad convierte seguidores en comunidad.',red:'Stories / Reels',hook:'"Un día real en mi vida como [quién eres]"'},
+    {tipo:'Testimonio propio',txt:'Comparte un resultado que has obtenido aplicando lo que predicas. La coherencia entre lo que dices y lo que vives es tu activo más valioso.',red:'Post + Carrusel',hook:'"Hace 3 meses no podía. Hoy…"'},
+    {tipo:'Desmitificación',txt:'Desmiente una creencia común en tu nicho que sabes que es falsa. El contenido que interrumpe una narrativa establecida se comparte masivamente.',red:'Reels / TikTok',hook:'"Mentira que todos creen sobre [tema]:"'},
+    {tipo:'Valor directo',txt:'Da algo gratis que normalmente cobrarías — una checklist, un proceso, una herramienta. El contenido de máximo valor construye autoridad más rápido que cualquier otra cosa.',red:'Carrusel / PDF',hook:'"Guarda esto: el proceso exacto que uso para…"'},
+  ];
+  var cidx=(now.getDate()+now.getMonth()*3)%CONTENT_IDEAS.length;
+  var idea=CONTENT_IDEAS[cidx];
+  h+='<div class="sec-ttl"><span>⑤ Idea de contenido — hoy</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
+  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mauve);font-weight:400">'+idea.tipo+'</div>';
+  h+='<div style="font-size:9px;color:var(--mu);background:rgba(184,144,154,.1);padding:3px 10px;border-radius:20px">'+idea.red+'</div>';
+  h+='</div>';
+  h+='<div style="background:rgba(184,144,154,.06);border-left:2px solid var(--mauve);border-radius:0 10px 10px 0;padding:10px 12px;margin-bottom:10px">';
+  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:4px">Hook sugerido</div>';
+  h+='<div style="font-family:var(--ff);font-size:14px;font-style:italic;color:var(--ink)">'+idea.hook+'</div>';
+  h+='</div>';
+  h+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300">'+idea.txt+'</div>';
+  var cont_done=marcaData.contenido&&marcaData.contenido.done;
+  h+='<button onclick="doneMarca(\'contenido\')" style="margin-top:12px;width:100%;padding:10px;background:'+(cont_done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(cont_done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(cont_done?'✓ REVISADO HOY':'MARCAR COMO REVISADO')+'</button>';
+  h+='</div>';
+
+  return h;
+}
+
+// ─── MARCA HELPERS ───
+function saveMarca(mod,key,val){
+  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
+  if(!d[mod])d[mod]={};
+  d[mod][key]=val;
+  localStorage.setItem('marca_data',JSON.stringify(d));
+  // no re-render to avoid losing focus
+}
+function doneMarca(mod){
+  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
+  if(!d[mod])d[mod]={};
+  d[mod].done=!d[mod].done;
+  localStorage.setItem('marca_data',JSON.stringify(d));
+  render();
+}
+function togMarcaPers(p){
+  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
+  if(!d.voz)d.voz={};
+  var arr=d.voz.personalidad||[];
+  var idx=arr.indexOf(p);
+  if(idx>-1)arr.splice(idx,1);
+  else if(arr.length<3)arr.push(p);
+  d.voz.personalidad=arr;
+  localStorage.setItem('marca_data',JSON.stringify(d));
+  render();
+}
+function addPilar(p){
+  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
+  if(!d.pilares)d.pilares={list:[]};
+  if(!d.pilares.list)d.pilares.list=[];
+  if(d.pilares.list.indexOf(p)===-1&&d.pilares.list.length<5)d.pilares.list.push(p);
+  localStorage.setItem('marca_data',JSON.stringify(d));
+  render();
+}
+function addPilarCustom(){
+  var inp=document.getElementById('pilar-input');
+  if(inp&&inp.value.trim()){addPilar(inp.value.trim());inp.value='';}
+}
+function removePilar(i){
+  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
+  if(d.pilares&&d.pilares.list)d.pilares.list.splice(i,1);
+  localStorage.setItem('marca_data',JSON.stringify(d));
+  render();
+}
+
 </script>
 </body>
 </html>
