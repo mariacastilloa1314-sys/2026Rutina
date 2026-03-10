@@ -59,14 +59,16 @@ body{
 
 /* ══ HEADER ══ */
 .hdr{
-  background:var(--ink);
+  background:var(--ivory);
+  border-bottom:1px solid var(--border);
   padding:14px 18px 12px;
   position:sticky;top:0;z-index:200;
+  box-shadow:0 1px 20px rgba(28,20,16,.06);
 }
 .hdr-row{display:flex;justify-content:space-between;align-items:center}
 .hdr-left{}
 .app-ttl{
-  color:var(--ivory);
+  color:var(--ink);
   font-family:var(--ff);
   font-size:19px;
   font-style:italic;
@@ -74,7 +76,7 @@ body{
   letter-spacing:.5px;
 }
 .app-sub{
-  color:rgba(201,169,110,.6);
+  color:var(--gold2);
   font-size:8px;
   letter-spacing:3px;
   text-transform:uppercase;
@@ -84,8 +86,8 @@ body{
 .hdr-meta{display:flex;gap:6px;align-items:center;margin-top:9px;flex-wrap:wrap}
 .moon-badge{
   display:inline-flex;align-items:center;gap:5px;
-  background:rgba(201,169,110,.1);
-  border:1px solid rgba(201,169,110,.18);
+  background:rgba(201,169,110,.12);
+  border:1px solid rgba(201,169,110,.3);
   border-radius:var(--r-pill);
   padding:4px 12px;
   font-size:9px;color:var(--gold);
@@ -100,25 +102,25 @@ body{
 }
 .clk-wrap{text-align:right}
 .clk-time{
-  color:var(--ivory);
+  color:var(--ink);
   font-family:var(--fb);
   font-size:15px;font-weight:300;
   letter-spacing:3px;
 }
 .clk-date{
-  color:rgba(250,248,245,.35);
+  color:var(--mu);
   font-size:8px;margin-top:3px;
   letter-spacing:1.5px;font-weight:300;
   text-transform:uppercase;
 }
-.pb{height:2px;background:rgba(255,255,255,0.07);margin-top:11px;overflow:hidden}
+.pb{height:2px;background:var(--border);margin-top:11px;overflow:hidden}
 .pbf{height:100%;background:linear-gradient(90deg,var(--gold),rgba(201,169,110,.3));transition:width .9s cubic-bezier(.4,0,.2,1)}
 
 /* ══ TABS ══ */
 .tabs{
   display:flex;
-  background:var(--ink);
-  border-bottom:1px solid rgba(255,255,255,.04);
+  background:var(--ivory);
+  border-bottom:1px solid var(--border);
   overflow-x:auto;scrollbar-width:none;
   padding:0 4px;
 }
@@ -128,7 +130,7 @@ body{
   padding:9px 2px 8px;
   background:none;border:none;
   border-bottom:2px solid transparent;
-  color:rgba(250,248,245,.25);
+  color:var(--mu2);
   font-size:8px;letter-spacing:1.5px;
   text-transform:uppercase;
   cursor:pointer;font-family:var(--fb);
@@ -172,16 +174,17 @@ body{
   100%{box-shadow:0 0 0 0 rgba(201,169,110,0)}
 }
 .now-card{
-  background:var(--ink);
+  background:var(--white);
+  border:1.5px solid rgba(201,169,110,.25);
   border-radius:20px;
   padding:22px 20px 18px;
-  box-shadow:var(--shad3);
+  box-shadow:0 4px 28px rgba(28,20,16,.08);
   position:relative;overflow:hidden;
 }
 .now-card::before{
   content:'';position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,169,110,.3),transparent);
+  top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
 .now-time{
   font-size:9px;color:rgba(201,169,110,.6);
@@ -192,12 +195,12 @@ body{
 .now-name{
   font-family:var(--ff);font-size:23px;
   font-weight:400;font-style:italic;
-  color:var(--ivory);line-height:1.2;margin-bottom:12px;
+  color:var(--ink);line-height:1.2;margin-bottom:12px;
 }
 .now-sci{
-  font-size:11px;color:rgba(250,248,245,.45);
+  font-size:11px;color:var(--mu);
   line-height:1.75;font-style:italic;
-  border-left:1px solid rgba(201,169,110,.2);
+  border-left:1px solid rgba(201,169,110,.3);
   padding-left:12px;font-weight:300;
 }
 .now-check{margin-top:16px;display:flex;justify-content:flex-end}
@@ -291,8 +294,8 @@ body{
   box-shadow:var(--shad2);
 }
 .wk-emo{font-size:28px}
-.wk-ttl{color:var(--ivory);font-family:var(--ff);font-size:18px;font-style:italic}
-.wk-sub{color:rgba(201,169,110,.6);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;margin-top:3px;font-weight:300}
+.wk-ttl{color:var(--ink);font-family:var(--ff);font-size:18px;font-style:italic}
+.wk-sub{color:var(--gold2);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;margin-top:3px;font-weight:300}
 .ex-card{
   background:var(--card);border-radius:var(--r);
   padding:13px 15px;margin-bottom:6px;
@@ -382,17 +385,17 @@ body{
   flex-shrink:0;transition:all .2s;
 }
 .goal-chk.on{background:var(--sage);border-color:var(--sage);color:white}
-.moon-section{background:var(--ink);border-radius:var(--r);padding:18px;margin-bottom:14px;text-align:center}
+.moon-section{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px;text-align:center}
 .moon-emo{font-size:36px;display:block;margin-bottom:6px}
-.moon-name{color:var(--gold);font-family:var(--ff);font-size:16px;font-style:italic;margin-bottom:3px}
-.moon-energy{color:rgba(250,248,245,.45);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;font-weight:300}
+.moon-name{color:var(--gold2);font-family:var(--ff);font-size:16px;font-style:italic;margin-bottom:3px}
+.moon-energy{color:var(--mu);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;font-weight:300}
 
 /* ══ PNL ══ */
-.pnl-hero{background:var(--ink);border-radius:20px;padding:22px 18px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shad2)}
+.pnl-hero{background:var(--white);border:1.5px solid rgba(201,169,110,.2);border-radius:20px;padding:22px 18px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shad2)}
 .pnl-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,110,.25),transparent)}
 .pnl-hero-emo{font-size:34px;display:block;margin-bottom:10px}
-.pnl-hero-ttl{color:var(--ivory);font-family:var(--ff);font-size:22px;font-style:italic;margin-bottom:4px}
-.pnl-hero-sub{color:rgba(201,169,110,.5);font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:300}
+.pnl-hero-ttl{color:var(--ink);font-family:var(--ff);font-size:22px;font-style:italic;margin-bottom:4px}
+.pnl-hero-sub{color:var(--gold2);font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:300}
 .pnl-tabs{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
 .pnl-tabs::-webkit-scrollbar{display:none}
 .pnl-tab{
@@ -419,10 +422,10 @@ body{
 .reframe-box{background:rgba(201,169,110,.05);border-radius:var(--r-sm);padding:12px 14px;margin-top:10px}
 .reframe-old{font-size:12px;color:var(--mu);text-decoration:line-through;margin-bottom:5px}
 .reframe-new{font-size:13px;color:var(--sage);font-weight:500}
-.identity-mirror{background:var(--ink);border-radius:var(--r);padding:20px 18px;margin-bottom:14px;text-align:center;box-shadow:var(--shad2)}
-.identity-you{color:rgba(250,248,245,.35);font-size:8px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;font-weight:300}
-.identity-new{color:var(--gold);font-family:var(--ff);font-size:24px;font-style:italic;line-height:1.35;margin-bottom:8px}
-.identity-sci{color:rgba(250,248,245,.5);font-size:11px;line-height:1.75;font-weight:300}
+.identity-mirror{background:var(--white);border:1.5px solid rgba(201,169,110,.2);border-radius:var(--r);padding:20px 18px;margin-bottom:14px;text-align:center;box-shadow:var(--shad2)}
+.identity-you{color:var(--mu);font-size:8px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;font-weight:300}
+.identity-new{color:var(--gold2);font-family:var(--ff);font-size:24px;font-style:italic;line-height:1.35;margin-bottom:8px}
+.identity-sci{color:var(--mu);font-size:11px;line-height:1.75;font-weight:300}
 .affirmation-card{background:var(--card);border-radius:var(--r);padding:13px 15px;margin-bottom:6px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:transform .15s;box-shadow:var(--shad)}
 .affirmation-card:active{transform:scale(.99)}
 .affirmation-card.done{opacity:.5;background:rgba(122,158,132,.06);box-shadow:none}
@@ -624,7 +627,9 @@ body{
 
 /* Vision quote */
 .vision-quote {
-  background: var(--ink);
+  background: var(--white);
+  border: 1.5px solid rgba(201,169,110,.2);
+  box-shadow: 0 4px 24px rgba(28,20,16,.07);
   border-radius: 20px;
   padding: 28px 22px;
   margin-bottom: 16px;
@@ -646,7 +651,7 @@ body{
   font-family: var(--ff);
   font-size: 17px;
   font-style: italic;
-  color: var(--ivory);
+  color: var(--ink);
   line-height: 1.85;
   margin-bottom: 10px;
   position: relative;
@@ -655,7 +660,7 @@ body{
   font-size: 8px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(201,169,110,.4);
+  color: var(--mu);
   font-weight: 300;
 }
 
@@ -1127,10 +1132,10 @@ function tick(){
   // time-based header tint
   const hr=now.getHours();
   const hdr=document.getElementById("hdr");
-  if(hr>=6&&hr<10)hdr.style.background="linear-gradient(135deg,#2A1405,#3D1E08)";
-  else if(hr>=10&&hr<17)hdr.style.background="var(--br)";
-  else if(hr>=17&&hr<20)hdr.style.background="linear-gradient(135deg,#1E0F05,#3A1A30)";
-  else hdr.style.background="linear-gradient(135deg,#0D0520,#1E0F05)";
+  if(hr>=6&&hr<10)hdr.style.background="var(--ivory)";
+  else if(hr>=10&&hr<17)hdr.style.background="var(--ivory)";
+  else if(hr>=17&&hr<20)hdr.style.background="var(--ivory)";
+  else hdr.style.background="var(--ivory)";
 
   updateProgress();
 
@@ -1314,9 +1319,9 @@ function renderWeekend(){
   var h2='';
 
   // DESCANSO HEADER
-  h2+='<div style="background:linear-gradient(135deg,rgba(26,18,16,.4),rgba(26,18,16,.8));border:1px solid var(--bl);border-radius:18px;padding:20px;margin-bottom:14px;text-align:center">';
+  h2+='<div style="background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:20px;margin-bottom:14px;text-align:center;box-shadow:0 2px 16px rgba(28,20,16,.07);">';
   h2+='<div style="font-size:42px;margin-bottom:8px">'+(isdom?'☀️':'🌿')+'</div>';
-  h2+='<div style="font-size:20px;font-weight:700;color:var(--br);margin-bottom:4px">'+(isdom?'Domingo — Recarga total':'Sábado — Descanso sagrado')+'</div>';
+  h2+='<div style="font-size:20px;font-weight:600;font-family:var(--ff);font-style:italic;color:var(--ink);margin-bottom:4px">'+(isdom?'Domingo — Recarga total':'Sábado — Descanso sagrado')+'</div>';
   h2+='<div style="font-size:12px;color:var(--mu);line-height:1.7">Tu cuerpo y mente necesitan este tiempo.<br>El descanso no es el enemigo del progreso — es parte del proceso.</div></div>';
 
   // RESUMEN DE LA SEMANA
@@ -1383,15 +1388,15 @@ function renderCuerpoWeekend(){
   var h2='';
 
   // HEADER
-  h2+='<div style="background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:18px;padding:22px 18px;margin-bottom:14px;text-align:center">';
+  h2+='<div style="background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:22px 18px;margin-bottom:14px;text-align:center;box-shadow:0 2px 16px rgba(28,20,16,.07);">';
   h2+='<div style="font-size:40px;margin-bottom:10px">'+(isdom?'☀️':'🌿')+'</div>';
-  h2+='<div style="font-family:var(--ff);font-size:22px;font-style:italic;color:var(--cream);margin-bottom:6px">'+(isdom?'Domingo — El cuerpo integra':'Sábado — El cuerpo descansa')+'</div>';
-  h2+='<div style="font-size:11px;color:rgba(232,213,168,.7);line-height:1.7;font-weight:300">El músculo no crece durante el entrenamiento.<br>Crece durante el descanso. Hoy es parte del proceso.</div></div>';
+  h2+='<div style="font-family:var(--ff);font-size:22px;font-style:italic;color:var(--ink);margin-bottom:6px">'+(isdom?'Domingo — El cuerpo integra':'Sábado — El cuerpo descansa')+'</div>';
+  h2+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">El músculo no crece durante el entrenamiento.<br>Crece durante el descanso. Hoy es parte del proceso.</div></div>';
 
   // CIENCIA DEL DESCANSO
   h2+='<div style="background:rgba(26,18,16,.04);border-left:2px solid rgba(201,169,110,.4);border-radius:0 12px 12px 0;padding:13px 15px;margin-bottom:14px">';
   h2+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ch);margin-bottom:6px;font-weight:400">Por qué el descanso es obligatorio</div>';
-  h2+='<div style="font-size:12px;color:var(--ivory);line-height:1.7;font-weight:300">La síntesis proteica muscular ocurre principalmente en las 24–48h post-entrenamiento. Sin descanso, el tejido no se repara — se rompe más. El cortisol elevado por falta de recuperación inhibe el crecimiento muscular y acumula grasa abdominal. Hoy descansas para que el trabajo de la semana cuente.</div></div>';
+  h2+='<div style="font-size:12px;color:var(--ink);line-height:1.7;font-weight:300">La síntesis proteica muscular ocurre principalmente en las 24–48h post-entrenamiento. Sin descanso, el tejido no se repara — se rompe más. El cortisol elevado por falta de recuperación inhibe el crecimiento muscular y acumula grasa abdominal. Hoy descansas para que el trabajo de la semana cuente.</div></div>';
 
   // RITUALES DE RECUPERACIÓN
   h2+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);margin:0 0 10px;display:flex;align-items:center;gap:10px;font-weight:300">Rituales de recuperación<div style="flex:1;height:1px;background:var(--border)"></div></div>';
@@ -1552,6 +1557,34 @@ function renderCuerpo(){
   h2+='<div style="background:rgba(100,80,180,.06);border-left:3px solid #9060C0;border-radius:0 12px 12px 0;padding:10px 14px;margin-bottom:14px">';
   h2+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#9060C0;margin-bottom:4px">Energía del día</div>';
   h2+='<div style="font-size:12px;color:var(--br);line-height:1.6;font-style:italic">'+wkDay.sha+'</div></div>';
+  // GRASA ABDOMINAL TIP CARD — ciencia + nutrición + chamanería
+  var bellyTips=[
+    {e:"🔬",t:"Por qué acumulas grasa baja",txt:"El cortisol elevado (estrés + déficit de sueño) activa receptores de grasa en el abdomen bajo específicamente. No es la comida sola — es la combinación de comer más + cortisol alto. El excedente calórico necesario para ganar músculo es de solo 200–300 kcal diarias. Más que eso va directo a grasa."},
+    {e:"🍽️",t:"Nutrición anti-grasa abdominal",txt:"Prioriza proteína en cada comida (30g+): activa la termogénesis y reduce el hambre. Reduce carbohidratos refinados en la noche — el cortisol nocturno los convierte en grasa visceral. Come tu última comida 2–3h antes de dormir. Crucíferas (brócoli, col) reducen el exceso de estrógeno que acumula grasa en la zona baja."},
+    {e:"💪",t:"El ejercicio que sí funciona",txt:"El cardio HIIT de 15–20 min post-entrenamiento de fuerza reduce grasa visceral 3× más que el cardio largo. Los ejercicios de core (dead bug, hollow hold) fortalecen el transverso abdominal que 'aplana' el vientre desde adentro. La sentadilla y el peso muerto queman más grasa abdominal que 100 abdominales."},
+    {e:"🌿",t:"Sabiduría ancestral",txt:"Las tradiciones andinas usaban la manzanilla, el jengibre y el agua de canela en ayunas para reducir la inflamación abdominal — hoy la ciencia confirma que el jengibre reduce el cortisol y la inflamación del tejido adiposo. El masaje abdominal circular con aceite de coco tibio activa el drenaje linfático de esa zona. 5 minutos antes de dormir."},
+    {e:"😴",t:"El factor que más importa",txt:"Dormir menos de 7h aumenta la grelina (hambre) en 28% y reduce la leptina (saciedad) en 18%. Una sola semana de sueño corto acumula más grasa abdominal que 500 kcal extra diarias. Dormir entre 22:00 y 06:00 es el horario donde más hormona de crecimiento se produce — la que preserva músculo y quema grasa."},
+  ];
+  var bellyOpen=localStorage.getItem('belly_open')==='1';
+  h2+='<div class="sec-ttl" style="margin-top:4px"><span>Grasa abdominal — guía científica</span><div class="sec-ln"></div></div>';
+  h2+='<div style="background:rgba(201,169,110,.05);border:1.5px solid rgba(201,169,110,.2);border-radius:16px;padding:14px;margin-bottom:14px">';
+  h2+='<div style="display:flex;align-items:center;gap:10px;cursor:pointer" onclick="var b=localStorage.getItem(\'belly_open\');localStorage.setItem(\'belly_open\',b===\'1\'?\'0\':\'1\');render()">';
+  h2+='<span style="font-size:20px">🫚</span>';
+  h2+='<div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--ink)">Grasa abdominal baja — qué hacer</div>';
+  h2+='<div style="font-size:10px;color:var(--mu)">Ciencia · Nutrición · Ancestral</div></div>';
+  h2+='<span style="font-size:16px;color:var(--mu)">'+(bellyOpen?'▾':'▸')+'</span></div>';
+  if(bellyOpen){
+    bellyTips.forEach(function(tip){
+      h2+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(201,169,110,.15)">';
+      h2+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">';
+      h2+='<span style="font-size:16px">'+tip.e+'</span>';
+      h2+='<div style="font-size:11px;font-weight:600;color:var(--gold2);letter-spacing:.5px">'+tip.t+'</div></div>';
+      h2+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300">'+tip.txt+'</div>';
+      h2+='</div>';
+    });
+  }
+  h2+='</div>';
+
 
   // CALENTAMIENTO
   h2+='<div class="sec-ttl"><span>Calentamiento (8–10 min)</span><div class="sec-ln"></div></div>';
@@ -1765,7 +1798,7 @@ function renderMenteWeekend(){
   var h2='';
 
   // HEADER
-  h2+='<div style="background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:18px;padding:18px;margin-bottom:14px;text-align:center">';
+  h2+='<div style="background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:18px;margin-bottom:14px;text-align:center;box-shadow:0 2px 16px rgba(28,20,16,.07);">';
   h2+='<div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,169,110,.7);margin-bottom:8px">Fin de semana</div>';
   h2+='<div style="font-size:20px;font-weight:700;color:var(--c);margin-bottom:6px">Inmersión cultural 🎬</div>';
   h2+='<div style="font-size:12px;color:rgba(248,242,232,.6);line-height:1.7">Hoy no hay lecciones ni ejercicios.<br>Solo inglés que se siente como placer.</div></div>';
@@ -1829,17 +1862,7 @@ function renderMente(){
   else if(weeksElapsed>=12&&weeksElapsed<=15) currentPhase=4;
   else if(weeksElapsed>=16) currentPhase=5;
 
-  var HELLEN_MSGS=[
-    "Mi nombre en inglés es Hellen. Soy alguien que piensa en inglés con naturalidad. Cada día que practico, mi cerebro se recablea.",
-    "Hellen habla inglés con calma y con confianza. No traduce — siente el idioma. Eso ya soy yo, construyéndome.",
-    "Soy Hellen. Mi acento es mi firma. Mi voz pertenece al inglés tanto como a cualquier hablante nativa.",
-    "Cada palabra que aprendo hoy se convierte en parte de mí. Mi cerebro no olvida — integra.",
-    "Hellen no teme equivocarse. Los errores son los bloques con los que construye su fluidez.",
-    "Entiendo más de lo que creo. Mi cerebro aprende en silencio, incluso cuando no estudio.",
-    "El inglés no es una barrera — es mi siguiente versión. Hellen ya existe. Yo la estoy alcanzando.",
-    "Progreso, no perfección. Cada día un poco más. Ya está pasando.",
-  ];
-  var helenMsg=HELLEN_MSGS[day%HELLEN_MSGS.length];
+  var helenMsg="Mi nombre en inglés es Hellen. Soy alguien que piensa en inglés con naturalidad. Cada día que practico, mi cerebro se recablea.";
 
   var FASES=[
     {n:"Fase 0 — Fundamento Mental", tiempo:"Semana 1", nivel:"Inicio",
@@ -1956,11 +1979,11 @@ function renderMente(){
   // HELLEN HERO — clean, minimal, read every morning
   h2+='<div style="margin-bottom:20px">';
   h2+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:400">Lee esto cada mañana</div>';
-  h2+='<div style="background:var(--ink);border-radius:20px;padding:28px 24px;position:relative;overflow:hidden">';
+  h2+='<div style="background:var(--white);border:1.5px solid rgba(201,169,110,.25);border-radius:20px;padding:28px 24px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(28,20,16,.07)">';
   h2+='<div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(201,169,110,.07),transparent 65%);pointer-events:none"></div>';
   h2+='<div style="position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(184,144,154,.05),transparent 65%);pointer-events:none"></div>';
   h2+='<div style="font-family:var(--ff);font-size:11px;font-style:italic;color:rgba(201,169,110,.4);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;font-weight:400">Hellen</div>';
-  h2+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:var(--ivory);line-height:1.85;font-weight:400">'+helenMsg+'</div>';
+  h2+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:var(--ink);line-height:1.85;font-weight:400">'+helenMsg+'</div>';
   h2+='</div></div>';
 
   // FASE ACTUAL
@@ -2137,7 +2160,7 @@ function renderVision(){
     "El inglés no es una barrera — es mi siguiente versión. Hellen ya existe. Yo la estoy alcanzando.",
     "Progreso, no perfección. Cada día un poco más. Ya está pasando.",
   ];
-  var helenMsg=HELLEN_MSGS[(day+dow)%HELLEN_MSGS.length];
+  var helenMsg="Mi nombre en inglés es Hellen. Soy alguien que piensa en inglés con naturalidad. Cada día que practico, mi cerebro se recablea.";
   var h='';
 
   // HERO QUOTE
@@ -2205,10 +2228,10 @@ function renderVision(){
 
   // HELLEN
   h+='<div class="sec-ttl"><span>Hellen hoy</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--ink);border-radius:20px;padding:28px 24px;margin-bottom:16px;position:relative;overflow:hidden">';
+  h+='<div style="background:var(--white);border:1.5px solid rgba(201,169,110,.25);border-radius:20px;padding:28px 24px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(28,20,16,.07)">';
   h+='<div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(201,169,110,.07),transparent 65%);pointer-events:none"></div>';
   h+='<div style="font-family:var(--ff);font-size:11px;font-style:italic;color:rgba(201,169,110,.4);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px">Hellen</div>';
-  h+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:var(--ivory);line-height:1.85">'+helenMsg+'</div>';
+  h+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:var(--ink);line-height:1.85">'+helenMsg+'</div>';
   h+='</div>';
 
   return h;
@@ -2646,7 +2669,7 @@ function renderPnl(){
     +'<div style="text-align:center"><div style="font-family:var(--ff);font-size:36px;font-style:italic;color:var(--gold)">'+pnlPct+'%</div>'
     +'<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:300">completado hoy</div></div>'
     +'<div style="width:1px;height:40px;background:rgba(201,169,110,.15)"></div>'
-    +'<div style="text-align:center"><div style="font-family:var(--ff);font-size:28px;font-style:italic;color:var(--ivory)">'+pnlDone+'/'+pnlTotal+'</div>'
+    +'<div style="text-align:center"><div style="font-family:var(--ff);font-size:28px;font-style:italic;color:var(--ink)">'+pnlDone+'/'+pnlTotal+'</div>'
     +'<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:300">prácticas</div></div>'
     +'</div></div>';
   h += '<div style="background:'+pw.color+';border:1px solid rgba(201,169,110,.3);border-radius:12px;padding:12px 14px;margin-bottom:12px">';
