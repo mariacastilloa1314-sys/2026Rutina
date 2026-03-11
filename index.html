@@ -214,9 +214,9 @@ body{
 }
 .done-btn:active{transform:scale(.97)}
 .done-btn.undone{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  color:rgba(250,248,245,.4);
+  background:var(--ivory2);
+  border:1.5px solid var(--border2);
+  color:var(--mu);
 }
 
 /* ══ SCHEDULE CARDS ══ */
@@ -287,11 +287,11 @@ body{
 
 /* ══ WORKOUT ══ */
 .wk-hdr{
-  background:var(--ink);border-radius:var(--r);
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);
   padding:16px 18px;margin-bottom:12px;
   display:flex;align-items:center;gap:13px;
   position:relative;overflow:hidden;
-  box-shadow:var(--shad2);
+  box-shadow:var(--shad);
 }
 .wk-emo{font-size:28px}
 .wk-ttl{color:var(--ink);font-family:var(--ff);font-size:18px;font-style:italic}
@@ -1005,8 +1005,11 @@ function now2m(){const n=new Date();return n.getHours()*60+n.getMinutes()}
 
 function getCurrent(){
   const m=now2m();
+  const GRACE=2; // 2 min after activity ends — still markable
   for(let i=0;i<SCHED.length-1;i++){
-    if(m>=t2m(SCHED[i].t)&&m<t2m(SCHED[i+1].t))return SCHED[i].id;
+    const start=t2m(SCHED[i].t);
+    const next=t2m(SCHED[i+1].t);
+    if(m>=start&&m<next+GRACE)return SCHED[i].id;
   }
   if(m>=t2m("22:00")||m<t2m("06:00"))return 20;
   return null;
@@ -2534,7 +2537,7 @@ var PNL_SEMANAS=[
    dailyAff:["id1","id2","id3"], dailyEx:["ide1"]},
   {k:"cr", label:"Creencias",    color:"rgba(107,158,138,.06)",
    frase:"Las creencias no son hechos — son historias que elegimos seguir contando.",
-   dailyAff:["cr1","cr2","cr3"], dailyEx:["cre1"]},
+   dailyAff:["cr1","cr2","cr3"], dailyEx:["cr4"]},
   {k:"em", label:"Emociones",    color:"rgba(138,158,184,.06)",
    frase:"Las emociones son datos, no órdenes. Esta semana aprendes a usarlas.",
    dailyAff:["et1","et2"],       dailyEx:["et3"]},
@@ -3226,84 +3229,64 @@ function renderMarca(){
   }
   h+='</div>';
 
+  // ─── MÓDULO 3.5: NICHO ESPECÍFICO ───
+  h+='<div class="sec-ttl"><span>③½ Tu combinación rara</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.75;margin-bottom:14px;font-weight:300">Administración + ciencia de datos + creatividad + espiritualidad. Eso no lo tiene casi nadie. La rareza bien contada <em style="color:var(--gold2)">es la estrategia.</em></div>';
+  var NICHO_RAZONES=[
+    {e:"📊",t:"Los datos sin alma aburren",d:"La mayoría de data scientists hablan en jerga que nadie entiende. Tú puedes traducirlo a algo humano. Eso vale."},
+    {e:"🌿",t:"La espiritualidad sin estructura se pierde",d:"El mundo chamánico necesita personas que sepan sistematizar sin matar la magia. Tú eres eso."},
+    {e:"✍️",t:"La creatividad es el puente",d:"Puedes contar la historia de los datos como nadie más — que toque algo, no solo que informe."},
+    {e:"🗂️",t:"La administración le da pies a todo",d:"Sabes cómo funcionan los sistemas. Tus proyectos creativos y espirituales tienen estructura real."},
+  ];
+  NICHO_RAZONES.forEach(function(r){
+    h+='<div style="display:flex;gap:10px;margin-bottom:10px">';
+    h+='<span style="font-size:18px;margin-top:1px">'+r.e+'</span>';
+    h+='<div><div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px">'+r.t+'</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+r.d+'</div></div></div>';
+  });
+  var ANGULOS=[
+    {tag:"Data + bienestar",desc:"Ciencia y datos para vivir mejor — sueño, cortisol, hábitos. El cuantified self con alma."},
+    {tag:"Bruja con R Studio",desc:"Espiritualidad y chamanería con evidencia. La luna y el cortisol en el mismo post. Sin pedir perdón."},
+    {tag:"La creativa analítica",desc:"Documentar el proceso de convertirte en data scientist siendo una persona creativa y espiritual. El camino, no el destino."},
+    {tag:"Negocios con propósito",desc:"Estrategia y datos para proyectos con alma — sin el rollo corporativo de siempre."},
+  ];
+  h+='<div style="height:1px;background:var(--border);margin:12px 0"></div>';
+  h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:300">Ángulos posibles — toca el que resuena</div>';
+  ANGULOS.forEach(function(a){
+    h+='<div style="background:var(--ivory2);border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;border:1.5px solid var(--border)" onclick="this.style.borderColor=\'var(--gold)\';this.style.background=\'rgba(201,169,110,.06)\'">';
+    h+='<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px">'+a.tag+'</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-weight:300">'+a.desc+'</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+
   // ─── MÓDULO 4: BIO DE MARCA ───
   var bio=marcaData.bio||{};
   h+='<div class="sec-ttl"><span>④ Tu bio — la primera impresión</span><div class="sec-ln"></div></div>';
   h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:12px;font-weight:300">Una bio poderosa dice <em style="color:var(--gold2)">quién eres, a quién ayudas y qué pueden esperar</em> — en menos de 3 líneas. No es tu CV. Es tu propuesta de valor.</div>';
-
-  h+='<div style="background:rgba(184,144,154,.06);border-radius:10px;padding:12px;margin-bottom:12px">';
-  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mauve);margin-bottom:8px">Opciones para tu bio — edítalas como quieras</div>';
-  var bios=[
-    '"Estudio datos de día, quemo copal de noche — y no veo contradicción. Administración + data science + espiritualidad práctica. Documentando la transformación sin filtro."',
-    '"No soy gurú ni perfecta. Soy la que mezcla Excel con tarot, ciencia del sueño con rituales, y te cuenta los números reales de todo."',
-    '"Data scientist en construcción. Creo que los datos y el alma hablan el mismo idioma — solo hay que saber escuchar. Aquí lo aprendo en voz alta."',
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:12px;font-weight:300">Tres opciones escritas para ti. Ninguna suena a IA. Elige, edita, hazla tuya.</div>';
+  var BIO_OPTS=[
+    {label:"Directa y específica",
+     txt:"Administración + datos + espiritualidad. Sí, todo junto y sin disculparme por eso. Aprendo ciencia de datos, practico chamanería y creo contenido sobre lo que pasa cuando mezclas los números con el alma."},
+    {label:"La historia en curso",
+     txt:"Soy María. Estudié administración, ahora estudio datos, y en el proceso descubrí que la ciencia y lo ancestral dicen lo mismo con distintas palabras. Aquí documento eso — sin filtro y con bastante cúrcuma."},
+    {label:"Corta y con diente",
+     txt:"Data scientist en construcción. Administradora de formación. Algo bruja por vocación. Hablo de salud, datos y espiritualidad — a veces los tres en el mismo post."},
   ];
-  bios.forEach(function(b,i){
-    h+='<div onclick="usarBio('+i+')" style="cursor:pointer;padding:8px 0;border-bottom:1px solid rgba(184,144,154,.15)">';
-    h+='<div style="font-size:11px;color:var(--ink);line-height:1.65;font-style:italic">'+b+'</div>';
-    h+='<div style="font-size:9px;color:var(--mauve);margin-top:3px">— Toca para usar esta</div>';
+  BIO_OPTS.forEach(function(b,i){
+    var isSel=(bio.selected===i);
+    h+='<div style="margin-bottom:10px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:'+(isSel?'var(--gold2)':'var(--mu)')+';margin-bottom:5px;font-weight:300">'+b.label+(isSel?' ✓':'')+'</div>';
+    h+='<div style="background:'+(isSel?'rgba(201,169,110,.06)':'var(--ivory2)')+';border:1.5px solid '+(isSel?'var(--gold)':'var(--border)')+';border-radius:12px;padding:12px;font-size:12px;color:var(--ink);line-height:1.75;font-weight:300;cursor:pointer" onclick="elegirBio('+i+')">'+b.txt+'</div>';
     h+='</div>';
   });
-  h+='</div>';
-
-  var bio_val=bio.texto||'';
-  h+='<textarea rows="4" placeholder="Escribe tu bio aquí…" style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:var(--fb);font-size:13px;color:var(--ink);resize:none;outline:none;line-height:1.7" onchange="saveMarca(\'bio\',\'texto\',this.value)">'+bio_val+'</textarea>';
-  var bio_chars=bio_val.length;
-  h+='<div style="font-size:10px;color:'+(bio_chars>150?'var(--mauve)':'var(--mu)')+';text-align:right;margin-top:4px">'+bio_chars+' caracteres '+(bio_chars>150?'— considera acortar':'')+'</div>';
-  if(bio_val.length>20){
+  h+='<div style="height:1px;background:var(--border);margin:10px 0"></div>';
+  h+='<div style="font-size:10px;color:var(--mu);margin-bottom:7px">O escribe la tuya:</div>';
+  var bio_val=bio.texto||(bio.selected!==undefined?BIO_OPTS[bio.selected].txt:'');
+  h+='<textarea rows="4" placeholder="Tu bio aquí…" style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:var(--fb);font-size:12px;color:var(--ink);resize:none;outline:none;line-height:1.7" onchange="saveMarca(\'bio\',\'texto\',this.value)">'+bio_val+'</textarea>';
+  if(bio_val.length>10||bio.selected!==undefined){
     h+='<button onclick="doneMarca(\'bio\')" style="margin-top:8px;width:100%;padding:10px;background:'+(bio.done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(bio.done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(bio.done?'✓ COMPLETADO':'MARCAR COMO LISTO')+'</button>';
-  }
-  h+='</div>';
-
-  // ─── MÓDULO 4.5: NICHO REFINADO (María-specific) ───
-  var nicho=marcaData.nicho||{};
-  h+='<div class="sec-ttl"><span>④½ Tu nicho — refinado</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:16px;padding:18px;margin-bottom:10px;box-shadow:var(--shad)">';
-
-  // Su combinación única — hardcoded con su perfil real
-  h+='<div style="background:rgba(201,169,110,.06);border-radius:12px;padding:14px;margin-bottom:16px">';
-  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;font-weight:300">Tu combinación única</div>';
-  var combo=[
-    {e:'📊',label:'Datos',desc:'Administración + Ciencia de datos — piensas en sistemas y patrones'},
-    {e:'🌀',label:'Espiritualidad',desc:'No la de cristales de Instagram — la de raíz, práctica y chamanería real'},
-    {e:'🧠',label:'Salud mental',desc:'Desde adentro hacia afuera — sin toxic positivity'},
-    {e:'✦',label:'Creatividad',desc:'Voz directa, sin filtro corporativo, que hace que la gente sienta algo'},
-  ];
-  combo.forEach(function(c){
-    h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">';
-    h+='<span style="font-size:18px;width:26px;text-align:center">'+c.e+'</span>';
-    h+='<div><div style="font-size:12px;font-weight:500;color:var(--ink)">'+c.label+'</div>';
-    h+='<div style="font-size:11px;color:var(--mu);font-weight:300">'+c.desc+'</div></div>';
-    h+='</div>';
-  });
-  h+='</div>';
-
-  // El nicho definido
-  h+='<div style="border-left:2px solid var(--mauve);padding-left:14px;margin-bottom:16px">';
-  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:8px;font-weight:300">Lo que te hace inconfundible</div>';
-  h+='<div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ink);line-height:1.7">Eres la persona que estudia datos de día y quema copal de noche — y no ve contradicción en eso.</div>';
-  h+='<div style="font-size:12px;color:var(--mu);margin-top:8px;line-height:1.7;font-weight:300">La mayoría de data scientists son fríos. La mayoría de espirituales son vagos con los números. Tú eres el puente. Eso no existe en redes — todavía.</div>';
-  h+='</div>';
-
-  // 3 posibles ángulos de nicho para que ella elija
-  var ANGULOS=[
-    {t:'La científica espiritual',d:'Usas datos para entender patrones de vida — sueño, hábitos, ciclos, energía — y los mezclas con sabiduría ancestral. Tu contenido: "Le pregunté a mis datos qué día tengo más energía. La respuesta fue rara."',color:'var(--mauve)'},
-    {t:'La anti-gurú',d:'Documentas tu transformación real — con caídas, números honestos y cero filtro motivacional. Tu contenido es la versión sin editar de lo que todos muestran perfecto.',color:'var(--gold2)'},
-    {t:'Datos + alma',d:'Enseñas a tomar mejores decisiones (en negocios, vida, salud) mezclando análisis con intuición. Para personas que sienten que son "demasiado analíticas" o "demasiado emocionales" — cuando en realidad son las dos.',color:'#7A9E84'},
-  ];
-  var selAngulo=nicho.angulo||null;
-  h+='<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:300">¿Con cuál te identificas más?</div>';
-  ANGULOS.forEach(function(a,i){
-    var isSel=selAngulo===i;
-    h+='<div onclick="selMarcaAngulo('+i+')" style="border:1.5px solid '+(isSel?a.color:'var(--border)')+';border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;background:'+(isSel?'rgba(201,169,110,.04)':'transparent')+';transition:all .2s">';
-    h+='<div style="font-size:12px;font-weight:600;color:'+(isSel?a.color:'var(--ink)')+';margin-bottom:4px">'+a.t+'</div>';
-    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+a.d+'</div>';
-    h+='</div>';
-  });
-
-  if(selAngulo!==null){
-    h+='<button onclick="doneMarca(\'nicho\')" style="margin-top:6px;width:100%;padding:10px;background:'+(nicho.done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(nicho.done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(nicho.done?'✓ ELEGIDO':'CONFIRMAR ÁNGULO')+'</button>';
   }
   h+='</div>';
 
@@ -3349,6 +3332,15 @@ function doneMarca(mod){
   var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
   if(!d[mod])d[mod]={};
   d[mod].done=!d[mod].done;
+  localStorage.setItem('marca_data',JSON.stringify(d));
+  render();
+}
+function elegirBio(i){
+  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
+  if(!d.bio)d.bio={};
+  d.bio.selected=i;
+  var opts=["Administración + datos + espiritualidad. Sí, todo junto y sin disculparme por eso. Aprendo ciencia de datos, practico chamanería y creo contenido sobre lo que pasa cuando mezclas los números con el alma.","Soy María. Estudié administración, ahora estudio datos, y en el proceso descubrí que la ciencia y lo ancestral dicen lo mismo con distintas palabras. Aquí documento eso — sin filtro y con bastante cúrcuma.","Data scientist en construcción. Administradora de formación. Algo bruja por vocación. Hablo de salud, datos y espiritualidad — a veces los tres en el mismo post."];
+  d.bio.texto=opts[i];
   localStorage.setItem('marca_data',JSON.stringify(d));
   render();
 }
