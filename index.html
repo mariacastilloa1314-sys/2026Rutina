@@ -903,7 +903,7 @@ const VB_IMG="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAY
 // ═══════════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════════
-function todayKey(){return new Date().toISOString().split("T")[0]}
+function todayKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 let TK=todayKey();
 let done=JSON.parse(localStorage.getItem("done_"+TK)||"{}");
 let engD=JSON.parse(localStorage.getItem("eng_"+TK)||"{}");
