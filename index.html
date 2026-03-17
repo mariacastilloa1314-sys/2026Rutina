@@ -1215,7 +1215,10 @@ function renderHoy(){
       <span style="font-family:'Bodoni Moda',serif;font-size:58px;font-style:italic;font-weight:400;color:var(--ink);line-height:1" id="ring-done">0</span>
       <span style="font-family:'Bodoni Moda',serif;font-size:28px;font-style:italic;color:var(--mu2);font-weight:400" id="ring-total">de 0</span>
     </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:2px">
     <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);font-weight:300">actividades completadas hoy</div>
+    <button onclick="if(confirm('¿Reiniciar las marcas de hoy?')){localStorage.removeItem('done_'+TK);done={};render();}" style="font-size:9px;color:var(--mu);background:none;border:none;cursor:pointer;padding:0;letter-spacing:.5px">↺ reiniciar</button>
+  </div>
     <div style="margin-top:14px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)" id="ring-bar"></div>
   </div>`
 
@@ -1285,7 +1288,7 @@ function renderHoy(){
             <span style="font-size:14px">${item.i}</span>
             <span class="ctm" style="font-size:10px">${item.t}</span>
             <span style="flex:1;font-size:12px;color:var(--mu);${isDone?"text-decoration:line-through":""}">${item.l}</span>
-            ${isDone?`<span style="font-size:10px;color:var(--sg)">✓</span>`:`<span class="missed-tag">pasó</span>`}
+            <button class="ckbtn ${isDone?"on":""}" onclick="event.stopPropagation();tog(${item.id})" style="opacity:1">${isDone?"✓":""}</button>
           </div>
           ${isExp?`<div class="sci-box" style="font-size:11px">🔬 ${item.s}</div>`:""}
         </div>`;
@@ -1305,7 +1308,7 @@ function getWeekSummary(){
   mon.setDate(now.getDate()-(dow===0?6:dow-1));
   var days=[1,2,3,4,5].map(function(i){
     var d=new Date(mon); d.setDate(mon.getDate()+(i-1));
-    var k=d.toISOString().split("T")[0];
+    var k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     var data=JSON.parse(localStorage.getItem("done_"+k)||"{}");
     var cnt=Object.values(data).filter(Boolean).length;
     var pct=SCHED.length>0?Math.round(cnt/SCHED.length*100):0;
