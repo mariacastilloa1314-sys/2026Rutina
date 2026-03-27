@@ -1688,6 +1688,24 @@ function renderCuerpo(){
   h2+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-style:italic;border-left:2px solid rgba(201,169,110,.25);padding-left:10px">🌿 '+des.anc+'</div>';
   h2+='</div>';
 
+
+  // ── EPIGENÉTICA ──
+  var EPI_FACTS=[
+    {e:"🧬",t:"Tus genes no son tu destino",txt:"La epigenética demostró que el ambiente, los hábitos y hasta los pensamientos activan o silencian genes. Entrenar fuerza activa genes anti-inflamatorios. No estás atrapada en tu ADN."},
+    {e:"🍽️",t:"Lo que comes habla a tus genes",txt:"Los ácidos grasos omega-3, la cúrcuma y los polifenoles del cacao activan genes que suprimen la inflamación. El azúcar hace lo contrario. Tu plato es información genética."},
+    {e:"😴",t:"El sueño reescribe tu expresión génica",txt:"Durante el sueño profundo se activan genes de reparación celular y se silencian los de inflamación. Dormir mal 3 noches seguidas altera la expresión de +700 genes."},
+    {e:"💪",t:"El músculo cambia tu biología",txt:"El tejido muscular es un órgano endocrino — secreta miokinas que reducen la inflamación, mejoran la cognición y regulan el metabolismo. Cada sesión de fuerza 'habla' a todo tu cuerpo."},
+    {e:"🧘",t:"El estrés crónico daña el ADN",txt:"El cortisol crónico acorta los telómeros (los protectores de tus cromosomas). Meditar 20 min diarios durante 8 semanas aumenta la telomerasa — la enzima que los repara."},
+  ];
+  var epiIdx=(now.getDate()*3+now.getMonth())%EPI_FACTS.length;
+  var epi=EPI_FACTS[epiIdx];
+  h2+='<div class="sec-ttl"><span>Epigenética — dato del día</span><div class="sec-ln"></div></div>';
+  h2+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shad);display:flex;gap:12px;align-items:flex-start">';
+  h2+='<span style="font-size:24px">'+epi.e+'</span>';
+  h2+='<div><div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:5px">'+epi.t+'</div>';
+  h2+='<div style="font-size:12px;color:var(--mu);line-height:1.75;font-weight:300">'+epi.txt+'</div></div>';
+  h2+='</div>';
+
   // CALENTAMIENTO
   h2+='<div class="sec-ttl"><span>Calentamiento (8–10 min)</span><div class="sec-ln"></div></div>';
   h2+='<div style="background:var(--wh);border:1px solid var(--bl);border-radius:14px;padding:12px 14px;margin-bottom:12px;box-shadow:var(--shad)">';
@@ -2411,325 +2429,248 @@ function render(){
 
 
 // ═══════════ VOZ DATA ═══════════
-const VDIA = {
-  1:{tema:"Resonadores y Base Vocal",
-    sci:"La voz resuena en tres cavidades: pecho, garganta y cabeza. El nervio vago conecta la respiración con la calidad vocal. Entrenar los resonadores es lo que produce timbre rico y autoridad.",
-    sha:"Los chamanes andinos usaban el canto como medicina. La física confirma: el sonido es vibración que reorganiza materia (cymatics). Tu voz no es aire — es intención materializada.",
-    ejs:[
-      {id:"v1a",n:"Resonador de pecho: mmm",d:"1. Pon una mano en el pecho.<br>2. Cierra la boca.<br>3. Haz mmmmm en tono grave, 30 segundos.<br>4. Siente la vibración en la palma.<br>5. Descansa 5s. Repite x3.<br><br>✅ Si no sientes vibración, baja más el tono.",t:"3 min"},
-      {id:"v1b",n:"Resonador de cabeza: nnn",d:"1. Haz mmmm grave (pecho) por 10s.<br>2. Sube el tono a nnnnn agudo (como niña) por 10s.<br>3. Alterna: grave → agudo → grave → agudo. x5 veces.<br>4. Siente cómo vibra diferente en cada zona.<br><br>✅ Normal si te da risa al principio.",t:"3 min"},
-      {id:"v1c",n:"Lip trill (boca de motor)",d:"1. Junta los labios sin tensión (como si bostezaras).<br>2. Sopla aire: los labios deben temblar como motor de carro: brrrrr.<br>3. Sube el tono (agudo) y bájalo (grave) mientras tiemblan.<br>4. Haz esto 2 minutos seguidos.<br><br>✅ Si no tiemblan: relaja más los labios, no los aprietes.",t:"2 min"},
-      {id:"v1d",n:"Escala vocal humming",d:"1. Haz hmmmm cerrando la boca.<br>2. Empieza en tu tono más grave (de tu pecho).<br>3. Sube suaaavemente hasta el más agudo, como sirena de ambulancia.<br>4. Baja de nuevo al grave.<br>5. Repite x3.<br><br>✅ No fuerces. Si raspa, vas demasiado arriba.",t:"3 min"},
-      {id:"v1e",n:"Lectura con énfasis",d:"1. Abre cualquier texto (noticias, Instagram, lo que sea).<br>2. Lee en voz alta, oración por oración.<br>3. En cada oración elige UNA palabra importante.<br>4. Antes de esa palabra: pausa 1 segundo.<br>5. Esa palabra: dila más fuerte y más lento.<br>6. Grábate con el cel y escúchate.<br><br>✅ Ejemplo: Mi sueño es... [pausa] VIAJAR por el mundo.",t:"5 min"}
-    ]},
-  2:{tema:"Dicción y Articulación",
-    sci:"La articulación activa la corteza motora primaria y el cerebelo simultáneamente. La mielinización de los circuitos del habla requiere práctica deliberada y repetida — igual que un músculo. Los trabalenguas son las pesas de la voz.",
-    sha:"En la tradición maya cada sonido era un dios con poder propio. Articular bien no es pedantería — es respeto por el impacto de cada sílaba en el sistema nervioso del oyente.",
-    ejs:[
-      {id:"v2a",n:"Trabalenguas P-B-M",d:"1. Di esto lento, super marcado:<br>Pablito clavó un clavito, qué clavito clavó Pablito.<br>2. Repite x5 acelerando cada vez.<br>3. Ahora este: Beba Beba Borba bebe, Beba Borba bebe Beba. x5.<br>4. Siente cómo labios y lengua trabajan duro.<br><br>✅ No importa si te trabas — trabarte ES el ejercicio.",t:"3 min"},
-      {id:"v2b",n:"Trabalenguas R fuerte y suave",d:"1. Di esto lento, exagerando la R:<br>El perro de San Roque no tiene rabo porque Ramón Ramírez se lo ha robado.<br>2. Repite x5, cada vez más rápido.<br>3. Si no puedes la R vibrante (rrrr): práctica poniendo la lengua detrás de los dientes y soplando: drrrr, drrrr.<br><br>✅ La R fuerte se aprende, no naces con ella o sin ella.",t:"3 min"},
-      {id:"v2c",n:"Mandíbula abierta",d:"1. Pon un dedo entre tus dientes (o un corcho si tienes).<br>2. Con el dedo ahí, lee en voz alta cualquier texto por 2 minutos.<br>3. Quita el dedo.<br>4. Lee las mismas oraciones normalmente.<br>5. Nota cómo de pronto suenas mucho más claro.<br><br>✅ Es raro y babeas un poco — eso es normal jaja.",t:"3 min"},
-      {id:"v2d",n:"Velocidad controlada",d:"1. Elige un párrafo cualquiera.<br>2. Léelo SÚPER lento (como si explicaras a alguien mayor).<br>3. Léelo a velocidad normal.<br>4. Léelo rápido pero que se entienda todo.<br>5. Repite el ciclo x3 con el mismo párrafo.<br><br>✅ Si a velocidad rápida se pierde claridad, práctica más el lento.",t:"4 min"},
-      {id:"v2e",n:"Grábate 60 segundos",d:"1. Pon a grabar el cel (memo de voz).<br>2. Habla 60 segundos de cualquier tema que te guste.<br>3. Escúchate completo sin pausar.<br>4. Anota en papel: 1 cosa que sonó bien. 1 cosa a mejorar.<br>5. Solo 1 de cada — no más.<br><br>✅ La mayoría nunca se escucha. Esto ya te pone en ventaja.",t:"5 min"}
-    ]},
-  3:{tema:"Respiración y Proyección",
-    sci:"El diafragma es el músculo más importante de la voz — no las cuerdas vocales. La respiración diafragmática activa el nervio vago, reduce el cortisol y permite sostener frases largas con presencia real.",
-    sha:"El pranayama yóguico y la respiración chamánica andina son la misma ciencia ancestral: controlar la energía vital a través del aliento. La neurociencia lo llama regulación autonómica. El efecto es idéntico.",
-    ejs:[
-      {id:"v3a",n:"Respiración diafragmática pura",d:"1. Siéntate derecha. Mano izquierda en pecho, mano derecha en abdomen.<br>2. Inhala contando 4s: solo la mano del abdomen debe moverse. El pecho quieto.<br>3. Exhala contando 6s.<br>4. Repite x10 respiraciones.<br><br>✅ Si el pecho sube: respira más despacio y dirige el aire hacia abajo.",t:"3 min"},
-      {id:"v3b",n:"Contar con una respiración",d:"1. Inhala profundo llenando el abdomen.<br>2. Empieza a contar en voz alta: uno, dos, tres, cuatro...<br>3. Sigue contando con la misma exhalación hasta que el aire se acabe.<br>4. Anota el número que alcanzaste.<br>5. Repite x3 intentos.<br><br>✅ Tu meta: llegar a 20+ con voz clara. Anota el récord semanal.",t:"3 min"},
-      {id:"v3c",n:"Proyección sin gritar",d:"1. Párate si puedes.<br>2. Habla normal: di tu nombre y de dónde eres.<br>3. Ahora imagina que hay alguien al fondo de un salón grande.<br>4. Sin gritar ni subir el tono, abre MÁS la boca y habla desde el abdomen.<br>5. Repite la misma oración x5 aumentando la proyección.<br><br>✅ Si te raspa la garganta: no es proyección, es tensión. Relaja el cuello.",t:"3 min"},
-      {id:"v3d",n:"La pausa dramática",d:"1. Di esta frase en voz alta:<br>Lo que estoy a punto de decir...<br>2. Para. Cuenta 2 segundos en silencio.<br>3. Continúa: ...es lo más importante que oirás hoy.<br>4. Repite x5 prácticando la pausa.<br>5. Inventa tus propias frases y ponles pausas dramáticas.<br><br>✅ Incómodo al principio = normal. El silencio da poder.",t:"4 min"},
-      {id:"v3e",n:"Discurso improvisado 2 min",d:"1. Pon a grabar el cel.<br>2. Tema: qué cambiarías en tu ciudad si pudieras. No prepares nada.<br>3. Habla 2 minutos sin parar, aunque repitas o te trabajes.<br>4. No pares el video hasta que pasen los 2 min.<br>5. Escúchate y nota si usaste pausas, variaste velocidad, proyectaste.<br><br>✅ No importa si sale mal — improvisar mal seguido = improvisar bien.",t:"5 min"}
-    ]},
-  4:{tema:"Presencia y Emoción",
-    sci:"La prosodia — ritmo, tono y melodía — se procesa en el hemisferio derecho, el mismo que procesa la música. La emoción genuina activa el sistema límbico del oyente directamente. No puedes fingir presencia: las neuronas espejo la detectan al instante.",
-    sha:"En toda tradición oral — desde griegos hasta quechuas — el orador era también sanador. Las palabras con emoción honesta tienen frecuencias que el cuerpo del oyente literalmente siente. Es física del sonido sobre el sistema nervioso.",
-    ejs:[
-      {id:"v4a",n:"Una frase, 5 emociónes",d:"1. Di esta frase exacta: Esto es lo más importante que he aprendido.<br>2. Dila con ALEGRÍA (sonríe mientras la dices).<br>3. Dila con TRISTEZA (como si te hubiera costado aprenderlo).<br>4. Dila con URGENCIA (como si alguien estuviera en peligro).<br>5. Dila con CALMA PROFUNDA (como gurú en meditación).<br>6. Dila con ASOMBRO (como si lo descubrieras en este momento).<br><br>✅ Exagera mucho al principio. Lo normal viene después.",t:"4 min"},
-      {id:"v4b",n:"Velocidad como herramienta",d:"1. Habla 30 segundos de algo emociónante (un plan, algo que quieres) MUY RÁPIDO, con energía.<br>2. Para.<br>3. Habla 30 segundos de algo profundo (un sueño, un miedo) MUY LENTO.<br>4. Repite x2.<br><br>✅ Exagera la diferencia. En la exageración está el aprendizaje.",t:"3 min"},
-      {id:"v4c",n:"El poder del silencio",d:"1. Piensa en algo que te pasó (puede ser de hoy, de ayer, lo que sea).<br>2. Cuéntalo en voz alta por 1 minuto.<br>3. Antes de cada momento importante: para completamente 2-3 segundos.<br>4. Cuenta cuántas pausas usaste al terminar. Meta: mínimo 3.<br><br>✅ Tip: la pausa va ANTES del momento importante, no después.",t:"4 min"},
-      {id:"v4d",n:"Espejo y contacto visual",d:"1. Párate frente a un espejo.<br>2. Mira tus propios ojos (no la boca, no el cabello — los ojos).<br>3. Habla 2 minutos sobre algo que amas o que te emocióna.<br>4. Si apartas la mirada, regresa. Sin juzgarte.<br><br>✅ Va a sentirse rarísimo. Eso es exactamente la incomodidad que hay que trabajar.",t:"3 min"},
-      {id:"v4e",n:"Imita a alguien que admiras",d:"1. Busca un video de alguien que hable bien y te inspire (TED, podcast, lo que sea).<br>2. Escucha 60 segundos prestando atención solo al ritmo y las pausas, no al contenido.<br>3. Pausa el video.<br>4. Repite tú lo que dijo, imitando exactamente su música: velocidad, pausas, volumen.<br>5. Repite x3 con el mismo fragmento.<br><br>✅ Esto es lo que hacen los actores profesionales.",t:"4 min"}
-    ]},
-  5:{tema:"Integración Semanal",
-    sci:"El viernes es el día de consolidación. La neurociencia del aprendizaje motor muestra que integrar múltiples habilidades requiere práctica distribuida en días, no en horas. Lo que practiques hoy lo consolida el sueño de esta noche.",
-    sha:"Los chamanes cerraban cada ciclo con un ritual de integración. Comprendían que el aprendizaje necesita ser cerrado conscientemente para volverse parte del ser. Hoy es tu cierre semanal.",
-    ejs:[
-      {id:"v5a",n:"Warm-up completo",d:"Haz todo esto en orden, sin parar:<br>1. mmmmm grave por 30s (mano en pecho).<br>2. Lip trill (brrr con labios) por 30s, sube y baja tono.<br>3. Pablito clavó un clavito x3 veces.<br>4. 5 respiraciones diafragmáticas (4s inhala, 6s exhala).<br>5. Di tu nombre y de dónde eres con voz proyectada.<br><br>✅ Guarda este orden. Este es tu ritual de voz para siempre.",t:"3 min"},
-      {id:"v5b",n:"Discurso preparado 3 min",d:"1. Elige UN tema: tu trabajo, algo que aprendiste, un proyecto, un sueño.<br>2. Escribe 3-5 puntos clave (no un script completo).<br>3. Habla 3 minutos en voz alta usando esos puntos. Grábate.<br>4. No releas el paper mientras hablas — solo míralo si te pierdes.<br><br>✅ Hacerlo mal la primera vez ES parte del proceso.",t:"6 min"},
-      {id:"v5c",n:"Análisis de grabación",d:"1. Escucha tu grabación del ejercicio anterior completa.<br>2. Evalúa estas 4 cosas:<br>— ¿Usé pausas antes de ideas importantes?<br>— ¿Varié la velocidad (rápido / lento)?<br>— ¿Se sintió emoción genuina?<br>— ¿Se entendió todo claramente?<br>3. Escribe en papel: 1 logro y 1 cosa a trabajar la próxima semana.<br><br>✅ Solo 1 de cada. No te abrumes.",t:"4 min"},
-      {id:"v5d",n:"Aplícalo hoy en una conversación",d:"Antes de salir o hablar con alguien hoy:<br>1. Elige UNA técnica de esta semana (solo una).<br>2. Úsala conscientemente en una conversación real hoy.<br>3. Al final del día recuerda: ¿la usé? ¿cómo salió?<br><br>Opciones:<br>— Pausa antes de algo importante.<br>— Baja la velocidad cuando algo es profundo.<br>— Proyecta desde el abdomen, no la garganta.<br><br>✅ La práctica en la vida real vale más que 10 grabaciones.",t:"durante el día"}
-    ]}
+
+// User-controlled nivel — stored in localStorage, default 1
+function getVozNivel(){return parseInt(localStorage.getItem('voz_nivel')||'1');}
+function setVozNivel(n){localStorage.setItem('voz_nivel',n);render();}
+
+var VOZ_NIVELES = {
+  1:{
+    label:"Nivel 1 — Fundamentos",color:"var(--mauve)",
+    desc:"Empezamos desde el cuerpo. La voz no sale de la garganta — sale del diafragma, de la postura, de la intención. Esta semana aprendes a respirar para hablar.",
+    dias:{
+      1:{tema:"Respiración diafragmática",
+         sci:"El diafragma es el músculo principal de la voz. La respiración superficial (pecho) tensa las cuerdas vocales. La respiración abdominal profunda activa el nervio vago, reduce el cortisol y da soporte a frases largas.",
+         sha:"En el pranayama yóguico y la respiración chamánica andina la premisa es la misma: controlar el prana (energía vital) a través del aliento. La neurociencia lo llama regulación autonómica.",
+         ejs:[
+           {id:"v1a",n:"Respiración 4-4-4",d:"Inhala 4 seg → sostén 4 → exhala 4. Mano en el abdomen — que se mueva, no el pecho. 5 rondas."},
+           {id:"v1b",n:"Exhala con S",d:"Inhala profundo → exhala haciendo ssssss lo más largo posible. Mide cuánto duras. Meta: +20 segundos."},
+           {id:"v1c",n:"Suspiro liberador",d:"Inhala rápido → exhala largo con un 'haaa' natural. Repite 5 veces. Suelta tensión de garganta."},
+         ]},
+      2:{tema:"Postura y resonancia",
+         sci:"La postura afecta directamente el timbre vocal. La cabeza adelantada (postura del cel) comprime la laringe. Hombros abiertos + mentón paralelo al suelo = vía aérea libre = voz más rica.",
+         sha:"Los cantantes de ópera y los curanderos amazónicos tienen en común una cosa: la verticalidad. La columna alineada es el canal por donde sube la energía — y el sonido.",
+         ejs:[
+           {id:"v2a",n:"Alineación de columna",d:"De pie o sentada: empuja la coronilla hacia el techo suavemente. Hombros atrás y abajo. Barbilla paralela al piso. Mantén 2 minutos mientras hablas o lees."},
+           {id:"v2b",n:"Boca de pez",d:"Abre y cierra la boca exageradamente como pez. 20 veces. Activa los músculos articuladores sin tensión."},
+           {id:"v2c",n:"Rotación de cuello lenta",d:"Chin al pecho → oreja al hombro → nuca → otro lado. Muy lento, 3 rondas. Libera la tensión que comprime la voz."},
+         ]},
+      3:{tema:"Tu tono natural",
+         sci:"Cada persona tiene un tono de voz óptimo — no el más grave ni el más agudo, sino el que produce menos fatiga y más resonancia. Encontrarlo reduce el esfuerzo vocal en un 40%.",
+         sha:"Los cantos gregorianos y los mantras tibetanos se diseñaron para ser sostenibles durante horas. El secreto es hablar en el tono donde el cuerpo vibra, no donde la mente cree que suena bien.",
+         ejs:[
+           {id:"v3a",n:"Busca tu mmm",d:"Tararea 'mmm' en diferentes tonos. Cuando sientas que el pecho vibra más (como un motor suave), ese es tu tono. Quédate ahí 30 segundos."},
+           {id:"v3b",n:"Cuenta en tu tono",d:"Desde tu mmm natural, di en voz alta: 1, 2, 3... hasta 10. Sin subir ni bajar. Solo tu tono."},
+           {id:"v3c",n:"Lectura en voz alta",d:"Lee cualquier texto 2 minutos en tu tono natural. Siente la diferencia vs hablar forzado."},
+         ]},
+      4:{tema:"Articulación clara",
+         sci:"La dicción no es exagerar los sonidos — es activar los músculos articuladores (labios, lengua, mandíbula) que el uso del celular y hablar rápido van atrofiando.",
+         sha:"Los actores de teatro griego debían ser escuchados a 100 metros sin micrófono. No gritaban — articulaban. La claridad es más poderosa que el volumen.",
+         ejs:[
+           {id:"v4a",n:"Trabalenguas lento",d:"'Tres tristes tigres' — muy lento, exagerando cada consonante. Luego normal. Luego rápido. 3 rondas."},
+           {id:"v4b",n:"Vocales exageradas",d:"A-E-I-O-U abriendo la boca al máximo en cada vocal. 10 repeticiones. Activa la mandíbula."},
+           {id:"v4c",n:"Labios y lengua",d:"Vibra los labios (como motor de carro). Luego lengua (como serpiente). Alternando 30 segundos cada uno."},
+         ]},
+      5:{tema:"Integración de la semana",
+         sci:"La consolidación de habilidades motoras ocurre durante el sueño — los circuitos neurales de voz que entrenaste se refuerzan esta noche. Hoy encadenas todo.",
+         sha:"El viernes en muchas tradiciones es el día de Venus — la planeta de la voz, la expresión y la belleza. Buen día para cerrar un ciclo y celebrar lo construido.",
+         ejs:[
+           {id:"v5a",n:"Secuencia completa",d:"5 respiraciones 4-4-4 → postura → busca tu mmm → lee 2 minutos en voz alta con articulación consciente."},
+           {id:"v5b",n:"Grábate 1 minuto",d:"Habla de cualquier tema 60 segundos. Escúchate. Sin juzgar — solo observa dónde hay tensión, dónde fluye."},
+           {id:"v5c",n:"Frase del día en voz alta",d:"Di en voz alta 3 veces con confianza: 'Mi voz es mi firma. La estoy entrenando.'"},
+         ]},
+    }
+  },
+  2:{
+    label:"Nivel 2 — Presencia vocal",color:"var(--gold)",
+    desc:"Ya tienes la base. Ahora la voz empieza a tener carácter. Trabajamos proyección, pausas, velocidad y cómo hablar de forma que la gente quiera escucharte.",
+    dias:{
+      1:{tema:"Proyección sin esfuerzo",
+         sci:"Proyectar la voz no es gritar — es dirigir el sonido. Los actores hablan hacia 'el fondo de la sala', no hacia el micrófono. Esto activa los resonadores superiores y llena el espacio sin tensión.",
+         sha:"Los maestros zen y los curanderos hablan poco y en voz baja, pero se les escucha perfectamente. La intención dirige el sonido antes que el volumen.",
+         ejs:[
+           {id:"v21a",n:"Habla hacia la pared",d:"Elige una pared a 3 metros. Habla 'hacia' ella — como si quisieras que te escuche. No gritas, diriges. 2 minutos."},
+           {id:"v21b",n:"Susurro proyectado",d:"Susurra pero proyectando — que se escuche a 2 metros. Es una habilidad de actores. 1 minuto."},
+           {id:"v21c",n:"Crescendo controlado",d:"Empieza muy suave → aumenta progresivamente en 10 pasos hasta tu volumen máximo cómodo. Sin romper la voz."},
+         ]},
+      2:{tema:"El poder de la pausa",
+         sci:"Los comunicadores más efectivos no hablan más — hacen pausas más estratégicas. El silencio da peso a las palabras anteriores y crea anticipación. El cerebro del oyente llena el silencio con atención.",
+         sha:"Los chamanes usan el silencio como herramienta ritual. Lo que no se dice tiene tanta fuerza como lo que se dice. En retórica clásica esto se llamaba 'reticencia'.",
+         ejs:[
+           {id:"v22a",n:"Lee con puntos completos",d:"Lee un texto haciendo una pausa real (2 segundos) en cada punto. Siente raro al principio. Escúchate después."},
+           {id:"v22b",n:"Pausa antes de lo importante",d:"Practica diciendo: '[pausa] esto es importante'. La pausa previa multiplica el peso de lo que sigue."},
+           {id:"v22c",n:"Silencio consciente",d:"Siéntate en silencio 3 minutos. Solo observa el sonido del espacio. Entrena la comodidad con el silencio."},
+         ]},
+      3:{tema:"Velocidad y ritmo",
+         sci:"Hablar rápido activa la ansiedad del oyente. Hablar despacio transmite confianza y da tiempo al cerebro del otro para procesar. La velocidad óptima para conversación es 130-150 palabras por minuto.",
+         sha:"Los narradores orales de todas las culturas — griots africanos, cuentacuentos andinos — dominaban el ritmo como los músicos. La voz tiene tiempo, aceleración y pausa.",
+         ejs:[
+           {id:"v23a",n:"Lectura lenta deliberada",d:"Lee un párrafo al 50% de tu velocidad normal. Exageradamente lento. Notarás cuánto solías correr."},
+           {id:"v23b",n:"Variación de ritmo",d:"Lee una frase rápido, otra lento, otra normal. Alterna conscientemente. La variación es lo que mantiene la atención."},
+           {id:"v23c",n:"Grábate y mide",d:"Habla 1 minuto, cuenta las palabras. Meta: 130-150. Si pasas de 180, practica frenar."},
+         ]},
+      4:{tema:"Énfasis y color vocal",
+         sci:"La prosodia (el 'canto' del habla) es lo que hace que una voz sea interesante o monótona. El énfasis en palabras clave activa el sistema de recompensa del oyente — literalmente libera dopamina.",
+         sha:"Los poetas épicos griegos memorizaban miles de versos usando el ritmo y el énfasis. El cerebro retiene 6× mejor la información cuando hay variación tonal.",
+         ejs:[
+           {id:"v24a",n:"Énfasis en palabras clave",d:"Lee: 'Esto es IMPORTANTE para TI'. Luego: 'ESTO es importante para ti'. Nota cómo cambia el significado."},
+           {id:"v24b",n:"Lee con emoción",d:"Lee el mismo párrafo: primero aburrido, luego emocionado, luego triste. La voz aprende el rango."},
+           {id:"v24c",n:"Evita el final descendente",d:"Muchas personas bajan la voz al final de cada frase. Practica terminar en tono neutro o ligeramente arriba."},
+         ]},
+      5:{tema:"Conversación con presencia",
+         sci:"El contacto visual, la velocidad y el volumen se sincronizan subconscientemente con el interlocutor. Esto se llama 'entrenamiento vocal social' y cambia la dinámica de poder en la conversación.",
+         sha:"En la tradición andina del ayni (reciprocidad), la comunicación es un intercambio de energía. Hablar con presencia es dar — no solo transmitir información.",
+         ejs:[
+           {id:"v25a",n:"Simulación de conversación",d:"Habla en voz alta como si le explicaras algo a alguien. Incluye pausas, preguntas retóricas, énfasis. 3 minutos."},
+           {id:"v25b",n:"Escucha activa real",d:"En tu próxima conversación: no interrumpas, repite con tus palabras lo que escuchaste antes de responder."},
+           {id:"v25c",n:"Presentación de 1 minuto",d:"Preséntate en 60 segundos: quién eres, qué haces, por qué importa. En voz alta, sola. Grábate."},
+         ]},
+    }
+  },
+  3:{
+    label:"Nivel 3 — Autoridad",color:"#9060C0",
+    desc:"La voz con autoridad no es la más fuerte — es la más segura. Trabajamos confianza, manejo del nerviosismo y presencia en situaciones reales.",
+    dias:{
+      1:{tema:"Voz y seguridad",
+         sci:"El nerviosismo eleva el cortisol, que tensa la laringe y agudiza la voz. La técnica de 'power posing' (postura expansiva 2 minutos antes de hablar) reduce el cortisol en 25% y sube la testosterona 20%.",
+         sha:"Los guerreros andinos antes de la batalla hacían rituales de voz — cantos y gritos controlados. No para intimidar al enemigo sino para regular su propio sistema nervioso.",
+         ejs:[
+           {id:"v31a",n:"Power pose vocal",d:"De pie, manos en la cadera, cabeza alta. Habla en voz alta 2 minutos desde esa posición. Siente la diferencia."},
+           {id:"v31b",n:"Grito controlado",d:"Inhala profundo → exhala con un 'HA!' fuerte desde el abdomen. No desde la garganta. 5 veces. Libera tensión."},
+           {id:"v31c",n:"Afirmación en espejo",d:"Al espejo, voz clara: 'Tengo algo que decir y vale la pena escucharlo.' 5 veces. Sin ironía."},
+         ]},
+      2:{tema:"Hablar en público (simulado)",
+         sci:"La exposición gradual es el único método con evidencia para reducir el miedo a hablar. Empezando con audiencia de 1 (tú misma) hasta grupos reales.",
+         sha:"Los chamanes aprenden su oficio hablando primero a las plantas, luego a los animales, luego a los espíritus, luego a los humanos. La audiencia va creciendo.",
+         ejs:[
+           {id:"v32a",n:"Discurso a la habitación",d:"Habla 3 minutos como si hubiera 10 personas. De pie, proyectando, con pausas. Grábate."},
+           {id:"v32b",n:"Explica algo complejo simple",d:"Explica en voz alta un tema que dominas — como si fuera para alguien que no sabe nada. 2 minutos."},
+           {id:"v32c",n:"Improvisa 60 segundos",d:"Elige un objeto al azar. Habla de él 60 segundos sin parar. No importa el contenido — es fluidez."},
+         ]},
+      3:{tema:"Manejo de preguntas difíciles",
+         sci:"El tiempo de respuesta promedio en conversación es 200ms. Tomarte 2-3 segundos antes de responder preguntas difíciles se percibe como reflexión, no como duda.",
+         sha:"En la tradición zen, el maestro no responde la pregunta difícil inmediatamente. El silencio contemplativo es parte de la respuesta. Quien controla el tiempo controla la conversación.",
+         ejs:[
+           {id:"v33a",n:"Pausa antes de responder",d:"Practica con preguntas que te hagas: '¿Por qué haces lo que haces?' — pausa 3 segundos → responde. Normaliza la pausa."},
+           {id:"v33b",n:"'Buena pregunta'",d:"Practica decir 'Déjame pensar en eso' o 'Es una pregunta interesante' antes de responder algo difícil. Sin prisa."},
+           {id:"v33c",n:"Respuesta estructura",d:"Practica responder con: punto 1 → punto 2 → conclusión. La estructura da autoridad aunque el contenido sea simple."},
+         ]},
+      4:{tema:"Voz en formato digital",
+         sci:"El 38% de la percepción de credibilidad en audio/video viene de la voz (no del contenido). El ring light importa menos que el micrófono. Y el micrófono importa menos que la técnica.",
+         sha:"La voz grabada es la voz más honesta — no hay presencia física que compense. Lo que queda es puro sonido. Por eso los chamanes cuidaban tanto el canto: era lo que sobrevivía.",
+         ejs:[
+           {id:"v34a",n:"Grábate en video 2 min",d:"Habla de cualquier tema a cámara. Luego obsérva sin sonido: ¿qué comunica tu postura? Luego con sonido: ¿cómo suenas?"},
+           {id:"v34b",n:"Ajusta el entorno",d:"Grábate en diferentes espacios (baño, cuarto, sala). Nota cómo cambia el sonido. Elige el mejor para contenido."},
+           {id:"v34c",n:"Hook en 10 segundos",d:"Practica abrir cualquier tema en 10 segundos de forma que genere curiosidad. Grábate y escucha."},
+         ]},
+      5:{tema:"Tu voz de marca",
+         sci:"La consistencia vocal es lo que hace reconocible a un comunicador. El cerebro reconoce patrones de voz igual que reconoce caras. Tu 'firma vocal' se construye con práctica deliberada.",
+         sha:"Los juglares medievales y los bardos celtas eran reconocidos por su voz antes de que la gente supiera su nombre. La voz es identidad.",
+         ejs:[
+           {id:"v35a",n:"Define tu firma",d:"Describe en voz alta cómo quieres sonar: directa, cálida, experta, divertida. Luego habla desde esa intención 3 minutos."},
+           {id:"v35b",n:"Monólogo de marca",d:"Habla 3 minutos sobre lo que haces y por qué importa — en tu voz, no en voz corporativa. Grábate."},
+           {id:"v35c",n:"Escucha tu mejor toma",d:"De todas tus grabaciones de esta semana, identifica el momento donde sonaste más tú. ¿Qué estabas haciendo diferente?"},
+         ]},
+    }
+  }
 };
 
-const VSAB = [
-  {i:"🔬",t:"La Mielinización",txt:"Cada vez que prácticas un ejercicio vocal, las neuronas involucradas se recubren de más mielina — la sustancia que acelera las señales nerviosas. Después de 21 días de práctica diaria, el cambio es medible en resonancias magnéticas. Tu voz no mejora por magia. Mejora por física celular."},
-  {i:"🌀",t:"Cymatics: El Sonido Crea Forma",txt:"En 1967, Hans Jenny filmó arena sobre una placa metálica y le aplicó sonido. A cada frecuencia la arena formaba patrones geométricos perfectos. Tu voz literalmente organiza la materia del espacio donde estás. Los chamanes del sonido no estaban equivocados — tenían física ancestral."},
-  {i:"🦁",t:"La Voz del Liderazgo",txt:"Estudios de la Universidad de Duke muestran que voces más graves y resonantes generan confianza automática en el oyente — activada subconscientemente, evolutivamente. No es injusto. Es neurobiología. Por eso entrenamos los resonadores primero."},
-  {i:"🌬️",t:"El Nervio Vago y la Voz",txt:"El nervio vago inerva las cuerdas vocales. Cuando estás nerviosa, se tensa y la voz sube y se acelera. Cuando respiras con el diafragma, el vago se activa y la voz baja, se calma y proyecta. Respirar antes de hablar no es truco — es neuroanatomía pura."},
-  {i:"✨",t:"El Logos Ancestral",txt:"Los griegos llamaban logos a la palabra con poder. Los mayas creían que los sonidos eran dioses. El Génesis dice En el principio fue el Verbo. Todas las tradiciones consideraron la voz sagrada — milenios antes de que la neurociencia explicara por qué el sonido activa el sistema límbico directamente."},
-  {i:"🎵",t:"Prosodia: La Música del Habla",txt:"La prosodia se procesa en el hemisferio derecho, el mismo que procesa la música. Un orador monótono activa menos cerebro en el oyente que uno músical. Hablar bien no es ser dramático: es ser una melodía que el cerebro del otro no puede ignorar."},
-  {i:"🪘",t:"El Tambor y la Respiración",txt:"Los chamanes del Amazonas usaban ritmos de 4 a 6 Hz para inducir estados de coherencia. El ritmo respiratorio óptimo para la voz proyectada es también de 4 a 6 ciclos por minuto. La coincidencia no existe — es el mismo estado de presencia total."}
+var VOZ_WEEKEND_TIPS=[
+  {e:"🌿",t:"Hidratación vocal",txt:"La voz funciona mejor con cuerdas vocales hidratadas. Toma agua tibia (no fría) durante el día. El vapor directo (inhalar sobre agua caliente 5 min) hidrata las cuerdas desde adentro."},
+  {e:"😴",t:"El sueño repara la voz",txt:"Mientras duermes, las cuerdas vocales se reparan. Una noche de mal sueño produce voz ronca y tensa. El descanso vocal es parte del entrenamiento."},
+  {e:"🎵",t:"Escucha activa",txt:"Elige un podcast, un discurso o una canción. Escucha solo la voz — el tono, el ritmo, las pausas. No el contenido. Entrenas el oído que luego aplicas a la tuya."},
+  {e:"🧘",t:"Meditación de sonido",txt:"Siéntate en silencio 5 minutos. Luego tararear tu nota natural suavemente durante 5 más. Es yoga vocal — restaura la voz sin esfuerzo."},
+  {e:"🌱",t:"Epigenética vocal",txt:"Los hábitos de voz cambian la expresión génica de los músculos laríngeos. Practicar 15 minutos diarios durante 8 semanas produce cambios estructurales medibles — no solo de habilidad."},
 ];
 
-const VTIPS = [
-  "Esta semana: antes de cada idea importante, para 2 segundos. Solo eso.",
-  "Esta semana: grábate UNA vez al día. 60 segundos. Obsérvate como científica, no como crítica.",
-  "Esta semana: 3 respiraciones diafragmáticas antes de cada conversación importante.",
-  "Esta semana: habla más lento cuando algo es profundo o importante.",
-  "Esta semana: imagina que tu voz llega a la pared del fondo en cada conversación."
-];
-
-// vozD declared at top
-function saveVoz(){localStorage.setItem("voz_"+TK,JSON.stringify(vozD));}
-function togVoz(id){vozD[id]=!vozD[id];saveVoz();updateProgress();playChime();render();}
-
-
-// ═══ WEEK/MONTH HELPERS ═══
-function getWeekOfMonth(){
-  var d=new Date();
-  return Math.floor((d.getDate()-1)/7);
-}
-
-// ═══ VOZ PROGRESSION ═══
-var VDIA_EXTRA={
-  1:[null,
-    {id:"v1w1",n:"Warm-up encadenado",d:"Encadena sin parar: 30s mmm grave → 30s lip trill → 30s escala humming → 30s nnn agudo. Construye resistencia vocal.",t:"3 min"},
-    {id:"v1w2",n:"Proyección + resonancia",d:"Di 'BOOM' con fuerza desde el pecho 10 veces. Luego habla 2 minutos proyectando como si el oyente estuviera a 10 metros.",t:"4 min"},
-    {id:"v1w3",n:"Integración completa nivel 1",d:"Graba 2 minutos hablando de tu día. Escucha y nota: ¿dónde pierdes resonancia? ¿dónde ganas autoridad?",t:"5 min"}
-  ],
-  2:[null,
-    {id:"v2w1",n:"Staccato de vocales",d:"Di cada vocal (A-E-I-O-U) en staccato (corto y marcado) 10 veces cada una. Luego en legato (ligado). Alterna 3 rondas.",t:"3 min"},
-    {id:"v2w2",n:"Lectura expresiva",d:"Lee en voz alta 2 párrafos de un libro. Primera vez neutro. Segunda vez con emoción genuina. Graba y compara.",t:"4 min"},
-    {id:"v2w3",n:"Integración articulación",d:"Graba 2 min explicando algo complejo. Revisa: ¿se entiende cada palabra? ¿hay musicalidad?",t:"5 min"}
-  ],
-  3:[null,
-    {id:"v3w1",n:"Escala cromática humming",d:"Haz humming subiendo semitono a semitono desde tu nota más grave hasta la más aguda. Sin forzar. 3 repeticiones.",t:"3 min"},
-    {id:"v3w2",n:"Modulación emocional",d:"Di la frase 'Esto es importante para mí' con 5 emociones diferentes: curiosidad, urgencia, calma, entusiasmo, autoridad.",t:"4 min"},
-    {id:"v3w3",n:"Integración avanzada",d:"Graba 3 min presentando un tema que dominas. Usa todo: resonancia, articulación, ritmo, pausas, modulación.",t:"5 min"}
-  ],
-  4:[null,
-    {id:"v4w1",n:"Lip trill cromático",d:"Lip trill subiendo y bajando toda tu escala. 3 veces subiendo, 3 bajando. Mantén el aire constante.",t:"3 min"},
-    {id:"v4w2",n:"Contraste dinámico",d:"Habla 1 min en volumen muy bajo pero perfectamente articulado. Luego 1 min proyectando fuerte. Alterna sin perder calidad.",t:"4 min"},
-    {id:"v4w3",n:"Performance final",d:"Graba 3-5 min como si fuera una presentación real. Sin cortes. Luego analiza: ¿qué mejoró vs la semana 1?",t:"5 min"}
-  ],
-  5:[null,
-    {id:"v5w1",n:"Warm-up completo viernes",d:"Lip trill 30s → humming 30s → vocales resonantes 30s → texto rápido 30s. Sin parar.",t:"2 min"},
-    {id:"v5w2",n:"Freestyle vocal",d:"Habla 2 min sin guión sobre cualquier tema. Aplica todo lo que entrenaste esta semana conscientemente.",t:"3 min"},
-    {id:"v5w3",n:"Cierre semanal grabado",d:"Graba 2 min respondiendo: ¿qué mejoró esta semana en tu voz? ¿qué trabajarás la próxima?",t:"4 min"}
-  ]
-};
-
-var VOZ_NIVEL_LABELS=["Nivel 1 — Fundamentos","Nivel 2 — Intermedio","Nivel 3 — Avanzado","Nivel 4 — Integración"];
-var VOZ_NIVEL_COLORS=["var(--tr)","var(--gd)","#9060C0","#5A9E8A"];
-
-function getVozDayExercises(){
+function getVozDayData(){
   var dow=new Date().getDay();
-  if(dow<1||dow>5) return [];
-  var base=VDIA[dow]?VDIA[dow].ejs:[];
-  var wk=getWeekOfMonth();
-  var extra=VDIA_EXTRA[dow]&&VDIA_EXTRA[dow][wk]?[VDIA_EXTRA[dow][wk]]:[];
-  return base.concat(extra);
-}
-
-// ═══ PNL WEEKLY ROTATION ═══
-var PNL_SEMANAS=[
-  {k:"id", label:"Identidad",    color:"rgba(201,169,110,.06)",
-   frase:"¿Quién soy cuando nadie me mira? Esta semana defines tu identidad más profunda.",
-   dailyAff:["id1","id2","id3"], dailyEx:["ide1"]},
-  {k:"cr", label:"Creencias",    color:"rgba(107,158,138,.06)",
-   frase:"Las creencias no son hechos — son historias que elegimos seguir contando.",
-   dailyAff:["cr1","cr2","cr3"], dailyEx:["cr4"]},
-  {k:"em", label:"Emociones",    color:"rgba(138,158,184,.06)",
-   frase:"Las emociones son datos, no órdenes. Esta semana aprendes a usarlas.",
-   dailyAff:["et1","et2"],       dailyEx:["et3"]},
-  {k:"fu", label:"Futuro",       color:"rgba(201,169,110,.06)",
-   frase:"El futuro no se predice — se construye. Esta semana lo diseñas.",
-   dailyAff:["f1","f2","f3"],    dailyEx:["fe1"]}
-];
-
-function getPnlWeek(){ return PNL_SEMANAS[getWeekOfMonth()%4]; }
-function getPnlDailyTotal(){ var pw=getPnlWeek(); return pw.dailyAff.length+pw.dailyEx.length; }
-function getPnlDailyDone(){
-  var pw=getPnlWeek();
-  return pw.dailyAff.concat(pw.dailyEx).filter(function(id){return !!pnlD[id];}).length;
+  var nivel=getVozNivel();
+  var nd=VOZ_NIVELES[nivel];
+  if(!nd) return null;
+  return nd.dias[dow]||null;
 }
 
 function renderVoz(){
   const now = new Date();
   const dow = now.getDay();
-  const wkNum = Math.floor((now - new Date(now.getFullYear(),0,1))/(7*864e5));
-  const sabIdx = now.getDate() % VSAB.length;
-  const sab = VSAB[sabIdx];
-  const tip = VTIPS[wkNum % VTIPS.length];
+  var nivel = getVozNivel();
+  var nd = VOZ_NIVELES[nivel];
 
   if(dow===0||dow===6){
-    let h = '<div class="wk-hdr"><span class="wk-emo">🎤</span><div>';
-    h += '<div class="wk-ttl">Tu Voz es tu Poder</div>';
-    h += '<div class="wk-sub">Descanso vocal activo</div></div></div>';
-    h += '<div class="moon-section" style="margin-bottom:14px"><span class="moon-emo">🎙️</span>';
-    h += '<div class="moon-name" style="font-size:13px">La voz es el instrumento más antiguo.<br>El cuerpo entero es su caja de resonancia.</div>';
-    h += '<div class="moon-energy">Tradición oral andina</div></div>';
-    h += '<div class="sec-ttl"><span>Meta semanal</span><div class="sec-ln"></div></div>';
-    h += '<div class="tip-box" style="font-size:13px;line-height:1.7">🎯 ' + tip + '</div>';
-    h += '<div class="sec-ttl" style="margin-top:14px"><span>Sabiduría del día</span><div class="sec-ln"></div></div>';
-    h += '<div class="spirit-card"><div class="spirit-hdr"><span class="spirit-ico">' + sab.i + '</span><span class="spirit-ttl">' + sab.t + '</span></div><div class="spirit-txt">' + sab.txt + '</div></div>';
-    h += '<div class="wu-box" style="margin-top:10px">🌿 Descanso vocal: habla menos hoy, escucha más. La voz se consolida en el silencio — igual que los músculos en el descanso.</div>';
+    var tip=VOZ_WEEKEND_TIPS[now.getDate()%VOZ_WEEKEND_TIPS.length];
+    var h='<div class="wk-hdr"><span class="wk-emo">🎤</span><div>';
+    h+='<div class="wk-ttl">Descanso vocal</div>';
+    h+='<div class="wk-sub">La voz se consolida en el reposo</div></div></div>';
+    h+='<div style="background:var(--white);border-radius:16px;padding:20px;margin-bottom:12px;box-shadow:var(--shad)">';
+    h+='<div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:24px">'+tip.e+'</span>';
+    h+='<div><div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ink);margin-bottom:8px">'+tip.t+'</div>';
+    h+='<div style="font-size:12px;color:var(--mu);line-height:1.75;font-weight:300">'+tip.txt+'</div></div></div>';
+    h+='</div>';
     return h;
   }
 
-  var diaData = VDIA[dow];
+  var diaData=getVozDayData();
+  var DIAS_ES=['','Lunes','Martes','Miércoles','Jueves','Viernes'];
+
+  // Header nivel
+  var h='<div style="background:var(--white);border:1.5px solid rgba(201,169,110,.2);border-radius:20px;padding:18px;margin-bottom:12px;box-shadow:var(--shad)">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">';
+  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);font-weight:300">Tu nivel actual</div>';
+  h+='<div style="display:flex;gap:6px">';
+  [1,2,3].forEach(function(n){
+    h+='<button onclick="setVozNivel('+n+')" style="width:28px;height:28px;border-radius:50%;border:1.5px solid '+(n===nivel?'var(--gold)':'var(--border)')+';background:'+(n===nivel?'var(--gold)':'transparent')+';color:'+(n===nivel?'white':'var(--mu)')+';font-size:10px;font-weight:600;cursor:pointer">'+n+'</button>';
+  });
+  h+='</div></div>';
+  h+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:'+nd.color+';margin-bottom:6px">'+nd.label+'</div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">'+nd.desc+'</div>';
+  h+='</div>';
+
   if(!diaData){
-    return '<div class="rest-day"><p>🎤<br><br>Hoy no hay ejercicios de voz.<br>Descansa y escucha.</p></div>';
+    h+='<div style="text-align:center;padding:30px;color:var(--mu);font-size:13px">No hay ejercicios para hoy 🎤</div>';
+    return h;
   }
 
-  var w = getWeekOfMonth();
-  var nivelLabel = VOZ_NIVEL_LABELS[w];
-  var nivelColor = VOZ_NIVEL_COLORS[w];
-  var exercises = getVozDayExercises();
-  var vozCnt = exercises.filter(function(e){return !!vozD[e.id];}).length;
-  var total = exercises.length;
+  // Tema del día
+  h+='<div class="sec-ttl"><span>'+DIAS_ES[dow]+' — '+diaData.tema+'</span><div class="sec-ln"></div></div>';
 
-  var h = '<div class="wk-hdr"><span class="wk-emo">🎤</span><div>';
-  h += '<div class="wk-ttl">' + diaData.tema + '</div>';
-  h += '<div class="wk-sub">' + DAYS_ES[dow] + ' · Nivel ' + (getWeekOfMonth()+1) + '</div>';
-  h += '</div></div>';
+  // Ciencia
+  h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--shad)">';
+  h+='<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><span style="font-size:16px">🔬</span>';
+  h+='<div style="font-family:var(--ff);font-size:15px;font-style:italic;color:var(--ink)">Por qué funciona hoy</div></div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.75;font-weight:300">'+diaData.sci+'</div>';
+  h+='</div>';
 
-  h += '<div style="display:inline-block;border:1.5px solid ' + nivelColor + ';border-radius:20px;padding:4px 13px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:' + nivelColor + ';margin-bottom:12px">' + nivelLabel + '</div>';
+  // Perspectiva chamánica
+  h+='<div style="background:rgba(144,96,192,.05);border-left:2px solid #9060C0;border-radius:0 14px 14px 0;padding:14px 16px;margin-bottom:12px">';
+  h+='<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><span style="font-size:16px">🌿</span>';
+  h+='<div style="font-family:var(--ff);font-size:15px;font-style:italic;color:#9060C0">Perspectiva chamánica</div></div>';
+  h+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300">'+diaData.sha+'</div>';
+  h+='</div>';
 
-  h += '<div class="spirit-card" style="margin-bottom:10px"><div class="spirit-hdr"><span class="spirit-ico">🔬</span><span class="spirit-ttl">Por qué funciona hoy</span></div><div class="spirit-txt">' + diaData.sci + '</div></div>';
-  h += '<div class="spirit-card" style="margin-bottom:14px;border-left:3px solid var(--gd);border-radius:0 14px 14px 0"><div class="spirit-hdr"><span class="spirit-ico">🪶</span><span class="spirit-ttl">Perspectiva chamánica</span></div><div class="spirit-txt">' + diaData.sha + '</div></div>';
-  h += '<div class="sec-ttl"><span>Ejercicios de hoy</span><div class="sec-ln"></div></div>';
-
-  for(var i=0;i<exercises.length;i++){
-    var ex = exercises[i];
-    var isDone = !!vozD[ex.id];
-    var expKey = 'vz' + i + dow;
-    var isExtra = (w>0 && VDIA_EXTRA[dow] && VDIA_EXTRA[dow][w] && ex.id===VDIA_EXTRA[dow][w].id);
-    var isExp = expanded === expKey;
-    h += '<div class="scard ' + (isDone?'done':'') + '" style="' + (isExtra?'border-left:3px solid '+nivelColor+';':'') + '" onclick="togExp(\''+expKey+'\')">';
-    h += '<div class="crow">';
-    h += '<span style="font-size:18px">' + (isDone?'✅':'⬜') + '</span>';
-    h += '<div style="flex:1"><div class="clbl ' + (isDone?'done':'') + '" style="font-size:13px;font-weight:500">' + (i+1) + '. ' + ex.n + (isExtra?' <span style="font-size:9px;color:'+nivelColor+'">+NUEVO</span>':'') + '</div>';
-    h += '<div style="font-size:10px;color:var(--mu);margin-top:2px">⏱ ' + ex.t + '</div></div>';
-    h += '<button class="ckbtn ' + (isDone?'on':'') + '" onclick="event.stopPropagation();togVoz(\''+ex.id+'\')">' + (isDone?'✓':'') + '</button>';
-    h += '</div>';
-    if(isExp){h += '<div class="sci-box" style="margin-top:8px">' + ex.d + '</div>';}
-    h += '</div>';
-  }
-
-  h += '<div class="sec-ttl" style="margin-top:14px"><span>Sabiduría del día</span><div class="sec-ln"></div></div>';
-  h += '<div class="spirit-card"><div class="spirit-hdr"><span class="spirit-ico">' + sab.i + '</span><span class="spirit-ttl">' + sab.t + '</span></div><div class="spirit-txt">' + sab.txt + '</div></div>';
-  h += '<div class="tip-box">🎙️ ' + tip + '</div>';
+  // Ejercicios
+  h+='<div class="sec-ttl"><span>Ejercicios de hoy</span><div class="sec-ln"></div></div>';
+  diaData.ejs.forEach(function(ej){
+    var isDone=!!vozD[ej.id];
+    h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--shad);display:flex;gap:12px;align-items:flex-start">';
+    h+='<div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:5px">'+ej.n+'</div>';
+    h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">'+ej.d+'</div></div>';
+    h+='<button onclick="togVoz(\''+ej.id+'\')" style="width:32px;height:32px;border-radius:50%;border:1.5px solid '+(isDone?'var(--gold)':'var(--border)')+';background:'+(isDone?'var(--gold)':'transparent')+';color:'+(isDone?'white':'var(--mu)')+';font-size:14px;cursor:pointer;flex-shrink:0;margin-top:2px">'+(isDone?'✓':'')+'</button>';
+    h+='</div>';
+  });
 
   return h;
 }
 
-// ═══ PNL MODULE ═══
-var pnlTab='identidad';
+function togVoz(id){
+  vozD[id]=!vozD[id];
+  localStorage.setItem('voz_'+TK,JSON.stringify(vozD));
+  updateProgress();
+  render();
+}
 
-var IDENTIDAD_AFF=[
-  {id:'id1',txt:'Soy una mujer bilingüe que se expresa con claridad y poder.',base:'Identidad lingueistica presente, no futura'},
-  {id:'id2',txt:'Mi cuerpo es fuerte, capaz y merece cuidado.',base:'Integracion mente-cuerpo (Damasio)'},
-  {id:'id3',txt:'Soy alguien que aprende rapido y aplica lo que aprende.',base:'Growth mindset - Dweck, 2006'},
-  {id:'id4',txt:'Merezco prosperidad, amor y crecimiento en igual medida.',base:'Autoconcepto y merecimiento - Baumeister'},
-  {id:'id5',txt:'Soy una versión nueva cada mañana que elijo despertar a las 6.',base:'Neuroplasticidad del comportamiento ritual'},
-  {id:'id6',txt:'Mi voz tiene poder. Mis palabras construyen realidades.',base:'Efecto Pigmalion inverso - autopercepción vocal'},
-  {id:'id7',txt:'Soy curiosa, valiente y capaz de reinventarme.',base:'Identidad narrativa - McAdams, 2001'}
-];
 
-var IDENTIDAD_EJ=[
-  {id:'ide1',n:'La entrevista a tu yo futuro',dur:'10 min',
-   steps:['Sientate comoda y cierra los ojos 1 minuto.',
-          'Imagina que tienes 5 años mas. Eres bilingüe, trabajas en algo que amas, te sientes segura.',
-          'Abre los ojos y escribe en papel: como se llama esa versión, que hace un martes a las 8 AM, como habla, como se viste.',
-          'Lee lo que escribiste en voz alta, en presente: Yo soy... Yo hago... Yo tengo...',
-          'Guarda ese papel. Es tu brujula.'],
-   sci:'El ensayo mental activa los mismos circuitos motores que la accion real (Decety, 1996). Tu cerebro empieza a construir el camino antes de que tu cuerpo lo camine.',
-   sha:'Los chamanes tzotziles de Chiapas tienen el concepto del ch ulel: el alma que ya sabe quien eres en tu máxima expresión. Este ejercicio es ir a preguntarle.'},
-  {id:'ide2',n:'Actua como ella durante 1 hora',dur:'1 hora',
-   steps:['Elige 1 hora de tu dia de hoy.',
-          'Durante esa hora, actua exactamente como lo haria tu yo futuro: como camina, como responde mensajes, como habla, como decide.',
-          'No tienes que creerlo todavia. Solo actua.',
-          'Al final anota: que fue diferente, que se sintio raro, que se sintio natural.'],
-   sci:'El principio de fake it till you become it tiene base en el condicionamiento inverso: la conducta cambia la cognicion tanto como la cognicion cambia la conducta.',
-   sha:'En el teatro sagrado zapoteca, los danzantes se convertian en el dios que representaban. No lo fingian, lo encarnaban. La diferencia es intención.'},
-  {id:'ide3',n:'Carta de tu yo futuro a tu yo de hoy',dur:'15 min',
-   steps:['Toma papel y bolígrafo (no cel: la mano activa el sistema límbico).',
-          'Escribe una carta de tu versión de 5 años hacia adelante, a ti hoy.',
-          'Que diga: que ya lograste, que si valio la pena, que te diria que hicieras diferente.',
-          'Empieza con: Querida [tu nombre], ya lo lograste...',
-          'Lee la carta en voz alta. Si te emocióna esta funcionando.'],
-   sci:'La técnica de future self continuity (Hershfield, 2011) activa la corteza prefrontal medial y reduce la procrastinacion hasta un 30%. Ver al yo futuro como real cambia decisiones hoy.',
-   sha:'Los curanderos huicholes hablan con el tiempo de manera no lineal: el pasado y el futuro coexisten. Esta carta es visitar el tiempo donde ya eres quien quieres ser.'}
-];
 
-var CREENCIAS_L=[
-  {id:'cr1',vieja:'No soy lo suficientemente inteligente para esto.',nueva:'Mi cerebro tiene plasticidad ilimitada. Inteligente no es fijo, es lo que hago hoy.',ref:'Las investigaciónes de Dweck muestran que creer en la capacidad de cambiar produce cambio real.'},
-  {id:'cr2',vieja:'Siempre dejo las cosas a medias.',nueva:'Estoy aprendiendo a terminar lo que empiezo. Ya hay evidencia: llevo semanas con esta rutina.',ref:'La identidad cambia por actos de votacion (Clear, 2018). Cada dia que sigues, votas por quien eres.'},
-  {id:'cr3',vieja:'No soy buena con los idiomas.',nueva:'Mi cerebro esta diseñado para los idiomas. Los aprendi de bebe sin metodo. Lo hare de nuevo.',ref:'No hay no ser buena para idiomas, solo hay cantidad de exposicion (Krashen, 1982).'},
-  {id:'cr4',vieja:'No merezco las cosas buenas que quiero.',nueva:'Merecer no se gana, se decide. Elijo merecerlo.',ref:'El merecimiento es una narrativa, no una medida. Cambiar la narrativa cambia el comportamiento (McAdams).'},
-  {id:'cr5',vieja:'Soy demasiado impulsiva o emociónal.',nueva:'Tengo emociónes fuertes y las estoy aprendiendo a dirigir. Eso es fuerza.',ref:'La regulación emociónal es una habilidad neural entrenable, no un rasgo fijo (Gross, 1998).'},
-  {id:'cr6',vieja:'Empece muy tarde para cambiar.',nueva:'El cerebro adulto tiene plasticidad igual que el joven en habilidades motivadas. El momento es ahora.',ref:'Lazar (2005): prácticantes adultos de meditación muestran cambios corticales iguales a jovenes.'}
-];
-
-var EMOCIONES_T=[
-  {id:'et1',n:'La técnica del ancla',emo:'Para ansiedad o frustracion',dur:'5 min',
-   steps:['Piensa en un momento donde te sentiste completamente segura y poderosa.',
-          'Revivelo con todos los sentidos: donde estabas, que olias, que sonaba, como se sentia el cuerpo.',
-          'En el pico máximo de esa sensacion: aprieta suavemente el dedo indice y pulgar de la mano izquierda.',
-          'Suelta. Respira. Repite el proceso 3 veces con el mismo recuerdo.',
-          'En el futuro: cuando necesites ese estado, aprieta los mismos dedos. El ancla se activa.'],
-   sci:'Condicionamiento clásico aplicado a estados emociónales (Pavlov). La reconsolidación de memoria muestra que el ancla puede reactivar el estado original con práctica.',
-   sha:'En la tradicion andina se llama samay: soplar la energia de un estado a un objeto o gesto. Los chamanes lo hacian con piedras. Tu lo haces con tus propios dedos.'},
-  {id:'et2',n:'Escaneo corporal emociónal',emo:'Para cualquier emoción intensa',dur:'8 min',
-   steps:['Cierra los ojos. Respira 5 veces profundo.',
-          'Preguntate: donde vivo esta emoción en el cuerpo? Pecho, garganta, estomago?',
-          'Pon la mano ahi. Respira hacia ese lugar durante 2 minutos.',
-          'Preguntale a esa sensacion: que necesitas? No analices, escucha la primera imagen o palabra que aparece.',
-          'Agradece la señal y deja que se disuelva con la siguiente exhalacion.'],
-   sci:'La terapia somática (Levine) y el focusing (Gendlin) tienen evidencia de que el acceso corporal a la emoción facilita regulación mejor que el analisis cognitivo solo.',
-   sha:'En toda la medicina indigena americana, la emoción es energia que necesita moverse, no suprimirse. El cuerpo sabe como liberarla si le das permiso y presencia.'},
-  {id:'et3',n:'Reencuadre rapido 4 pasos',emo:'Para tristeza, ansiedad, frustracion',dur:'5 min',
-   steps:['Nombra la emoción exacta: no me siento mal, sino siento miedo a no ser suficiente.',
-          'Pregunta: esta emoción me esta protegiendo o informando de algo?',
-          'Pregunta: que necesitaria creer para sentirme diferente ahora mismo?',
-          'Di esa nueva creencia en voz alta 3 veces, despacio.'],
-   sci:'Reestructuracion cognitiva de Aaron Beck: la base de la CBT, la terapia con mayor evidencia del mundo. Cambiar el marco interpretativo con una pregunta mas precisa.',
-   sha:'Los curanderos zapotecas hacian limpias de pensamiento: nombrar la carga en voz alta para quitarle poder. La física cuantica llama a esto colapso de funcion de onda: el observador cambia lo observado.'}
-];
-
-var FUTURO_M=[
-  {id:'f1',periodo:'3 meses',meta:'Completar el modulo 1 del curso de ciencia de datos.',tipo:'carrera'},
-  {id:'f2',periodo:'3 meses',meta:'Alcanzar nivel A2 certificado en ingles.',tipo:'idioma'},
-  {id:'f3',periodo:'6 meses',meta:'Dar una presentación de 5 min en ingles.',tipo:'idioma'},
-  {id:'f4',periodo:'6 meses',meta:'Tener al menos 1 fuente de ingreso adicional activa.',tipo:'dinero'},
-  {id:'f5',periodo:'12 meses',meta:'Trabajar en algo relaciónado con ciencia de datos.',tipo:'carrera'},
-  {id:'f6',periodo:'12 meses',meta:'Comunicarse fluidamente en ingles en conversacion.',tipo:'idioma'},
-  {id:'f7',periodo:'12 meses',meta:'Vivir desde la prosperidad y la abundancia.',tipo:'vida'}
-];
-
-var FUTURO_EJ=[
-  {id:'fe1',n:'Visualizacion de fin de ano',dur:'10 min',
-   steps:['Sientate, cierra los ojos, respira profundo 5 veces.',
-          'Es 31 de diciembre de 2026. Estas sola, tranquila, feliz.',
-          'Donde estas físicamente? Construye el lugar con detalle.',
-          'Que lograste este año? Siente el orgullo en el pecho, no lo pienses, siéntelo.',
-          'Abre los ojos y escribe todo lo que viste, lo mas rapido que puedas.'],
-   sci:'Oettingen (2015): la visualización que incluye emoción positiva Y obstaculos a superar tiene mayor eficacia que solo la positiva. El cerebro necesita ambos para activar planificacion real.',
-   sha:'En la cosmovision andina el tiempo es espiral, no linea. Lo que visualizas con emoción genuina ya ocurrio en otra dimension del tiempo. Estas recordando algo que aun no ha pasado.'},
-  {id:'fe2',n:'Carta al universo con ciencia',dur:'15 min',
-   steps:['Escribe a mano una carta en tiempo presente y pasado: Gracias porque en 2026 logre...',
-          'Incluye detalles sensoriales: como se ve, suena, huele tu vida cuando ya tienes esto.',
-          'Incluye la emoción: Me siento... porque...',
-          'Lee la carta en voz alta una vez a la semana.',
-          'Guardala y relela en diciembre.'],
-   sci:'El sistema de activación reticular (SAR) filtra información segun lo que el cerebro define como importante. Una carta detallada programa el SAR para notar oportunidades alineadas con esas metas.',
-   sha:'La ley de la atraccion mal entendida es supersticion. Bien entendida es neurociencia del SAR: lo que nombras con emoción y repetición, el cerebro lo busca activamente en el entorno.'}
-];
-
-// pnlD declared at top
 function savePnl(){localStorage.setItem('pnl_'+TK,JSON.stringify(pnlD));}
 function togPnl(id){pnlD[id]=!pnlD[id];savePnl();updateProgress();playChime();render();}
 function setPnlTab(t){pnlTab=t;expanded=null;render();}
@@ -3130,6 +3071,32 @@ function renderMarca(){
   h+='<div style="height:2px;background:var(--border);border-radius:2px;overflow:hidden">';
   h+='<div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,var(--gold),var(--mauve));transition:width .8s ease"></div>';
   h+='</div></div>';
+
+
+  // ─── VIEW TOGGLE: Activo / Completado ───
+  var marcaView=localStorage.getItem('marca_view')||'activo';
+  h+='<div style="display:flex;gap:8px;margin-bottom:14px">';
+  h+='<button onclick="localStorage.setItem(\'marca_view\',\'activo\');render()" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid '+(marcaView==='activo'?'var(--gold)':'var(--border)')+';background:'+(marcaView==='activo'?'rgba(201,169,110,.1)':'transparent')+';color:'+(marcaView==='activo'?'var(--gold2)':'var(--mu)')+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">En progreso</button>';
+  h+='<button onclick="localStorage.setItem(\'marca_view\',\'done\');render()" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid '+(marcaView==='done'?'var(--gold)':'var(--border)')+';background:'+(marcaView==='done'?'rgba(201,169,110,.1)':'transparent')+';color:'+(marcaView==='done'?'var(--gold2)':'var(--mu)')+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">✓ Completados</button>';
+  h+='</div>';
+  if(marcaView==='done'){
+    var anyDone=false;
+    [['ikigai','① Ikigai'],['voz','② Voz de marca'],['pilares','③ Pilares'],['nicho','③½ Nicho'],['bio','④ Bio'],['contenido','⑤ Contenido']].forEach(function(m){
+      var mod=marcaData[m[0]]||{};
+      if(mod.done){
+        anyDone=true;
+        h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--shad);display:flex;align-items:center;gap:10px">';
+        h+='<div style="width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:white;font-size:13px;flex-shrink:0">✓</div>';
+        h+='<div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--ink)">'+m[1]+'</div>';
+        h+='<div style="font-size:10px;color:var(--mu);font-weight:300">Completado — toca para revisar</div></div>';
+        h+='<button onclick="var d=JSON.parse(localStorage.getItem(\'marca_data\')||\'{}\');if(!d[\''+m[0]+'\'])d[\''+m[0]+'\']={};d[\''+m[0]+'\'].done=false;localStorage.setItem(\'marca_data\',JSON.stringify(d));render()" style="font-size:10px;color:var(--mu);background:none;border:none;cursor:pointer;padding:4px">↩</button>';
+        h+='</div>';
+      }
+    });
+    if(!anyDone) h+='<div style="text-align:center;padding:30px;color:var(--mu);font-size:13px;font-style:italic">Aún no has completado módulos.<br>¡Empieza por el Ikigai!</div>';
+    return h;
+  }
+  // Only show incomplete modules in activo view
 
   // ─── MÓDULO 1: IKIGAI / PROPÓSITO ───
   var ikigai=marcaData.ikigai||{};
