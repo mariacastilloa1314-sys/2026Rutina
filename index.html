@@ -738,16 +738,68 @@ body{
 <body>
 
 <!-- WELCOME SCREEN -->
-<div id="welcome" style="position:fixed;inset:0;z-index:900;background:var(--ivory2);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 28px;opacity:1;transition:opacity .5s">
+<div id="welcome" style="position:fixed;inset:0;z-index:900;background:#F5F1EC;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 28px;transition:opacity .5s">
   <div style="width:100%;max-width:360px;text-align:center">
-    <div id="w-date" style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);margin-bottom:32px"></div>
-    <div style="width:40px;height:1px;background:var(--gold);margin:0 auto 24px"></div>
-    <div id="w-quote" style="font-family:'Bodoni Moda',serif;font-size:22px;font-style:italic;color:var(--ink);line-height:1.6;margin-bottom:16px"></div>
-    <div id="w-author" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:48px"></div>
-    <button onclick="closeWelcome()" style="display:block;width:100%;padding:17px;background:var(--ink);border:none;border-radius:14px;color:var(--ivory);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;margin-bottom:12px">Comenzar</button>
-    <button onclick="closeWelcome()" style="display:block;width:100%;padding:10px;background:none;border:none;color:var(--mu);font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer;letter-spacing:1px">saltar →</button>
+    <div id="w-date" style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#A8873F;margin-bottom:28px;font-weight:400">cargando...</div>
+    <div style="width:40px;height:1px;background:#C9A96E;margin:0 auto 28px"></div>
+    <div id="w-quote" style="font-family:'Bodoni Moda',serif;font-size:22px;font-style:italic;color:#1C1410;line-height:1.65;margin-bottom:14px">&ldquo;La disciplina es elegirte a ti misma una y otra vez.&rdquo;</div>
+    <div id="w-author" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#A0928A;margin-bottom:48px">&nbsp;</div>
+    <button onclick="closeWelcome()" style="display:block;width:100%;padding:17px;background:#1C1410;border:none;border-radius:14px;color:#FAF8F5;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;margin-bottom:12px">Comenzar el día</button>
+    <button onclick="closeWelcome()" style="display:block;width:100%;padding:10px;background:none;border:none;color:#A0928A;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer;letter-spacing:1px">saltar →</button>
   </div>
-</div>
+
+<script>
+(function(){
+  var Q=[
+    {q:"Lo que practicas a diario es lo que te conviertes.",a:"James Clear"},
+    {q:"El cuerpo es el templo, la mente es el altar, el alma es la llama.",a:"Tradición andina"},
+    {q:"Los datos son la nueva tierra. Quien la entiende, la cultiva.",a:"—"},
+    {q:"El descanso no es el enemigo del progreso — es parte del proceso.",a:"Neurociencia"},
+    {q:"Tu voz lleva la frecuencia de todo lo que eres.",a:"Sabiduría chamánica"},
+    {q:"La disciplina es elegirte a ti misma una y otra vez.",a:"—"},
+    {q:"La epigenética demostró lo que los ancestros sabían: el ambiente forma al ser.",a:"Bruce Lipton"},
+    {q:"Una mente entrenada ve patrones donde los demás ven caos.",a:"—"},
+    {q:"La constancia sin perfección mueve montañas.",a:"—"},
+    {q:"Ser rara no es un defecto de diseño. Es el diseño.",a:"—"},
+    {q:"La ciencia sin alma informa. El alma sin ciencia sueña. Las dos juntas transforman.",a:"—"},
+    {q:"No necesitas tenerlo todo claro para empezar. Solo necesitas empezar.",a:"—"},
+    {q:"Los rituales no son superstición — son arquitectura de la mente.",a:"Neurología del hábito"},
+    {q:"Tu nicho no es lo que haces. Es la forma en que lo haces.",a:"—"},
+    {q:"El sueño es el hábito de alto rendimiento más subestimado.",a:"Matthew Walker"},
+    {q:"Quien controla su respiración, controla su estado.",a:"Wim Hof"},
+    {q:"Los sistemas ganan a la motivación. La rutina gana al impulso.",a:"—"},
+    {q:"La luna no pide permiso para cambiar de fase. Tú tampoco.",a:"—"},
+    {q:"Tu acento es tu firma. Tu historia es tu activo.",a:"—"},
+    {q:"Transforma y créate — un día a la vez.",a:"Rutina 2026"},
+    {q:"Tu combinación de habilidades es única. Úsala sin pedir permiso.",a:"—"},
+    {q:"El músculo se construye mientras duermes, no mientras entrenas.",a:"Fisiología del deporte"},
+    {q:"Lo ancestral no es lo opuesto a lo científico. Es su origen.",a:"—"},
+    {q:"La creatividad no es un don. Es un músculo. Se entrena.",a:"—"},
+    {q:"Cada dato que aprendes hoy cambia silenciosamente quién eres mañana.",a:"—"},
+    {q:"La intuición es experiencia comprimida. Confía en ella.",a:"Gary Klein"},
+    {q:"Quien duerme bien, decide mejor.",a:"—"},
+    {q:"El cortisol baja cuando dejas de correr de ti misma.",a:"—"},
+    {q:"Los telómeros se acortan con el estrés y se reparan con el descanso.",a:"Elizabeth Blackburn"},
+    {q:"Hoy no tienes que ser productiva. Puedes simplemente ser.",a:"—"},
+    {q:"La marca personal no se construye — se revela.",a:"—"},
+  ];
+  var d=new Date();
+  var DAYS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  var MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var q=Q[(d.getDate()+d.getMonth()*7)%Q.length];
+  var el_d=document.getElementById('w-date');
+  var el_q=document.getElementById('w-quote');
+  var el_a=document.getElementById('w-author');
+  if(el_d) el_d.textContent=DAYS[d.getDay()]+', '+d.getDate()+' de '+MONTHS[d.getMonth()];
+  if(el_q) el_q.textContent='"'+q.q+'"';
+  if(el_a && q.a!=='—') el_a.textContent='— '+q.a;
+  // Hide if already seen this session
+  if(sessionStorage.getItem('wel')){
+    var ov=document.getElementById('welcome');
+    if(ov) ov.style.display='none';
+  }
+})();
+</script></div>
 
 <!-- SIDEBAR DRAWER -->
 <div id="drawer-overlay" onclick="closeDrawer()" style="position:fixed;inset:0;z-index:700;background:rgba(28,20,16,.35);opacity:0;pointer-events:none;transition:opacity .3s"></div>
@@ -792,6 +844,7 @@ body{
     </div>
     <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
       <span class="moon-badge" id="moon-badge" onclick="togMoonInfo()" style="cursor:pointer">🌙 —</span>
+      <span id="moon-energy-lbl" style="display:none"></span>
       <span id="elem-badge" class="elem-badge"></span>
       <div style="flex:1"></div>
       <div id="prog-label" style="font-size:9px;color:var(--mu);font-weight:300" onclick="togProgressPanel()" >0 completadas</div>
@@ -980,6 +1033,7 @@ let vozD=JSON.parse(localStorage.getItem("voz_"+TK)||"{}");
 let pnlD=JSON.parse(localStorage.getItem("pnl_"+TK)||"{}");
 let goals=JSON.parse(localStorage.getItem("goals")||"{}");
 let tab="hoy";
+var pnlTab="identidad";
 let expanded=null;
 let motiva=true;
 let pastOpen=false;
@@ -1988,9 +2042,9 @@ function renderMenteWeekend(){
 
   // HEADER
   h2+='<div style="background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:18px;margin-bottom:14px;text-align:center;box-shadow:0 2px 16px rgba(28,20,16,.07);">';
-  h2+='<div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,169,110,.7);margin-bottom:8px">Fin de semana</div>';
+  h2+='<div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">Fin de semana</div>';
   h2+='<div style="font-size:20px;font-weight:700;color:var(--c);margin-bottom:6px">Inmersión cultural 🎬</div>';
-  h2+='<div style="font-size:12px;color:rgba(248,242,232,.6);line-height:1.7">Hoy no hay lecciones ni ejercicios.<br>Solo inglés que se siente como placer.</div></div>';
+  h2+='<div style="font-size:12px;color:var(--ink);line-height:1.7">Hoy no hay lecciones ni ejercicios.<br>Solo inglés que se siente como placer.</div></div>';
 
   // HELLEN
   h2+='<div style="background:rgba(201,169,110,.06);border:1px solid rgba(201,169,110,.2);border-radius:14px;padding:14px;margin-bottom:14px">';
@@ -2171,7 +2225,7 @@ function renderMente(){
   h2+='<div style="background:var(--white);border:1.5px solid rgba(201,169,110,.25);border-radius:20px;padding:28px 24px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(28,20,16,.07)">';
   h2+='<div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(201,169,110,.07),transparent 65%);pointer-events:none"></div>';
   h2+='<div style="position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(184,144,154,.05),transparent 65%);pointer-events:none"></div>';
-  h2+='<div style="font-family:var(--ff);font-size:11px;font-style:italic;color:rgba(201,169,110,.4);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;font-weight:400">Hellen</div>';
+  h2+='<div style="font-family:var(--ff);font-size:11px;font-style:italic;color:var(--gold2);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;font-weight:400">Hellen</div>';
   h2+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:var(--ink);line-height:1.85;font-weight:400">'+helenMsg+'</div>';
   h2+='</div></div>';
 
@@ -2240,7 +2294,7 @@ function renderMente(){
     "Compararte con el ritmo de otros. Tu cerebro es único.",
   ];
   errores.forEach(function(e){
-    h2+='<div style="font-size:12px;color:var(--br);padding:5px 0;border-bottom:1px solid rgba(26,18,16,.05);display:flex;gap:8px"><span style="color:rgba(200,50,50,.6)">✕</span>'+e+'</div>';
+    h2+='<div style="font-size:12px;color:var(--br);padding:5px 0;border-bottom:1px solid rgba(26,18,16,.05);display:flex;gap:8px"><span style="color:#C03030">✕</span>'+e+'</div>';
   });
   h2+='</div>';
 
@@ -2419,7 +2473,7 @@ function renderVision(){
   h+='<div class="sec-ttl"><span>Hellen hoy</span><div class="sec-ln"></div></div>';
   h+='<div style="background:var(--white);border:1.5px solid rgba(201,169,110,.25);border-radius:20px;padding:28px 24px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(28,20,16,.07)">';
   h+='<div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(201,169,110,.07),transparent 65%);pointer-events:none"></div>';
-  h+='<div style="font-family:var(--ff);font-size:11px;font-style:italic;color:rgba(201,169,110,.4);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px">Hellen</div>';
+  h+='<div style="font-family:var(--ff);font-size:11px;font-style:italic;color:var(--mu);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px">Hellen</div>';
   h+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:var(--ink);line-height:1.85">'+helenMsg+'</div>';
   h+='</div>';
 
@@ -2461,12 +2515,12 @@ function togMoonInfo(){
   card.onclick=function(){card.remove()};
   card.style.cssText="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;display:flex;align-items:flex-end;justify-content:center;background:rgba(26,18,16,.6);backdrop-filter:blur(4px);padding:20px";
   card.innerHTML='<div style="background:var(--ink);border-radius:2px 2px 2px 2px;padding:24px 20px;max-width:360px;width:100%;border:1px solid rgba(201,169,110,.15);position:relative">'+
-    '<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,.5);margin-bottom:16px;font-family:var(--fb)">Luna de hoy</div>'+
+    '<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);margin-bottom:16px;font-family:var(--fb)">Luna de hoy</div>'+
     '<div id="moon-badge-big" style="font-family:var(--ff);font-size:28px;font-style:italic;color:var(--ivory);margin-bottom:4px"></div>'+
     '<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">'+
       '<div style="text-align:center">'+
         '<div style="font-family:var(--ff);font-size:36px;color:var(--gold);font-weight:400">'+illum+'%</div>'+
-        '<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5);font-family:var(--fb)">iluminación</div>'+
+        '<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);font-family:var(--fb)">iluminación</div>'+
       '</div>'+
       '<div style="flex:1;border-left:1px solid rgba(201,169,110,.15);padding-left:16px">'+
         '<div style="font-size:9px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;font-family:var(--fb);margin-bottom:4px">Energía del día</div>'+
@@ -2474,10 +2528,10 @@ function togMoonInfo(){
       '</div>'+
     '</div>'+
     '<div style="background:rgba(250,247,244,.04);border-radius:2px;padding:12px 14px">'+
-      '<div style="font-size:10px;color:rgba(201,169,110,.6);letter-spacing:1.5px;text-transform:uppercase;font-family:var(--fb);margin-bottom:6px">📡 Dato astronómico</div>'+
+      '<div style="font-size:10px;color:var(--mu);letter-spacing:1.5px;text-transform:uppercase;font-family:var(--fb);margin-bottom:6px">📡 Dato astronómico</div>'+
       '<div style="font-size:12px;color:rgba(250,247,244,.8);line-height:1.7;font-family:var(--fb);font-weight:300">'+sci+'</div>'+
     '</div>'+
-    '<div style="text-align:center;margin-top:14px;font-size:9px;color:rgba(201,169,110,.35);font-family:var(--fb);letter-spacing:1px">Toca para cerrar</div>'+
+    '<div style="text-align:center;margin-top:14px;font-size:9px;color:var(--mu);font-family:var(--fb);letter-spacing:1px">Toca para cerrar</div>'+
   '</div>';
   // Set the name in the big badge
   document.body.appendChild(card);
@@ -2486,14 +2540,20 @@ function togMoonInfo(){
 }
 function render(){
   const el=document.getElementById("content");
-  if(tab==="hoy")el.innerHTML=renderHoy();
-  else if(tab==="cuerpo")el.innerHTML=renderCuerpo();
-  else if(tab==="mente")el.innerHTML=renderMente();
-  else if(tab==="voz")el.innerHTML=renderVoz();
-  else if(tab==="pnl")el.innerHTML=renderPnl();
-  else if(tab==="marca")el.innerHTML=renderMarca();
-  else el.innerHTML=renderVision();
-  updateProgress();
+  try{
+    var content='';
+    if(tab==="hoy") content=renderHoy();
+    else if(tab==="cuerpo") content=renderCuerpo();
+    else if(tab==="mente") content=renderMente();
+    else if(tab==="voz") content=renderVoz();
+    else if(tab==="pnl") content=renderPnl();
+    else if(tab==="marca") content=renderMarca();
+    else content=renderVision();
+    el.innerHTML=content;
+  }catch(err){
+    el.innerHTML='<div style="padding:24px;color:var(--ink);font-size:13px;line-height:1.7"><b>Error en '+tab+':</b><br>'+err.message+'<br><br><small style="color:var(--mu)">'+err.stack.split("\n").slice(0,3).join("<br>")+'</small></div>';
+  }
+  try{updateProgress();}catch(e){}
 }
 
 
@@ -2770,6 +2830,108 @@ function exBlock(ex,expKey){
   return h;
 }
 
+
+// ═══ PNL DATA ═══
+var IDENTIDAD_AFF=[
+  {id:'id1',txt:'Soy una mujer bilingüe que se expresa con claridad y poder.',base:'Identidad lingüística presente, no futura'},
+  {id:'id2',txt:'Mi cuerpo es fuerte, capaz y merece cuidado.',base:'Integración mente-cuerpo (Damasio)'},
+  {id:'id3',txt:'Soy alguien que aprende rápido y aplica lo que aprende.',base:'Growth mindset — Dweck, 2006'},
+  {id:'id4',txt:'Merezco prosperidad, amor y crecimiento en igual medida.',base:'Autoconcepto y merecimiento — Baumeister'},
+  {id:'id5',txt:'Soy una versión nueva cada mañana que elijo despertar a las 6.',base:'Neuroplasticidad del comportamiento ritual'},
+  {id:'id6',txt:'Mi voz tiene poder. Mis palabras construyen realidades.',base:'Efecto Pigmalión inverso — autopercepción vocal'},
+  {id:'id7',txt:'Soy curiosa, valiente y capaz de reinventarme.',base:'Identidad narrativa — McAdams, 2001'}
+];
+
+var IDENTIDAD_EJ=[
+  {id:'ide1',n:'La entrevista a tu yo futuro',dur:'10 min',
+   steps:['Siéntate cómoda y cierra los ojos 1 minuto.',
+          'Imagina que tienes 5 años más. Eres bilingüe, trabajas en algo que amas, te sientes segura.',
+          'Abre los ojos y escribe: cómo se llama esa versión, qué hace un martes a las 8 AM, cómo habla.',
+          'Lee lo que escribiste en voz alta, en presente: Yo soy... Yo hago... Yo tengo...',
+          'Guarda ese papel. Es tu brújula.'],
+   sci:'El ensayo mental activa los mismos circuitos motores que la acción real (Decety, 1996). Tu cerebro empieza a construir el camino antes de que tu cuerpo lo camine.',
+   sha:'Los chamanes tzotziles tienen el concepto del ch\u2019ulel: el alma que ya sabe quién eres en tu máxima expresión. Este ejercicio es ir a preguntarle.'},
+  {id:'ide2',n:'Actúa como ella durante 1 hora',dur:'1 hora',
+   steps:['Elige 1 hora de tu día.',
+          'Durante esa hora, actúa exactamente como lo haría tu yo futuro: cómo camina, cómo responde, cómo decide.',
+          'No tienes que creerlo todavía. Solo actúa.',
+          'Al final anota: qué fue diferente, qué se sintió raro, qué se sintió natural.'],
+   sci:'El principio de fake it till you become it tiene base real: la conducta cambia la cognición tanto como la cognición cambia la conducta.',
+   sha:'En el teatro sagrado zapoteca, los danzantes se convertían en el dios que representaban. No lo fingían, lo encarnaban. La diferencia es intención.'},
+  {id:'ide3',n:'Carta de tu yo futuro a tu yo de hoy',dur:'15 min',
+   steps:['Toma papel y bolígrafo (no cel: la mano activa el sistema límbico).',
+          'Escribe una carta de tu versión de 5 años hacia adelante, a ti hoy.',
+          'Que diga: qué ya lograste, qué sí valió la pena, qué te diría que hicieras diferente.',
+          'Empieza con: Querida María, ya lo lograste...',
+          'Lee la carta en voz alta. Si te emociona está funcionando.'],
+   sci:'La técnica de future self continuity (Hershfield, 2011) activa la corteza prefrontal medial y reduce la procrastinación hasta un 30%.',
+   sha:'Los curanderos huicholes hablan con el tiempo de manera no lineal: el pasado y el futuro coexisten. Esta carta es visitar el tiempo donde ya eres quien quieres ser.'}
+];
+
+var CREENCIAS_L=[
+  {id:'cr1',vieja:'No soy lo suficientemente inteligente para esto.',nueva:'Mi cerebro tiene plasticidad ilimitada. Inteligente no es fijo, es lo que hago hoy.',ref:'Las investigaciones de Dweck muestran que creer en la capacidad de cambiar produce cambio real.'},
+  {id:'cr2',vieja:'Siempre dejo las cosas a medias.',nueva:'Estoy aprendiendo a terminar lo que empiezo. Ya hay evidencia: llevo semanas con esta rutina.',ref:'La identidad cambia por actos de votación (Clear, 2018). Cada día que sigues, votas por quien eres.'},
+  {id:'cr3',vieja:'No soy buena con los idiomas.',nueva:'Mi cerebro está diseñado para los idiomas. Los aprendí de bebé sin método. Lo haré de nuevo.',ref:'No hay "no ser buena para idiomas", solo hay cantidad de exposición (Krashen, 1982).'},
+  {id:'cr4',vieja:'No merezco las cosas buenas que quiero.',nueva:'Merecer no se gana, se decide. Elijo merecerlo.',ref:'El merecimiento es una narrativa, no una medida. Cambiar la narrativa cambia el comportamiento.'},
+  {id:'cr5',vieja:'Soy demasiado impulsiva o emocional.',nueva:'Tengo emociones fuertes y las estoy aprendiendo a dirigir. Eso es fuerza.',ref:'La regulación emocional es una habilidad neural entrenable, no un rasgo fijo (Gross, 1998).'},
+  {id:'cr6',vieja:'Empecé muy tarde para cambiar.',nueva:'El cerebro adulto tiene plasticidad igual que el joven en habilidades motivadas. El momento es ahora.',ref:'Lazar (2005): practicantes adultos de meditación muestran cambios corticales iguales a jóvenes.'}
+];
+
+var EMOCIONES_T=[
+  {id:'et1',n:'La técnica del ancla',emo:'Para ansiedad o frustración',dur:'5 min',
+   steps:['Piensa en un momento donde te sentiste completamente segura y poderosa.',
+          'Revívelo con todos los sentidos: dónde estabas, qué olías, qué sonaba, cómo se sentía el cuerpo.',
+          'En el pico máximo de esa sensación: aprieta suavemente el dedo índice y pulgar de la mano izquierda.',
+          'Suelta. Respira. Repite el proceso 3 veces con el mismo recuerdo.',
+          'En el futuro: cuando necesites ese estado, aprieta los mismos dedos.'],
+   sci:'Condicionamiento clásico aplicado a estados emocionales (Pavlov). La reconsolidación de memoria muestra que el ancla puede reactivar el estado original con práctica.',
+   sha:'En la tradición andina se llama samay: soplar la energía de un estado a un objeto o gesto. Los chamanes lo hacían con piedras. Tú lo haces con tus propios dedos.'},
+  {id:'et2',n:'Escaneo corporal emocional',emo:'Para cualquier emoción intensa',dur:'8 min',
+   steps:['Cierra los ojos. Respira 5 veces profundo.',
+          '¿Dónde vivo esta emoción en el cuerpo? ¿Pecho, garganta, estómago?',
+          'Pon la mano ahí. Respira hacia ese lugar durante 2 minutos.',
+          'Pregúntale a esa sensación: ¿qué necesitas? No analices, escucha la primera imagen o palabra.',
+          'Agradece la señal y deja que se disuelva con la siguiente exhalación.'],
+   sci:'La terapia somática (Levine) y el focusing (Gendlin) tienen evidencia de que el acceso corporal a la emoción facilita regulación mejor que el análisis cognitivo solo.',
+   sha:'En toda la medicina indígena americana, la emoción es energía que necesita moverse, no suprimirse. El cuerpo sabe cómo liberarla si le das permiso y presencia.'},
+  {id:'et3',n:'Reencuadre rápido 4 pasos',emo:'Para tristeza, ansiedad, frustración',dur:'5 min',
+   steps:['Nombra la emoción exacta: no "me siento mal", sino "siento miedo a no ser suficiente".',
+          '¿Esta emoción me está protegiendo o informando de algo?',
+          '¿Qué necesitaría creer para sentirme diferente ahora mismo?',
+          'Di esa nueva creencia en voz alta 3 veces, despacio.'],
+   sci:'Reestructuración cognitiva de Aaron Beck: la base de la CBT, la terapia con mayor evidencia del mundo.',
+   sha:'Los curanderos zapotecas hacían limpias de pensamiento: nombrar la carga en voz alta para quitarle poder.'}
+];
+
+var FUTURO_M=[
+  {id:'f1',periodo:'3 meses',meta:'Completar el módulo 1 del curso de ciencia de datos.',tipo:'carrera'},
+  {id:'f2',periodo:'3 meses',meta:'Alcanzar nivel A2 certificado en inglés.',tipo:'idioma'},
+  {id:'f3',periodo:'6 meses',meta:'Dar una presentación de 5 min en inglés.',tipo:'idioma'},
+  {id:'f4',periodo:'6 meses',meta:'Tener al menos 1 fuente de ingreso adicional activa.',tipo:'dinero'},
+  {id:'f5',periodo:'12 meses',meta:'Trabajar en algo relacionado con ciencia de datos.',tipo:'carrera'},
+  {id:'f6',periodo:'12 meses',meta:'Comunicarme fluidamente en inglés en conversación.',tipo:'idioma'},
+  {id:'f7',periodo:'12 meses',meta:'Vivir desde la prosperidad y la abundancia.',tipo:'vida'}
+];
+
+var FUTURO_EJ=[
+  {id:'fe1',n:'Visualización de fin de año',dur:'10 min',
+   steps:['Siéntate, cierra los ojos, respira profundo 5 veces.',
+          'Es 31 de diciembre de 2026. Estás sola, tranquila, feliz.',
+          '¿Dónde estás físicamente? Construye el lugar con detalle.',
+          '¿Qué lograste este año? Siente el orgullo en el pecho, no lo pienses, siéntelo.',
+          'Abre los ojos y escribe todo lo que viste, lo más rápido que puedas.'],
+   sci:'Oettingen (2015): la visualización que incluye emoción positiva Y obstáculos a superar tiene mayor eficacia que solo la positiva.',
+   sha:'En la cosmovisión andina el tiempo es espiral, no línea. Lo que visualizas con emoción genuina ya ocurrió en otra dimensión del tiempo. Estás recordando algo que aún no ha pasado.'},
+  {id:'fe2',n:'Carta al universo con ciencia',dur:'15 min',
+   steps:['Escribe a mano una carta en tiempo presente: Gracias porque en 2026 logré...',
+          'Incluye detalles sensoriales: cómo se ve, suena, huele tu vida cuando ya tienes esto.',
+          'Incluye la emoción: Me siento... porque...',
+          'Lee la carta en voz alta una vez a la semana.',
+          'Guárdala y reléela en diciembre.'],
+   sci:'El sistema de activación reticular (SAR) filtra información según lo que el cerebro define como importante. Una carta detallada programa el SAR para notar oportunidades alineadas con esas metas.',
+   sha:'Lo que nombras con emoción y repetición, el cerebro lo busca activamente en el entorno. No es magia — es neurociencia del SAR.'}
+];
+
 function renderPnl(){
   var pw = getPnlWeek();
   var w = getWeekOfMonth();
@@ -2780,10 +2942,10 @@ function renderPnl(){
   var h = '<div class="pnl-hero"><span class="pnl-hero-emo">🧬</span><div class="pnl-hero-ttl">Programación del Ser</div><div class="pnl-hero-sub">Neurociencia · PNL · Transformación</div>'
     +'<div style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:12px">'
     +'<div style="text-align:center"><div style="font-family:var(--ff);font-size:36px;font-style:italic;color:var(--gold)">'+pnlPct+'%</div>'
-    +'<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:300">completado hoy</div></div>'
+    +'<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);font-weight:300">completado hoy</div></div>'
     +'<div style="width:1px;height:40px;background:rgba(201,169,110,.15)"></div>'
     +'<div style="text-align:center"><div style="font-family:var(--ff);font-size:28px;font-style:italic;color:var(--ink)">'+pnlDone+'/'+pnlTotal+'</div>'
-    +'<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:300">prácticas</div></div>'
+    +'<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);font-weight:300">prácticas</div></div>'
     +'</div></div>';
   h += '<div style="background:'+pw.color+';border:1px solid rgba(201,169,110,.3);border-radius:12px;padding:12px 14px;margin-bottom:12px">';
   h += '<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gd);margin-bottom:4px">'+pw.label+' — Semana '+(w+1)+'</div>';
@@ -3078,6 +3240,76 @@ if('serviceWorker' in navigator){
     }
   }).catch(function(e){ console.log('[App] SW failed:', e); });
 }
+
+// ── DAILY QUOTES ──
+var DAILY_QUOTES=[
+  {q:"Lo que practicas a diario es lo que te conviertes.",a:"James Clear"},
+  {q:"El cuerpo es el templo, la mente es el altar, el alma es la llama.",a:"Tradición andina"},
+  {q:"Los datos son la nueva tierra. Quien la entiende, la cultiva.",a:"—"},
+  {q:"El descanso no es el enemigo del progreso — es parte del proceso.",a:"Neurociencia"},
+  {q:"Tu voz lleva la frecuencia de todo lo que eres.",a:"Sabiduría chamánica"},
+  {q:"La disciplina es elegirte a ti misma una y otra vez.",a:"—"},
+  {q:"La epigenética demostró lo que los ancestros sabían: el ambiente forma al ser.",a:"Bruce Lipton"},
+  {q:"Una mente entrenada ve patrones donde los demás ven caos.",a:"—"},
+  {q:"La constancia sin perfección mueve montañas.",a:"—"},
+  {q:"Ser rara no es un defecto de diseño. Es el diseño.",a:"—"},
+  {q:"La ciencia sin alma informa. El alma sin ciencia sueña. Las dos juntas transforman.",a:"—"},
+  {q:"No necesitas tenerlo todo claro para empezar. Solo necesitas empezar.",a:"—"},
+  {q:"El cortisol baja cuando dejas de correr de ti misma.",a:"—"},
+  {q:"Los rituales no son superstición — son arquitectura de la mente.",a:"Neurología del hábito"},
+  {q:"Aprende como si fueras a vivir para siempre. Vive como si fuera hoy.",a:"Gandhi"},
+  {q:"Tu nicho no es lo que haces. Es la forma en que lo haces.",a:"—"},
+  {q:"El sueño es el hábito de alto rendimiento más subestimado.",a:"Matthew Walker"},
+  {q:"Cada dato que aprendes hoy cambia silenciosamente quién eres mañana.",a:"—"},
+  {q:"La creatividad no es un don. Es un músculo. Se entrena.",a:"—"},
+  {q:"Lo ancestral no es lo opuesto a lo científico. Es su origen.",a:"—"},
+  {q:"Los telómeros se acortan con el estrés y se reparan con el descanso. Eso es epigenética en tiempo real.",a:"Elizabeth Blackburn"},
+  {q:"El músculo recuerda. El cerebro conecta. El alma integra.",a:"—"},
+  {q:"Tu acento es tu firma. Tu historia es tu activo.",a:"—"},
+  {q:"Quien duerme bien, decide mejor. El sueño es inteligencia.",a:"—"},
+  {q:"El músculo se construye mientras duermes, no mientras entrenas.",a:"Fisiología del deporte"},
+  {q:"Quien controla su respiración, controla su estado.",a:"Wim Hof"},
+  {q:"Los sistemas ganan a la motivación. La rutina gana al impulso.",a:"—"},
+  {q:"La luna no pide permiso para cambiar de fase. Tú tampoco.",a:"—"},
+  {q:"La intuición es experiencia comprimida. Confía en ella.",a:"Gary Klein"},
+  {q:"Transforma y créate — un día a la vez.",a:"Rutina 2026"},
+  {q:"Tu combinación de habilidades es única. Úsala sin pedir permiso.",a:"—"},
+];
+
+function getQuoteOfDay(){
+  var d=new Date();
+  var idx=(d.getDate()+d.getMonth()*7)%DAILY_QUOTES.length;
+  return DAILY_QUOTES[idx];
+}
+
+// ═══ WEEK + PNL HELPERS ═══
+function getWeekOfMonth(){
+  return Math.min(3, Math.floor((new Date().getDate()-1)/7));
+}
+
+const PNL_SEMANAS = [
+  {k:"identidad",titulo:"Semana de Identidad",emoji:"🪞",color:"rgba(196,112,79,.08)",
+   frase:"Esta semana te preguntas: ¿quién soy yo en mi máxima expresión?",
+   dailyAff:["id1","id2","id3"],dailyEx:["ide1"]},
+  {k:"creencias",titulo:"Semana de Creencias",emoji:"⛓️",color:"rgba(122,158,106,.08)",
+   frase:"Esta semana identificas y reescribes lo que te frena.",
+   dailyAff:["cr1","cr2","cr3"],dailyEx:["cre1"]},
+  {k:"emociones",titulo:"Semana de Emociones",emoji:"💧",color:"rgba(136,152,184,.1)",
+   frase:"Esta semana aprendes a mover la energía, no suprimirla.",
+   dailyAff:["et1","et2"],dailyEx:["et3"]},
+  {k:"futuro",titulo:"Semana de Futuro",emoji:"✨",color:"rgba(201,168,76,.08)",
+   frase:"Esta semana programas tu sistema de activación reticular para 2026.",
+   dailyAff:["f1","f2","f3"],dailyEx:["fe1"]}
+];
+
+function getPnlWeek(){ return PNL_SEMANAS[getWeekOfMonth()]; }
+function getPnlDailyTotal(){ var pw=getPnlWeek(); return pw.dailyAff.length+pw.dailyEx.length; }
+function getPnlDailyDone(){
+  var pw=getPnlWeek();
+  return pw.dailyAff.concat(pw.dailyEx).filter(function(id){return !!pnlD[id];}).length;
+}
+
+
 render();tick();updateProgress();
 setInterval(tick,15000);
 
@@ -3128,7 +3360,7 @@ function renderMarca(){
   h+='</div>';
 
   // ─── PROGRESO DE CONSTRUCCIÓN ───
-  var steps=['ikigai','voz','pilares','nicho','bio','contenido'];
+  var steps=['ikigai','voz','pilares','bio','contenido'];
   var done_steps=steps.filter(function(s){return marcaData[s]&&marcaData[s].done;}).length;
   var pct=Math.round(done_steps/steps.length*100);
   h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
@@ -3167,6 +3399,8 @@ function renderMarca(){
   }
   // Only show incomplete modules in activo view
 
+  
+  if(marcaView!=='activo'||!(marcaData['ikigai']&&marcaData['ikigai'].done)){
   // ─── MÓDULO 1: IKIGAI / PROPÓSITO ───
   var ikigai=marcaData.ikigai||{};
   var ik_done=!!(ikigai.amas&&ikigai.sabes&&ikigai.mundo&&ikigai.pagan);
@@ -3199,6 +3433,10 @@ function renderMarca(){
   }
   h+='</div>';
 
+  
+  }
+
+  if(marcaView!=='activo'||!(marcaData['voz']&&marcaData['voz'].done)){
   // ─── MÓDULO 2: VOZ DE MARCA ───
   var voz=marcaData.voz||{};
   h+='<div class="sec-ttl"><span>② Voz de marca — cómo suenas</span><div class="sec-ln"></div></div>';
@@ -3231,6 +3469,10 @@ function renderMarca(){
   }
   h+='</div>';
 
+  
+  }
+
+  if(marcaView!=='activo'||!(marcaData['pilares']&&marcaData['pilares'].done)){
   // ─── MÓDULO 3: PILARES DE CONTENIDO ───
   var pilares=marcaData.pilares||{list:[],done:false};
   var pil_list=pilares.list||[];
@@ -3268,7 +3510,9 @@ function renderMarca(){
   }
   h+='</div>';
 
-  // ─── MÓDULO 3.5: NICHO ESPECÍFICO ───
+  
+  }
+// ─── MÓDULO 3.5: NICHO ESPECÍFICO ───
   h+='<div class="sec-ttl"><span>③½ Tu combinación rara</span><div class="sec-ln"></div></div>';
   h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
   h+='<div style="font-size:11px;color:var(--mu);line-height:1.75;margin-bottom:14px;font-weight:300">Administración + ciencia de datos + creatividad + espiritualidad. Eso no lo tiene casi nadie. La rareza bien contada <em style="color:var(--gold2)">es la estrategia.</em></div>';
@@ -3300,6 +3544,8 @@ function renderMarca(){
   });
   h+='</div>';
 
+  
+  if(marcaView!=='activo'||!(marcaData['bio']&&marcaData['bio'].done)){
   // ─── MÓDULO 4: BIO DE MARCA ───
   var bio=marcaData.bio||{};
   h+='<div class="sec-ttl"><span>④ Tu bio — la primera impresión</span><div class="sec-ln"></div></div>';
@@ -3329,6 +3575,10 @@ function renderMarca(){
   }
   h+='</div>';
 
+  
+  }
+
+  if(marcaView!=='activo'||!(marcaData['contenido']&&marcaData['contenido'].done)){
   // ─── MÓDULO 5: IDEA DE CONTENIDO DEL DÍA ───
   var CONTENT_IDEAS=[
     {tipo:'Storytelling',txt:'Cuenta una historia personal de transformación. Antes → conflicto → aprendizaje → ahora. Las historias de cambio real tienen el mayor alcance orgánico.',red:'Reels / Carrusel',hook:'"Lo que nadie me dijo cuando empecé a…"'},
@@ -3355,6 +3605,72 @@ function renderMarca(){
   var cont_done=marcaData.contenido&&marcaData.contenido.done;
   h+='<button onclick="doneMarca(\'contenido\')" style="margin-top:12px;width:100%;padding:10px;background:'+(cont_done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(cont_done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(cont_done?'✓ REVISADO HOY':'MARCAR COMO REVISADO')+'</button>';
   h+='</div>';
+
+
+  }
+
+  // ─── FASE 2 PREVIEW (unlocks when all 5 done) ───
+  h+='<div class="sec-ttl" style="margin-top:6px"><span>Fase 2 — Estrategia de contenido</span><div class="sec-ln"></div></div>';
+  if(done_steps>=3){
+    var CONTENT_CAL=[
+      {dia:'Lunes',tipo:'Educativo',hook:'Dato de ciencia de datos que cambió cómo pienso',formato:'Carrusel'},
+      {dia:'Miércoles',tipo:'Personal',hook:'Lo que nadie te dice sobre estudiar datos siendo creativa',formato:'Reels'},
+      {dia:'Viernes',tipo:'Opinión',hook:'Por qué la espiritualidad y los datos no se contradicen',formato:'Post'},
+      {dia:'Domingo',tipo:'BTS',hook:'Mi proceso real de aprendizaje — sin filtro',formato:'Stories'},
+    ];
+    h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:14px;font-weight:300">Basado en tus pilares y tu nicho: <em style="color:var(--gold2)">datos + creatividad + bienestar</em>. Este es tu calendario de contenido semanal sugerido.</div>';
+    CONTENT_CAL.forEach(function(c){
+      h+='<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">';
+      h+='<div style="width:70px;font-size:10px;font-weight:600;color:var(--gold2)">'+c.dia+'</div>';
+      h+='<div style="flex:1"><div style="font-size:12px;color:var(--ink);font-weight:500;margin-bottom:2px">'+c.hook+'</div>';
+      h+='<div style="font-size:10px;color:var(--mu)">'+c.tipo+' · '+c.formato+'</div></div>';
+      h+='</div>';
+    });
+    h+='</div>';
+
+    // Tono de comunicación guía
+    h+='<div style="background:rgba(201,169,110,.05);border-radius:14px;padding:14px;margin-bottom:14px">';
+    h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;font-weight:300">Tu guía de tono</div>';
+    var TONOS=[
+      {check:'✓',txt:'Directa — vas al punto, sin rodeos innecesarios'},
+      {check:'✓',txt:'Honesta — compartes el proceso real, no solo el resultado'},
+      {check:'✓',txt:'Curiosa — haces preguntas, invitas a pensar'},
+      {check:'✗',txt:'Corporativa — sin jerga de marketing o frases vacías'},
+      {check:'✗',txt:'Perfecta — sin fingir que todo sale bien a la primera'},
+    ];
+    TONOS.forEach(function(t){
+      h+='<div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:6px">';
+      h+='<span style="font-size:12px;color:'+(t.check==='✓'?'#7A9E84':'var(--mauve)')+'">'+t.check+'</span>';
+      h+='<div style="font-size:12px;color:var(--ink);line-height:1.6;font-weight:300">'+t.txt+'</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+
+    // Métricas simples
+    h+='<div style="background:var(--white);border-radius:14px;padding:14px;box-shadow:var(--shad);margin-bottom:14px">';
+    h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:300">Métricas que importan (no te obsesiones con el número)</div>';
+    var METRICAS=[
+      {e:'💾',m:'Guardados',d:'La métrica más valiosa. La gente guarda lo que le sirve.'},
+      {e:'🔄',m:'Compartidos',d:'Tu contenido resonó lo suficiente para que alguien lo muestre.'},
+      {e:'💬',m:'Comentarios de calidad',d:'No "qué bonito" — sino preguntas reales o experiencias propias.'},
+      {e:'👤',m:'Seguidores nuevos por post',d:'Indica si tu contenido atrae a tu audiencia ideal.'},
+    ];
+    METRICAS.forEach(function(m){
+      h+='<div style="display:flex;gap:10px;margin-bottom:8px">';
+      h+='<span style="font-size:18px">'+m.e+'</span>';
+      h+='<div><div style="font-size:12px;font-weight:500;color:var(--ink)">'+m.m+'</div>';
+      h+='<div style="font-size:11px;color:var(--mu);line-height:1.5;font-weight:300">'+m.d+'</div></div>';
+      h+='</div>';
+    });
+    h+='</div>';
+  } else {
+    h+='<div style="background:var(--ivory2);border-radius:14px;padding:18px;text-align:center;margin-bottom:14px">';
+    h+='<div style="font-size:28px;margin-bottom:8px">🔒</div>';
+    h+='<div style="font-size:13px;color:var(--ink);font-weight:500;margin-bottom:4px">Completa '+Math.max(0,3-done_steps)+' módulos más para desbloquear</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-weight:300">Calendario de contenido semanal, guía de tono y métricas que importan.</div>';
+    h+='</div>';
+  }
 
   return h;
 }
@@ -3415,78 +3731,33 @@ function removePilar(i){
 
 
 
-// ── DAILY QUOTES ──
-var DAILY_QUOTES=[
-  {q:"Lo que practicas a diario es lo que te conviertes.",a:"James Clear"},
-  {q:"El cuerpo es el templo, la mente es el altar, el alma es la llama.",a:"Tradición andina"},
-  {q:"Los datos son la nueva tierra. Quien la entiende, la cultiva.",a:"—"},
-  {q:"El descanso no es el enemigo del progreso — es parte del proceso.",a:"Neurociencia"},
-  {q:"Tu voz lleva la frecuencia de todo lo que eres.",a:"Sabiduría chamánica"},
-  {q:"La disciplina es elegirte a ti misma una y otra vez.",a:"—"},
-  {q:"La epigenética demostró lo que los ancestros sabían: el ambiente forma al ser.",a:"Bruce Lipton"},
-  {q:"Una mente entrenada ve patrones donde los demás ven caos.",a:"—"},
-  {q:"La constancia sin perfección mueve montañas.",a:"—"},
-  {q:"Ser rara no es un defecto de diseño. Es el diseño.",a:"—"},
-  {q:"La ciencia sin alma informa. El alma sin ciencia sueña. Las dos juntas transforman.",a:"—"},
-  {q:"No necesitas tenerlo todo claro para empezar. Solo necesitas empezar.",a:"—"},
-  {q:"El cortisol baja cuando dejas de correr de ti misma.",a:"—"},
-  {q:"Los rituales no son superstición — son arquitectura de la mente.",a:"Neurología del hábito"},
-  {q:"Aprende como si fueras a vivir para siempre. Vive como si fuera hoy.",a:"Gandhi"},
-  {q:"Tu nicho no es lo que haces. Es la forma en que lo haces.",a:"—"},
-  {q:"El sueño es el hábito de alto rendimiento más subestimado.",a:"Matthew Walker"},
-  {q:"Cada dato que aprendes hoy cambia silenciosamente quién eres mañana.",a:"—"},
-  {q:"La creatividad no es un don. Es un músculo. Se entrena.",a:"—"},
-  {q:"Lo ancestral no es lo opuesto a lo científico. Es su origen.",a:"—"},
-  {q:"Los telómeros se acortan con el estrés y se reparan con el descanso. Eso es epigenética en tiempo real.",a:"Elizabeth Blackburn"},
-  {q:"El músculo recuerda. El cerebro conecta. El alma integra.",a:"—"},
-  {q:"Tu acento es tu firma. Tu historia es tu activo.",a:"—"},
-  {q:"Quien duerme bien, decide mejor. El sueño es inteligencia.",a:"—"},
-  {q:"El músculo se construye mientras duermes, no mientras entrenas.",a:"Fisiología del deporte"},
-  {q:"Quien controla su respiración, controla su estado.",a:"Wim Hof"},
-  {q:"Los sistemas ganan a la motivación. La rutina gana al impulso.",a:"—"},
-  {q:"La luna no pide permiso para cambiar de fase. Tú tampoco.",a:"—"},
-  {q:"La intuición es experiencia comprimida. Confía en ella.",a:"Gary Klein"},
-  {q:"Transforma y créate — un día a la vez.",a:"Rutina 2026"},
-  {q:"Tu combinación de habilidades es única. Úsala sin pedir permiso.",a:"—"},
-];
-
-function getQuoteOfDay(){
-  var d=new Date();
-  var idx=(d.getDate()+d.getMonth()*7)%DAILY_QUOTES.length;
-  return DAILY_QUOTES[idx];
-}
-
 // ── WELCOME ──
 var DAYS_W=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 var MONTHS_W=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
 function initWelcome(){
+  var DAYS_L=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  var MONTHS_L=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   var q=getQuoteOfDay();
   var d=new Date();
   var el_date=document.getElementById('w-date');
   var el_q=document.getElementById('w-quote');
   var el_a=document.getElementById('w-author');
-  if(el_date) el_date.textContent=DAYS_W[d.getDay()]+', '+d.getDate()+' de '+MONTHS_W[d.getMonth()];
+  if(el_date) el_date.textContent=DAYS_L[d.getDay()]+', '+d.getDate()+' de '+MONTHS_L[d.getMonth()];
   if(el_q) el_q.textContent='\u201C'+q.q+'\u201D';
   if(el_a) el_a.textContent=(q.a!=='—')?('— '+q.a):'';
-  // Auto-show (skip sessionStorage so it always shows on load, close hides it for session)
-  var key='welcome_'+todayKey();
-  var seen=sessionStorage.getItem(key);
+  // Show welcome — hidden if already closed today
   var overlay=document.getElementById('welcome');
-  var shell=document.getElementById('app-shell');
-  if(seen){
-    if(overlay) overlay.style.display='none';
-    if(shell) shell.style.opacity='1';
-  }
+  if(sessionStorage.getItem('wel_shown') && overlay) overlay.style.display='none';
 }
 
 function closeWelcome(){
-  var key='welcome_'+todayKey();
-  sessionStorage.setItem(key,'1');
+  sessionStorage.setItem('wel_shown','1');
   var overlay=document.getElementById('welcome');
-  var shell=document.getElementById('app-shell');
-  if(overlay){overlay.style.opacity='0';setTimeout(function(){overlay.style.display='none';},500);}
-  if(shell) shell.style.opacity='1';
+  if(overlay){
+    overlay.style.opacity='0';
+    setTimeout(function(){overlay.style.display='none';},500);
+  }
 }
 
 // ── DRAWER ──
