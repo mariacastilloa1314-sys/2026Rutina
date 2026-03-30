@@ -2572,6 +2572,157 @@ function vozSubirNivel(){
 }
 
 
+
+var VOZ_WEEKEND_TIPS=[
+  {e:"🌿",t:"Hidratación vocal",txt:"La voz funciona mejor con cuerdas vocales hidratadas. Toma agua tibia durante el día. El vapor directo (inhalar sobre agua caliente 5 min) hidrata las cuerdas desde adentro."},
+  {e:"😴",t:"El sueño repara la voz",txt:"Mientras duermes, las cuerdas vocales se reparan. Una noche de mal sueño produce voz ronca y tensa. El descanso vocal es parte del entrenamiento."},
+  {e:"🎵",t:"Escucha activa",txt:"Elige un podcast o discurso. Escucha solo la voz — el tono, el ritmo, las pausas. No el contenido. Entrenas el oído que luego aplicas a la tuya."},
+  {e:"🧘",t:"Meditación de sonido",txt:"Siéntate en silencio 5 minutos. Luego tararear tu nota natural suavemente 5 más. Es yoga vocal — restaura la voz sin esfuerzo."},
+  {e:"🌱",t:"Epigenética vocal",txt:"Practicar 15 minutos diarios durante 8 semanas produce cambios estructurales medibles en los músculos laríngeos — no solo de habilidad."},
+];
+
+var VOZ_NIVELES = {
+  1:{
+    label:"Nivel 1 — Fundamentos",color:"var(--mauve)",
+    desc:"Empiezas desde el cuerpo. La voz no sale de la garganta — sale del diafragma, la postura y la intención. Esta semana aprendes a respirar para hablar.",
+    dias:{
+      1:{tema:"Respiración diafragmática",
+         sci:"El diafragma es el músculo principal de la voz. La respiración superficial (pecho) tensa las cuerdas vocales. La respiración abdominal profunda activa el nervio vago, reduce el cortisol y da soporte a frases largas.",
+         sha:"En el pranayama yóguico y la respiración chamánica andina la premisa es la misma: controlar el prana a través del aliento. La neurociencia lo llama regulación autonómica.",
+         ejs:[
+           {id:"v1a",n:"Respiración 4-4-4",d:"Inhala 4 seg → sostén 4 → exhala 4. Mano en el abdomen — que se mueva, no el pecho. 5 rondas."},
+           {id:"v1b",n:"Exhala con S",d:"Inhala profundo → exhala haciendo ssssss lo más largo posible. Meta: +20 segundos."},
+           {id:"v1c",n:"Suspiro liberador",d:"Inhala rápido → exhala largo con un 'haaa' natural. 5 veces. Suelta tensión de garganta."},
+         ]},
+      2:{tema:"Postura y resonancia",
+         sci:"La postura afecta directamente el timbre vocal. Hombros abiertos + mentón paralelo al suelo = vía aérea libre = voz más rica y profunda.",
+         sha:"Los cantantes de ópera y los curanderos amazónicos tienen en común la verticalidad. La columna alineada es el canal por donde sube la energía — y el sonido.",
+         ejs:[
+           {id:"v2a",n:"Alineación de columna",d:"De pie: empuja la coronilla hacia el techo suavemente. Hombros atrás y abajo. Barbilla paralela al piso. Mantén 2 minutos mientras hablas."},
+           {id:"v2b",n:"Boca de pez",d:"Abre y cierra la boca exageradamente como pez. 20 veces. Activa los músculos articuladores sin tensión."},
+           {id:"v2c",n:"Rotación de cuello lenta",d:"Chin al pecho → oreja al hombro → nuca → otro lado. Muy lento, 3 rondas. Libera la tensión que comprime la voz."},
+         ]},
+      3:{tema:"Tu tono natural",
+         sci:"Cada persona tiene un tono de voz óptimo — donde produce menos fatiga y más resonancia. Encontrarlo reduce el esfuerzo vocal en un 40%.",
+         sha:"Los mantras tibetanos se diseñaron para ser sostenibles durante horas. El secreto es hablar en el tono donde el cuerpo vibra, no donde la mente cree que suena bien.",
+         ejs:[
+           {id:"v3a",n:"Busca tu mmm",d:"Tararear mmm en diferentes tonos. Cuando el pecho vibre más (como un motor suave), ese es tu tono. Quédate ahí 30 segundos."},
+           {id:"v3b",n:"Cuenta en tu tono",d:"Desde tu mmm natural, di: 1, 2, 3... hasta 10. Sin subir ni bajar. Solo tu tono."},
+           {id:"v3c",n:"Lectura en voz alta",d:"Lee cualquier texto 2 minutos en tu tono natural. Siente la diferencia vs hablar forzado."},
+         ]},
+      4:{tema:"Articulación clara",
+         sci:"La dicción no es exagerar los sonidos — es activar los músculos articuladores (labios, lengua, mandíbula) que el uso del celular va atrofiando.",
+         sha:"Los actores griegos debían ser escuchados a 100 metros sin micrófono. No gritaban — articulaban. La claridad es más poderosa que el volumen.",
+         ejs:[
+           {id:"v4a",n:"Trabalenguas lento",d:"'Tres tristes tigres' — muy lento, exagerando cada consonante. Luego normal. Luego rápido. 3 rondas."},
+           {id:"v4b",n:"Vocales exageradas",d:"A-E-I-O-U abriendo la boca al máximo en cada vocal. 10 repeticiones."},
+           {id:"v4c",n:"Vibra labios y lengua",d:"Vibra los labios (como motor de carro). Luego lengua rápido. Alternando 30 segundos cada uno."},
+         ]},
+      5:{tema:"Integración de la semana",
+         sci:"La consolidación de habilidades motoras ocurre durante el sueño. Los circuitos neurales de voz que entrenaste se refuerzan esta noche. Hoy encadenas todo.",
+         sha:"El viernes es el día de Venus — la voz, la expresión y la belleza. Buen día para cerrar el ciclo y celebrar lo construido.",
+         ejs:[
+           {id:"v5a",n:"Secuencia completa",d:"5 respiraciones 4-4-4 → postura → busca tu mmm → lee 2 minutos en voz alta con articulación consciente."},
+           {id:"v5b",n:"Grábate 1 minuto",d:"Habla de cualquier tema 60 segundos. Escúchate. Sin juzgar — solo observa dónde hay tensión, dónde fluye."},
+           {id:"v5c",n:"Afirmación en voz alta",d:"Di 3 veces con confianza: 'Mi voz es mi firma. La estoy entrenando.'"},
+         ]},
+    }
+  },
+  2:{
+    label:"Nivel 2 — Presencia vocal",color:"var(--gold)",
+    desc:"Ya tienes la base. Ahora la voz empieza a tener carácter. Trabajamos proyección, pausas, velocidad y cómo hablar de forma que la gente quiera escucharte.",
+    dias:{
+      1:{tema:"Proyección sin esfuerzo",
+         sci:"Proyectar la voz no es gritar — es dirigir el sonido. Hablar 'hacia el fondo de la sala' activa los resonadores superiores y llena el espacio sin tensión.",
+         sha:"Los maestros zen y los curanderos hablan poco y en voz baja, pero se les escucha perfectamente. La intención dirige el sonido antes que el volumen.",
+         ejs:[
+           {id:"v21a",n:"Habla hacia la pared",d:"Elige una pared a 3 metros. Habla 'hacia' ella — como si quisieras que te escuche. No gritas, diriges. 2 minutos."},
+           {id:"v21b",n:"Susurro proyectado",d:"Susurra pero que se escuche a 2 metros. Es una habilidad de actores. 1 minuto."},
+           {id:"v21c",n:"Crescendo controlado",d:"Empieza muy suave → sube progresivamente en 10 pasos hasta tu volumen máximo cómodo. Sin romper la voz."},
+         ]},
+      2:{tema:"El poder de la pausa",
+         sci:"Los comunicadores más efectivos no hablan más — hacen pausas más estratégicas. El silencio da peso a las palabras anteriores y crea anticipación.",
+         sha:"Los chamanes usan el silencio como herramienta ritual. Lo que no se dice tiene tanta fuerza como lo que se dice.",
+         ejs:[
+           {id:"v22a",n:"Lee con puntos completos",d:"Lee un texto haciendo una pausa real (2 segundos) en cada punto. Siente raro al principio. Escúchate después."},
+           {id:"v22b",n:"Pausa antes de lo importante",d:"Practica: '[pausa] esto es importante'. La pausa previa multiplica el peso de lo que sigue."},
+           {id:"v22c",n:"Silencio consciente",d:"Siéntate en silencio 3 minutos. Solo observa el sonido del espacio. Entrenas la comodidad con el silencio."},
+         ]},
+      3:{tema:"Velocidad y ritmo",
+         sci:"Hablar rápido activa la ansiedad del oyente. La velocidad óptima para conversación es 130-150 palabras por minuto.",
+         sha:"Los narradores orales de todas las culturas dominaban el ritmo como los músicos. La voz tiene tiempo, aceleración y pausa.",
+         ejs:[
+           {id:"v23a",n:"Lectura lenta deliberada",d:"Lee un párrafo al 50% de tu velocidad normal. Notarás cuánto solías correr."},
+           {id:"v23b",n:"Variación de ritmo",d:"Lee una frase rápido, otra lento, otra normal. La variación es lo que mantiene la atención."},
+           {id:"v23c",n:"Grábate y mide",d:"Habla 1 minuto, cuenta las palabras. Meta: 130-150. Si pasas de 180, practica frenar."},
+         ]},
+      4:{tema:"Énfasis y color vocal",
+         sci:"La prosodia (el canto del habla) es lo que hace que una voz sea interesante o monótona. El énfasis en palabras clave activa el sistema de recompensa del oyente.",
+         sha:"Los poetas épicos griegos memorizaban miles de versos usando el ritmo y el énfasis. El cerebro retiene 6× mejor la información con variación tonal.",
+         ejs:[
+           {id:"v24a",n:"Énfasis en palabras clave",d:"Lee: 'Esto es IMPORTANTE para TI'. Luego: 'ESTO es importante para ti'. Nota cómo cambia el significado."},
+           {id:"v24b",n:"Lee con emoción",d:"Lee el mismo párrafo: primero aburrido, luego emocionado, luego triste. La voz aprende el rango."},
+           {id:"v24c",n:"Evita el final descendente",d:"Practica terminar frases en tono neutro o ligeramente arriba, no siempre bajando."},
+         ]},
+      5:{tema:"Conversación con presencia",
+         sci:"El contacto visual, la velocidad y el volumen se sincronizan con el interlocutor. Esto cambia la dinámica de poder en la conversación.",
+         sha:"En la tradición andina del ayni, la comunicación es un intercambio de energía. Hablar con presencia es dar — no solo transmitir información.",
+         ejs:[
+           {id:"v25a",n:"Simulación de conversación",d:"Habla en voz alta como si le explicaras algo a alguien. Incluye pausas, preguntas retóricas, énfasis. 3 minutos."},
+           {id:"v25b",n:"Escucha activa real",d:"En tu próxima conversación: repite con tus palabras lo que escuchaste antes de responder."},
+           {id:"v25c",n:"Presentación de 1 minuto",d:"Preséntate en 60 segundos: quién eres, qué haces, por qué importa. En voz alta, sola. Grábate."},
+         ]},
+    }
+  },
+  3:{
+    label:"Nivel 3 — Autoridad",color:"#9060C0",
+    desc:"La voz con autoridad no es la más fuerte — es la más segura. Trabajamos confianza, manejo del nerviosismo y presencia en situaciones reales.",
+    dias:{
+      1:{tema:"Voz y seguridad",
+         sci:"El nerviosismo tensa la laringe y agudiza la voz. La 'power pose' (postura expansiva 2 minutos antes de hablar) reduce el cortisol en 25%.",
+         sha:"Los guerreros andinos antes de la batalla hacían rituales de voz — cantos y gritos controlados. Para regular su propio sistema nervioso, no para intimidar.",
+         ejs:[
+           {id:"v31a",n:"Power pose vocal",d:"De pie, manos en la cadera, cabeza alta. Habla en voz alta 2 minutos desde esa posición. Siente la diferencia."},
+           {id:"v31b",n:"Grito controlado",d:"Inhala profundo → exhala con un 'HA!' fuerte desde el abdomen, no desde la garganta. 5 veces. Libera tensión."},
+           {id:"v31c",n:"Afirmación en espejo",d:"Al espejo, voz clara: 'Tengo algo que decir y vale la pena escucharlo.' 5 veces. Sin ironía."},
+         ]},
+      2:{tema:"Hablar en público (simulado)",
+         sci:"La exposición gradual es el único método con evidencia para reducir el miedo a hablar. Empezando con audiencia de 1 (tú misma) hasta grupos reales.",
+         sha:"Los chamanes aprenden hablando primero a las plantas, luego a los animales, luego a los humanos. La audiencia va creciendo.",
+         ejs:[
+           {id:"v32a",n:"Discurso a la habitación",d:"Habla 3 minutos como si hubiera 10 personas. De pie, proyectando, con pausas. Grábate."},
+           {id:"v32b",n:"Explica algo complejo simple",d:"Explica en voz alta un tema que dominas como si fuera para alguien que no sabe nada. 2 minutos."},
+           {id:"v32c",n:"Improvisa 60 segundos",d:"Elige un objeto al azar. Habla de él 60 segundos sin parar. Es fluidez, no contenido."},
+         ]},
+      3:{tema:"Manejo de preguntas difíciles",
+         sci:"Tomarte 2-3 segundos antes de responder preguntas difíciles se percibe como reflexión, no como duda.",
+         sha:"En la tradición zen, el maestro no responde la pregunta difícil inmediatamente. El silencio contemplativo es parte de la respuesta.",
+         ejs:[
+           {id:"v33a",n:"Pausa antes de responder",d:"Practica con preguntas que te hagas: '¿Por qué haces lo que haces?' — pausa 3 segundos → responde."},
+           {id:"v33b",n:"Respuesta con estructura",d:"Practica responder con: punto 1 → punto 2 → conclusión. La estructura da autoridad aunque el contenido sea simple."},
+           {id:"v33c",n:"'Déjame pensar'",d:"Practica decir 'Déjame pensar en eso' antes de responder algo difícil. Sin prisa. Es fuerza, no debilidad."},
+         ]},
+      4:{tema:"Voz en formato digital",
+         sci:"El 38% de la percepción de credibilidad en audio/video viene de la voz. El ring light importa menos que la técnica vocal.",
+         sha:"La voz grabada es la más honesta — no hay presencia física que compense. Por eso los chamanes cuidaban tanto el canto: era lo que sobrevivía.",
+         ejs:[
+           {id:"v34a",n:"Grábate en video 2 min",d:"Habla de cualquier tema. Luego obsérva sin sonido: ¿qué comunica tu postura? Con sonido: ¿cómo suenas?"},
+           {id:"v34b",n:"Ajusta el entorno",d:"Grábate en diferentes espacios. Nota cómo cambia el sonido. Elige el mejor para contenido."},
+           {id:"v34c",n:"Hook en 10 segundos",d:"Practica abrir cualquier tema en 10 segundos que generen curiosidad. Grábate y escucha."},
+         ]},
+      5:{tema:"Tu voz de marca",
+         sci:"La consistencia vocal es lo que hace reconocible a un comunicador. El cerebro reconoce patrones de voz igual que reconoce caras.",
+         sha:"Los bardos celtas eran reconocidos por su voz antes de que la gente supiera su nombre. La voz es identidad.",
+         ejs:[
+           {id:"v35a",n:"Define tu firma",d:"Describe en voz alta cómo quieres sonar: directa, cálida, experta, divertida. Luego habla desde esa intención 3 minutos."},
+           {id:"v35b",n:"Monólogo de marca",d:"Habla 3 minutos sobre lo que haces y por qué importa — en tu voz, no en voz corporativa. Grábate."},
+           {id:"v35c",n:"Escucha tu mejor toma",d:"De todas tus grabaciones de esta semana, identifica el momento donde sonaste más tú. ¿Qué estabas haciendo diferente?"},
+         ]},
+    }
+  }
+};
+
+
 function getVozDayData(){
   var dow=new Date().getDay();
   var nivel=getVozNivel();
