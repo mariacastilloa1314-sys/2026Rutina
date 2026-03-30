@@ -2561,156 +2561,16 @@ function render(){
 
 // User-controlled nivel — stored in localStorage, default 1
 function getVozNivel(){return parseInt(localStorage.getItem('voz_nivel')||'1');}
-function setVozNivel(n){localStorage.setItem('voz_nivel',n);render();}
+function setVozNivel(n){
+  if(n<1||n>3) return;
+  localStorage.setItem('voz_nivel',String(n));
+  render();
+}
+function vozSubirNivel(){
+  var n=getVozNivel();
+  if(n<3){localStorage.setItem('voz_nivel',String(n+1));render();}
+}
 
-var VOZ_NIVELES = {
-  1:{
-    label:"Nivel 1 — Fundamentos",color:"var(--mauve)",
-    desc:"Empezamos desde el cuerpo. La voz no sale de la garganta — sale del diafragma, de la postura, de la intención. Esta semana aprendes a respirar para hablar.",
-    dias:{
-      1:{tema:"Respiración diafragmática",
-         sci:"El diafragma es el músculo principal de la voz. La respiración superficial (pecho) tensa las cuerdas vocales. La respiración abdominal profunda activa el nervio vago, reduce el cortisol y da soporte a frases largas.",
-         sha:"En el pranayama yóguico y la respiración chamánica andina la premisa es la misma: controlar el prana (energía vital) a través del aliento. La neurociencia lo llama regulación autonómica.",
-         ejs:[
-           {id:"v1a",n:"Respiración 4-4-4",d:"Inhala 4 seg → sostén 4 → exhala 4. Mano en el abdomen — que se mueva, no el pecho. 5 rondas."},
-           {id:"v1b",n:"Exhala con S",d:"Inhala profundo → exhala haciendo ssssss lo más largo posible. Mide cuánto duras. Meta: +20 segundos."},
-           {id:"v1c",n:"Suspiro liberador",d:"Inhala rápido → exhala largo con un 'haaa' natural. Repite 5 veces. Suelta tensión de garganta."},
-         ]},
-      2:{tema:"Postura y resonancia",
-         sci:"La postura afecta directamente el timbre vocal. La cabeza adelantada (postura del cel) comprime la laringe. Hombros abiertos + mentón paralelo al suelo = vía aérea libre = voz más rica.",
-         sha:"Los cantantes de ópera y los curanderos amazónicos tienen en común una cosa: la verticalidad. La columna alineada es el canal por donde sube la energía — y el sonido.",
-         ejs:[
-           {id:"v2a",n:"Alineación de columna",d:"De pie o sentada: empuja la coronilla hacia el techo suavemente. Hombros atrás y abajo. Barbilla paralela al piso. Mantén 2 minutos mientras hablas o lees."},
-           {id:"v2b",n:"Boca de pez",d:"Abre y cierra la boca exageradamente como pez. 20 veces. Activa los músculos articuladores sin tensión."},
-           {id:"v2c",n:"Rotación de cuello lenta",d:"Chin al pecho → oreja al hombro → nuca → otro lado. Muy lento, 3 rondas. Libera la tensión que comprime la voz."},
-         ]},
-      3:{tema:"Tu tono natural",
-         sci:"Cada persona tiene un tono de voz óptimo — no el más grave ni el más agudo, sino el que produce menos fatiga y más resonancia. Encontrarlo reduce el esfuerzo vocal en un 40%.",
-         sha:"Los cantos gregorianos y los mantras tibetanos se diseñaron para ser sostenibles durante horas. El secreto es hablar en el tono donde el cuerpo vibra, no donde la mente cree que suena bien.",
-         ejs:[
-           {id:"v3a",n:"Busca tu mmm",d:"Tararea 'mmm' en diferentes tonos. Cuando sientas que el pecho vibra más (como un motor suave), ese es tu tono. Quédate ahí 30 segundos."},
-           {id:"v3b",n:"Cuenta en tu tono",d:"Desde tu mmm natural, di en voz alta: 1, 2, 3... hasta 10. Sin subir ni bajar. Solo tu tono."},
-           {id:"v3c",n:"Lectura en voz alta",d:"Lee cualquier texto 2 minutos en tu tono natural. Siente la diferencia vs hablar forzado."},
-         ]},
-      4:{tema:"Articulación clara",
-         sci:"La dicción no es exagerar los sonidos — es activar los músculos articuladores (labios, lengua, mandíbula) que el uso del celular y hablar rápido van atrofiando.",
-         sha:"Los actores de teatro griego debían ser escuchados a 100 metros sin micrófono. No gritaban — articulaban. La claridad es más poderosa que el volumen.",
-         ejs:[
-           {id:"v4a",n:"Trabalenguas lento",d:"'Tres tristes tigres' — muy lento, exagerando cada consonante. Luego normal. Luego rápido. 3 rondas."},
-           {id:"v4b",n:"Vocales exageradas",d:"A-E-I-O-U abriendo la boca al máximo en cada vocal. 10 repeticiones. Activa la mandíbula."},
-           {id:"v4c",n:"Labios y lengua",d:"Vibra los labios (como motor de carro). Luego lengua (como serpiente). Alternando 30 segundos cada uno."},
-         ]},
-      5:{tema:"Integración de la semana",
-         sci:"La consolidación de habilidades motoras ocurre durante el sueño — los circuitos neurales de voz que entrenaste se refuerzan esta noche. Hoy encadenas todo.",
-         sha:"El viernes en muchas tradiciones es el día de Venus — la planeta de la voz, la expresión y la belleza. Buen día para cerrar un ciclo y celebrar lo construido.",
-         ejs:[
-           {id:"v5a",n:"Secuencia completa",d:"5 respiraciones 4-4-4 → postura → busca tu mmm → lee 2 minutos en voz alta con articulación consciente."},
-           {id:"v5b",n:"Grábate 1 minuto",d:"Habla de cualquier tema 60 segundos. Escúchate. Sin juzgar — solo observa dónde hay tensión, dónde fluye."},
-           {id:"v5c",n:"Frase del día en voz alta",d:"Di en voz alta 3 veces con confianza: 'Mi voz es mi firma. La estoy entrenando.'"},
-         ]},
-    }
-  },
-  2:{
-    label:"Nivel 2 — Presencia vocal",color:"var(--gold)",
-    desc:"Ya tienes la base. Ahora la voz empieza a tener carácter. Trabajamos proyección, pausas, velocidad y cómo hablar de forma que la gente quiera escucharte.",
-    dias:{
-      1:{tema:"Proyección sin esfuerzo",
-         sci:"Proyectar la voz no es gritar — es dirigir el sonido. Los actores hablan hacia 'el fondo de la sala', no hacia el micrófono. Esto activa los resonadores superiores y llena el espacio sin tensión.",
-         sha:"Los maestros zen y los curanderos hablan poco y en voz baja, pero se les escucha perfectamente. La intención dirige el sonido antes que el volumen.",
-         ejs:[
-           {id:"v21a",n:"Habla hacia la pared",d:"Elige una pared a 3 metros. Habla 'hacia' ella — como si quisieras que te escuche. No gritas, diriges. 2 minutos."},
-           {id:"v21b",n:"Susurro proyectado",d:"Susurra pero proyectando — que se escuche a 2 metros. Es una habilidad de actores. 1 minuto."},
-           {id:"v21c",n:"Crescendo controlado",d:"Empieza muy suave → aumenta progresivamente en 10 pasos hasta tu volumen máximo cómodo. Sin romper la voz."},
-         ]},
-      2:{tema:"El poder de la pausa",
-         sci:"Los comunicadores más efectivos no hablan más — hacen pausas más estratégicas. El silencio da peso a las palabras anteriores y crea anticipación. El cerebro del oyente llena el silencio con atención.",
-         sha:"Los chamanes usan el silencio como herramienta ritual. Lo que no se dice tiene tanta fuerza como lo que se dice. En retórica clásica esto se llamaba 'reticencia'.",
-         ejs:[
-           {id:"v22a",n:"Lee con puntos completos",d:"Lee un texto haciendo una pausa real (2 segundos) en cada punto. Siente raro al principio. Escúchate después."},
-           {id:"v22b",n:"Pausa antes de lo importante",d:"Practica diciendo: '[pausa] esto es importante'. La pausa previa multiplica el peso de lo que sigue."},
-           {id:"v22c",n:"Silencio consciente",d:"Siéntate en silencio 3 minutos. Solo observa el sonido del espacio. Entrena la comodidad con el silencio."},
-         ]},
-      3:{tema:"Velocidad y ritmo",
-         sci:"Hablar rápido activa la ansiedad del oyente. Hablar despacio transmite confianza y da tiempo al cerebro del otro para procesar. La velocidad óptima para conversación es 130-150 palabras por minuto.",
-         sha:"Los narradores orales de todas las culturas — griots africanos, cuentacuentos andinos — dominaban el ritmo como los músicos. La voz tiene tiempo, aceleración y pausa.",
-         ejs:[
-           {id:"v23a",n:"Lectura lenta deliberada",d:"Lee un párrafo al 50% de tu velocidad normal. Exageradamente lento. Notarás cuánto solías correr."},
-           {id:"v23b",n:"Variación de ritmo",d:"Lee una frase rápido, otra lento, otra normal. Alterna conscientemente. La variación es lo que mantiene la atención."},
-           {id:"v23c",n:"Grábate y mide",d:"Habla 1 minuto, cuenta las palabras. Meta: 130-150. Si pasas de 180, practica frenar."},
-         ]},
-      4:{tema:"Énfasis y color vocal",
-         sci:"La prosodia (el 'canto' del habla) es lo que hace que una voz sea interesante o monótona. El énfasis en palabras clave activa el sistema de recompensa del oyente — literalmente libera dopamina.",
-         sha:"Los poetas épicos griegos memorizaban miles de versos usando el ritmo y el énfasis. El cerebro retiene 6× mejor la información cuando hay variación tonal.",
-         ejs:[
-           {id:"v24a",n:"Énfasis en palabras clave",d:"Lee: 'Esto es IMPORTANTE para TI'. Luego: 'ESTO es importante para ti'. Nota cómo cambia el significado."},
-           {id:"v24b",n:"Lee con emoción",d:"Lee el mismo párrafo: primero aburrido, luego emocionado, luego triste. La voz aprende el rango."},
-           {id:"v24c",n:"Evita el final descendente",d:"Muchas personas bajan la voz al final de cada frase. Practica terminar en tono neutro o ligeramente arriba."},
-         ]},
-      5:{tema:"Conversación con presencia",
-         sci:"El contacto visual, la velocidad y el volumen se sincronizan subconscientemente con el interlocutor. Esto se llama 'entrenamiento vocal social' y cambia la dinámica de poder en la conversación.",
-         sha:"En la tradición andina del ayni (reciprocidad), la comunicación es un intercambio de energía. Hablar con presencia es dar — no solo transmitir información.",
-         ejs:[
-           {id:"v25a",n:"Simulación de conversación",d:"Habla en voz alta como si le explicaras algo a alguien. Incluye pausas, preguntas retóricas, énfasis. 3 minutos."},
-           {id:"v25b",n:"Escucha activa real",d:"En tu próxima conversación: no interrumpas, repite con tus palabras lo que escuchaste antes de responder."},
-           {id:"v25c",n:"Presentación de 1 minuto",d:"Preséntate en 60 segundos: quién eres, qué haces, por qué importa. En voz alta, sola. Grábate."},
-         ]},
-    }
-  },
-  3:{
-    label:"Nivel 3 — Autoridad",color:"#9060C0",
-    desc:"La voz con autoridad no es la más fuerte — es la más segura. Trabajamos confianza, manejo del nerviosismo y presencia en situaciones reales.",
-    dias:{
-      1:{tema:"Voz y seguridad",
-         sci:"El nerviosismo eleva el cortisol, que tensa la laringe y agudiza la voz. La técnica de 'power posing' (postura expansiva 2 minutos antes de hablar) reduce el cortisol en 25% y sube la testosterona 20%.",
-         sha:"Los guerreros andinos antes de la batalla hacían rituales de voz — cantos y gritos controlados. No para intimidar al enemigo sino para regular su propio sistema nervioso.",
-         ejs:[
-           {id:"v31a",n:"Power pose vocal",d:"De pie, manos en la cadera, cabeza alta. Habla en voz alta 2 minutos desde esa posición. Siente la diferencia."},
-           {id:"v31b",n:"Grito controlado",d:"Inhala profundo → exhala con un 'HA!' fuerte desde el abdomen. No desde la garganta. 5 veces. Libera tensión."},
-           {id:"v31c",n:"Afirmación en espejo",d:"Al espejo, voz clara: 'Tengo algo que decir y vale la pena escucharlo.' 5 veces. Sin ironía."},
-         ]},
-      2:{tema:"Hablar en público (simulado)",
-         sci:"La exposición gradual es el único método con evidencia para reducir el miedo a hablar. Empezando con audiencia de 1 (tú misma) hasta grupos reales.",
-         sha:"Los chamanes aprenden su oficio hablando primero a las plantas, luego a los animales, luego a los espíritus, luego a los humanos. La audiencia va creciendo.",
-         ejs:[
-           {id:"v32a",n:"Discurso a la habitación",d:"Habla 3 minutos como si hubiera 10 personas. De pie, proyectando, con pausas. Grábate."},
-           {id:"v32b",n:"Explica algo complejo simple",d:"Explica en voz alta un tema que dominas — como si fuera para alguien que no sabe nada. 2 minutos."},
-           {id:"v32c",n:"Improvisa 60 segundos",d:"Elige un objeto al azar. Habla de él 60 segundos sin parar. No importa el contenido — es fluidez."},
-         ]},
-      3:{tema:"Manejo de preguntas difíciles",
-         sci:"El tiempo de respuesta promedio en conversación es 200ms. Tomarte 2-3 segundos antes de responder preguntas difíciles se percibe como reflexión, no como duda.",
-         sha:"En la tradición zen, el maestro no responde la pregunta difícil inmediatamente. El silencio contemplativo es parte de la respuesta. Quien controla el tiempo controla la conversación.",
-         ejs:[
-           {id:"v33a",n:"Pausa antes de responder",d:"Practica con preguntas que te hagas: '¿Por qué haces lo que haces?' — pausa 3 segundos → responde. Normaliza la pausa."},
-           {id:"v33b",n:"'Buena pregunta'",d:"Practica decir 'Déjame pensar en eso' o 'Es una pregunta interesante' antes de responder algo difícil. Sin prisa."},
-           {id:"v33c",n:"Respuesta estructura",d:"Practica responder con: punto 1 → punto 2 → conclusión. La estructura da autoridad aunque el contenido sea simple."},
-         ]},
-      4:{tema:"Voz en formato digital",
-         sci:"El 38% de la percepción de credibilidad en audio/video viene de la voz (no del contenido). El ring light importa menos que el micrófono. Y el micrófono importa menos que la técnica.",
-         sha:"La voz grabada es la voz más honesta — no hay presencia física que compense. Lo que queda es puro sonido. Por eso los chamanes cuidaban tanto el canto: era lo que sobrevivía.",
-         ejs:[
-           {id:"v34a",n:"Grábate en video 2 min",d:"Habla de cualquier tema a cámara. Luego obsérva sin sonido: ¿qué comunica tu postura? Luego con sonido: ¿cómo suenas?"},
-           {id:"v34b",n:"Ajusta el entorno",d:"Grábate en diferentes espacios (baño, cuarto, sala). Nota cómo cambia el sonido. Elige el mejor para contenido."},
-           {id:"v34c",n:"Hook en 10 segundos",d:"Practica abrir cualquier tema en 10 segundos de forma que genere curiosidad. Grábate y escucha."},
-         ]},
-      5:{tema:"Tu voz de marca",
-         sci:"La consistencia vocal es lo que hace reconocible a un comunicador. El cerebro reconoce patrones de voz igual que reconoce caras. Tu 'firma vocal' se construye con práctica deliberada.",
-         sha:"Los juglares medievales y los bardos celtas eran reconocidos por su voz antes de que la gente supiera su nombre. La voz es identidad.",
-         ejs:[
-           {id:"v35a",n:"Define tu firma",d:"Describe en voz alta cómo quieres sonar: directa, cálida, experta, divertida. Luego habla desde esa intención 3 minutos."},
-           {id:"v35b",n:"Monólogo de marca",d:"Habla 3 minutos sobre lo que haces y por qué importa — en tu voz, no en voz corporativa. Grábate."},
-           {id:"v35c",n:"Escucha tu mejor toma",d:"De todas tus grabaciones de esta semana, identifica el momento donde sonaste más tú. ¿Qué estabas haciendo diferente?"},
-         ]},
-    }
-  }
-};
-
-var VOZ_WEEKEND_TIPS=[
-  {e:"🌿",t:"Hidratación vocal",txt:"La voz funciona mejor con cuerdas vocales hidratadas. Toma agua tibia (no fría) durante el día. El vapor directo (inhalar sobre agua caliente 5 min) hidrata las cuerdas desde adentro."},
-  {e:"😴",t:"El sueño repara la voz",txt:"Mientras duermes, las cuerdas vocales se reparan. Una noche de mal sueño produce voz ronca y tensa. El descanso vocal es parte del entrenamiento."},
-  {e:"🎵",t:"Escucha activa",txt:"Elige un podcast, un discurso o una canción. Escucha solo la voz — el tono, el ritmo, las pausas. No el contenido. Entrenas el oído que luego aplicas a la tuya."},
-  {e:"🧘",t:"Meditación de sonido",txt:"Siéntate en silencio 5 minutos. Luego tararear tu nota natural suavemente durante 5 más. Es yoga vocal — restaura la voz sin esfuerzo."},
-  {e:"🌱",t:"Epigenética vocal",txt:"Los hábitos de voz cambian la expresión génica de los músculos laríngeos. Practicar 15 minutos diarios durante 8 semanas produce cambios estructurales medibles — no solo de habilidad."},
-];
 
 function getVozDayData(){
   var dow=new Date().getDay();
@@ -2721,72 +2581,99 @@ function getVozDayData(){
 }
 
 function renderVoz(){
-  const now = new Date();
-  const dow = now.getDay();
-  var nivel = getVozNivel();
-  var nd = VOZ_NIVELES[nivel];
+  var now=new Date();
+  var dow=now.getDay();
+  var nivel=getVozNivel();
+  var nd=VOZ_NIVELES[nivel];
+  var DIAS=['','Lunes','Martes','Miércoles','Jueves','Viernes'];
 
+  // Weekend
   if(dow===0||dow===6){
     var tip=VOZ_WEEKEND_TIPS[now.getDate()%VOZ_WEEKEND_TIPS.length];
-    var h='<div class="wk-hdr"><span class="wk-emo">🎤</span><div>';
-    h+='<div class="wk-ttl">Descanso vocal</div>';
-    h+='<div class="wk-sub">La voz se consolida en el reposo</div></div></div>';
-    h+='<div style="background:var(--white);border-radius:16px;padding:20px;margin-bottom:12px;box-shadow:var(--shad)">';
-    h+='<div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:24px">'+tip.e+'</span>';
-    h+='<div><div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ink);margin-bottom:8px">'+tip.t+'</div>';
+    var h='<div style="background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:18px;margin-bottom:12px;box-shadow:var(--shad)">';
+    h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);margin-bottom:8px;font-weight:300">Fin de semana</div>';
+    h+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:var(--ink);margin-bottom:4px">Descanso vocal activo</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">La voz consolida el progreso en el reposo — igual que el músculo.</div>';
+    h+='</div>';
+    h+='<div style="background:var(--white);border-radius:16px;padding:16px;box-shadow:var(--shad)">';
+    h+='<div style="display:flex;gap:12px;align-items:flex-start">';
+    h+='<span style="font-size:24px">'+tip.e+'</span>';
+    h+='<div><div style="font-family:var(--ff);font-size:15px;font-style:italic;color:var(--ink);margin-bottom:6px">'+tip.t+'</div>';
     h+='<div style="font-size:12px;color:var(--mu);line-height:1.75;font-weight:300">'+tip.txt+'</div></div></div>';
     h+='</div>';
     return h;
   }
 
-  var diaData=getVozDayData();
-  var DIAS_ES=['','Lunes','Martes','Miércoles','Jueves','Viernes'];
-
-  // Header nivel
-  var h='<div style="background:var(--white);border:1.5px solid rgba(201,169,110,.2);border-radius:20px;padding:18px;margin-bottom:12px;box-shadow:var(--shad)">';
-  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">';
-  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);font-weight:300">Tu nivel actual</div>';
-  h+='<div style="display:flex;gap:6px">';
-  [1,2,3].forEach(function(n){
-    h+='<button onclick="setVozNivel('+n+')" style="width:28px;height:28px;border-radius:50%;border:1.5px solid '+(n===nivel?'var(--gold)':'var(--border)')+';background:'+(n===nivel?'var(--gold)':'transparent')+';color:'+(n===nivel?'white':'var(--mu)')+';font-size:10px;font-weight:600;cursor:pointer">'+n+'</button>';
-  });
-  h+='</div></div>';
-  h+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:'+nd.color+';margin-bottom:6px">'+nd.label+'</div>';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">'+nd.desc+'</div>';
-  h+='</div>';
-
+  var diaData=VOZ_NIVELES[nivel]&&VOZ_NIVELES[nivel].dias[dow];
   if(!diaData){
-    h+='<div style="text-align:center;padding:30px;color:var(--mu);font-size:13px">No hay ejercicios para hoy 🎤</div>';
-    return h;
+    return '<div style="padding:30px;text-align:center;color:var(--mu)">No hay práctica para hoy.</div>';
   }
 
-  // Tema del día
-  h+='<div class="sec-ttl"><span>'+DIAS_ES[dow]+' — '+diaData.tema+'</span><div class="sec-ln"></div></div>';
+  var h='';
+
+  // ── NIVEL HEADER ──
+  h+='<div style="background:var(--white);border-radius:20px;padding:18px 18px 14px;margin-bottom:12px;box-shadow:var(--shad)">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
+  h+='<div>';
+  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);margin-bottom:4px;font-weight:300">Tu nivel</div>';
+  h+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:'+nd.color+'">'+nd.label+'</div>';
+  h+='</div>';
+  // Nivel dots
+  h+='<div style="display:flex;gap:6px;align-items:center">';
+  for(var n=1;n<=3;n++){
+    var isActive=(n===nivel);
+    h+='<div style="width:10px;height:10px;border-radius:50%;background:'+(isActive?nd.color:'var(--border)')+';transition:background .2s"></div>';
+  }
+  h+='</div></div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+nd.desc+'</div>';
+
+  // Subir nivel button (if not max)
+  if(nivel<3){
+    h+='<button onclick="vozSubirNivel()" style="margin-top:12px;width:100%;padding:10px;background:var(--ivory2);border:1.5px solid var(--border);border-radius:10px;color:var(--mu);font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">Listo para el siguiente nivel →</button>';
+  } else {
+    h+='<div style="margin-top:10px;text-align:center;font-size:10px;color:var(--gold2);letter-spacing:1px">✦ Nivel máximo alcanzado</div>';
+  }
+  h+='</div>';
+
+  // ── TEMA DEL DÍA ──
+  h+='<div class="sec-ttl"><span>'+DIAS[dow]+' — '+diaData.tema+'</span><div class="sec-ln"></div></div>';
 
   // Ciencia
   h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--shad)">';
-  h+='<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><span style="font-size:16px">🔬</span>';
-  h+='<div style="font-family:var(--ff);font-size:15px;font-style:italic;color:var(--ink)">Por qué funciona hoy</div></div>';
+  h+='<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">';
+  h+='<span style="font-size:15px">🔬</span>';
+  h+='<div style="font-family:var(--ff);font-size:14px;font-style:italic;color:var(--ink)">Por qué funciona hoy</div></div>';
   h+='<div style="font-size:12px;color:var(--mu);line-height:1.75;font-weight:300">'+diaData.sci+'</div>';
   h+='</div>';
 
-  // Perspectiva chamánica
-  h+='<div style="background:rgba(144,96,192,.05);border-left:2px solid #9060C0;border-radius:0 14px 14px 0;padding:14px 16px;margin-bottom:12px">';
-  h+='<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><span style="font-size:16px">🌿</span>';
-  h+='<div style="font-family:var(--ff);font-size:15px;font-style:italic;color:#9060C0">Perspectiva chamánica</div></div>';
+  // Chamánico
+  h+='<div style="background:rgba(144,96,192,.05);border-left:2px solid rgba(144,96,192,.4);border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:14px">';
+  h+='<div style="display:flex;gap:8px;align-items:center;margin-bottom:5px">';
+  h+='<span style="font-size:15px">🌿</span>';
+  h+='<div style="font-family:var(--ff);font-size:14px;font-style:italic;color:#9060C0">Perspectiva chamánica</div></div>';
   h+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300">'+diaData.sha+'</div>';
   h+='</div>';
 
-  // Ejercicios
-  h+='<div class="sec-ttl"><span>Ejercicios de hoy</span><div class="sec-ln"></div></div>';
-  diaData.ejs.forEach(function(ej){
+  // ── EJERCICIOS ──
+  h+='<div class="sec-ttl"><span>3 ejercicios de hoy</span><div class="sec-ln"></div></div>';
+  for(var i=0;i<diaData.ejs.length;i++){
+    var ej=diaData.ejs[i];
     var isDone=!!vozD[ej.id];
     h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--shad);display:flex;gap:12px;align-items:flex-start">';
-    h+='<div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:5px">'+ej.n+'</div>';
-    h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">'+ej.d+'</div></div>';
-    h+='<button onclick="togVoz(\''+ej.id+'\')" style="width:32px;height:32px;border-radius:50%;border:1.5px solid '+(isDone?'var(--gold)':'var(--border)')+';background:'+(isDone?'var(--gold)':'transparent')+';color:'+(isDone?'white':'var(--mu)')+';font-size:14px;cursor:pointer;flex-shrink:0;margin-top:2px">'+(isDone?'✓':'')+'</button>';
+    h+='<div style="width:28px;height:28px;border-radius:50%;background:'+(isDone?'var(--gold)':'var(--ivory2)')+';border:1.5px solid '+(isDone?'var(--gold)':'var(--border)')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:600;color:'+(isDone?'white':'var(--mu)')+'">'+( isDone?'✓':(i+1))+'</div>';
+    h+='<div style="flex:1">';
+    h+='<div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px">'+ej.n+'</div>';
+    h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">'+ej.d+'</div>';
     h+='</div>';
-  });
+    h+='<button onclick="togVoz(\"'+ej.id+'\")" style="width:32px;height:32px;border-radius:50%;border:1.5px solid '+(isDone?'var(--gold)':'var(--border)')+';background:'+(isDone?'var(--gold)':'transparent')+';color:'+(isDone?'white':'var(--mu)')+';font-size:14px;cursor:pointer;flex-shrink:0">'+(isDone?'✓':'')+'</button>';
+    h+='</div>';
+  }
+
+  // Contador del día
+  var cnt=diaData.ejs.filter(function(e){return !!vozD[e.id];}).length;
+  h+='<div style="text-align:center;padding:14px 0 4px;font-size:11px;color:var(--mu)">';
+  h+=cnt+' de '+diaData.ejs.length+' ejercicios completados hoy';
+  h+='</div>';
 
   return h;
 }
