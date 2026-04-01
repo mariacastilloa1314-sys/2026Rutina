@@ -2877,7 +2877,9 @@ var IDENTIDAD_AFF=[
   {id:'id4',txt:'Merezco prosperidad, amor y crecimiento en igual medida.',base:'Autoconcepto y merecimiento — Baumeister'},
   {id:'id5',txt:'Soy una versión nueva cada mañana que elijo despertar a las 6.',base:'Neuroplasticidad del comportamiento ritual'},
   {id:'id6',txt:'Mi voz tiene poder. Mis palabras construyen realidades.',base:'Efecto Pigmalión inverso — autopercepción vocal'},
-  {id:'id7',txt:'Soy curiosa, valiente y capaz de reinventarme.',base:'Identidad narrativa — McAdams, 2001'}
+  {id:'id7',txt:'Soy curiosa, valiente y capaz de reinventarme.',base:'Identidad narrativa — McAdams, 2001'},
+  {id:'id8',txt:'Soy una persona próspera en construcción. El dinero fluye hacia el valor que creo.',base:'Mentalidad de abundancia — la riqueza empieza como identidad'},
+  {id:'id9',txt:'Me permito ganar bien, cobrar bien y vivir bien. Eso no me hace diferente — me hace libre.',base:'Permiso financiero — inteligencia emocional con el dinero'}
 ];
 
 var IDENTIDAD_EJ=[
@@ -3065,6 +3067,50 @@ function renderPnlCr(){
     sha:'Los curanderos huaves de Oaxaca tenian el ritual de soltar la historia: contar la creencia en voz alta al fuego. El acto de nombrarla en voz alta era real y poderoso.'
   };
   h+=exBlock(exCr,'pce');
+
+  // ─── DINERO ───
+  var DINERO_C=[
+    {id:'d1',vieja:'El dinero es difícil de conseguir.',nueva:'El dinero fluye hacia donde hay valor. Yo creo valor. El dinero me encuentra.',ref:'La escasez de dinero es una creencia heredada, no una ley física. El 80% de los millonarios de primera generación vinieron de mentalidad, no de dinero.'},
+    {id:'d2',vieja:'No soy buena con el dinero.',nueva:'El dinero es un sistema. Los sistemas se aprenden. Ya aprendí sistemas más complejos.',ref:'La inteligencia financiera es una habilidad, no un rasgo de personalidad (Kiyosaki). Se enseña y se practica.'},
+    {id:'d3',vieja:'Querer dinero es ser codiciosa o superficial.',nueva:'Querer prosperidad es querer libertad, seguridad y opciones. Eso es inteligente y legítimo.',ref:'El dinero amplifica quién ya eres. Si eres generosa sin dinero, con dinero serás más generosa.'},
+    {id:'d4',vieja:'Ganar mucho dinero no es para personas como yo.',nueva:'Personas creativas, analíticas, con propósito son exactamente las que el mercado de datos necesita ahora.',ref:'La economía del conocimiento premia exactamente las habilidades que estás desarrollando. El timing es perfecto.'},
+    {id:'d5',vieja:'Si gano más, alguien pierde.',nueva:'La riqueza no es un pastel fijo. Cuando prospero, creo valor para otros. Es suma positiva.',ref:'Economía de suma positiva: el crecimiento de uno no requiere la pérdida de otro.'},
+    {id:'d6',vieja:'No merezco cobrar bien por lo que sé hacer.',nueva:'Lo que sé hacer tiene valor real. Cobrar bien no es arrogancia — es no subestimarme.',ref:'El síndrome del impostor hace cobrar menos. La solución: cobrar más primero, la confianza llega después.'},
+  ];
+  h+='<div class="sec-ttl" style="margin-top:16px"><span>💰 Creencias sobre el dinero</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:rgba(201,169,110,.05);border-radius:12px;padding:12px 14px;margin-bottom:12px"><div style="font-size:11px;color:var(--ink);line-height:1.75;font-weight:300">El dinero no es un tema tabú — es energía, y tu relación con él refleja lo que crees merecer. Estas creencias llegaron de algún lado. Pueden irse.</div></div>';
+  for(var di=0;di<DINERO_C.length;di++){
+    var dc=DINERO_C[di];
+    var isDone=!!pnlD[dc.id];
+    var ek2='pd'+di;
+    var isExp2=expanded===ek2;
+    var cardCls='belief-card'+(isDone?' done':'');
+    h+='<div class="'+cardCls+'" onclick="togExp(\'' +ek2+ '\')">';
+    h+='<div class="belief-row">';
+    h+='<span class="belief-ico">'+(isDone?'✅':'💰')+'</span>';
+    h+='<div class="belief-body">';
+    h+='<div class="belief-ttl'+(isDone?' done':'')+'">'+dc.vieja+'</div>';
+    if(!isExp2) h+='<div class="belief-sub">Toca para el reencuadre →</div>';
+    h+='</div>';
+    h+='<button class="ckbtn'+(isDone?' on':'')+'" onclick="event.stopPropagation();togPnl(\''+ dc.id+'\')">'+(isDone?'✓':'')+'</button>';
+    h+='</div>';
+    if(isExp2){
+      h+='<div class="reframe-box"><div class="reframe-old">'+dc.vieja+'</div><div class="reframe-new">→ '+dc.nueva+'</div></div>';
+      h+='<div class="belief-expand">'+dc.ref+'</div>';
+    }
+    h+='</div>';
+  }
+  var exDin={id:'din1',n:'Carta a tu relación con el dinero',dur:'15 min',
+    steps:['Cierra los ojos. Visualiza el dinero como una persona. ¿Cómo es? ¿Cómo te trata?',
+           'Escribe: Mi relación con el dinero ha sido... — sin filtro.',
+           'Escribe: Lo que aprendí de mi familia sobre el dinero fue...',
+           'Escribe: Lo que decido creer ahora sobre el dinero es...',
+           'Lee esa última línea en voz alta 3 veces. Ese es tu nuevo contrato.'],
+    sci:'Las creencias financieras se forman entre los 5 y 12 años y se ejecutan automáticamente en la adultez (Klontz, 2011). Reescribirlas activa nuevos circuitos de toma de decisiones.',
+    sha:'En muchas tradiciones indígenas el dinero se entiende como flujo — como el agua. El dinero atascado por miedo no circula. El trabajo chamánico era desbloquear el flujo. Esto es lo mismo.'
+  };
+  h+=exBlock(exDin,'pdin');
+
   return h;
 }
 
