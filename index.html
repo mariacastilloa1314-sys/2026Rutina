@@ -2562,7 +2562,7 @@ function render(){
 // User-controlled nivel — stored in localStorage, default 1
 function getVozNivel(){return parseInt(localStorage.getItem('voz_nivel')||'1');}
 function setVozNivel(n){
-  if(n<1||n>3) return;
+  n=Math.max(1,Math.min(3,parseInt(n)||1));
   localStorage.setItem('voz_nivel',String(n));
   render();
 }
@@ -2778,12 +2778,17 @@ function renderVoz(){
   h+='</div></div>';
   h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+nd.desc+'</div>';
 
-  // Subir nivel button (if not max)
-  if(nivel<3){
-    h+='<button onclick="vozSubirNivel()" style="margin-top:12px;width:100%;padding:10px;background:var(--ivory2);border:1.5px solid var(--border);border-radius:10px;color:var(--mu);font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">Listo para el siguiente nivel →</button>';
-  } else {
-    h+='<div style="margin-top:10px;text-align:center;font-size:10px;color:var(--gold2);letter-spacing:1px">✦ Nivel máximo alcanzado</div>';
-  }
+  // Nivel navigation — siempre visible, siempre funcional
+  h+='<div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">';
+  // Botón N1
+  h+='<button onclick="setVozNivel(1)" style="padding:9px 4px;border-radius:10px;border:1.5px solid '+(nivel===1?'var(--mauve)':'var(--border)')+';background:'+(nivel===1?'rgba(184,144,154,.12)':'transparent')+';color:'+(nivel===1?'var(--mauve)':'var(--mu)')+';font-family:var(--fb);font-size:10px;font-weight:'+(nivel===1?'600':'400')+';cursor:pointer">N1 Fundamentos</button>';
+  // Botón N2
+  h+='<button onclick="setVozNivel(2)" style="padding:9px 4px;border-radius:10px;border:1.5px solid '+(nivel===2?'var(--gold)':'var(--border)')+';background:'+(nivel===2?'rgba(201,169,110,.1)':'transparent')+';color:'+(nivel===2?'var(--gold2)':'var(--mu)')+';font-family:var(--fb);font-size:10px;font-weight:'+(nivel===2?'600':'400')+';cursor:pointer">N2 Presencia</button>';
+  // Botón N3
+  h+='<button onclick="setVozNivel(3)" style="padding:9px 4px;border-radius:10px;border:1.5px solid '+(nivel===3?'#9060C0':'var(--border)')+';background:'+(nivel===3?'rgba(144,96,192,.1)':'transparent')+';color:'+(nivel===3?'#9060C0':'var(--mu)')+';font-family:var(--fb);font-size:10px;font-weight:'+(nivel===3?'600':'400')+';cursor:pointer">N3 Autoridad</button>';
+  h+='</div>';
+  // Reset helper
+  h+='<div style="text-align:center;margin-top:6px"><button onclick="setVozNivel(1)" style="background:none;border:none;font-size:9px;color:var(--mu);cursor:pointer;letter-spacing:.5px">↺ Reiniciar al nivel 1</button></div>';
   h+='</div>';
 
   // ── TEMA DEL DÍA ──
