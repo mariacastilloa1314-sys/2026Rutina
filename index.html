@@ -799,6 +799,216 @@ body{
     if(ov) ov.style.display='none';
   }
 })();
+
+// ═══════════════════════════════════════════
+//  RENDER CREAR
+// ═══════════════════════════════════════════
+function renderCrear(){
+  var now=new Date();
+  var day=now.getDate(), dow=now.getDay(), mon=now.getMonth();
+  var crearData=JSON.parse(localStorage.getItem('crear_data')||'{}');
+
+  var h='';
+
+  // ── HERO ──
+  h+='<div style="background:var(--white);border-radius:20px;padding:22px 20px;margin-bottom:14px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mauve);margin-bottom:8px;font-weight:300">Tu lado creativo</div>';
+  h+='<div style="font-family:var(--ff);font-size:24px;font-style:italic;color:var(--ink);margin-bottom:8px">Crear</div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.75;font-weight:300">La creatividad no es un don — es un músculo. Se entrena con práctica diaria, curiosidad y permiso para hacer cosas imperfectas.</div>';
+  h+='</div>';
+
+  // ── CIENCIA DEL DÍA ──
+  var CIENCIA_C=[
+    {e:'🧠',t:'La creatividad ocurre en modo "red por defecto"',txt:'Cuando tu mente divaga — en la ducha, caminando, justo antes de dormir — el cerebro activa la Default Mode Network. Ahí ocurren las conexiones creativas más potentes. El aburrimiento es productivo.'},
+    {e:'🔗',t:'La creatividad es conexión de ideas no relacionadas',txt:'El test RAT (Remote Associates Test) de Mednick demostró que las personas creativas tienen mayor capacidad de conectar conceptos distantes. No es genialidad — es práctica de asociación.'},
+    {e:'😴',t:'Dormir bien multiplica la creatividad',txt:'Durante el sueño REM, el hipocampo reproduce experiencias y las conecta con conocimiento previo de maneras nuevas. Las mejores ideas llegan después de una buena noche, no después de una trasnocha.'},
+    {e:'✋',t:'La escritura a mano activa más circuitos creativos',txt:'Escribir a mano activa el sistema reticular ascendente y la corteza motora simultáneamente. Genera más ideas originales que escribir en teclado (Mueller & Oppenheimer, 2014).'},
+    {e:'🌿',t:'La naturaleza restaura la atención creativa',txt:'20 minutos en contacto con naturaleza reducen la fatiga de atención dirigida y restauran la capacidad de pensamiento divergente. Los chamanes lo sabían: salir al campo para recibir visiones.'},
+    {e:'🎨',t:'Las restricciones potencian la creatividad',txt:'Paradójicamente, las limitaciones aumentan la creatividad (Stokes, 2001). Escribe un poema de 6 palabras. Pinta solo con 3 colores. Las reglas obligan al cerebro a buscar soluciones inusuales.'},
+    {e:'🔄',t:'La creatividad se entrena como el músculo',txt:'El cerebro forma nuevas conexiones sinápticas con práctica deliberada. Hacer algo creativo 15 minutos al día durante 30 días produce cambios medibles en la flexibilidad cognitiva.'},
+  ];
+  var ci=CIENCIA_C[(day+mon*3)%CIENCIA_C.length];
+  h+='<div class="sec-ttl"><span>Neurociencia creativa — hoy</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--shad);display:flex;gap:12px">';
+  h+='<span style="font-size:24px">'+ci.e+'</span>';
+  h+='<div><div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:5px">'+ci.t+'</div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.75;font-weight:300">'+ci.txt+'</div></div></div>';
+
+  // ── CHAMANISMO CREATIVO ──
+  var CHAMAN_C=[
+    {e:'🌀',t:'El trance creativo',txt:'Los chamanes entran en estados alterados para recibir visiones. El "flow" creativo (Csikszentmihalyi) es neurológicamente idéntico al trance chamánico: ondas theta en el lóbulo frontal, ego reducido, tiempo distorsionado. No es magia — es neurología antigua.'},
+    {e:'🌱',t:'Crear es un acto sagrado',txt:'En casi todas las tradiciones indígenas, crear — cantar, tejer, pintar — era una forma de comunicarse con lo sagrado. No separaban el arte de lo espiritual. Crear es convocar, no solo producir.'},
+    {e:'🪶',t:'La voz del espíritu guardián',txt:'Los chamanes huicholes creen que cada persona tiene un espíritu guardián que le habla a través de visiones y sueños. La práctica creativa es la forma de escucharlo. Tu intuición creativa es esa voz.'},
+    {e:'🔥',t:'El fuego de la transmutación',txt:'En los rituales del fuego, lo que se quema se transforma. Escribir y quemar es un ritual chamánico de transmutación: sacas lo que está dentro, lo transformas al nombrarlo, lo sueltas al quemarlo. La escritura libre funciona igual.'},
+    {e:'💧',t:'El agua como espejo creativo',txt:'Las tradiciones andinas usaban el agua como espejo para ver visiones. La mente en estado meditativo funciona igual: cuando aquietas la superficie, puedes ver al fondo. La meditación antes de crear es preparar el espejo.'},
+    {e:'🌙',t:'La luna y los ciclos creativos',txt:'Muchas culturas sincronizaban su trabajo creativo con la luna: luna nueva para iniciar proyectos, luna llena para compartir, luna menguante para editar y soltar. No es superstición — es trabajar con los ciclos de energía naturales.'},
+    {e:'🦅',t:'El vuelo del espíritu',txt:'El chamán viaja entre mundos para traer información. El creativo hace lo mismo: se sumerge en el subconsciente y trae de vuelta algo que antes no existía. Crear es un acto de viaje.'},
+  ];
+  var ch=CHAMAN_C[(day+dow)%CHAMAN_C.length];
+  h+='<div style="background:rgba(144,96,192,.06);border-left:2px solid rgba(144,96,192,.4);border-radius:0 14px 14px 0;padding:14px 16px;margin-bottom:14px;display:flex;gap:12px">';
+  h+='<span style="font-size:22px">'+ch.e+'</span>';
+  h+='<div><div style="font-family:var(--ff);font-size:14px;font-style:italic;color:#9060C0;margin-bottom:5px">'+ch.t+'</div>';
+  h+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300">'+ch.txt+'</div></div></div>';
+
+  // ── EJERCICIO CREATIVO DEL DÍA ──
+  var EJERCICIOS_C=[
+    {e:'✍️',t:'Escritura automática — 5 minutos',d:'Pon un temporizador. Escribe sin parar, sin editar, sin levantar el bolígrafo (o sin borrar). No importa qué — lo que salga. El objetivo es silenciar al crítico interno y escuchar al subconsciente.',nivel:'Fundamentos',sci:'Julia Cameron (The Artist\'s Way) lo llama Morning Pages. Activa el hemisferio derecho y reduce la autocensura prefrontal.'},
+    {e:'🔗',t:'10 conexiones improbables',d:'Elige 2 palabras al azar (abre un libro en cualquier página, toma una palabra de cada página). Escribe 10 maneras en que se conectan. La última suele ser la más interesante.',nivel:'Asociación',sci:'Técnica derivada del test RAT. Entrena la flexibilidad cognitiva — la habilidad de ver relaciones no obvias.'},
+    {e:'🎭',t:'Escribe desde otro punto de vista',d:'Elige un objeto cotidiano — una silla, una taza, tu teléfono. Escribe 1 párrafo desde su perspectiva. ¿Qué siente? ¿Qué ve? ¿Qué quiere?',nivel:'Perspectiva',sci:'El cambio de perspectiva activa la teoría de la mente (ToM) y la corteza prefrontal medial — mismo circuito que la empatía y la imaginación.'},
+    {e:'📷',t:'Fotografía 5 detalles invisibles',d:'Sal (o quédate) y fotografía 5 cosas que nadie más fotografiaría hoy: una textura, una sombra, un ángulo raro. Sin filtros. Solo la mirada.',nivel:'Observación',sci:'Entrenar la observación deliberada activa la corteza visual ventral y la memoria episódica. Los grandes creativos son antes que nada observadores excepcionales.'},
+    {e:'🎵',t:'Crea una playlist de tu estado de ánimo',d:'No la playlist que ya tienes. Una nueva, ahora mismo, que refleje exactamente cómo te sientes hoy — incluyendo las contradicciones. Ponle un nombre.',nivel:'Expresión emocional',sci:'La selección musical consciente activa la ínsula y la corteza cingulada anterior — los centros de autoconciencia emocional.'},
+    {e:'🌀',t:'El mapa mental sin reglas',d:'En el centro de una hoja escribe: YO SOY. A partir de ahí, conecta todo lo que se te ocurra sin orden. No hay jerarquía, no hay lógica. Deja que la mano haga el mapa.',nivel:'Autoconocimiento creativo',sci:'El mapeo mental libre activa simultáneamente el sistema límbico y el neocórtex — la combinación que produce insights creativos genuinos.'},
+    {e:'💌',t:'Carta a tu yo creativo de los 8 años',d:'¿Qué hacías cuando tenías 8 años que ahora no haces? Escríbele una carta. Dile qué pasó, qué no pasó, y qué vas a recuperar.',nivel:'Reconexión',sci:'El niño interior creativo (Winnicott) no es metáfora — es la parte del cerebro que aún no tiene filtros de autocensura. Escribirle activa esos circuitos.'},
+    {e:'🏗️',t:'Construye algo con lo que tengas',d:'Con papel, clips, lo que haya en tu mesa ahora mismo: construye algo. No tiene que representar nada. Solo crea.',nivel:'Tactil',sci:'La creatividad táctil activa la corteza motora y el cerebelo de maneras que la creatividad solo mental no puede. Crear con las manos es diferente.'},
+    {e:'🌈',t:'Escribe el poema más corto posible',d:'Un poema de 6 palabras. No más. Sobre lo que sientas ahora mismo. Hemingway escribió uno de las más poderosas 6 palabras de la historia.',nivel:'Restricción creativa',sci:'Las restricciones aumentan la actividad en la corteza prefrontal dorsolateral — la región del pensamiento divergente y la resolución de problemas.'},
+    {e:'🎪',t:'Inventa un ritual de inicio',d:'Diseña un ritual personal de 2-3 minutos que harás cada vez que vayas a crear. Puede incluir música, movimiento, una frase, un aroma. Repítelo siempre igual.',nivel:'Hábito creativo',sci:'Los rituales reducen la ansiedad de la página en blanco al crear un puente neural entre estado normal y estado creativo (Gino & Norton, 2013).'},
+  ];
+  var ej=EJERCICIOS_C[(day+mon*2)%EJERCICIOS_C.length];
+  var ejDone=crearData['ej_'+day+'_'+mon];
+  h+='<div class="sec-ttl"><span>🎨 Ejercicio creativo de hoy</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mauve);font-weight:300">'+ej.nivel+'</div>';
+  h+='<div style="font-size:9px;color:var(--mu)">'+ej.e+'</div></div>';
+  h+='<div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ink);margin-bottom:10px">'+ej.t+'</div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.75;font-weight:300;margin-bottom:10px">'+ej.d+'</div>';
+  h+='<div style="font-size:11px;color:var(--mauve);border-left:2px solid rgba(184,144,154,.3);padding-left:10px;line-height:1.6;margin-bottom:12px;font-style:italic">🔬 '+ej.sci+'</div>';
+  h+='<button onclick="togCrearEj()" style="width:100%;padding:11px;background:'+(ejDone?'var(--mauve)':'var(--ivory2)')+';border:1.5px solid var(--mauve);border-radius:10px;color:'+(ejDone?'white':'var(--mauve)')+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(ejDone?'✓ Hecho hoy':'Marcar como hecho')+'</button>';
+  h+='</div>';
+
+  // ── MEDITACIÓN ──
+  var MED_STEPS=[
+    {n:'1. El espacio',d:'Siéntate en un lugar tranquilo. No tienes que cruzar las piernas — en una silla con los pies en el suelo funciona igual. Lo importante es la columna vertical.'},
+    {n:'2. Los ojos',d:'Ciérralos suavemente. No los fuerces. Si prefieres, déjalos entreabiertos mirando hacia abajo sin enfocar nada.'},
+    {n:'3. La respiración',d:'No controles la respiración — solo obsévala. Nota cómo entra el aire, cómo sale. Dónde lo sientes más: ¿en la nariz? ¿en el pecho? ¿en el abdomen?'},
+    {n:'4. Los pensamientos',d:'Van a aparecer. Es normal. No los pelees. Solo nota que aparecieron, déjalos pasar como nubes, y vuelve a la respiración. Eso ES meditar — no la ausencia de pensamientos, sino el acto de volver.'},
+    {n:'5. El tiempo',d:'Empieza con 5 minutos. Un temporizador suave ayuda para no estar pendiente del reloj. Con el tiempo, el cuerpo aprende cuándo parar.'},
+    {n:'6. La salida',d:'Al terminar, no te levantes de golpe. Toma 3 respiraciones profundas. Mueve los dedos. Abre los ojos despacio. Lleva esa calma contigo.'},
+  ];
+  var MED_TIPOS=[
+    {t:'Meditación de atención plena (mindfulness)',d:'Observas lo que pasa en tu mente sin juzgarlo. Como sentarte a ver pasar los carros — tú no eres el carro, eres el que mira.',min:'5-20 min',sci:'Reduce el volumen de la amígdala (miedo) y aumenta la corteza prefrontal (decisión). 8 semanas de práctica producen cambios estructurales medibles.'},
+    {t:'Meditación de body scan',d:'Recorres el cuerpo con la atención de pies a cabeza, notando sensaciones sin cambiarlas. Profundamente restauradora.',min:'10-30 min',sci:'Activa el sistema nervioso parasimpático y reduce el cortisol más rápido que cualquier otra técnica de relajación.'},
+    {t:'Meditación de visualización creativa',d:'Imaginas un lugar que te da paz — real o inventado — con todos los sentidos. Es la técnica que usan los atletas de élite y los chamanes por igual.',min:'10-20 min',sci:'El cerebro no distingue imagen vívida de realidad. Visualizar activa los mismos circuitos neurales que la experiencia real (Decety, 1996).'},
+    {t:'Meditación de mantra',d:'Repites una palabra o frase (en voz alta o mental) para anclar la atención. Los mantras tibetanos, el rosario, las oraciones repetitivas — todos son lo mismo.',min:'10-20 min',sci:'La repetición rítmica sincroniza las ondas cerebrales alfa y theta — los estados asociados con creatividad e insight.'},
+    {t:'Meditación caminando',d:'Caminas despacio, prestando atención completa a cada paso. Al contacto del pie con el suelo, al movimiento del cuerpo. Los monjes zen la practican horas.',min:'10-30 min',sci:'Combina los beneficios de la meditación con el aumento de BDNF (factor neurotrófico) que produce el movimiento. Doble beneficio.'},
+  ];
+  h+='<div class="sec-ttl"><span>🧘 Guía de meditación</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:14px;font-weight:300">Meditar no es vaciar la mente. Es entrenar la atención — la misma habilidad que necesitas para crear, estudiar, conectar. Y es la práctica chamánica más antigua del mundo.</div>';
+  // Pasos básicos
+  h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:300">Cómo empezar (paso a paso)</div>';
+  MED_STEPS.forEach(function(s){
+    h+='<div style="display:flex;gap:10px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)">';
+    h+='<div style="font-size:11px;font-weight:600;color:var(--mauve);min-width:20px;padding-top:1px">'+s.n.split('.')[0]+'</div>';
+    h+='<div><div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px">'+s.n.split('. ')[1]+'</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+s.d+'</div></div></div>';
+  });
+  h+='</div>';
+  // Tipos
+  var medOpen=localStorage.getItem('med_tipos_open')==='1';
+  h+='<div style="background:rgba(144,96,192,.04);border-radius:12px;padding:12px 14px;margin-bottom:14px;cursor:pointer" onclick="var v=localStorage.getItem(\'med_tipos_open\');localStorage.setItem(\'med_tipos_open\',v===\'1\'?\'0\':\'1\');render()">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between">';
+  h+='<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#9060C0;font-weight:400">5 tipos de meditación</div>';
+  h+='<span style="color:#9060C0">'+(medOpen?'▾':'▸')+'</span></div>';
+  if(medOpen){
+    MED_TIPOS.forEach(function(m){
+      h+='<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(144,96,192,.1)">';
+      h+='<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px">'+m.t+'</div>';
+      h+='<div style="font-size:10px;color:#9060C0;margin-bottom:5px">⏱ '+m.min+'</div>';
+      h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300;margin-bottom:5px">'+m.d+'</div>';
+      h+='<div style="font-size:10px;color:var(--mauve);font-style:italic">🔬 '+m.sci+'</div></div>';
+    });
+  }
+  h+='</div>';
+
+  // ── PROYECTOS CREATIVOS ──
+  h+='<div class="sec-ttl"><span>🗂 Proyectos creativos</span><div class="sec-ln"></div></div>';
+  var proyectos=crearData.proyectos||[];
+  proyectos.forEach(function(p,i){
+    var isDone=p.done;
+    h+='<div style="background:var(--white);border-radius:12px;padding:12px 14px;margin-bottom:8px;box-shadow:var(--shad);display:flex;gap:10px;align-items:center">';
+    h+='<div style="flex:1"><div style="font-size:13px;color:var(--ink);font-weight:500;'+(isDone?'text-decoration:line-through;color:var(--mu)':'')+'">'+(p.emoji||'🎨')+' '+p.nombre+'</div>';
+    if(p.nota)h+='<div style="font-size:11px;color:var(--mu);margin-top:2px">'+p.nota+'</div>';
+    h+='</div>';
+    h+='<button onclick="togProyecto('+i+')" style="width:30px;height:30px;border-radius:50%;border:1.5px solid '+(isDone?'var(--mauve)':'var(--border)')+';background:'+(isDone?'var(--mauve)':'transparent')+';color:'+(isDone?'white':'var(--mu)')+';font-size:13px;cursor:pointer">'+(isDone?'✓':'')+'</button>';
+    h+='<button onclick="delProyecto('+i+')" style="width:28px;height:28px;border-radius:50%;border:none;background:none;color:var(--mu);font-size:16px;cursor:pointer">×</button>';
+    h+='</div>';
+  });
+  h+='<div style="display:flex;gap:8px;margin-bottom:14px">';
+  h+='<input id="proy-nombre" placeholder="Nombre del proyecto..." style="flex:1;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);outline:none">';
+  h+='<input id="proy-emoji" placeholder="🎨" style="width:48px;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:9px;font-size:16px;text-align:center;outline:none">';
+  h+='<button onclick="addProyecto()" style="padding:9px 14px;background:var(--ink);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:11px;cursor:pointer">+</button>';
+  h+='</div>';
+
+  // ── JOURNAL CREATIVO ──
+  h+='<div class="sec-ttl"><span>📓 Journal creativo</span><div class="sec-ln"></div></div>';
+  var PROMPTS_J=[
+    '¿Qué cosa creaste hoy, aunque sea pequeña?',
+    '¿Cuándo fue la última vez que perdiste la noción del tiempo haciendo algo? ¿Qué era?',
+    '¿Qué harías si supieras que nadie te va a juzgar?',
+    '¿Qué proyecto llevas meses postergando? ¿Qué tiene de aterrador?',
+    'Describe tu proceso creativo ideal. ¿Dónde estás? ¿A qué hora? ¿Qué suena?',
+    '¿Qué te gustaba crear cuando eras niña que ahora no haces?',
+    '¿Cuál es tu mayor miedo creativo? ¿De dónde viene?',
+    '¿Qué tipo de creadora quieres ser en 5 años?',
+    'Escribe 10 ideas — las que sean, buenas o malas. Sin filtro.',
+    '¿Qué hace que algo sea tuyo y no de cualquiera?',
+  ];
+  var promptIdx=(day+mon)%PROMPTS_J.length;
+  var journalKey='journal_'+day+'_'+mon;
+  var journalVal=crearData[journalKey]||'';
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:11px;color:var(--mauve);font-style:italic;margin-bottom:10px;line-height:1.6">'+PROMPTS_J[promptIdx]+'</div>';
+  h+='<textarea id="journal-crear" rows="5" placeholder="Escribe aquí..." style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:var(--fb);font-size:12px;color:var(--ink);resize:none;outline:none;line-height:1.7">'+journalVal+'</textarea>';
+  h+='<button onclick="saveJournalCrear()" style="margin-top:8px;width:100%;padding:10px;background:var(--ivory2);border:1.5px solid var(--mauve);border-radius:10px;color:var(--mauve);font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">Guardar entrada</button>';
+  h+='</div>';
+
+  return h;
+}
+
+// ── CREAR HELPERS ──
+function togCrearEj(){
+  var now=new Date();
+  var key='ej_'+now.getDate()+'_'+now.getMonth();
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  d[key]=!d[key];
+  localStorage.setItem('crear_data',JSON.stringify(d));
+  render();
+}
+function addProyecto(){
+  var nombre=document.getElementById('proy-nombre');
+  var emoji=document.getElementById('proy-emoji');
+  if(!nombre||!nombre.value.trim()) return;
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  if(!d.proyectos) d.proyectos=[];
+  d.proyectos.push({nombre:nombre.value.trim(),emoji:emoji?emoji.value.trim():'🎨',done:false,nota:''});
+  localStorage.setItem('crear_data',JSON.stringify(d));
+  render();
+}
+function delProyecto(i){
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  if(d.proyectos) d.proyectos.splice(i,1);
+  localStorage.setItem('crear_data',JSON.stringify(d));
+  render();
+}
+function togProyecto(i){
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  if(d.proyectos&&d.proyectos[i]) d.proyectos[i].done=!d.proyectos[i].done;
+  localStorage.setItem('crear_data',JSON.stringify(d));
+  render();
+}
+function saveJournalCrear(){
+  var now=new Date();
+  var key='journal_'+now.getDate()+'_'+now.getMonth();
+  var el=document.getElementById('journal-crear');
+  if(!el) return;
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  d[key]=el.value;
+  localStorage.setItem('crear_data',JSON.stringify(d));
+  var btn=el.nextElementSibling;
+  if(btn){btn.textContent='✓ Guardado';btn.style.background='var(--mauve)';btn.style.color='white';}
+}
+
 </script></div>
 
 <!-- SIDEBAR DRAWER -->
@@ -817,6 +1027,7 @@ body{
     <button class="drw-btn" onclick="swDrawer('pnl',this)"><span class="drw-ico">🧬</span><span class="drw-lbl">PNL</span></button>
     <button class="drw-btn" onclick="swDrawer('vision',this)"><span class="drw-ico">✨</span><span class="drw-lbl">Visión</span></button>
     <button class="drw-btn" onclick="swDrawer('marca',this)"><span class="drw-ico">✦</span><span class="drw-lbl">✦ Marca</span></button>
+    <button class="drw-btn" onclick="swDrawer('crear',this)"><span class="drw-ico">🎨</span><span class="drw-lbl">Crear</span></button>
   </nav>
   <div style="padding:16px 24px 32px;border-top:1px solid var(--border)">
     <div id="drw-progress" style="font-size:11px;color:var(--mu)"></div>
@@ -2548,6 +2759,7 @@ function render(){
     else if(tab==="voz") content=renderVoz();
     else if(tab==="pnl") content=renderPnl();
     else if(tab==="marca") content=renderMarca();
+    else if(tab==="crear") content=renderCrear();
     else content=renderVision();
     el.innerHTML=content;
   }catch(err){
@@ -2821,7 +3033,7 @@ function renderVoz(){
     h+='<div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px">'+ej.n+'</div>';
     h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">'+ej.d+'</div>';
     h+='</div>';
-    h+='<button onclick="togVoz(\"'+ej.id+'\")" style="width:32px;height:32px;border-radius:50%;border:1.5px solid '+(isDone?'var(--gold)':'var(--border)')+';background:'+(isDone?'var(--gold)':'transparent')+';color:'+(isDone?'white':'var(--mu)')+';font-size:14px;cursor:pointer;flex-shrink:0">'+(isDone?'✓':'')+'</button>';
+    h+='<button onclick="togVoz(\''+ej.id+'\')" style="width:32px;height:32px;border-radius:50%;border:1.5px solid '+(isDone?'var(--gold)':'var(--border)')+';background:'+(isDone?'var(--gold)':'transparent')+';color:'+(isDone?'white':'var(--mu)')+';font-size:14px;cursor:pointer;flex-shrink:0">'+(isDone?'✓':'')+'</button>';
     h+='</div>';
   }
 
@@ -3851,8 +4063,8 @@ function closeWelcome(){
 
 // ── DRAWER ──
 var drawerOpen=false;
-var TAB_ORDER=['hoy','cuerpo','mente','voz','pnl','vision','marca'];
-var TAB_NAMES={hoy:'Hoy',cuerpo:'Cuerpo',mente:'Inglés',voz:'Voz',pnl:'PNL',vision:'Visión',marca:'✦ Marca'};
+var TAB_ORDER=['hoy','cuerpo','mente','voz','pnl','vision','marca','crear'];
+var TAB_NAMES={hoy:'Hoy',cuerpo:'Cuerpo',mente:'Inglés',voz:'Voz',pnl:'PNL',vision:'Visión',marca:'✦ Marca',crear:'🎨 Crear'};
 
 function openDrawer(){
   drawerOpen=true;
