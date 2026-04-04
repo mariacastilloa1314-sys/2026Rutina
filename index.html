@@ -3947,47 +3947,27 @@ function renderCrear(){
   h+='<div><div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px">'+ci.t+'</div>';
   h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">'+ci.txt+'</div></div></div>';
 
-  // ── PROYECTOS ──
-  h+='<div class="sec-ttl"><span>Proyectos creativos</span><div class="sec-ln"></div></div>';
+  // ── PROYECTOS (título + fecha → referencia a libreta) ──
+  h+='<div class="sec-ttl"><span>Proyectos en libreta</span><div class="sec-ln"></div></div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:10px;font-weight:300">Registra aquí el título y la fecha para poder ubicarlos en tu libreta física. El trabajo real va a mano ✍️</div>';
   var proyectos=d.proyectos||[];
-  if(proyectos.length===0){
-    h+='<div style="padding:12px 0;font-size:12px;color:var(--mu);font-style:italic">Agrega tus proyectos creativos en curso...</div>';
-  }
   proyectos.forEach(function(p,i){
     h+='<div style="background:var(--white);border-radius:12px;padding:11px 14px;margin-bottom:8px;box-shadow:var(--shad);display:flex;gap:10px;align-items:center">';
-    h+='<div style="flex:1;font-size:13px;color:'+(p.done?'var(--mu)':'var(--ink)')+';font-weight:500;'+(p.done?'text-decoration:line-through':'')+'">'+p.nombre+'</div>';
-    h+='<button onclick="togProyecto('+i+')" style="min-width:32px;height:32px;border-radius:8px;border:1.5px solid '+(p.done?'var(--mauve)':'var(--border)')+';background:'+(p.done?'var(--mauve)':'transparent')+';color:'+(p.done?'white':'var(--mu)')+';font-size:12px;cursor:pointer;padding:0 8px">'+(p.done?'✓ Listo':'En curso')+'</button>';
-    h+='<button onclick="delProyecto('+i+')" style="width:28px;height:28px;border-radius:50%;border:none;background:none;color:var(--mu);font-size:18px;cursor:pointer;line-height:1">×</button>';
+    h+='<div style="flex:1">';
+    h+='<div style="font-size:13px;color:'+(p.done?'var(--mu)':'var(--ink)')+';font-weight:500;'+(p.done?'text-decoration:line-through':'')+'">'+p.nombre+'</div>';
+    if(p.fecha)h+='<div style="font-size:10px;color:var(--mu);margin-top:2px;letter-spacing:.5px">'+p.fecha+'</div>';
+    h+='</div>';
+    h+='<button onclick="togProyecto('+i+')" style="min-width:36px;height:30px;border-radius:8px;border:1.5px solid '+(p.done?'var(--mauve)':'var(--border)')+';background:'+(p.done?'var(--mauve)':'transparent')+';color:'+(p.done?'white':'var(--mu)')+';font-size:11px;cursor:pointer;padding:0 8px;font-family:var(--fb)">'+(p.done?'✓':'→')+'</button>';
+    h+='<button onclick="delProyecto('+i+')" style="width:28px;height:28px;border-radius:50%;border:none;background:none;color:var(--mu);font-size:18px;cursor:pointer">×</button>';
     h+='</div>';
   });
-  h+='<div style="display:flex;gap:8px;margin-bottom:14px">';
-  h+='<input id="proy-nombre" placeholder="Nombre del proyecto..." style="flex:1;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);outline:none">';
-  h+='<button onclick="addProyecto()" style="padding:10px 16px;background:var(--ink);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:12px;cursor:pointer;font-weight:500">+ Agregar</button>';
+  h+='<div style="display:flex;gap:8px;margin-bottom:6px">';
+  h+='<input id="proy-nombre" placeholder="Título del proyecto..." style="flex:1;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);outline:none">';
+  h+='<input id="proy-fecha" placeholder="Fecha" style="width:90px;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 8px;font-family:var(--fb);font-size:11px;color:var(--ink);outline:none;text-align:center">';
   h+='</div>';
+  h+='<button onclick="addProyecto()" style="width:100%;padding:10px;background:var(--ink);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:11px;cursor:pointer;margin-bottom:14px;letter-spacing:.5px">+ Agregar proyecto</button>';
 
-  // ── JOURNAL ──
-  var PROMPTS=[
-    '¿Qué cosa creaste hoy, aunque sea pequeña?',
-    '¿Cuándo fue la última vez que perdiste la noción del tiempo? ¿Qué hacías?',
-    '¿Qué harías si supieras que nadie te va a juzgar?',
-    '¿Qué proyecto llevas meses postergando? ¿Qué tiene de aterrador?',
-    'Describe tu proceso creativo ideal. ¿Dónde estás? ¿Qué suena?',
-    '¿Qué te gustaba crear cuando eras niña?',
-    'Escribe 10 ideas — las que sean, buenas o malas. Sin filtro.',
-    '¿Qué hace que algo sea tuyo y no de cualquiera?',
-    '¿Qué tipo de creadora quieres ser en 5 años?',
-    '¿Cuál es tu mayor miedo creativo? ¿De dónde viene?',
-  ];
-  var jKey='j_'+day+'_'+mon;
-  var jVal=d[jKey]||'';
-  h+='<div class="sec-ttl"><span>Journal creativo</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
-  h+='<div style="font-size:12px;color:var(--mauve);font-style:italic;margin-bottom:10px;line-height:1.6">'+PROMPTS[(day+mon)%PROMPTS.length]+'</div>';
-  h+='<textarea id="journal-crear" rows="4" placeholder="Escribe aquí..." style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:var(--fb);font-size:12px;color:var(--ink);resize:none;outline:none;line-height:1.7">'+jVal+'</textarea>';
-  h+='<button onclick="saveJournalCrear()" style="margin-top:8px;width:100%;padding:10px;background:var(--ivory2);border:1.5px solid var(--mauve);border-radius:10px;color:var(--mauve);font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">Guardar</button>';
-  h+='</div>';
-
-  // ── MEDITACIÓN (compacta, colapsable) ──
+  // ── MEDITACIÓN (colapsable) ──
   var medOpen=localStorage.getItem('med_open')==='1';
   h+='<div style="background:rgba(144,96,192,.05);border-radius:14px;margin-bottom:14px;overflow:hidden">';
   h+='<div onclick="var v=localStorage.getItem(\'med_open\');localStorage.setItem(\'med_open\',v===\'1\'?\'0\':\'1\');render()" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer">';
@@ -3996,11 +3976,11 @@ function renderCrear(){
   h+='<span style="color:#9060C0;font-size:18px">'+(medOpen?'▾':'▸')+'</span></div>';
   if(medOpen){
     var PASOS=[
-      {n:'Postura',d:'Silla con pies en el suelo o sentada en el suelo. Columna vertical, no rígida.'},
-      {n:'Ojos',d:'Ciérralos suave. O déjalos entreabiertos mirando hacia abajo sin enfocar.'},
-      {n:'Respiración',d:'No la controles — solo obsérvala. ¿Dónde la sientes más? ¿Nariz, pecho, abdomen?'},
-      {n:'Pensamientos',d:'Van a aparecer. Normal. No los pelees — nótalos y vuelve a la respiración. ESO es meditar.'},
-      {n:'Tiempo',d:'Empieza con 5 minutos. Un timer suave ayuda. Con el tiempo el cuerpo aprende cuándo parar.'},
+      {n:'Postura',d:'Silla con pies en el suelo o en el suelo. Columna vertical, no rígida.'},
+      {n:'Ojos',d:'Ciérralos suave. O entreabiertos mirando hacia abajo sin enfocar.'},
+      {n:'Respiración',d:'No la controles — solo obsérvala. ¿Dónde la sientes más?'},
+      {n:'Pensamientos',d:'Van a aparecer. Normal. Nótalos y vuelve a la respiración. ESO es meditar.'},
+      {n:'Tiempo',d:'Empieza con 5 minutos. Con el tiempo el cuerpo aprende cuándo parar.'},
       {n:'Salida',d:'3 respiraciones profundas, mueve los dedos, abre los ojos despacio.'},
     ];
     h+='<div style="padding:0 16px 14px">';
@@ -4010,18 +3990,15 @@ function renderCrear(){
       h+='<div><div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:1px">'+p.n+'</div>';
       h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-weight:300">'+p.d+'</div></div></div>';
     });
-    var TIPOS=['Mindfulness — observas sin juzgar. 5-20 min.','Body scan — recorres el cuerpo con la atención. 10-30 min.','Visualización — imaginas un lugar que te da paz. 10-20 min.','Mantra — repites una palabra para anclar la atención. 10-20 min.','Caminando — atención plena en cada paso. 10-30 min.'];
+    var TIPOS=['Mindfulness — observas sin juzgar. 5-20 min.','Body scan — recorres el cuerpo con la atención. 10-30 min.','Visualización — imaginas un lugar que te da paz. 10-20 min.','Mantra — repites una palabra para anclar. 10-20 min.','Caminando — atención plena en cada paso. 10-30 min.'];
     h+='<div style="margin-top:10px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#9060C0;margin-bottom:8px;font-weight:300">5 tipos</div>';
-    TIPOS.forEach(function(t){
-      h+='<div style="font-size:11px;color:var(--mu);padding:5px 0;border-top:1px solid rgba(144,96,192,.06)">• '+t+'</div>';
-    });
+    TIPOS.forEach(function(t){h+='<div style="font-size:11px;color:var(--mu);padding:5px 0;border-top:1px solid rgba(144,96,192,.06)">• '+t+'</div>';});
     h+='</div>';
   }
   h+='</div>';
 
   return h;
 }
-
 // ── CREAR HELPERS ──
 function togCrearEj(){
   var now=new Date();
@@ -4033,10 +4010,12 @@ function togCrearEj(){
 }
 function addProyecto(){
   var el=document.getElementById('proy-nombre');
+  var ef=document.getElementById('proy-fecha');
   if(!el||!el.value.trim()) return;
   var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
   if(!d.proyectos) d.proyectos=[];
-  d.proyectos.push({nombre:el.value.trim(),done:false});
+  var fecha=ef&&ef.value.trim()?ef.value.trim():(function(){var n=new Date();return n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear();}());
+  d.proyectos.push({nombre:el.value.trim(),fecha:fecha,done:false});
   localStorage.setItem('crear_data',JSON.stringify(d));
   render();
 }
@@ -4052,18 +4031,7 @@ function togProyecto(i){
   localStorage.setItem('crear_data',JSON.stringify(d));
   render();
 }
-function saveJournalCrear(){
-  var now=new Date();
-  var key='j_'+now.getDate()+'_'+now.getMonth();
-  var el=document.getElementById('journal-crear');
-  if(!el) return;
-  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
-  d[key]=el.value;
-  localStorage.setItem('crear_data',JSON.stringify(d));
-  el.nextElementSibling.textContent='✓ Guardado';
-  el.nextElementSibling.style.background='var(--mauve)';
-  el.nextElementSibling.style.color='white';
-}
+
 
 
 function renderCrear(){
@@ -4210,10 +4178,12 @@ function togCrearEj(){
 }
 function addProyecto(){
   var el=document.getElementById('proy-nombre');
+  var ef=document.getElementById('proy-fecha');
   if(!el||!el.value.trim()) return;
   var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
   if(!d.proyectos) d.proyectos=[];
-  d.proyectos.push({nombre:el.value.trim(),done:false});
+  var fecha=ef&&ef.value.trim()?ef.value.trim():(function(){var n=new Date();return n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear();}());
+  d.proyectos.push({nombre:el.value.trim(),fecha:fecha,done:false});
   localStorage.setItem('crear_data',JSON.stringify(d));
   render();
 }
