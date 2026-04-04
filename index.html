@@ -817,6 +817,7 @@ body{
     <button class="drw-btn" onclick="swDrawer('pnl',this)"><span class="drw-ico">🧬</span><span class="drw-lbl">PNL</span></button>
     <button class="drw-btn" onclick="swDrawer('vision',this)"><span class="drw-ico">✨</span><span class="drw-lbl">Visión</span></button>
     <button class="drw-btn" onclick="swDrawer('marca',this)"><span class="drw-ico">✦</span><span class="drw-lbl">✦ Marca</span></button>
+    <button class="drw-btn" onclick="swDrawer('crear',this)"><span class="drw-ico">🎨</span><span class="drw-lbl">Crear</span></button>
   </nav>
   <div style="padding:16px 24px 32px;border-top:1px solid var(--border)">
     <div id="drw-progress" style="font-size:11px;color:var(--mu)"></div>
@@ -2548,6 +2549,7 @@ function render(){
     else if(tab==="voz") content=renderVoz();
     else if(tab==="pnl") content=renderPnl();
     else if(tab==="marca") content=renderMarca();
+    else if(tab==="crear") content=renderCrear();
     else content=renderVision();
     el.innerHTML=content;
   }catch(err){
@@ -3800,8 +3802,8 @@ function closeWelcome(){
 
 // ── DRAWER ──
 var drawerOpen=false;
-var TAB_ORDER=['hoy','cuerpo','mente','voz','pnl','vision','marca'];
-var TAB_NAMES={hoy:'Hoy',cuerpo:'Cuerpo',mente:'Inglés',voz:'Voz',pnl:'PNL',vision:'Visión',marca:'✦ Marca'};
+var TAB_ORDER=['hoy','cuerpo','mente','voz','pnl','vision','marca','crear'];
+var TAB_NAMES={hoy:'Hoy',cuerpo:'Cuerpo',mente:'Inglés',voz:'Voz',pnl:'PNL',vision:'Visión',marca:'✦ Marca',crear:'🎨 Crear'};
 
 function openDrawer(){
   drawerOpen=true;
@@ -3887,9 +3889,7 @@ function updateProgLabel(){
   lbl.textContent=cnt+' de '+SCHED.length+' completadas ↕';
 }
 
-</script>
-</body>
-</htmlfunction renderCrear(){
+function renderCrear(){
   var now=new Date();
   var day=now.getDate(), dow=now.getDay(), mon=now.getMonth();
   var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
@@ -4066,612 +4066,180 @@ function saveJournalCrear(){
 }
 
 
-// ── DAILY QUOTES ──
-var DAILY_QUOTES=[
-  {q:"Lo que practicas a diario es lo que te conviertes.",a:"James Clear"},
-  {q:"El cuerpo es el templo, la mente es el altar, el alma es la llama.",a:"Tradición andina"},
-  {q:"Los datos son la nueva tierra. Quien la entiende, la cultiva.",a:"—"},
-  {q:"El descanso no es el enemigo del progreso — es parte del proceso.",a:"Neurociencia"},
-  {q:"Tu voz lleva la frecuencia de todo lo que eres.",a:"Sabiduría chamánica"},
-  {q:"La disciplina es elegirte a ti misma una y otra vez.",a:"—"},
-  {q:"La epigenética demostró lo que los ancestros sabían: el ambiente forma al ser.",a:"Bruce Lipton"},
-  {q:"Una mente entrenada ve patrones donde los demás ven caos.",a:"—"},
-  {q:"La constancia sin perfección mueve montañas.",a:"—"},
-  {q:"Ser rara no es un defecto de diseño. Es el diseño.",a:"—"},
-  {q:"La ciencia sin alma informa. El alma sin ciencia sueña. Las dos juntas transforman.",a:"—"},
-  {q:"No necesitas tenerlo todo claro para empezar. Solo necesitas empezar.",a:"—"},
-  {q:"El cortisol baja cuando dejas de correr de ti misma.",a:"—"},
-  {q:"Los rituales no son superstición — son arquitectura de la mente.",a:"Neurología del hábito"},
-  {q:"Aprende como si fueras a vivir para siempre. Vive como si fuera hoy.",a:"Gandhi"},
-  {q:"Tu nicho no es lo que haces. Es la forma en que lo haces.",a:"—"},
-  {q:"El sueño es el hábito de alto rendimiento más subestimado.",a:"Matthew Walker"},
-  {q:"Cada dato que aprendes hoy cambia silenciosamente quién eres mañana.",a:"—"},
-  {q:"La creatividad no es un don. Es un músculo. Se entrena.",a:"—"},
-  {q:"Lo ancestral no es lo opuesto a lo científico. Es su origen.",a:"—"},
-  {q:"Los telómeros se acortan con el estrés y se reparan con el descanso. Eso es epigenética en tiempo real.",a:"Elizabeth Blackburn"},
-  {q:"El músculo recuerda. El cerebro conecta. El alma integra.",a:"—"},
-  {q:"Tu acento es tu firma. Tu historia es tu activo.",a:"—"},
-  {q:"Quien duerme bien, decide mejor. El sueño es inteligencia.",a:"—"},
-  {q:"El músculo se construye mientras duermes, no mientras entrenas.",a:"Fisiología del deporte"},
-  {q:"Quien controla su respiración, controla su estado.",a:"Wim Hof"},
-  {q:"Los sistemas ganan a la motivación. La rutina gana al impulso.",a:"—"},
-  {q:"La luna no pide permiso para cambiar de fase. Tú tampoco.",a:"—"},
-  {q:"La intuición es experiencia comprimida. Confía en ella.",a:"Gary Klein"},
-  {q:"Transforma y créate — un día a la vez.",a:"Rutina 2026"},
-  {q:"Tu combinación de habilidades es única. Úsala sin pedir permiso.",a:"—"},
-];
-
-function getQuoteOfDay(){
-  var d=new Date();
-  var idx=(d.getDate()+d.getMonth()*7)%DAILY_QUOTES.length;
-  return DAILY_QUOTES[idx];
-}
-
-// ═══ WEEK + PNL HELPERS ═══
-function getWeekOfMonth(){
-  return Math.min(3, Math.floor((new Date().getDate()-1)/7));
-}
-
-const PNL_SEMANAS = [
-  {k:"identidad",titulo:"Semana de Identidad",emoji:"🪞",color:"rgba(196,112,79,.08)",
-   frase:"Esta semana te preguntas: ¿quién soy yo en mi máxima expresión?",
-   dailyAff:["id1","id2","id3"],dailyEx:["ide1"]},
-  {k:"creencias",titulo:"Semana de Creencias",emoji:"⛓️",color:"rgba(122,158,106,.08)",
-   frase:"Esta semana identificas y reescribes lo que te frena.",
-   dailyAff:["cr1","cr2","cr3"],dailyEx:["cre1"]},
-  {k:"emociones",titulo:"Semana de Emociones",emoji:"💧",color:"rgba(136,152,184,.1)",
-   frase:"Esta semana aprendes a mover la energía, no suprimirla.",
-   dailyAff:["et1","et2"],dailyEx:["et3"]},
-  {k:"futuro",titulo:"Semana de Futuro",emoji:"✨",color:"rgba(201,168,76,.08)",
-   frase:"Esta semana programas tu sistema de activación reticular para 2026.",
-   dailyAff:["f1","f2","f3"],dailyEx:["fe1"]}
-];
-
-function getPnlWeek(){ return PNL_SEMANAS[getWeekOfMonth()]; }
-function getPnlDailyTotal(){ var pw=getPnlWeek(); return pw.dailyAff.length+pw.dailyEx.length; }
-function getPnlDailyDone(){
-  var pw=getPnlWeek();
-  return pw.dailyAff.concat(pw.dailyEx).filter(function(id){return !!pnlD[id];}).length;
-}
-
-
-render();tick();updateProgress();
-setInterval(tick,15000);
-
-function selMarcaAngulo(i){
-  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
-  if(!d.nicho)d.nicho={};
-  d.nicho.angulo=i;
-  localStorage.setItem('marca_data',JSON.stringify(d));
-  render();
-}
-function usarBio(i){
-  var bios=[
-    'Estudio datos de día, quemo copal de noche — y no veo contradicción. Administración + data science + espiritualidad práctica. Documentando la transformación sin filtro.',
-    'No soy gurú ni perfecta. Soy la que mezcla Excel con tarot, ciencia del sueño con rituales, y te cuenta los números reales de todo.',
-    'Data scientist en construcción. Creo que los datos y el alma hablan el mismo idioma — solo hay que saber escuchar. Aquí lo aprendo en voz alta.',
-  ];
-  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
-  if(!d.bio)d.bio={};
-  d.bio.texto=bios[i];
-  localStorage.setItem('marca_data',JSON.stringify(d));
-  render();
-}
-
-function togBelly(){
-  var b=localStorage.getItem('belly_open');
-  localStorage.setItem('belly_open',b==='1'?'0':'1');
-  render();
-}
-function togCortisolAll(){
-  var c=localStorage.getItem('cortisol_open');
-  localStorage.setItem('cortisol_open',c==='1'?'0':'1');
-  render();
-}
-
-// ═══════════════════════════════════════════
-//  RENDER MARCA PERSONAL
-// ═══════════════════════════════════════════
-function renderMarca(){
+function renderCrear(){
   var now=new Date();
-  var marcaData=JSON.parse(localStorage.getItem('marca_data')||'{}');
+  var day=now.getDate(), dow=now.getDay(), mon=now.getMonth();
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
   var h='';
 
-  // ─── HEADER ───
-  h+='<div style="background:var(--white);border-radius:20px;padding:24px 20px 20px;margin-bottom:14px;box-shadow:var(--shad);border:1.5px solid rgba(201,169,110,.2)">';
-  h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;font-weight:300">Tu identidad pública</div>';
-  h+='<div style="font-family:var(--ff);font-size:26px;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:8px">Marca Personal</div>';
-  h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">Tu marca no es un logo ni un color — es la impresión que dejas cuando no estás en la sala. Es la intersección entre lo que sabes hacer, lo que te apasiona y lo que el mundo necesita.</div>';
+  // ── HERO ──
+  h+='<div style="background:var(--white);border-radius:20px;padding:20px;margin-bottom:14px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mauve);margin-bottom:6px;font-weight:300">Músculo creativo</div>';
+  h+='<div style="font-family:var(--ff);font-size:22px;font-style:italic;color:var(--ink);margin-bottom:6px">Crear</div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">La creatividad se entrena como cualquier músculo: con práctica diaria, permiso para fallar y mucha curiosidad.</div>';
   h+='</div>';
 
-  // ─── PROGRESO DE CONSTRUCCIÓN ───
-  var steps=['ikigai','voz','pilares','bio','contenido'];
-  var done_steps=steps.filter(function(s){return marcaData[s]&&marcaData[s].done;}).length;
-  var pct=Math.round(done_steps/steps.length*100);
+  // ── EJERCICIO DEL DÍA ──
+  var EJS=[
+    {e:'✍️',t:'Escritura automática',d:'Pon un temporizador de 5 min. Escribe sin parar, sin editar, sin levantar el bolígrafo. No importa qué sale — el objetivo es silenciar al crítico interno.',sci:'Activa el hemisferio derecho y reduce la autocensura prefrontal. Julia Cameron lo llama Morning Pages.'},
+    {e:'🔗',t:'10 conexiones improbables',d:'Abre un libro en dos páginas al azar. Toma una palabra de cada una. Escribe 10 maneras en que se conectan. La última idea suele ser la mejor.',sci:'Entrena la flexibilidad cognitiva — ver relaciones donde nadie más las ve (test RAT, Mednick).'},
+    {e:'🎭',t:'Escribe desde otro punto de vista',d:'Elige un objeto cotidiano. Escribe 1 párrafo desde su perspectiva. ¿Qué siente la silla en la que estás sentada? ¿Qué ve tu teléfono?',sci:'Activa la teoría de la mente y la corteza prefrontal medial — mismo circuito que la empatía.'},
+    {e:'📷',t:'Fotografía 5 detalles invisibles',d:'Fotografía 5 cosas que nadie más fotografiaría hoy: una textura, una sombra, un ángulo raro. Sin filtros. Solo la mirada.',sci:'Entrenar la observación deliberada activa la corteza visual ventral. Los grandes creativos son observadores excepcionales.'},
+    {e:'🌀',t:'Mapa mental sin reglas',d:'En el centro de una hoja escribe: YO SOY CREATIVA. A partir de ahí conecta todo lo que se te ocurra sin orden ni lógica. Deja que la mano haga el mapa.',sci:'Activa simultáneamente el sistema límbico y el neocórtex — la combinación que produce insights genuinos.'},
+    {e:'💌',t:'Carta a tu yo creativo de los 8 años',d:'¿Qué hacías cuando tenías 8 años que ahora no haces? Escríbele una carta. Dile qué pasó y qué vas a recuperar.',sci:'Reconecta con los circuitos creativos anteriores a la autocensura social — los más libres.'},
+    {e:'🏗️',t:'Construye algo con lo que tengas',d:'Con papel, clips, lo que haya en tu mesa ahora mismo: construye algo. No tiene que representar nada. Solo crea con las manos.',sci:'La creatividad táctil activa la corteza motora de maneras que la creatividad solo mental no puede.'},
+    {e:'🌈',t:'Poema de 6 palabras',d:'Un poema de exactamente 6 palabras. Sobre lo que sientas ahora. Hemingway escribió uno de los más poderosos de la historia con esta restricción.',sci:'Las restricciones aumentan la actividad en la corteza prefrontal dorsolateral — el centro del pensamiento divergente.'},
+    {e:'🎪',t:'Inventa tu ritual de inicio creativo',d:'Diseña un ritual de 2-3 min que harás cada vez que vayas a crear. Música, movimiento, una frase, un aroma. Escríbelo y pruébalo ahora.',sci:'Los rituales reducen la ansiedad de la página en blanco creando un puente neural entre estado normal y estado creativo.'},
+    {e:'🎵',t:'Playlist de tu estado de ánimo',d:'No la que ya tienes. Una nueva, ahora, que refleje exactamente cómo te sientes hoy incluyendo contradicciones. Ponle un nombre.',sci:'La selección musical consciente activa la ínsula y la corteza cingulada — centros de autoconciencia emocional.'},
+  ];
+  var ej=EJS[(day+mon*2)%EJS.length];
+  var ejDone=d['ej_'+day+'_'+mon];
+
+  h+='<div class="sec-ttl"><span>Ejercicio de hoy</span><div class="sec-ln"></div></div>';
   h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
-  h+='<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">';
-  h+='<span style="font-family:var(--ff);font-size:42px;font-style:italic;color:var(--ink)">'+done_steps+'</span>';
-  h+='<span style="font-family:var(--ff);font-size:20px;font-style:italic;color:var(--mu2)">de '+steps.length+'</span>';
+  h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">';
+  h+='<span style="font-size:28px">'+ej.e+'</span>';
+  h+='<div style="font-family:var(--ff);font-size:17px;font-style:italic;color:var(--ink)">'+ej.t+'</div></div>';
+  h+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300;margin-bottom:8px">'+ej.d+'</div>';
+  h+='<div style="font-size:11px;color:var(--mauve);border-left:2px solid rgba(184,144,154,.3);padding-left:10px;line-height:1.6;margin-bottom:12px;font-style:italic">🔬 '+ej.sci+'</div>';
+  h+='<button onclick="togCrearEj()" style="width:100%;padding:11px;background:'+(ejDone?'var(--mauve)':'var(--ivory2)')+';border:1.5px solid var(--mauve);border-radius:10px;color:'+(ejDone?'white':'var(--mauve)')+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(ejDone?'✓ Hecho hoy':'Marcar como hecho')+'</button>';
   h+='</div>';
-  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);font-weight:300;margin-bottom:10px">módulos de marca completados</div>';
-  h+='<div style="height:2px;background:var(--border);border-radius:2px;overflow:hidden">';
-  h+='<div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,var(--gold),var(--mauve));transition:width .8s ease"></div>';
-  h+='</div></div>';
 
+  // ── CIENCIA + CHAMANISMO (compacto, uno al día alternando) ──
+  var CIENCIA=[
+    {e:'🧠',t:'La creatividad ocurre cuando divaga la mente',txt:'La Default Mode Network se activa cuando no haces nada en particular. En la ducha, caminando, durmiendo. Ahí ocurren las conexiones más potentes. El aburrimiento es productivo.'},
+    {e:'🔗',t:'Crear es conectar lo que nadie conectó',txt:'El test RAT (Mednick) demostró que las personas creativas conectan conceptos distantes. No es genialidad — es práctica de asociación libre.'},
+    {e:'😴',t:'Dormir bien multiplica la creatividad',txt:'Durante el sueño REM, el hipocampo conecta experiencias con conocimiento previo de formas nuevas. Las mejores ideas llegan después de dormir, no de una trasnocha.'},
+    {e:'🎨',t:'Las restricciones potencian la creatividad',txt:'Paradójicamente, las limitaciones aumentan la creatividad (Stokes, 2001). Escribe en 6 palabras. Pinta con 3 colores. Las reglas obligan al cerebro a buscar rutas inusuales.'},
+    {e:'🌿',t:'20 min en naturaleza restauran la creatividad',txt:'Reducen la fatiga de atención y restauran el pensamiento divergente. Los chamanes lo sabían: salir al campo para recibir visiones.'},
+    {e:'🌀',t:'El flow chamánico y el flow creativo son lo mismo',txt:'Csikszentmihalyi describió el "flow" en 1990. Los chamanes lo practicaban hace milenios: ondas theta, ego reducido, tiempo distorsionado. Neurológicamente idénticos.'},
+    {e:'🔥',t:'Nombrar libera',txt:'En los rituales del fuego chamánico, nombrar la carga en voz alta le quita poder. La escritura libre funciona igual: lo que sale al papel deja de ocupar espacio mental.'},
+    {e:'🌙',t:'La luna y los ciclos creativos',txt:'Luna nueva para iniciar proyectos, llena para compartir, menguante para editar y soltar. No es superstición — es trabajar con los ciclos de energía naturales.'},
+    {e:'🦅',t:'Crear es un acto de viaje',txt:'El chamán viaja entre mundos para traer información. El creativo hace lo mismo: se sumerge en el subconsciente y trae algo que antes no existía.'},
+    {e:'💧',t:'Aquietar la superficie para ver al fondo',txt:'Las tradiciones andinas usaban el agua como espejo para ver visiones. La mente meditativa funciona igual: cuando aquietas la superficie, puedes ver al fondo.'},
+  ];
+  var ci=CIENCIA[(day+mon)%CIENCIA.length];
+  h+='<div style="background:'+(ci.e==='🌀'||ci.e==='🔥'||ci.e==='🌙'||ci.e==='🦅'||ci.e==='💧'?'rgba(144,96,192,.05)':'rgba(201,169,110,.04)')+';border-left:2px solid '+(ci.e==='🌀'||ci.e==='🔥'||ci.e==='🌙'||ci.e==='🦅'||ci.e==='💧'?'rgba(144,96,192,.4)':'rgba(201,169,110,.4)')+';border-radius:0 14px 14px 0;padding:14px 16px;margin-bottom:14px;display:flex;gap:12px">';
+  h+='<span style="font-size:22px">'+ci.e+'</span>';
+  h+='<div><div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px">'+ci.t+'</div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">'+ci.txt+'</div></div></div>';
 
-  // ─── VIEW TOGGLE: Activo / Completado ───
-  var marcaView=localStorage.getItem('marca_view')||'activo';
+  // ── PROYECTOS ──
+  h+='<div class="sec-ttl"><span>Proyectos creativos</span><div class="sec-ln"></div></div>';
+  var proyectos=d.proyectos||[];
+  if(proyectos.length===0){
+    h+='<div style="padding:12px 0;font-size:12px;color:var(--mu);font-style:italic">Agrega tus proyectos creativos en curso...</div>';
+  }
+  proyectos.forEach(function(p,i){
+    h+='<div style="background:var(--white);border-radius:12px;padding:11px 14px;margin-bottom:8px;box-shadow:var(--shad);display:flex;gap:10px;align-items:center">';
+    h+='<div style="flex:1;font-size:13px;color:'+(p.done?'var(--mu)':'var(--ink)')+';font-weight:500;'+(p.done?'text-decoration:line-through':'')+'">'+p.nombre+'</div>';
+    h+='<button onclick="togProyecto('+i+')" style="min-width:32px;height:32px;border-radius:8px;border:1.5px solid '+(p.done?'var(--mauve)':'var(--border)')+';background:'+(p.done?'var(--mauve)':'transparent')+';color:'+(p.done?'white':'var(--mu)')+';font-size:12px;cursor:pointer;padding:0 8px">'+(p.done?'✓ Listo':'En curso')+'</button>';
+    h+='<button onclick="delProyecto('+i+')" style="width:28px;height:28px;border-radius:50%;border:none;background:none;color:var(--mu);font-size:18px;cursor:pointer;line-height:1">×</button>';
+    h+='</div>';
+  });
   h+='<div style="display:flex;gap:8px;margin-bottom:14px">';
-  h+='<button onclick="localStorage.setItem(\'marca_view\',\'activo\');render()" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid '+(marcaView==='activo'?'var(--gold)':'var(--border)')+';background:'+(marcaView==='activo'?'rgba(201,169,110,.1)':'transparent')+';color:'+(marcaView==='activo'?'var(--gold2)':'var(--mu)')+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">En progreso</button>';
-  h+='<button onclick="localStorage.setItem(\'marca_view\',\'done\');render()" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid '+(marcaView==='done'?'var(--gold)':'var(--border)')+';background:'+(marcaView==='done'?'rgba(201,169,110,.1)':'transparent')+';color:'+(marcaView==='done'?'var(--gold2)':'var(--mu)')+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">✓ Completados</button>';
+  h+='<input id="proy-nombre" placeholder="Nombre del proyecto..." style="flex:1;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);outline:none">';
+  h+='<button onclick="addProyecto()" style="padding:10px 16px;background:var(--ink);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:12px;cursor:pointer;font-weight:500">+ Agregar</button>';
   h+='</div>';
-  if(marcaView==='done'){
-    var anyDone=false;
-    [['ikigai','① Ikigai'],['voz','② Voz de marca'],['pilares','③ Pilares'],['nicho','③½ Nicho'],['bio','④ Bio'],['contenido','⑤ Contenido']].forEach(function(m){
-      var mod=marcaData[m[0]]||{};
-      if(mod.done){
-        anyDone=true;
-        h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--shad);display:flex;align-items:center;gap:10px">';
-        h+='<div style="width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:white;font-size:13px;flex-shrink:0">✓</div>';
-        h+='<div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--ink)">'+m[1]+'</div>';
-        h+='<div style="font-size:10px;color:var(--mu);font-weight:300">Completado — toca para revisar</div></div>';
-        h+='<button onclick="var d=JSON.parse(localStorage.getItem(\'marca_data\')||\'{}\');if(!d[\''+m[0]+'\'])d[\''+m[0]+'\']={};d[\''+m[0]+'\'].done=false;localStorage.setItem(\'marca_data\',JSON.stringify(d));render()" style="font-size:10px;color:var(--mu);background:none;border:none;cursor:pointer;padding:4px">↩</button>';
-        h+='</div>';
-      }
-    });
-    if(!anyDone) h+='<div style="text-align:center;padding:30px;color:var(--mu);font-size:13px;font-style:italic">Aún no has completado módulos.<br>¡Empieza por el Ikigai!</div>';
-    return h;
-  }
-  // Only show incomplete modules in activo view
 
-  
-  if(marcaView!=='activo'||!(marcaData['ikigai']&&marcaData['ikigai'].done)){
-  // ─── MÓDULO 1: IKIGAI / PROPÓSITO ───
-  var ikigai=marcaData.ikigai||{};
-  var ik_done=!!(ikigai.amas&&ikigai.sabes&&ikigai.mundo&&ikigai.pagan);
-  h+='<div class="sec-ttl"><span>① Ikigai — tu razón de ser</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:14px;font-weight:300">El ikigai es el punto donde se cruzan 4 preguntas. La respuesta a ese cruce <em style="color:var(--gold2)">es tu nicho</em>.</div>';
-
-  var ik_fields=[
-    {key:'amas',label:'¿Qué amas hacer?',placeholder:'ej. crear contenido, enseñar, transformar espacios, conectar personas…',color:'var(--mauve)',emoji:'❤️'},
-    {key:'sabes',label:'¿En qué eres buena?',placeholder:'ej. comunicar ideas complejas de forma simple, organizar, crear estrategias…',color:'var(--gold)',emoji:'⭐'},
-    {key:'mundo',label:'¿Qué necesita el mundo?',placeholder:'ej. más mujeres seguras de sí mismas, negocios con propósito, salud mental…',color:'#7A9E84',emoji:'🌍'},
-    {key:'pagan',label:'¿Por qué te pagarían?',placeholder:'ej. coaching, contenido, consultoría, productos, servicios creativos…',color:'var(--mauve2)',emoji:'💛'},
+  // ── JOURNAL ──
+  var PROMPTS=[
+    '¿Qué cosa creaste hoy, aunque sea pequeña?',
+    '¿Cuándo fue la última vez que perdiste la noción del tiempo? ¿Qué hacías?',
+    '¿Qué harías si supieras que nadie te va a juzgar?',
+    '¿Qué proyecto llevas meses postergando? ¿Qué tiene de aterrador?',
+    'Describe tu proceso creativo ideal. ¿Dónde estás? ¿Qué suena?',
+    '¿Qué te gustaba crear cuando eras niña?',
+    'Escribe 10 ideas — las que sean, buenas o malas. Sin filtro.',
+    '¿Qué hace que algo sea tuyo y no de cualquiera?',
+    '¿Qué tipo de creadora quieres ser en 5 años?',
+    '¿Cuál es tu mayor miedo creativo? ¿De dónde viene?',
   ];
-  ik_fields.forEach(function(f){
-    var val=ikigai[f.key]||'';
-    h+='<div style="margin-bottom:12px">';
-    h+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">';
-    h+='<span style="font-size:14px">'+f.emoji+'</span>';
-    h+='<div style="font-size:11px;font-weight:500;color:var(--ink)">'+f.label+'</div></div>';
-    h+='<textarea rows="2" placeholder="'+f.placeholder+'" style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);resize:none;outline:none;line-height:1.6" onchange="saveMarca(\'ikigai\',\''+f.key+'\',this.value)">'+val+'</textarea>';
-    h+='</div>';
-  });
-
-  if(ik_done){
-    h+='<div style="background:rgba(201,169,110,.06);border-left:2px solid var(--gold);border-radius:0 10px 10px 0;padding:12px;margin-top:4px">';
-    h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:6px">Tu cruce de ikigai</div>';
-    h+='<div style="font-family:var(--ff);font-size:14px;font-style:italic;color:var(--ink);line-height:1.7">'+ikigai.amas+' + '+ikigai.sabes+' → para personas que necesitan '+ikigai.mundo+'.</div>';
-    h+='</div>';
-    h+='<button onclick="doneMarca(\'ikigai\')" style="margin-top:10px;width:100%;padding:10px;background:var(--gold);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(ikigai.done?'✓ COMPLETADO':'MARCAR COMO LISTO')+'</button>';
-  }
-  h+='</div>';
-
-  
-  }
-
-  if(marcaView!=='activo'||!(marcaData['voz']&&marcaData['voz'].done)){
-  // ─── MÓDULO 2: VOZ DE MARCA ───
-  var voz=marcaData.voz||{};
-  h+='<div class="sec-ttl"><span>② Voz de marca — cómo suenas</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:14px;font-weight:300">Tu voz es tu personalidad escrita. No es el tono — es la forma en que piensas y hablas. Las marcas más recordadas tienen voz inconfundible.</div>';
-
-  // Adjetivos de personalidad
-  var PERS_OPTS=['Directa','Cálida','Experta','Divertida','Inspiradora','Sofisticada','Cercana','Atrevida','Intelectual','Sensible','Poderosa','Auténtica','Misteriosa','Luminosa','Práctica'];
-  var sel_pers=voz.personalidad||[];
-  h+='<div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:8px">Elige 3 adjetivos que te definen:</div>';
-  h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">';
-  PERS_OPTS.forEach(function(p){
-    var isSel=sel_pers.indexOf(p)>-1;
-    h+='<button onclick="togMarcaPers(\''+p+'\')" style="padding:5px 12px;border-radius:20px;border:1.5px solid '+(isSel?'var(--gold)':'var(--border)')+';background:'+(isSel?'rgba(201,169,110,.1)':'transparent')+';color:'+(isSel?'var(--gold2)':'var(--mu)')+';font-family:var(--fb);font-size:11px;cursor:pointer;transition:all .2s">'+p+'</button>';
-  });
-  h+='</div>';
-
-  // No soy / sí soy
-  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">';
-  [['no_soy','❌ No soy…','ej. perfecta, corporativa, aburrida','var(--border)'],['si_soy','✓ Soy…','ej. honesta, imperfecta, específica','rgba(122,158,132,.3)']].forEach(function(f){
-    var val=voz[f[0]]||'';
-    h+='<div>';
-    h+='<div style="font-size:10px;font-weight:500;color:var(--ink);margin-bottom:5px">'+f[1]+'</div>';
-    h+='<textarea rows="2" placeholder="'+f[2]+'" style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid '+f[3]+';border-radius:10px;padding:8px 10px;font-family:var(--fb);font-size:11px;color:var(--ink);resize:none;outline:none" onchange="saveMarca(\'voz\',\''+f[0]+'\',this.value)">'+val+'</textarea>';
-    h+='</div>';
-  });
-  h+='</div>';
-  if(voz.si_soy||voz.no_soy){
-    h+='<button onclick="doneMarca(\'voz\')" style="width:100%;padding:10px;background:'+(voz.done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(voz.done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(voz.done?'✓ COMPLETADO':'MARCAR COMO LISTO')+'</button>';
-  }
-  h+='</div>';
-
-  
-  }
-
-  if(marcaView!=='activo'||!(marcaData['pilares']&&marcaData['pilares'].done)){
-  // ─── MÓDULO 3: PILARES DE CONTENIDO ───
-  var pilares=marcaData.pilares||{list:[],done:false};
-  var pil_list=pilares.list||[];
-  h+='<div class="sec-ttl"><span>③ Pilares de contenido</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:12px;font-weight:300">Elige 3–5 temas sobre los que siempre podrías hablar. Todo tu contenido girará alrededor de ellos — esto es lo que te hace <em style="color:var(--gold2)">reconocible</em>.</div>';
-
-  var PILAR_SUGS=['Fitness & cuerpo','Nutrición consciente','Salud mental','Desarrollo personal','Emprendimiento','Moda & estilo','Bienestar holístico','Relaciones','Maternidad','Viajes','Finanzas personales','Creatividad','Liderazgo femenino','Espiritualidad','Productividad'];
-  h+='<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:8px;font-weight:300">Sugerencias — toca para agregar:</div>';
-  h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">';
-  PILAR_SUGS.forEach(function(p){
-    var isSel=pil_list.indexOf(p)>-1;
-    if(isSel) return;
-    h+='<button onclick="addPilar(\''+p+'\')" style="padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--mu);font-family:var(--fb);font-size:10px;cursor:pointer">+ '+p+'</button>';
-  });
-  h+='</div>';
-  if(pil_list.length>0){
-    h+='<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);margin-bottom:8px;font-weight:400">Tus pilares:</div>';
-    h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">';
-    pil_list.forEach(function(p,i){
-      h+='<div style="display:flex;align-items:center;gap:5px;background:rgba(201,169,110,.1);border:1.5px solid var(--gold);border-radius:20px;padding:5px 12px">';
-      h+='<span style="font-size:11px;color:var(--gold2);font-weight:500">'+p+'</span>';
-      h+='<button onclick="removePilar('+i+')" style="background:none;border:none;color:var(--mu);cursor:pointer;font-size:12px;padding:0;line-height:1">×</button>';
-      h+='</div>';
-    });
-    h+='</div>';
-  }
-  // Custom pilar
-  h+='<div style="display:flex;gap:8px">';
-  h+='<input id="pilar-input" placeholder="Agregar pilar personalizado…" style="flex:1;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);outline:none">';
-  h+='<button onclick="addPilarCustom()" style="padding:8px 14px;background:var(--ink);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:11px;cursor:pointer">+</button>';
-  h+='</div>';
-  if(pil_list.length>=3){
-    h+='<button onclick="doneMarca(\'pilares\')" style="margin-top:10px;width:100%;padding:10px;background:'+(pilares.done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(pilares.done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(pilares.done?'✓ COMPLETADO':'MARCAR COMO LISTO')+'</button>';
-  }
-  h+='</div>';
-
-  
-  }
-// ─── MÓDULO 3.5: NICHO ESPECÍFICO ───
-  h+='<div class="sec-ttl"><span>③½ Tu combinación rara</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.75;margin-bottom:14px;font-weight:300">Administración + ciencia de datos + creatividad + espiritualidad. Eso no lo tiene casi nadie. La rareza bien contada <em style="color:var(--gold2)">es la estrategia.</em></div>';
-  var NICHO_RAZONES=[
-    {e:"📊",t:"Los datos sin alma aburren",d:"La mayoría de data scientists hablan en jerga que nadie entiende. Tú puedes traducirlo a algo humano. Eso vale."},
-    {e:"🌿",t:"La espiritualidad sin estructura se pierde",d:"El mundo chamánico necesita personas que sepan sistematizar sin matar la magia. Tú eres eso."},
-    {e:"✍️",t:"La creatividad es el puente",d:"Puedes contar la historia de los datos como nadie más — que toque algo, no solo que informe."},
-    {e:"🗂️",t:"La administración le da pies a todo",d:"Sabes cómo funcionan los sistemas. Tus proyectos creativos y espirituales tienen estructura real."},
-  ];
-  NICHO_RAZONES.forEach(function(r){
-    h+='<div style="display:flex;gap:10px;margin-bottom:10px">';
-    h+='<span style="font-size:18px;margin-top:1px">'+r.e+'</span>';
-    h+='<div><div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px">'+r.t+'</div>';
-    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+r.d+'</div></div></div>';
-  });
-  var ANGULOS=[
-    {tag:"Data + bienestar",desc:"Ciencia y datos para vivir mejor — sueño, cortisol, hábitos. El cuantified self con alma."},
-    {tag:"Bruja con R Studio",desc:"Espiritualidad y chamanería con evidencia. La luna y el cortisol en el mismo post. Sin pedir perdón."},
-    {tag:"La creativa analítica",desc:"Documentar el proceso de convertirte en data scientist siendo una persona creativa y espiritual. El camino, no el destino."},
-    {tag:"Negocios con propósito",desc:"Estrategia y datos para proyectos con alma — sin el rollo corporativo de siempre."},
-  ];
-  h+='<div style="height:1px;background:var(--border);margin:12px 0"></div>';
-  h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:300">Ángulos posibles — toca el que resuena</div>';
-  ANGULOS.forEach(function(a){
-    h+='<div style="background:var(--ivory2);border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;border:1.5px solid var(--border)" onclick="this.style.borderColor=\'var(--gold)\';this.style.background=\'rgba(201,169,110,.06)\'">';
-    h+='<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px">'+a.tag+'</div>';
-    h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-weight:300">'+a.desc+'</div>';
-    h+='</div>';
-  });
-  h+='</div>';
-
-  
-  if(marcaView!=='activo'||!(marcaData['bio']&&marcaData['bio'].done)){
-  // ─── MÓDULO 4: BIO DE MARCA ───
-  var bio=marcaData.bio||{};
-  h+='<div class="sec-ttl"><span>④ Tu bio — la primera impresión</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:12px;font-weight:300">Tres opciones escritas para ti. Ninguna suena a IA. Elige, edita, hazla tuya.</div>';
-  var BIO_OPTS=[
-    {label:"Directa y específica",
-     txt:"Administración + datos + espiritualidad. Sí, todo junto y sin disculparme por eso. Aprendo ciencia de datos, practico chamanería y creo contenido sobre lo que pasa cuando mezclas los números con el alma."},
-    {label:"La historia en curso",
-     txt:"Soy María. Estudié administración, ahora estudio datos, y en el proceso descubrí que la ciencia y lo ancestral dicen lo mismo con distintas palabras. Aquí documento eso — sin filtro y con bastante cúrcuma."},
-    {label:"Corta y con diente",
-     txt:"Data scientist en construcción. Administradora de formación. Algo bruja por vocación. Hablo de salud, datos y espiritualidad — a veces los tres en el mismo post."},
-  ];
-  BIO_OPTS.forEach(function(b,i){
-    var isSel=(bio.selected===i);
-    h+='<div style="margin-bottom:10px">';
-    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:'+(isSel?'var(--gold2)':'var(--mu)')+';margin-bottom:5px;font-weight:300">'+b.label+(isSel?' ✓':'')+'</div>';
-    h+='<div style="background:'+(isSel?'rgba(201,169,110,.06)':'var(--ivory2)')+';border:1.5px solid '+(isSel?'var(--gold)':'var(--border)')+';border-radius:12px;padding:12px;font-size:12px;color:var(--ink);line-height:1.75;font-weight:300;cursor:pointer" onclick="elegirBio('+i+')">'+b.txt+'</div>';
-    h+='</div>';
-  });
-  h+='<div style="height:1px;background:var(--border);margin:10px 0"></div>';
-  h+='<div style="font-size:10px;color:var(--mu);margin-bottom:7px">O escribe la tuya:</div>';
-  var bio_val=bio.texto||(bio.selected!==undefined?BIO_OPTS[bio.selected].txt:'');
-  h+='<textarea rows="4" placeholder="Tu bio aquí…" style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:var(--fb);font-size:12px;color:var(--ink);resize:none;outline:none;line-height:1.7" onchange="saveMarca(\'bio\',\'texto\',this.value)">'+bio_val+'</textarea>';
-  if(bio_val.length>10||bio.selected!==undefined){
-    h+='<button onclick="doneMarca(\'bio\')" style="margin-top:8px;width:100%;padding:10px;background:'+(bio.done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(bio.done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(bio.done?'✓ COMPLETADO':'MARCAR COMO LISTO')+'</button>';
-  }
-  h+='</div>';
-
-  
-  }
-
-  if(marcaView!=='activo'||!(marcaData['contenido']&&marcaData['contenido'].done)){
-  // ─── MÓDULO 5: IDEA DE CONTENIDO DEL DÍA ───
-  var CONTENT_IDEAS=[
-    {tipo:'Storytelling',txt:'Cuenta una historia personal de transformación. Antes → conflicto → aprendizaje → ahora. Las historias de cambio real tienen el mayor alcance orgánico.',red:'Reels / Carrusel',hook:'"Lo que nadie me dijo cuando empecé a…"'},
-    {tipo:'Educativo',txt:'Explica un concepto de tu nicho en 3 pasos simples. El contenido que enseña algo concreto genera guardados — la métrica más valiosa de Instagram.',red:'Carrusel / TikTok',hook:'"3 cosas que cambiarán tu [tema] para siempre"'},
-    {tipo:'Opinión',txt:'Toma una posición sobre algo en tu industria que sea diferente a la mayoría. El contenido que genera debate tiene 3× más alcance que el contenido neutral.',red:'Video directo / Post',hook:'"Opinión impopular sobre [tema]:"'},
-    {tipo:'Detrás de cámara',txt:'Muestra tu proceso, tu espacio, tu rutina real. Las personas siguen personas — la autenticidad convierte seguidores en comunidad.',red:'Stories / Reels',hook:'"Un día real en mi vida como [quién eres]"'},
-    {tipo:'Testimonio propio',txt:'Comparte un resultado que has obtenido aplicando lo que predicas. La coherencia entre lo que dices y lo que vives es tu activo más valioso.',red:'Post + Carrusel',hook:'"Hace 3 meses no podía. Hoy…"'},
-    {tipo:'Desmitificación',txt:'Desmiente una creencia común en tu nicho que sabes que es falsa. El contenido que interrumpe una narrativa establecida se comparte masivamente.',red:'Reels / TikTok',hook:'"Mentira que todos creen sobre [tema]:"'},
-    {tipo:'Valor directo',txt:'Da algo gratis que normalmente cobrarías — una checklist, un proceso, una herramienta. El contenido de máximo valor construye autoridad más rápido que cualquier otra cosa.',red:'Carrusel / PDF',hook:'"Guarda esto: el proceso exacto que uso para…"'},
-  ];
-  var cidx=(now.getDate()+now.getMonth()*3)%CONTENT_IDEAS.length;
-  var idea=CONTENT_IDEAS[cidx];
-  h+='<div class="sec-ttl"><span>⑤ Idea de contenido — hoy</span><div class="sec-ln"></div></div>';
+  var jKey='j_'+day+'_'+mon;
+  var jVal=d[jKey]||'';
+  h+='<div class="sec-ttl"><span>Journal creativo</span><div class="sec-ln"></div></div>';
   h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
-  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
-  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mauve);font-weight:400">'+idea.tipo+'</div>';
-  h+='<div style="font-size:9px;color:var(--mu);background:rgba(184,144,154,.1);padding:3px 10px;border-radius:20px">'+idea.red+'</div>';
-  h+='</div>';
-  h+='<div style="background:rgba(184,144,154,.06);border-left:2px solid var(--mauve);border-radius:0 10px 10px 0;padding:10px 12px;margin-bottom:10px">';
-  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:4px">Hook sugerido</div>';
-  h+='<div style="font-family:var(--ff);font-size:14px;font-style:italic;color:var(--ink)">'+idea.hook+'</div>';
-  h+='</div>';
-  h+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300">'+idea.txt+'</div>';
-  var cont_done=marcaData.contenido&&marcaData.contenido.done;
-  h+='<button onclick="doneMarca(\'contenido\')" style="margin-top:12px;width:100%;padding:10px;background:'+(cont_done?'var(--gold)':'var(--ivory2)')+';border:1.5px solid var(--gold);border-radius:10px;color:'+(cont_done?'white':'var(--gold2)')+';font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer">'+(cont_done?'✓ REVISADO HOY':'MARCAR COMO REVISADO')+'</button>';
+  h+='<div style="font-size:12px;color:var(--mauve);font-style:italic;margin-bottom:10px;line-height:1.6">'+PROMPTS[(day+mon)%PROMPTS.length]+'</div>';
+  h+='<textarea id="journal-crear" rows="4" placeholder="Escribe aquí..." style="width:100%;box-sizing:border-box;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:var(--fb);font-size:12px;color:var(--ink);resize:none;outline:none;line-height:1.7">'+jVal+'</textarea>';
+  h+='<button onclick="saveJournalCrear()" style="margin-top:8px;width:100%;padding:10px;background:var(--ivory2);border:1.5px solid var(--mauve);border-radius:10px;color:var(--mauve);font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">Guardar</button>';
   h+='</div>';
 
-
-  }
-
-  // ─── FASE 2 PREVIEW (unlocks when all 5 done) ───
-  h+='<div class="sec-ttl" style="margin-top:6px"><span>Fase 2 — Estrategia de contenido</span><div class="sec-ln"></div></div>';
-  if(done_steps>=3){
-    var CONTENT_CAL=[
-      {dia:'Lunes',tipo:'Educativo',hook:'Dato de ciencia de datos que cambió cómo pienso',formato:'Carrusel'},
-      {dia:'Miércoles',tipo:'Personal',hook:'Lo que nadie te dice sobre estudiar datos siendo creativa',formato:'Reels'},
-      {dia:'Viernes',tipo:'Opinión',hook:'Por qué la espiritualidad y los datos no se contradicen',formato:'Post'},
-      {dia:'Domingo',tipo:'BTS',hook:'Mi proceso real de aprendizaje — sin filtro',formato:'Stories'},
+  // ── MEDITACIÓN (compacta, colapsable) ──
+  var medOpen=localStorage.getItem('med_open')==='1';
+  h+='<div style="background:rgba(144,96,192,.05);border-radius:14px;margin-bottom:14px;overflow:hidden">';
+  h+='<div onclick="var v=localStorage.getItem(\'med_open\');localStorage.setItem(\'med_open\',v===\'1\'?\'0\':\'1\');render()" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer">';
+  h+='<div><div style="font-size:13px;font-weight:500;color:var(--ink)">🧘 Guía de meditación</div>';
+  h+='<div style="font-size:10px;color:var(--mu);margin-top:2px">Toca para '+(medOpen?'cerrar':'ver pasos y tipos')+'</div></div>';
+  h+='<span style="color:#9060C0;font-size:18px">'+(medOpen?'▾':'▸')+'</span></div>';
+  if(medOpen){
+    var PASOS=[
+      {n:'Postura',d:'Silla con pies en el suelo o sentada en el suelo. Columna vertical, no rígida.'},
+      {n:'Ojos',d:'Ciérralos suave. O déjalos entreabiertos mirando hacia abajo sin enfocar.'},
+      {n:'Respiración',d:'No la controles — solo obsérvala. ¿Dónde la sientes más? ¿Nariz, pecho, abdomen?'},
+      {n:'Pensamientos',d:'Van a aparecer. Normal. No los pelees — nótalos y vuelve a la respiración. ESO es meditar.'},
+      {n:'Tiempo',d:'Empieza con 5 minutos. Un timer suave ayuda. Con el tiempo el cuerpo aprende cuándo parar.'},
+      {n:'Salida',d:'3 respiraciones profundas, mueve los dedos, abre los ojos despacio.'},
     ];
-    h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad)">';
-    h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:14px;font-weight:300">Basado en tus pilares y tu nicho: <em style="color:var(--gold2)">datos + creatividad + bienestar</em>. Este es tu calendario de contenido semanal sugerido.</div>';
-    CONTENT_CAL.forEach(function(c){
-      h+='<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">';
-      h+='<div style="width:70px;font-size:10px;font-weight:600;color:var(--gold2)">'+c.dia+'</div>';
-      h+='<div style="flex:1"><div style="font-size:12px;color:var(--ink);font-weight:500;margin-bottom:2px">'+c.hook+'</div>';
-      h+='<div style="font-size:10px;color:var(--mu)">'+c.tipo+' · '+c.formato+'</div></div>';
-      h+='</div>';
+    h+='<div style="padding:0 16px 14px">';
+    PASOS.forEach(function(p,i){
+      h+='<div style="display:flex;gap:10px;padding:8px 0;border-top:1px solid rgba(144,96,192,.08)">';
+      h+='<div style="font-size:10px;font-weight:700;color:#9060C0;min-width:18px;padding-top:2px">'+(i+1)+'</div>';
+      h+='<div><div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:1px">'+p.n+'</div>';
+      h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-weight:300">'+p.d+'</div></div></div>';
     });
-    h+='</div>';
-
-    // Tono de comunicación guía
-    h+='<div style="background:rgba(201,169,110,.05);border-radius:14px;padding:14px;margin-bottom:14px">';
-    h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;font-weight:300">Tu guía de tono</div>';
-    var TONOS=[
-      {check:'✓',txt:'Directa — vas al punto, sin rodeos innecesarios'},
-      {check:'✓',txt:'Honesta — compartes el proceso real, no solo el resultado'},
-      {check:'✓',txt:'Curiosa — haces preguntas, invitas a pensar'},
-      {check:'✗',txt:'Corporativa — sin jerga de marketing o frases vacías'},
-      {check:'✗',txt:'Perfecta — sin fingir que todo sale bien a la primera'},
-    ];
-    TONOS.forEach(function(t){
-      h+='<div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:6px">';
-      h+='<span style="font-size:12px;color:'+(t.check==='✓'?'#7A9E84':'var(--mauve)')+'">'+t.check+'</span>';
-      h+='<div style="font-size:12px;color:var(--ink);line-height:1.6;font-weight:300">'+t.txt+'</div>';
-      h+='</div>';
+    var TIPOS=['Mindfulness — observas sin juzgar. 5-20 min.','Body scan — recorres el cuerpo con la atención. 10-30 min.','Visualización — imaginas un lugar que te da paz. 10-20 min.','Mantra — repites una palabra para anclar la atención. 10-20 min.','Caminando — atención plena en cada paso. 10-30 min.'];
+    h+='<div style="margin-top:10px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#9060C0;margin-bottom:8px;font-weight:300">5 tipos</div>';
+    TIPOS.forEach(function(t){
+      h+='<div style="font-size:11px;color:var(--mu);padding:5px 0;border-top:1px solid rgba(144,96,192,.06)">• '+t+'</div>';
     });
-    h+='</div>';
-
-    // Métricas simples
-    h+='<div style="background:var(--white);border-radius:14px;padding:14px;box-shadow:var(--shad);margin-bottom:14px">';
-    h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:300">Métricas que importan (no te obsesiones con el número)</div>';
-    var METRICAS=[
-      {e:'💾',m:'Guardados',d:'La métrica más valiosa. La gente guarda lo que le sirve.'},
-      {e:'🔄',m:'Compartidos',d:'Tu contenido resonó lo suficiente para que alguien lo muestre.'},
-      {e:'💬',m:'Comentarios de calidad',d:'No "qué bonito" — sino preguntas reales o experiencias propias.'},
-      {e:'👤',m:'Seguidores nuevos por post',d:'Indica si tu contenido atrae a tu audiencia ideal.'},
-    ];
-    METRICAS.forEach(function(m){
-      h+='<div style="display:flex;gap:10px;margin-bottom:8px">';
-      h+='<span style="font-size:18px">'+m.e+'</span>';
-      h+='<div><div style="font-size:12px;font-weight:500;color:var(--ink)">'+m.m+'</div>';
-      h+='<div style="font-size:11px;color:var(--mu);line-height:1.5;font-weight:300">'+m.d+'</div></div>';
-      h+='</div>';
-    });
-    h+='</div>';
-  } else {
-    h+='<div style="background:var(--ivory2);border-radius:14px;padding:18px;text-align:center;margin-bottom:14px">';
-    h+='<div style="font-size:28px;margin-bottom:8px">🔒</div>';
-    h+='<div style="font-size:13px;color:var(--ink);font-weight:500;margin-bottom:4px">Completa '+Math.max(0,3-done_steps)+' módulos más para desbloquear</div>';
-    h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-weight:300">Calendario de contenido semanal, guía de tono y métricas que importan.</div>';
     h+='</div>';
   }
+  h+='</div>';
 
   return h;
 }
 
-// ─── MARCA HELPERS ───
-function saveMarca(mod,key,val){
-  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
-  if(!d[mod])d[mod]={};
-  d[mod][key]=val;
-  localStorage.setItem('marca_data',JSON.stringify(d));
-  // no re-render to avoid losing focus
-}
-function doneMarca(mod){
-  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
-  if(!d[mod])d[mod]={};
-  d[mod].done=!d[mod].done;
-  localStorage.setItem('marca_data',JSON.stringify(d));
+// ── CREAR HELPERS ──
+function togCrearEj(){
+  var now=new Date();
+  var key='ej_'+now.getDate()+'_'+now.getMonth();
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  d[key]=!d[key];
+  localStorage.setItem('crear_data',JSON.stringify(d));
   render();
 }
-function elegirBio(i){
-  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
-  if(!d.bio)d.bio={};
-  d.bio.selected=i;
-  var opts=["Administración + datos + espiritualidad. Sí, todo junto y sin disculparme por eso. Aprendo ciencia de datos, practico chamanería y creo contenido sobre lo que pasa cuando mezclas los números con el alma.","Soy María. Estudié administración, ahora estudio datos, y en el proceso descubrí que la ciencia y lo ancestral dicen lo mismo con distintas palabras. Aquí documento eso — sin filtro y con bastante cúrcuma.","Data scientist en construcción. Administradora de formación. Algo bruja por vocación. Hablo de salud, datos y espiritualidad — a veces los tres en el mismo post."];
-  d.bio.texto=opts[i];
-  localStorage.setItem('marca_data',JSON.stringify(d));
+function addProyecto(){
+  var el=document.getElementById('proy-nombre');
+  if(!el||!el.value.trim()) return;
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  if(!d.proyectos) d.proyectos=[];
+  d.proyectos.push({nombre:el.value.trim(),done:false});
+  localStorage.setItem('crear_data',JSON.stringify(d));
   render();
 }
-function togMarcaPers(p){
-  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
-  if(!d.voz)d.voz={};
-  var arr=d.voz.personalidad||[];
-  var idx=arr.indexOf(p);
-  if(idx>-1)arr.splice(idx,1);
-  else if(arr.length<3)arr.push(p);
-  d.voz.personalidad=arr;
-  localStorage.setItem('marca_data',JSON.stringify(d));
+function delProyecto(i){
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  if(d.proyectos) d.proyectos.splice(i,1);
+  localStorage.setItem('crear_data',JSON.stringify(d));
   render();
 }
-function addPilar(p){
-  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
-  if(!d.pilares)d.pilares={list:[]};
-  if(!d.pilares.list)d.pilares.list=[];
-  if(d.pilares.list.indexOf(p)===-1&&d.pilares.list.length<5)d.pilares.list.push(p);
-  localStorage.setItem('marca_data',JSON.stringify(d));
+function togProyecto(i){
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  if(d.proyectos&&d.proyectos[i]) d.proyectos[i].done=!d.proyectos[i].done;
+  localStorage.setItem('crear_data',JSON.stringify(d));
   render();
 }
-function addPilarCustom(){
-  var inp=document.getElementById('pilar-input');
-  if(inp&&inp.value.trim()){addPilar(inp.value.trim());inp.value='';}
-}
-function removePilar(i){
-  var d=JSON.parse(localStorage.getItem('marca_data')||'{}');
-  if(d.pilares&&d.pilares.list)d.pilares.list.splice(i,1);
-  localStorage.setItem('marca_data',JSON.stringify(d));
-  render();
-}
-
-
-
-// ── WELCOME ──
-var DAYS_W=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-var MONTHS_W=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-
-function initWelcome(){
-  var DAYS_L=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-  var MONTHS_L=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  var q=getQuoteOfDay();
-  var d=new Date();
-  var el_date=document.getElementById('w-date');
-  var el_q=document.getElementById('w-quote');
-  var el_a=document.getElementById('w-author');
-  if(el_date) el_date.textContent=DAYS_L[d.getDay()]+', '+d.getDate()+' de '+MONTHS_L[d.getMonth()];
-  if(el_q) el_q.textContent='\u201C'+q.q+'\u201D';
-  if(el_a) el_a.textContent=(q.a!=='—')?('— '+q.a):'';
-  // Show welcome — hidden if already closed today
-  var overlay=document.getElementById('welcome');
-  if(sessionStorage.getItem('wel_shown') && overlay) overlay.style.display='none';
-}
-
-function closeWelcome(){
-  sessionStorage.setItem('wel_shown','1');
-  var overlay=document.getElementById('welcome');
-  if(overlay){
-    overlay.style.opacity='0';
-    setTimeout(function(){overlay.style.display='none';},500);
-  }
-}
-
-// ── DRAWER ──
-var drawerOpen=false;
-var TAB_ORDER=['hoy','cuerpo','mente','voz','pnl','vision','marca'];
-var TAB_NAMES={hoy:'Hoy',cuerpo:'Cuerpo',mente:'Inglés',voz:'Voz',pnl:'PNL',vision:'Visión',marca:'✦ Marca'};
-
-function openDrawer(){
-  drawerOpen=true;
-  var dr=document.getElementById('drawer');
-  var ov=document.getElementById('drawer-overlay');
-  if(dr){dr.style.transform='translateX(0)';}
-  if(ov){ov.style.opacity='1';ov.style.pointerEvents='auto';}
-  updateDrwProgress();
-}
-
-function closeDrawer(){
-  drawerOpen=false;
-  var dr=document.getElementById('drawer');
-  var ov=document.getElementById('drawer-overlay');
-  if(dr){dr.style.transform='translateX(-100%)';}
-  if(ov){ov.style.opacity='0';ov.style.pointerEvents='none';}
-}
-
-function swDrawer(t,btn){
-  var oldIdx=TAB_ORDER.indexOf(tab);
-  var newIdx=TAB_ORDER.indexOf(t);
-  var dir=newIdx>=oldIdx?'r':'l';
-  tab=t;expanded=null;
-  // Update drawer buttons
-  document.querySelectorAll('.drw-btn').forEach(function(b){b.classList.remove('active');});
-  if(btn)btn.classList.add('active');
-  // Update header title
-  var hdrSec=document.getElementById('hdr-section');
-  if(hdrSec)hdrSec.textContent=TAB_NAMES[t]||t;
-  closeDrawer();
-  var el=document.getElementById('content');
-  el.classList.remove('slide-r','slide-l');
-  void el.offsetWidth;
-  render();
-  el.classList.add(dir==='r'?'slide-r':'slide-l');
-}
-
-function updateDrwProgress(){
-  var el=document.getElementById('drw-progress');
+function saveJournalCrear(){
+  var now=new Date();
+  var key='j_'+now.getDate()+'_'+now.getMonth();
+  var el=document.getElementById('journal-crear');
   if(!el) return;
-  var cnt=Object.values(done).filter(Boolean).length;
-  var pct=SCHED.length>0?Math.round(cnt/SCHED.length*100):0;
-  el.innerHTML='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:6px;font-weight:300">Rutina HOY</div>'
-    +'<div style="height:3px;background:var(--border);border-radius:2px;margin-bottom:4px"><div style="height:100%;width:'+pct+'%;background:var(--gold);border-radius:2px;transition:width .6s"></div></div>'
-    +'<div style="font-size:10px;color:var(--mu2)">'+cnt+' de '+SCHED.length+' · '+pct+'%</div>';
-}
-
-// ── PROGRESS PANEL ──
-var progPanelOpen=false;
-function togProgressPanel(){
-  progPanelOpen=!progPanelOpen;
-  var panel=document.getElementById('progress-panel');
-  if(progPanelOpen){updateProgDetail();panel.style.maxHeight='300px';}
-  else{panel.style.maxHeight='0';}
-}
-
-function updateProgDetail(){
-  var el=document.getElementById('prog-detail');
-  if(!el) return;
-  el.innerHTML='';
-  var cats=[
-    {l:'Rutina',c:Object.values(done).filter(Boolean).length,t:SCHED.length,co:'var(--gold)'},
-    {l:'Inglés',c:Object.values(engD).filter(Boolean).length,t:3,co:'var(--mauve)'},
-    {l:'Ejercicio',c:Object.values(exD).filter(Boolean).length,t:4,co:'#7A9E84'},
-    {l:'Voz',c:Object.values(vozD).filter(Boolean).length,t:3,co:'#9060C0'},
-  ];
-  cats.forEach(function(c){
-    var pct=c.t>0?Math.round(c.c/c.t*100):0;
-    var div=document.createElement('div');
-    div.style.cssText='background:var(--ivory2);border-radius:12px;padding:10px 12px';
-    div.innerHTML='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:5px;font-weight:300">'+c.l+'</div>'
-      +'<div style="font-family:var(--ff);font-size:24px;font-style:italic;color:'+c.co+'">'+c.c+'<span style="font-size:13px;color:var(--mu2)"> /'+c.t+'</span></div>'
-      +'<div style="margin-top:6px;height:2px;background:var(--border);border-radius:2px">'
-      +'<div style="height:100%;width:'+pct+'%;background:'+c.co+';border-radius:2px;transition:width .6s"></div></div>';
-    el.appendChild(div);
-  });
-}
-
-function updateProgLabel(){
-  var lbl=document.getElementById('prog-label');
-  if(!lbl) return;
-  var cnt=Object.values(done).filter(Boolean).length;
-  lbl.textContent=cnt+' de '+SCHED.length+' completadas ↕';
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  d[key]=el.value;
+  localStorage.setItem('crear_data',JSON.stringify(d));
+  el.nextElementSibling.textContent='✓ Guardado';
+  el.nextElementSibling.style.background='var(--mauve)';
+  el.nextElementSibling.style.color='white';
 }
 
 </script>
