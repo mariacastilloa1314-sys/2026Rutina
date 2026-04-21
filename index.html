@@ -816,7 +816,6 @@ body{
     <button class="drw-btn" onclick="swDrawer('voz',this)"><span class="drw-ico">🎤</span><span class="drw-lbl">Voz</span></button>
     <button class="drw-btn" onclick="swDrawer('pnl',this)"><span class="drw-ico">🧬</span><span class="drw-lbl">PNL</span></button>
     <button class="drw-btn" onclick="swDrawer('vision',this)"><span class="drw-ico">✨</span><span class="drw-lbl">Visión</span></button>
-    <button class="drw-btn" onclick="swDrawer('marca',this)"><span class="drw-ico">✦</span><span class="drw-lbl">✦ Marca</span></button>
     <button class="drw-btn" onclick="swDrawer('crear',this)"><span class="drw-ico">🎨</span><span class="drw-lbl">Crear</span></button>
   </nav>
   <div style="padding:16px 24px 32px;border-top:1px solid var(--border)">
@@ -1312,6 +1311,24 @@ function renderHoy(){
   const dow=now.getDay();
   const isWeekend=(dow===0||dow===6);
   if(isWeekend) return renderWeekend();
+
+  // ── 6-MONTH MISSION BANNER ──
+  var mStart=new Date(2025,3,20),mEnd=new Date(2025,9,10),mNow=new Date();
+  var mTotal=Math.round((mEnd-mStart)/864e5);
+  var mElapsed=Math.max(0,Math.round((mNow-mStart)/864e5));
+  var mLeft=Math.max(0,mTotal-mElapsed);
+  var mPct=Math.min(100,Math.round(mElapsed/mTotal*100));
+  h+='<div style="background:var(--white);border-radius:16px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--shad)">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);font-weight:300">20 abr → 10 oct · Tu misión</div>';
+  h+='<div style="font-size:12px;font-weight:700;color:var(--gold2)">'+mLeft+' días</div>';
+  h+='</div>';
+  h+='<div style="height:5px;background:var(--ivory2);border-radius:3px;overflow:hidden;margin-bottom:6px">';
+  h+='<div style="height:100%;width:'+mPct+'%;background:linear-gradient(90deg,var(--mauve),var(--gold));border-radius:3px"></div>';
+  h+='</div>';
+  h+='<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--mu)"><span>Día '+mElapsed+' de '+mTotal+'</span><span>'+mPct+'% completado</span></div>';
+  h+='</div>';
+
   const curMin=now2m();
   const cid=getCurrent();
   const doneCnt=Object.values(done).filter(Boolean).length;
@@ -1715,6 +1732,28 @@ function renderCuerpo(){
     });
   }
   h2+='</div>';
+  // ── 6AM + MUSCLE PROTOCOL ──
+  var SIX_AM=[
+    {t:'Por qué las 6am cambia todo',d:'Despertar a las 6am sincroniza tu ritmo circadiano con el pico de cortisol matutino (30-45 min después de despertar). Esa energía usada en movimiento se convierte en músculo y claridad mental. Usada en el teléfono, se desperdicia.',c:'Mañana: antes de tocar el teléfono, haz 10 sentadillas. El movimiento rompe la inercia del sueño mejor que la cafeína.'},
+    {t:'El músculo se construye mientras duermes',d:'En el sueño profundo, la hipófisis libera hormona de crecimiento que repara y construye músculo. Sin 7-8h de sueño, el entrenamiento pierde hasta el 60% de efectividad. El gym pone la señal. El sueño construye el músculo.',c:'Esta semana: dormir antes de las 11pm. El músculo que no has ganado se pierde en la hora de pantalla antes de dormir.'},
+    {t:'Proteína: el ingrediente que falta',d:'Para ganar masa necesitas 1.6-2.2g de proteína por kilo de peso al día. Sin ese número, el entrenamiento cataboliza músculo en lugar de construirlo. La mayoría entrena bien pero come mal para el objetivo.',c:'Calcula: tu peso × 1.8 = gramos de proteína diarios. ¿Llegas? Si no, agrega huevos, legumbres o proteína en el desayuno.'},
+    {t:'Identidad, no horario',d:'James Clear: los hábitos que duran no se basan en motivación sino en identidad. "Soy alguien que se levanta a las 6" es más poderoso que "quiero levantarme a las 6". El cerebro actúa con quien cree que eres.',c:'Cuando suene la alarma, di en voz alta: "Me levanto a las 6 porque es quien soy." Ridículo pero efectivo.'},
+    {t:'Sobrecarga progresiva: el secreto',d:'El músculo crece cuando le das más de lo que puede manejar. Si haces el mismo peso semana tras semana, el cuerpo se adapta y deja de crecer. Necesitas aumentar carga, reps o dificultad regularmente.',c:'Regla: cuando puedas hacer 3 series de 12 con buena forma, aumenta el peso. Eso es todo.'},
+    {t:'El cortisol y la grasa abdominal',d:'El cortisol elevado (estrés, poco sueño, mucha cafeína) activa receptores de grasa en el abdomen específicamente. No es genética — es fisiología del estrés. Bajar el cortisol es parte del programa.',c:'5 minutos de respiración 4-6 (inhala 4 seg, exhala 6) antes de dormir. Baja el cortisol nocturno y mejora el sueño reparador.'},
+    {t:'Entrenar en ayunas',d:'Entrenar antes del desayuno aumenta la oxidación de grasa hasta un 20% más. Ideal para reducir grasa corporal mientras se mantiene músculo.',c:'Prueba esta semana: 15-20 min de ejercicio antes del desayuno. Solo agua. Observa cómo te sientes vs los días sin hacerlo.'},
+  ];
+  var sixIdx=(now.getDate()+now.getMonth()*3)%SIX_AM.length;
+  var sa=SIX_AM[sixIdx];
+  h+='<div class="sec-ttl"><span>💪 Protocolo 6 meses</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:6px">'+sa.t+'</div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300;margin-bottom:10px">'+sa.d+'</div>';
+  h+='<div style="background:rgba(201,169,110,.06);border-radius:10px;padding:10px 12px">';
+  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px;font-weight:300">Acción de hoy</div>';
+  h+='<div style="font-size:12px;color:var(--ink);line-height:1.6;font-weight:300">'+sa.c+'</div>';
+  h+='</div></div>';
+
+
 
   // ── CORTISOL SECTION ──
   var CORTISOL_TIPS=[
@@ -2439,7 +2478,25 @@ function renderVision(){
   h+='<span style="font-size:20px;flex-shrink:0">'+(seedDone?'✅':'🌱')+'</span></div></div>';
 
   // METAS 2026
-  h+='<div class="sec-ttl"><span>Metas 2026</span><div class="sec-ln"></div></div>';
+  
+  // ── 6-MONTH THEORY ──
+  var SEIS=[
+    {e:'🧬',tipo:'Neurociencia',t:'6 meses: el ciclo completo del cerebro',txt:'La mielinización de nuevos circuitos neurales — convertir un hábito en automático — requiere 4-8 meses de práctica deliberada. Estás en el inicio del ciclo completo de transformación neurológica.'},
+    {e:'💪',tipo:'Fisiología',t:'El músculo necesita 6 meses para ser visible',txt:'La hipertrofia tiene dos fases: neurológica (0-8 semanas) y estructural (8-24 semanas). Solo después de 6 meses tienes ambas completas. El cambio visible que buscas está en el mes 4-6.'},
+    {e:'🗣️',tipo:'Lingüística',t:'500 horas para la fluidez básica',txt:'Krashen demostró que el cerebro necesita ~500 horas de input comprensible para fluidez básica. A 2-3h diarias, 6 meses son exactamente eso. Estás en el momento correcto.'},
+    {e:'🌀',tipo:'Maya',t:'El tzolkin: 260 días de transformación',txt:'El calendario sagrado maya tiene 260 días — casi 6 meses. Era el ciclo considerado necesario para una transformación completa del ser. Tu intuición eligió este período por algo.'},
+    {e:'🌱',tipo:'Chamanismo andino',t:'Siembra y cosecha',txt:'En la tradición andina, un ciclo completo de siembra a cosecha dura 6-7 meses. Lo que plantas en una estación, lo cosechas en la siguiente. Estás plantando ahora mismo.'},
+    {e:'⚡',tipo:'Epigenética',t:'6 meses cambian tu expresión genética',txt:'Szyf y Meaney demostraron que 6 meses de cambios sostenidos producen cambios epigenéticos medibles. No solo cambias tú — cambia tu biología.'},
+  ];
+  var sm=SEIS[(now.getDate()+now.getMonth())%SEIS.length];
+  h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shad);display:flex;gap:12px">';
+  h+='<span style="font-size:24px">'+sm.e+'</span>';
+  h+='<div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:3px;font-weight:300">'+sm.tipo+'</div>';
+  h+='<div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">'+sm.t+'</div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">'+sm.txt+'</div>';
+  h+='</div></div>';
+
+h+='<div class="sec-ttl"><span>Metas 2026</span><div class="sec-ln"></div></div>';
   CAT_META.forEach(function(cat){
     var cg=GOALS_DATA.filter(function(g){return g.cat===cat.k;});
     var cd=cg.filter(function(g){return !!goals[g.id];}).length;
@@ -2548,7 +2605,6 @@ function render(){
     else if(tab==="mente") content=renderMente();
     else if(tab==="voz") content=renderVoz();
     else if(tab==="pnl") content=renderPnl();
-    else if(tab==="marca") content=renderMarca();
     else if(tab==="crear") content=renderCrear();
     else content=renderVision();
     el.innerHTML=content;
@@ -2944,14 +3000,16 @@ var EMOCIONES_T=[
 ];
 
 var FUTURO_M=[
-  {id:'f1',periodo:'3 meses',meta:'Completar el módulo 1 del curso de ciencia de datos.',tipo:'carrera'},
-  {id:'f2',periodo:'3 meses',meta:'Alcanzar nivel A2 certificado en inglés.',tipo:'idioma'},
-  {id:'f3',periodo:'6 meses',meta:'Dar una presentación de 5 min en inglés.',tipo:'idioma'},
-  {id:'f4',periodo:'6 meses',meta:'Tener al menos 1 fuente de ingreso adicional activa.',tipo:'dinero'},
-  {id:'f5',periodo:'12 meses',meta:'Trabajar en algo relacionado con ciencia de datos.',tipo:'carrera'},
-  {id:'f6',periodo:'12 meses',meta:'Comunicarme fluidamente en inglés en conversación.',tipo:'idioma'},
-  {id:'f7',periodo:'12 meses',meta:'Vivir desde la prosperidad y la abundancia.',tipo:'vida'}
+  {id:'f1',periodo:'Julio 2025 · 3 meses',meta:'Gym 3x/semana sin romperla más de 2 semanas seguidas.',tipo:'cuerpo'},
+  {id:'f2',periodo:'Julio 2025 · 3 meses',meta:'Conversación básica en inglés sin necesitar traductor.',tipo:'idioma'},
+  {id:'f3',periodo:'Julio 2025 · 3 meses',meta:'Las 6am el 80% de los días del mes.',tipo:'habito'},
+  {id:'f4',periodo:'Julio 2025 · 3 meses',meta:'Primera fuente de ingreso adicional identificada y activa.',tipo:'dinero'},
+  {id:'f5',periodo:'Octubre 2025 · 6 meses',meta:'Cambio muscular visible en piernas y glúteos.',tipo:'cuerpo'},
+  {id:'f6',periodo:'Octubre 2025 · 6 meses',meta:'Inglés intermedio — entender series sin subtítulos.',tipo:'idioma'},
+  {id:'f7',periodo:'Octubre 2025 · 6 meses',meta:'Las 6am como identidad, no como esfuerzo.',tipo:'habito'},
+  {id:'f8',periodo:'Octubre 2025 · 6 meses',meta:'Prosperidad activa — más de lo que necesito.',tipo:'dinero'},
 ];
+
 
 var FUTURO_EJ=[
   {id:'fe1',n:'Visualización de fin de año',dur:'10 min',
@@ -3283,38 +3341,39 @@ if('serviceWorker' in navigator){
 
 // ── DAILY QUOTES ──
 var DAILY_QUOTES=[
-  {q:"Lo que practicas a diario es lo que te conviertes.",a:"James Clear"},
-  {q:"El cuerpo es el templo, la mente es el altar, el alma es la llama.",a:"Tradición andina"},
-  {q:"Los datos son la nueva tierra. Quien la entiende, la cultiva.",a:"—"},
-  {q:"El descanso no es el enemigo del progreso — es parte del proceso.",a:"Neurociencia"},
-  {q:"Tu voz lleva la frecuencia de todo lo que eres.",a:"Sabiduría chamánica"},
-  {q:"La disciplina es elegirte a ti misma una y otra vez.",a:"—"},
-  {q:"La epigenética demostró lo que los ancestros sabían: el ambiente forma al ser.",a:"Bruce Lipton"},
-  {q:"Una mente entrenada ve patrones donde los demás ven caos.",a:"—"},
-  {q:"La constancia sin perfección mueve montañas.",a:"—"},
-  {q:"Ser rara no es un defecto de diseño. Es el diseño.",a:"—"},
-  {q:"La ciencia sin alma informa. El alma sin ciencia sueña. Las dos juntas transforman.",a:"—"},
-  {q:"No necesitas tenerlo todo claro para empezar. Solo necesitas empezar.",a:"—"},
-  {q:"El cortisol baja cuando dejas de correr de ti misma.",a:"—"},
-  {q:"Los rituales no son superstición — son arquitectura de la mente.",a:"Neurología del hábito"},
-  {q:"Aprende como si fueras a vivir para siempre. Vive como si fuera hoy.",a:"Gandhi"},
-  {q:"Tu nicho no es lo que haces. Es la forma en que lo haces.",a:"—"},
-  {q:"El sueño es el hábito de alto rendimiento más subestimado.",a:"Matthew Walker"},
-  {q:"Cada dato que aprendes hoy cambia silenciosamente quién eres mañana.",a:"—"},
-  {q:"La creatividad no es un don. Es un músculo. Se entrena.",a:"—"},
-  {q:"Lo ancestral no es lo opuesto a lo científico. Es su origen.",a:"—"},
-  {q:"Los telómeros se acortan con el estrés y se reparan con el descanso. Eso es epigenética en tiempo real.",a:"Elizabeth Blackburn"},
-  {q:"El músculo recuerda. El cerebro conecta. El alma integra.",a:"—"},
-  {q:"Tu acento es tu firma. Tu historia es tu activo.",a:"—"},
-  {q:"Quien duerme bien, decide mejor. El sueño es inteligencia.",a:"—"},
-  {q:"El músculo se construye mientras duermes, no mientras entrenas.",a:"Fisiología del deporte"},
-  {q:"Quien controla su respiración, controla su estado.",a:"Wim Hof"},
-  {q:"Los sistemas ganan a la motivación. La rutina gana al impulso.",a:"—"},
+  {q:"El 20 de abril comenzó algo real. El 10 de octubre lo verás en el espejo.",a:"Tu yo de octubre"},
+  {q:"La constancia sin perfección mueve montañas. La perfección sin constancia no mueve nada.",a:"—"},
+  {q:"6 meses es exactamente el tiempo que el cerebro necesita para reescribir un hábito profundo.",a:"Neurociencia"},
+  {q:"No necesitas motivación todos los días. Necesitas un sistema que funcione sin ganas.",a:"James Clear"},
+  {q:"El músculo no se construye en el gym — se construye mientras duermes.",a:"Fisiología deportiva"},
+  {q:"La disciplina es elegirte a ti misma una y otra vez, incluso cuando el colchón dice que no.",a:"—"},
+  {q:"En seis meses, quien eres hoy le parecerá pequeña a quien te convertirás.",a:"—"},
+  {q:"Los telómeros se alargan con el ejercicio constante. Estás construyendo literalmente más vida.",a:"Elizabeth Blackburn"},
+  {q:"Cada mañana a las 6 es un voto por quien quieres ser.",a:"—"},
+  {q:"Lo que practicas diariamente es lo que te conviertes.",a:"James Clear"},
+  {q:"Seis meses de práctica deliberada producen cambios que duran décadas.",a:"Anders Ericsson"},
   {q:"La luna no pide permiso para cambiar de fase. Tú tampoco.",a:"—"},
-  {q:"La intuición es experiencia comprimida. Confía en ella.",a:"Gary Klein"},
-  {q:"Transforma y créate — un día a la vez.",a:"Rutina 2026"},
+  {q:"Tu inglés de octubre ya existe. Solo tiene que alcanzarte.",a:"—"},
+  {q:"Ser consistente el 80% del tiempo produce el 95% de los resultados.",a:"—"},
+  {q:"No es sobre las 6am. Es sobre quien decides ser antes de que el mundo te diga quién ser.",a:"—"},
+  {q:"La epigenética demostró lo que los ancestros sabían: el ambiente forma al ser.",a:"Bruce Lipton"},
+  {q:"Octubre te espera. Y tiene cara de alguien que se levantó a las 6.",a:"—"},
+  {q:"El cortisol baja cuando dejas de correrte de ti misma.",a:"—"},
+  {q:"No compites con nadie. Tu única carrera es con quien fuiste ayer.",a:"—"},
+  {q:"La creatividad no se pierde. Se esconde cuando no la ejercitas.",a:"—"},
+  {q:"Hoy no tienes que hacer todo. Solo tienes que hacer algo.",a:"—"},
+  {q:"Tu voz tiene poder. Tus palabras construyen realidades.",a:"—"},
+  {q:"Cada dato que aprendes hoy cambia silenciosamente quién eres mañana.",a:"—"},
+  {q:"Prosper no es un destino. Es una identidad que eliges ahora.",a:"—"},
+  {q:"El cuerpo recuerda todo lo que le das: cada proteína, cada repetición, cada hora de sueño.",a:"—"},
+  {q:"Soy curiosa, valiente y capaz de reinventarme. Siempre.",a:"—"},
+  {q:"Lo que planto hoy, lo cosecho en octubre. Ya está plantado.",a:"Tradición andina"},
+  {q:"El flow llega cuando la tarea y la habilidad están al límite. Sigue empujando el límite.",a:"Csikszentmihalyi"},
+  {q:"Quien duerme bien, decide mejor, entrena mejor, aprende mejor.",a:"—"},
   {q:"Tu combinación de habilidades es única. Úsala sin pedir permiso.",a:"—"},
+  {q:"La constancia es el único superpoder disponible para todos.",a:"—"},
 ];
+
 
 function getQuoteOfDay(){
   var d=new Date();
@@ -3802,8 +3861,8 @@ function closeWelcome(){
 
 // ── DRAWER ──
 var drawerOpen=false;
-var TAB_ORDER=['hoy','cuerpo','mente','voz','pnl','vision','marca','crear'];
-var TAB_NAMES={hoy:'Hoy',cuerpo:'Cuerpo',mente:'Inglés',voz:'Voz',pnl:'PNL',vision:'Visión',marca:'✦ Marca',crear:'🎨 Crear'};
+var TAB_ORDER=['hoy','cuerpo','mente','voz','pnl','vision','crear'];
+var TAB_NAMES={hoy:'Hoy',cuerpo:'Cuerpo',mente:'Inglés',voz:'Voz',pnl:'PNL',vision:'Visión',crear:'🎨 Crear'};
 
 function openDrawer(){
   drawerOpen=true;
@@ -3953,38 +4012,17 @@ function renderCrear(){
     // ─── SEMANA: Ejercicios + Ciencia + Proyectos + Libreta + Aburrimiento ───
 
     var EJS=[
-      {e:'📷',t:'Fotografía 5 detalles invisibles',
-       d:'Sal o quédate donde estás. Fotografía 5 cosas que nadie más fotografiaría hoy: una textura, una sombra, el patrón de algo, un ángulo raro. Sin filtros. Solo la mirada.',
-       sci:'Entrenar la observación activa la corteza visual ventral. Los grandes creativos son, antes que nada, observadores excepcionales.'},
-      {e:'🏗️',t:'Construye algo con lo que tengas',
-       d:'Con papel, clips, objetos de tu mesa — construye algo en 10 minutos. No tiene que representar nada ni ser bonito. Solo crea algo tridimensional con tus manos.',
-       sci:'La creatividad táctil activa la corteza motora y el cerebelo de maneras que la creatividad solo mental no puede. Crear con las manos es diferente.'},
-      {e:'🎵',t:'Playlist de tu estado de ánimo ahora mismo',
-       d:'No la que ya tienes. Una nueva, de 5-8 canciones que reflejen exactamente cómo te sientes en este momento — incluyendo las contradicciones. Ponle un nombre.',
-       sci:'La selección musical consciente activa la ínsula y la corteza cingulada anterior — los centros de autoconciencia emocional.'},
-      {e:'🌿',t:'10 minutos afuera sin teléfono',
-       d:'Sal. Siéntate o camina. Sin AirPods, sin música, sin podcast. Solo mira y escucha. Busca algo que no hayas notado antes aunque sea en tu propio balcón o ventana.',
-       sci:'20 minutos en contacto con naturaleza reducen el cortisol y restauran la capacidad de atención dirigida (Kaplan, 1995). 10 son suficientes para empezar.'},
-      {e:'🎨',t:'Dibuja sin levantar el bolígrafo',
-       d:'Pon el bolígrafo en el papel y dibuja cualquier cosa sin levantar la punta en ningún momento. 3 minutos. El resultado no importa — el proceso sí.',
-       sci:'El dibujo continuo desactiva el filtro del juicio prefrontal y activa el estado de "flow" cognitivo más rápido que casi cualquier otra técnica.'},
-      {e:'🔊',t:'Escucha activa — 5 minutos',
-       d:'Pon algo: música, un podcast, sonido ambiente. Durante 5 minutos, no hagas NADA más. Solo escucha con toda la atención. Nota detalles que normalmente ignorarías.',
-       sci:'La atención monotarea activa el sistema de concentración ejecutiva de maneras que el multitasking destruye. Es un músculo que se atrofia con el scroll.'},
-      {e:'🌀',t:'Redecora un rincón',
-       d:'Elige un espacio pequeño — tu escritorio, un estante, la mesita de noche. Reorganiza, quita cosas, agrega algo. En 10 minutos. El objetivo es que al mirar sientas algo diferente.',
-       sci:'El entorno físico afecta el estado cognitivo. Un espacio intencional activa la corteza prefrontal de manera diferente a un entorno caótico.'},
-      {e:'✋',t:'Crea algo solo con tus manos',
-       d:'Cocina algo diferente, haz origami, mezcla colores, amasa algo. Cualquier cosa que involucre las dos manos durante al menos 15 minutos y produzca algo físico.',
-       sci:'La actividad bimanual sincronizada activa los dos hemisferios cerebrales simultáneamente — el estado óptimo para la creatividad integrativa.'},
-      {e:'👀',t:'Mira algo que nunca has visto',
-       d:'Busca un artista, fotógrafo, arquitecto o diseñador que no conozcas. Mira su trabajo durante 10 minutos en silencio. No leas sobre él — solo mira.',
-       sci:'La exposición a dominios alejados del propio aumenta la flexibilidad cognitiva — la misma que produce insights creativos (Simonton, 2004).'},
-      {e:'🎭',t:'Imita a alguien que admiras',
-       d:'Elige a alguien creativo que admires. Durante 15 minutos, trabaja en algo "como si fueras ella": su estética, su tono, su energía. No para copiarlo — para entender qué lo hace diferente.',
-       sci:'La imitación deliberada activa el sistema de neuronas espejo y es la técnica de aprendizaje más eficiente conocida en humanos.'},
+      {e:'✍️',t:'Escritura automática',d:'5 minutos. Escribe sin parar, sin editar, sin levantar el bolígrafo. No importa qué sale — silencias al crítico interno.',sci:'Activa el hemisferio derecho y reduce la autocensura prefrontal. Julia Cameron lo llama Morning Pages.'},
+      {e:'🔗',t:'10 conexiones improbables',d:'Abre un libro en dos páginas al azar. Una palabra de cada una. Escribe 10 maneras en que se conectan. La última idea suele ser la mejor.',sci:'Entrena la flexibilidad cognitiva — ver relaciones donde nadie más las ve (test RAT, Mednick).'},
+      {e:'🎭',t:'Escribe desde otro punto de vista',d:'Elige un objeto cotidiano. Escribe 1 párrafo desde su perspectiva. ¿Qué siente tu silla? ¿Qué ve tu teléfono?',sci:'Activa la teoría de la mente y la corteza prefrontal medial — mismo circuito que la empatía.'},
+      {e:'📷',t:'Fotografía 5 detalles invisibles',d:'5 cosas que nadie más fotografiaría hoy: una textura, una sombra, un ángulo raro. Sin filtros.',sci:'Entrenar la observación activa la corteza visual ventral. Los grandes creativos son observadores excepcionales.'},
+      {e:'🌀',t:'Mapa mental sin reglas',d:'Centro: YO SOY CREATIVA. Conecta todo lo que se te ocurra sin orden ni lógica. La mano manda.',sci:'Activa el sistema límbico y el neocórtex simultáneamente — la combinación que produce insights reales.'},
+      {e:'💌',t:'Carta a tu yo creativo de los 8 años',d:'¿Qué hacías entonces que ahora no haces? Escríbele. Dile qué pasó y qué vas a recuperar.',sci:'Reconecta con los circuitos creativos anteriores a la autocensura social — los más libres.'},
+      {e:'🏗️',t:'Construye algo con lo que tengas',d:'Papel, clips, lo que haya en tu mesa. Construye algo. No tiene que representar nada. Solo crea con las manos.',sci:'La creatividad táctil activa la corteza motora de maneras que la creatividad mental no puede.'},
+      {e:'🌈',t:'Poema de 6 palabras',d:'Exactamente 6 palabras. Sobre lo que sientas ahora. Hemingway escribió uno de los más poderosos de la historia así.',sci:'Las restricciones aumentan la actividad en la corteza prefrontal dorsolateral — el centro del pensamiento divergente.'},
+      {e:'🎪',t:'Inventa tu ritual de inicio',d:'2-3 minutos que harás cada vez que vayas a crear. Música, movimiento, una frase, un aroma. Escríbelo y pruébalo ahora.',sci:'Los rituales crean un puente neural entre estado normal y estado creativo (Gino & Norton, 2013).'},
+      {e:'🎵',t:'Playlist de tu estado de ánimo',d:'No la que ya tienes. Una nueva, ahora, que refleje exactamente cómo te sientes — incluyendo contradicciones. Ponle un nombre.',sci:'La selección musical consciente activa la ínsula y la corteza cingulada — centros de autoconciencia emocional.'},
     ];
-
     var ej=EJS[(day+mon*2)%EJS.length];
     var ejDone=d['ej_'+day+'_'+mon];
 
@@ -3999,45 +4037,21 @@ function renderCrear(){
 
     // Dato del día (ciencia + chamanismo alternando)
     var DATOS=[
-      {e:'🧠',t:'La creatividad ocurre cuando divaga la mente',
-       txt:'La Default Mode Network (DMN) se activa cuando no haces nada en particular. En la ducha, caminando, justo antes de dormir. Ahí ocurren las conexiones más potentes. El scroll la apaga.',
-       como:'Hoy: elige un momento que normalmente rellenas con el teléfono (esperando el bus, comiendo sola) y déjalo vacío. No hagas nada. Nota qué pasa.',tipo:'ciencia'},
-      {e:'🌀',t:'¿Qué es el flow y cómo llegás a él?',
-       txt:'Flow es el estado donde desapareces en lo que haces — el tiempo vuela, no te cuesta, eres completamente tú. Csikszentmihalyi lo estudió 30 años. Los chamanes lo llamaban trance creativo. Neurológicamente son idénticos: ondas theta, ego reducido.',
-       como:'Para entrar en flow necesitas: 1) una tarea con el nivel justo de dificultad (ni muy fácil ni imposible), 2) sin interrupciones por al menos 20 min, 3) objetivo claro de lo que quieres lograr en esa sesión.',tipo:'chaman'},
-      {e:'🔗',t:'Crear es conectar lo que nadie conectó',
-       txt:'El test RAT (Remote Associates Test) demostró que las personas creativas conectan conceptos distantes. No es genialidad — es práctica de asociación libre.',
-       como:'Ejercicio rápido: piensa en "datos" y "luna". ¿Qué tienen en común? (ciclos, patrones, fases, predicciones). Cuanto más raro, mejor. Haz esto con dos palabras al azar hoy.',tipo:'ciencia'},
-      {e:'🔥',t:'Nombrar en voz alta libera energía creativa',
-       txt:'En los rituales chamánicos, decir en voz alta lo que te pesa le quita poder. La escritura libre funciona igual: lo que sacas al papel deja de ocupar espacio mental — y ese espacio se vuelve creativo.',
-       como:'Toma 5 minutos hoy. Escribe sin parar lo que está ocupando espacio en tu cabeza — preocupaciones, ideas, listas pendientes. Solo sacarlo. Después nota cuánto más ligera se siente la mente.',tipo:'chaman'},
-      {e:'😴',t:'Dormir bien multiplica la creatividad',
-       txt:'Durante el sueño REM el hipocampo conecta experiencias con conocimiento previo de formas nuevas. Las mejores ideas llegan después de dormir, no de una trasnocha.',
-       como:'Antes de dormir: deja un problema creativo sin resolver en tu mente. Solo pregúntate "¿cómo podría...?" sin buscar respuesta. En la mañana, anota lo primero que pienses antes de revisar el teléfono.',tipo:'ciencia'},
-      {e:'🌙',t:'La luna y los ciclos creativos',
-       txt:'Luna nueva para iniciar proyectos, llena para compartir, menguante para editar y soltar. No es superstición — es sincronizarte con los ciclos de energía naturales en lugar de ignorarlos.',
-       como:'Revisa qué fase lunar es hoy (está en el header de la app). ¿Tienes proyectos que encajan con esa energía? Luna nueva: empieza algo. Llena: comparte algo. Menguante: edita o cierra algo.',tipo:'chaman'},
-      {e:'🎨',t:'Las restricciones potencian la creatividad',
-       txt:'Las limitaciones aumentan la actividad en la corteza prefrontal dorsolateral. Las reglas obligan al cerebro a buscar rutas inusuales que no habría encontrado con libertad total.',
-       como:'Elige una restricción absurda para algo que hagas hoy: explica tu trabajo solo con emojis, escribe un mensaje importante en máximo 10 palabras, resuelve algo usando solo lo que tienes a mano.',tipo:'ciencia'},
-      {e:'🦅',t:'Crear es un acto de viaje interior',
-       txt:'El chamán viaja entre mundos para traer información. El creativo hace lo mismo: se sumerge en el subconsciente y trae de vuelta algo que antes no existía en el mundo.',
-       como:'Antes de una sesión creativa: cierra los ojos 2 minutos, respira profundo, y pregúntate "¿qué quiero traer hoy?". No busques respuesta racional — espera la primera imagen o sensación.',tipo:'chaman'},
+      {e:'🧠',t:'La creatividad ocurre cuando divaga la mente',txt:'La Default Mode Network se activa cuando no haces nada en particular. En la ducha, caminando, durmiendo. Ahí ocurren las conexiones más potentes. El aburrimiento es productivo.',tipo:'ciencia'},
+      {e:'🌀',t:'El flow chamánico y el flow creativo son lo mismo',txt:'Csikszentmihalyi describió el flow en 1990. Los chamanes lo practicaban hace milenios: ondas theta, ego reducido, tiempo distorsionado. Neurológicamente idénticos.',tipo:'chaman'},
+      {e:'🔗',t:'Crear es conectar lo que nadie conectó',txt:'El test RAT (Mednick) demostró que las personas creativas conectan conceptos distantes. No es genialidad — es práctica de asociación libre.',tipo:'ciencia'},
+      {e:'🔥',t:'Nombrar libera energía creativa',txt:'En los rituales chamánicos, nombrar la carga en voz alta le quita poder. La escritura libre funciona igual: lo que sacas al papel deja de ocupar espacio mental — y ese espacio se vuelve creativo.',tipo:'chaman'},
+      {e:'😴',t:'Dormir bien multiplica la creatividad',txt:'Durante el sueño REM el hipocampo conecta experiencias con conocimiento previo de formas nuevas. Las mejores ideas llegan después de dormir, no de una trasnocha.',tipo:'ciencia'},
+      {e:'🌙',t:'La luna y los ciclos creativos',txt:'Luna nueva para iniciar proyectos, llena para compartir, menguante para editar y soltar. No es superstición — es trabajar con los ciclos de energía naturales en lugar de contra ellos.',tipo:'chaman'},
+      {e:'🎨',t:'Las restricciones potencian la creatividad',txt:'Paradójicamente, las limitaciones aumentan la creatividad (Stokes, 2001). Escribe en 6 palabras. Pinta con 3 colores. Las reglas obligan al cerebro a buscar rutas inusuales.',tipo:'ciencia'},
+      {e:'🦅',t:'Crear es un acto de viaje',txt:'El chamán viaja entre mundos para traer información. El creativo hace lo mismo: se sumerge en el subconsciente y trae de vuelta algo que antes no existía en el mundo.',tipo:'chaman'},
     ];
-
     var dato=DATOS[(day+mon)%DATOS.length];
     var isCh=dato.tipo==='chaman';
-    h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shad)">';
-    h+='<div style="display:flex;gap:10px;margin-bottom:10px">';
+    h+='<div style="background:'+(isCh?'rgba(144,96,192,.05)':'rgba(201,169,110,.04)')+';border-left:2px solid '+(isCh?'rgba(144,96,192,.4)':'rgba(201,169,110,.4)')+';border-radius:0 14px 14px 0;padding:14px 16px;margin-bottom:14px;display:flex;gap:12px">';
     h+='<span style="font-size:22px">'+dato.e+'</span>';
-    h+='<div><div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px">'+dato.t+'</div>';
-    h+='<div style="font-size:10px;color:'+(isCh?'#9060C0':'var(--gold2)')+';letter-spacing:1px;text-transform:uppercase;font-weight:300">'+(isCh?'Sabiduría chamánica':'Neurociencia')+'</div>';
-    h+='</div></div>';
-    h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300;margin-bottom:10px">'+dato.txt+'</div>';
-    h+='<div style="background:'+(isCh?'rgba(144,96,192,.06)':'rgba(201,169,110,.06)')+';border-radius:10px;padding:10px 12px">';
-    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:'+(isCh?'#9060C0':'var(--gold2)')+';margin-bottom:5px;font-weight:300">Cómo aplicarlo hoy</div>';
-    h+='<div style="font-size:12px;color:var(--ink);line-height:1.65;font-weight:300">'+dato.como+'</div>';
-    h+='</div></div>';
+    h+='<div><div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px">'+dato.t+'</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">'+dato.txt+'</div></div></div>';
 
     // Proyectos
     h+='<div class="sec-ttl"><span>Proyectos en libreta</span><div class="sec-ln"></div></div>';
@@ -4060,90 +4074,26 @@ function renderCrear(){
 
     // Para tu libreta
     var PROMPTS_L=[
-      {icono:'✍️',
-       accion:'Escritura automática — 5 minutos',
-       pasos:['Pon un temporizador de 5 minutos.',
-              'Bolígrafo en mano. Cuando suene: escribe sin parar, sin levantar la punta.',
-              'No edites, no taches. Si no sabes qué escribir, escribe "no sé qué escribir" hasta que salga algo.',
-              'Al terminar: subraya cualquier frase que te llame la atención.']},
-      {icono:'💭',
-       accion:'¿Cuándo te sentiste más viva esta semana?',
-       pasos:['Piensa en la semana. ¿Hubo un momento donde todo fluyó?',
-              'Escribe qué estabas haciendo exactamente — con detalle.',
-              'Describe cómo se sentía el cuerpo: ¿tensión o soltura? ¿calor?',
-              'Escribe qué lo diferenciaba de otros momentos.',
-              'Pregúntate: ¿cómo tengo más de eso en mi semana?']},
-      {icono:'🌱',
-       accion:'Un proyecto pendiente desde hace meses',
-       pasos:['Escribe el nombre del proyecto. Solo el nombre.',
-              'Escribe por qué lo has postergado (sin juzgarte).',
-              'Escribe cuál sería el primer paso más pequeño posible.',
-              'Escribe cuándo lo harías esta semana — día y hora específicos.',
-              'Cierra la libreta. Ya está comprometida.']},
-      {icono:'🗺️',
-       accion:'Mapa mental libre',
-       pasos:['En el CENTRO de una hoja escribe: YO SOY CREATIVA. Enciérralo en un círculo.',
-              'Dibuja líneas hacia afuera y en cada una escribe lo que se te venga: ideas, miedos, deseos, proyectos, palabras sueltas.',
-              'De cada palabra nueva, saca más líneas con más asociaciones.',
-              'No hay orden ni jerarquía. La mano manda, no la mente racional.',
-              'Cuando pares naturalmente (5-10 min): ¿qué te sorprende de lo que salió?']},
-      {icono:'💌',
-       accion:'Carta a tu yo creativo de los 8 años',
-       pasos:['Piensa en ti a los 8 años. ¿Qué hacías? ¿Dibujabas, bailabas, inventabas?',
-              'Empieza con: "Querida [tu nombre], soy tú a los [tu edad]."',
-              'Cuéntale qué pasó con esas cosas que hacía.',
-              'Dile qué vas a recuperar. Sé específica.',
-              'Termina con: "Te quiero y no te olvidé."']},
-      {icono:'🔥',
-       accion:'¿Qué te frena creativamente?',
-       pasos:['Escribe: "Lo que me impide crear más es..." (sé honesta, nadie leerá esto).',
-              'Para cada freno que encuentres, pregunta: ¿de dónde vino esta creencia?',
-              'Pregunta: ¿es 100% verdad? ¿Tengo evidencia en contra?',
-              'Escribe la versión actualizada: "Lo que es más preciso creer es..."',
-              'Lee esa última línea en voz alta 3 veces.']},
-      {icono:'⭐',
-       accion:'¿Qué hace que algo sea tuyo?',
-       pasos:['Piensa en algo tuyo que se haya sentido genuinamente tuyo.',
-              'Escribe: ¿qué tenía de tuyo? ¿Tu tono, tu humor, tu perspectiva?',
-              'Escribe 5 palabras que describen tu voz creativa única.',
-              'Escribe: ¿qué combinación rara de cosas eres solo tú?',
-              'Eso es tu marca creativa. Subráyalo y guárdalo.']},
-      {icono:'🎯',
-       accion:'Tu proceso creativo ideal',
-       pasos:['Cierra los ojos 1 minuto e imagina tu sesión creativa perfecta.',
-              'Escribe: ¿a qué hora? ¿dónde estás físicamente? ¿qué suena?',
-              '¿Cuánto tiempo tienes? ¿Cómo se siente el cuerpo?',
-              'Compara con cómo creas ahora. ¿Qué hay de diferente?',
-              '¿Qué cambio pequeño podrías hacer esta semana para acercarte a ese ideal?']},
-      {icono:'💡',
-       accion:'10 ideas — sin filtro',
-       pasos:['Pon el temporizador en 8 minutos.',
-              'Escribe 10 ideas numeradas. El tema: lo que quieras — proyectos, cambios, negocios absurdos.',
-              'Regla única: no puedes juzgar ninguna mientras la escribes.',
-              'Si se acabaron las buenas, sigue con las malas o absurdas.',
-              'Al final: encierra en círculo la que más miedo te da. Esa suele ser la real.']},
-      {icono:'🌊',
-       accion:'Carta al dinero',
-       pasos:['Empieza con: "Querido dinero, mi relación contigo ha sido..."',
-              'Escribe sin editar. Lo que salga.',
-              'Pregunta: ¿qué aprendí de mi familia sobre el dinero?',
-              'Escribe: "Lo que decido creer ahora sobre el dinero es..."',
-              'Lee esa última línea en voz alta 3 veces. Ese es tu nuevo contrato.']},
+      {icono:'✍️',accion:'Escritura automática 5 minutos',detalle:'Bolígrafo que no para. Sin editar, sin levantar la mano. Lo que salga. Sin juicio.'},
+      {icono:'🔍',accion:'¿Cuándo perdiste la noción del tiempo esta semana?',detalle:'Escribe qué hacías, cómo se sentía, qué lo diferenciaba de otras actividades.'},
+      {icono:'🌱',accion:'Un proyecto pendiente desde hace meses',detalle:'Escríbelo. El primer paso concreto. Solo el primero.'},
+      {icono:'🎭',accion:'Escribe desde el punto de vista de un objeto',detalle:'Elige algo en tu cuarto. ¿Qué ve? ¿Qué piensa de ti? ¿Qué quiere decirte?'},
+      {icono:'💌',accion:'Carta a tu yo creativo de los 8 años',detalle:'¿Qué hacías que ahora no haces? ¿Qué le dirías? ¿Qué vas a recuperar?'},
+      {icono:'🌀',accion:'Mapa mental: YO SOY CREATIVA',detalle:'En el centro eso. Conecta todo lo que se te ocurra sin orden ni lógica. La mano manda.'},
+      {icono:'🔥',accion:'¿Qué te frena creativamente?',detalle:'¿Qué crees que no puedes hacer? ¿De dónde viene esa creencia? ¿Es verdad?'},
+      {icono:'⭐',accion:'¿Qué hace que algo sea tuyo y no de cualquiera?',detalle:'Tu voz. Tu perspectiva. Tu mezcla rara de todo lo que eres. Escríbela.'},
+      {icono:'🎯',accion:'Tu proceso creativo ideal',detalle:'¿Dónde estás? ¿A qué hora? ¿Qué suena? ¿Qué tienes cerca? Descríbelo en detalle.'},
+      {icono:'💡',accion:'10 ideas — las que sean',detalle:'Buenas o malas, absurdas o banales. Sin filtro. La idea 10 suele ser la mejor.'},
     ];
-
     var prompt=PROMPTS_L[(day+mon*3)%PROMPTS_L.length];
     h+='<div class="sec-ttl"><span>📓 Para tu libreta hoy</span><div class="sec-ln"></div></div>';
     h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
-    h+='<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">';
-    h+='<span style="font-size:26px">'+prompt.icono+'</span>';
-    h+='<div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ink)">'+prompt.accion+'</div></div>';
-    h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mauve);margin-bottom:8px;font-weight:300">Cómo hacerlo — paso a paso</div>';
-    for(var pi=0;pi<prompt.pasos.length;pi++){
-      h+='<div style="display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--border)">';
-      h+='<div style="min-width:18px;height:18px;border-radius:50%;background:rgba(184,144,154,.15);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--mauve);flex-shrink:0;margin-top:1px">'+(pi+1)+'</div>';
-      h+='<div style="font-size:12px;color:var(--ink);line-height:1.6;font-weight:300">'+prompt.pasos[pi]+'</div></div>';
-    }
-    h+='<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-size:10px;color:var(--mu);text-align:center">✍️ Bolígrafo + libreta. Sin teléfono mientras escribes.</div>';
+    h+='<div style="font-size:11px;color:var(--mu);margin-bottom:12px;font-weight:300">El prompt de hoy. La app te da el qué, tu libreta hace el trabajo real.</div>';
+    h+='<div style="display:flex;gap:12px;align-items:flex-start">';
+    h+='<span style="font-size:28px">'+prompt.icono+'</span>';
+    h+='<div><div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ink);margin-bottom:6px">'+prompt.accion+'</div>';
+    h+='<div style="font-size:12px;color:var(--mu);line-height:1.65;font-weight:300">'+prompt.detalle+'</div></div></div>';
+    h+='<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--mu);text-align:center">✍️ Bolígrafo + libreta. Sin teléfono mientras escribes.</div>';
     h+='</div>';
 
     // Aburrimiento
@@ -4207,13 +4157,11 @@ function togCrearEj(){
 }
 function addProyecto(){
   var el=document.getElementById('proy-nombre');
+  var ef=document.getElementById('proy-fecha');
   if(!el||!el.value.trim()) return;
   var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
   if(!d.proyectos) d.proyectos=[];
-  var n=new Date();
-  var dias=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-  var meses=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  var fecha=dias[n.getDay()]+' '+n.getDate()+' '+meses[n.getMonth()];
+  var fecha=ef&&ef.value.trim()?ef.value.trim():(function(){var n=new Date();return n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear();}());
   d.proyectos.push({nombre:el.value.trim(),fecha:fecha,done:false});
   localStorage.setItem('crear_data',JSON.stringify(d));
   render();
@@ -4235,4 +4183,18 @@ function togProyecto(i){
 
 </script>
 </body>
-</html>
+</htmlvar PNL_SEMANAS = [
+  {k:"identidad",titulo:"Identidad",emoji:"🪞",color:"rgba(196,112,79,.08)",
+   frase:"¿Quién soy yo el 10 de octubre? Ya existe. Solo me estoy alcanzando.",
+   dailyAff:["id1","id8","id9"],dailyEx:["ide1"]},
+  {k:"creencias",titulo:"Creencias",emoji:"⛓️",color:"rgba(122,158,106,.08)",
+   frase:"Esta semana identifico lo que me frena y lo reemplazo con algo más preciso.",
+   dailyAff:["cr1","cr2","cr3"],dailyEx:["cre1"]},
+  {k:"emociones",titulo:"Emociones",emoji:"💧",color:"rgba(136,152,184,.1)",
+   frase:"Las emociones son datos, no sentencias. Esta semana las muevo, no las suprimo.",
+   dailyAff:["et1","et2"],dailyEx:["et3"]},
+  {k:"futuro",titulo:"Futuro",emoji:"✨",color:"rgba(201,168,76,.08)",
+   frase:"Esta semana programo mi SAR para el 10 de octubre. Ya está tejido — solo me alcanzo.",
+   dailyAff:["f1","f2","f3"],dailyEx:["fe1"]}
+];
+>
