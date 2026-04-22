@@ -1312,23 +1312,15 @@ function renderHoy(){
   const isWeekend=(dow===0||dow===6);
   if(isWeekend) return renderWeekend();
 
-  // ── 6-MONTH MISSION BANNER ──
-  var mStart=new Date(2025,3,20),mEnd=new Date(2025,9,10),mNow=new Date();
-  var mTotal=Math.round((mEnd-mStart)/864e5);
-  var mElapsed=Math.max(0,Math.round((mNow-mStart)/864e5));
-  var mLeft=Math.max(0,mTotal-mElapsed);
-  var mPct=Math.min(100,Math.round(mElapsed/mTotal*100));
+let h="";
+  var _m=getMissionDays(),_tot=_m.tot,_el=_m.el,_lft=_m.lft,_pct=_m.pct;
   h+='<div style="background:var(--white);border-radius:16px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--shad)">';
-  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
   h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);font-weight:300">20 abr → 10 oct · Tu misión</div>';
-  h+='<div style="font-size:12px;font-weight:700;color:var(--gold2)">'+mLeft+' días</div>';
-  h+='</div>';
+  h+='<div style="font-size:12px;font-weight:700;color:var(--gold2)">'+_lft+' días</div></div>';
   h+='<div style="height:5px;background:var(--ivory2);border-radius:3px;overflow:hidden;margin-bottom:6px">';
-  h+='<div style="height:100%;width:'+mPct+'%;background:linear-gradient(90deg,var(--mauve),var(--gold));border-radius:3px"></div>';
-  h+='</div>';
-  h+='<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--mu)"><span>Día '+mElapsed+' de '+mTotal+'</span><span>'+mPct+'% completado</span></div>';
-  h+='</div>';
-
+  h+='<div style="height:100%;width:'+_pct+'%;background:linear-gradient(90deg,var(--mauve),var(--gold));border-radius:3px"></div></div>';
+  h+='<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--mu)"><span>Día '+_el+' de '+_tot+'</span><span>'+_pct+'% del camino</span></div></div>';
   const curMin=now2m();
   const cid=getCurrent();
   const doneCnt=Object.values(done).filter(Boolean).length;
@@ -1336,8 +1328,7 @@ function renderHoy(){
   const qIdx=now.getDate()%QUOTES.length;
   const q=QUOTES[qIdx];
 
-  let h="";
-
+  
   // Motivational quote
   if(motiva){
     h+=`<div class="motiva"><span style="font-size:18px">✨</span>
@@ -1732,28 +1723,6 @@ function renderCuerpo(){
     });
   }
   h2+='</div>';
-  // ── 6AM + MUSCLE PROTOCOL ──
-  var SIX_AM=[
-    {t:'Por qué las 6am cambia todo',d:'Despertar a las 6am sincroniza tu ritmo circadiano con el pico de cortisol matutino (30-45 min después de despertar). Esa energía usada en movimiento se convierte en músculo y claridad mental. Usada en el teléfono, se desperdicia.',c:'Mañana: antes de tocar el teléfono, haz 10 sentadillas. El movimiento rompe la inercia del sueño mejor que la cafeína.'},
-    {t:'El músculo se construye mientras duermes',d:'En el sueño profundo, la hipófisis libera hormona de crecimiento que repara y construye músculo. Sin 7-8h de sueño, el entrenamiento pierde hasta el 60% de efectividad. El gym pone la señal. El sueño construye el músculo.',c:'Esta semana: dormir antes de las 11pm. El músculo que no has ganado se pierde en la hora de pantalla antes de dormir.'},
-    {t:'Proteína: el ingrediente que falta',d:'Para ganar masa necesitas 1.6-2.2g de proteína por kilo de peso al día. Sin ese número, el entrenamiento cataboliza músculo en lugar de construirlo. La mayoría entrena bien pero come mal para el objetivo.',c:'Calcula: tu peso × 1.8 = gramos de proteína diarios. ¿Llegas? Si no, agrega huevos, legumbres o proteína en el desayuno.'},
-    {t:'Identidad, no horario',d:'James Clear: los hábitos que duran no se basan en motivación sino en identidad. "Soy alguien que se levanta a las 6" es más poderoso que "quiero levantarme a las 6". El cerebro actúa con quien cree que eres.',c:'Cuando suene la alarma, di en voz alta: "Me levanto a las 6 porque es quien soy." Ridículo pero efectivo.'},
-    {t:'Sobrecarga progresiva: el secreto',d:'El músculo crece cuando le das más de lo que puede manejar. Si haces el mismo peso semana tras semana, el cuerpo se adapta y deja de crecer. Necesitas aumentar carga, reps o dificultad regularmente.',c:'Regla: cuando puedas hacer 3 series de 12 con buena forma, aumenta el peso. Eso es todo.'},
-    {t:'El cortisol y la grasa abdominal',d:'El cortisol elevado (estrés, poco sueño, mucha cafeína) activa receptores de grasa en el abdomen específicamente. No es genética — es fisiología del estrés. Bajar el cortisol es parte del programa.',c:'5 minutos de respiración 4-6 (inhala 4 seg, exhala 6) antes de dormir. Baja el cortisol nocturno y mejora el sueño reparador.'},
-    {t:'Entrenar en ayunas',d:'Entrenar antes del desayuno aumenta la oxidación de grasa hasta un 20% más. Ideal para reducir grasa corporal mientras se mantiene músculo.',c:'Prueba esta semana: 15-20 min de ejercicio antes del desayuno. Solo agua. Observa cómo te sientes vs los días sin hacerlo.'},
-  ];
-  var sixIdx=(now.getDate()+now.getMonth()*3)%SIX_AM.length;
-  var sa=SIX_AM[sixIdx];
-  h+='<div class="sec-ttl"><span>💪 Protocolo 6 meses</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--shad)">';
-  h+='<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:6px">'+sa.t+'</div>';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300;margin-bottom:10px">'+sa.d+'</div>';
-  h+='<div style="background:rgba(201,169,110,.06);border-radius:10px;padding:10px 12px">';
-  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px;font-weight:300">Acción de hoy</div>';
-  h+='<div style="font-size:12px;color:var(--ink);line-height:1.6;font-weight:300">'+sa.c+'</div>';
-  h+='</div></div>';
-
-
 
   // ── CORTISOL SECTION ──
   var CORTISOL_TIPS=[
@@ -2447,6 +2416,66 @@ function renderVision(){
   var h='';
 
   // HERO QUOTE
+
+  var _mc=getMissionDays();
+  var _SA=[
+    {t:'Las 6am y el cortisol matutino',d:'Despertar a las 6am sincroniza tu ritmo circadiano con el pico de cortisol (30-45 min después). Esa energía en movimiento = músculo y claridad. En el teléfono = scroll y ansiedad.',c:'Mañana: antes de tocar el teléfono, haz 10 sentadillas. El movimiento rompe la inercia mejor que la cafeína.'},
+    {t:'El músculo se construye mientras duermes',d:'En el sueño profundo la hipófisis libera hormona de crecimiento. Sin 7-8h de sueño, el entrenamiento pierde hasta 60% de efectividad. El gym pone la señal — el sueño construye el músculo.',c:'Prioridad: dormir antes de las 11pm. El músculo que no has ganado se pierde en la hora de pantalla antes de dormir.'},
+    {t:'Proteína: el ingrediente que falta',d:'Para ganar masa necesitas 1.6-2.2g de proteína por kilo al día. Sin ese número, el entrenamiento cataboliza músculo. La mayoría entrena bien pero come mal para el objetivo.',c:'Tu peso × 1.8 = gramos de proteína diarios. ¿Llegas? Si no, agrega huevos o legumbres al desayuno.'},
+    {t:'Identidad, no horario',d:'James Clear: los hábitos que duran se basan en identidad, no motivación. "Soy alguien que se levanta a las 6" es más poderoso que "quiero levantarme a las 6". El cerebro actúa con quien cree que eres.',c:'Cuando suene la alarma, di en voz alta: "Me levanto a las 6 porque es quien soy." Ridículo pero efectivo.'},
+    {t:'Sobrecarga progresiva',d:'El músculo crece cuando le das más de lo que puede manejar. Si haces el mismo peso semana tras semana, el cuerpo se adapta y deja de crecer.',c:'Regla simple: cuando puedas hacer 3×12 con buena forma, aumenta el peso o la dificultad. Eso es todo.'},
+    {t:'Cortisol y grasa abdominal',d:'El cortisol elevado (estrés, poco sueño, cafeína excesiva) activa receptores de grasa abdominal específicamente. No es genética — es fisiología del estrés.',c:'5 min de respiración 4-6 (inhala 4s, exhala 6s) antes de dormir. Baja cortisol nocturno y mejora el sueño reparador.'},
+    {t:'Entrenar antes del desayuno',d:'Entrenar en ayunas aumenta la oxidación de grasa hasta 20% más. Ideal para reducir grasa y mantener músculo.',c:'Esta semana: 15-20 min de ejercicio antes del desayuno. Solo agua. Observa cómo te sientes vs los días que no lo haces.'},
+  ];
+  var _saI=(now.getDate()+now.getMonth()*3)%_SA.length, _sa=_SA[_saI];
+
+  // ── INMERSIÓN TOTAL EN INGLÉS ──
+  var _EI=[
+    {e:'🎧',t:'Input comprensible — la única forma real',d:'Krashen (1982): aprendemos idiomas cuando recibimos input que entendemos al 90-95%. Ni muy fácil ni imposible. Series con subtítulos en inglés, podcasts para learners, videos de YouTube en inglés sobre temas que ya conoces.',c:'Hoy: 20 minutos de algo en inglés que entiendas casi todo. Netflix con subtítulos en inglés (no español). Un podcast sobre algo que te guste.'},
+    {e:'🗣️',t:'El output te hace hablar — el input te hace entender',d:'El cerebro construye el idioma en dos fases: primero comprensión (años 0-3 en bebés), luego producción. Forzar el speaking demasiado pronto crea ansiedad. Primero inúndate de input. El speaking llegará solo.',c:'Esta semana: habla sola en inglés 5 minutos al día. No importa que sea perfecto. Describe lo que ves, lo que haces, lo que piensas. En voz alta.'},
+    {e:'📚',t:'Vocabulario: frecuencia sobre cantidad',d:'Las 3,000 palabras más frecuentes del inglés cubren el 95% de la conversación diaria. No necesitas 50,000 palabras — necesitas las 3,000 correctas, bien internalizadas.',c:'App de hoy: Anki con las 3,000 palabras más frecuentes, o simplemente anota 5 palabras nuevas que encontraste hoy y úsalas en una oración.'},
+    {e:'🎵',t:'La música es input comprensible disfrazado',d:'Las canciones repiten estructuras gramaticales cientos de veces en contexto emocional. El cerebro retiene con emoción 6x más que con repetición seca.',c:'Elige 3 canciones en inglés que te gusten. Busca la letra. Cántalas. Entiende cada línea. Esas estructuras se quedan para siempre.'},
+    {e:'📺',t:'Series: tu sala de clase favorita',d:'Ver series en inglés con subtítulos en inglés (no traducidos) expone al cerebro a 500-800 palabras por hora en contexto natural. Es input masivo sin que se sienta como estudio.',c:'Esta semana: un episodio al día de algo que ya conoces (para entender el contexto aunque no todas las palabras). Friends, The Office, series simples primero.'},
+    {e:'✍️',t:'Escribir en inglés activa circuitos diferentes',d:'La escritura en otro idioma activa la corteza motora y la Broca simultáneamente — fija la gramática en el cuerpo, no solo en la mente. Los que escriben en el idioma aprenden más rápido.',c:'Hoy: escribe 5 oraciones en inglés sobre tu día. No las traduzcas del español — piensa directamente en inglés. Aunque sean simples.'},
+    {e:'🌍',t:'El acento es tu firma, no tu obstáculo',d:'Los estudios de actitudes lingüísticas (Lippi-Green, 1994) muestran que el acento no impide la comunicación — la impede el miedo al acento. Hablantes con acento son igualmente comprendidos cuando hablan con confianza.',c:'Practica esta frase: "My accent is part of who I am. What I say matters more than how I sound." Dila en voz alta hasta que la creas.'},
+  ];
+  var _eiI=(now.getDate()+now.getMonth()*2)%_EI.length, _ei=_EI[_eiI];
+  h+='<div class="sec-ttl"><span>🧠 Inmersión total — por qué funciona</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--shad)">';
+  h+='<div style="display:flex;gap:10px;margin-bottom:10px"><span style="font-size:24px">'+_ei.e+'</span>';
+  h+='<div style="font-size:12px;font-weight:600;color:var(--ink)">'+_ei.t+'</div></div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300;margin-bottom:10px">'+_ei.d+'</div>';
+  h+='<div style="background:rgba(144,96,192,.05);border-radius:10px;padding:10px 12px">';
+  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#9060C0;margin-bottom:4px;font-weight:300">Haz esto hoy</div>';
+  h+='<div style="font-size:12px;color:var(--ink);line-height:1.6;font-weight:300">'+_ei.c+'</div></div></div>';
+
+  var _DAILY_ENG=[
+    {cat:'🎧 Escucha',task:'20 min de podcast en inglés sobre algo que te interese',why:'Input comprensible activa el SLA (second language acquisition) pasivo'},
+    {cat:'📺 Mira',task:'1 episodio con subtítulos en inglés, no español',why:'500-800 palabras por hora en contexto natural'},
+    {cat:'🗣️ Habla',task:'5 min hablando sola en inglés — describe tu día',why:'El output fuerza al cerebro a activar lo que sabe'},
+    {cat:'✍️ Escribe',task:'5 oraciones en inglés sobre algo real de hoy',why:'La escritura fija gramática en la memoria procedimental'},
+    {cat:'🎵 Canta',task:'1 canción en inglés — entiende cada línea',why:'Emoción + repetición = retención máxima'},
+  ];
+  h+='<div class="sec-ttl"><span>📅 Rutina de inmersión diaria</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:11px;color:var(--mu);margin-bottom:12px;font-weight:300">No tienes que hacer todo. Elige 2-3 hoy. El objetivo: inglés todos los días de alguna forma.</div>';
+  _DAILY_ENG.forEach(function(item){
+    var engKey='eng_task_'+item.cat.substring(0,3)+'_'+now.getDate()+'_'+now.getMonth();
+    var isDone=!!localStorage.getItem(engKey);
+    h+='<div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start" onclick="var k=\''+engKey+'\';localStorage.setItem(k,localStorage.getItem(k)?\'\':\'1\');render()">';
+    h+='<span style="font-size:18px;margin-top:1px">'+(isDone?'✅':'⬜')+'</span>';
+    h+='<div style="flex:1"><div style="font-size:12px;font-weight:500;color:'+(isDone?'var(--mu)':'var(--ink)')+';'+(isDone?'text-decoration:line-through':'')+'">'+item.cat+' '+item.task+'</div>';
+    h+='<div style="font-size:10px;color:var(--mu);margin-top:2px;font-style:italic">'+item.why+'</div></div></div>';
+  });
+  h+='</div>';
+
+  h+='<div class="sec-ttl"><span>💪 Protocolo 6 meses · '+(_mc.lft+' días restantes')+'</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:6px">'+_sa.t+'</div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;margin-bottom:10px;font-weight:300">'+_sa.d+'</div>';
+  h+='<div style="background:rgba(201,169,110,.06);border-radius:10px;padding:10px 12px">';
+  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px;font-weight:300">Acción de hoy</div>';
+  h+='<div style="font-size:12px;color:var(--ink);line-height:1.6;font-weight:300">'+_sa.c+'</div></div></div>';
   h+='<div class="vision-quote">';
   h+='<div class="vision-quote-txt">'+q.q+'</div>';
   h+='<div class="vision-quote-src">— '+q.a+'</div>';
@@ -2479,23 +2508,21 @@ function renderVision(){
 
   // METAS 2026
   
-  // ── 6-MONTH THEORY ──
-  var SEIS=[
-    {e:'🧬',tipo:'Neurociencia',t:'6 meses: el ciclo completo del cerebro',txt:'La mielinización de nuevos circuitos neurales — convertir un hábito en automático — requiere 4-8 meses de práctica deliberada. Estás en el inicio del ciclo completo de transformación neurológica.'},
-    {e:'💪',tipo:'Fisiología',t:'El músculo necesita 6 meses para ser visible',txt:'La hipertrofia tiene dos fases: neurológica (0-8 semanas) y estructural (8-24 semanas). Solo después de 6 meses tienes ambas completas. El cambio visible que buscas está en el mes 4-6.'},
-    {e:'🗣️',tipo:'Lingüística',t:'500 horas para la fluidez básica',txt:'Krashen demostró que el cerebro necesita ~500 horas de input comprensible para fluidez básica. A 2-3h diarias, 6 meses son exactamente eso. Estás en el momento correcto.'},
-    {e:'🌀',tipo:'Maya',t:'El tzolkin: 260 días de transformación',txt:'El calendario sagrado maya tiene 260 días — casi 6 meses. Era el ciclo considerado necesario para una transformación completa del ser. Tu intuición eligió este período por algo.'},
-    {e:'🌱',tipo:'Chamanismo andino',t:'Siembra y cosecha',txt:'En la tradición andina, un ciclo completo de siembra a cosecha dura 6-7 meses. Lo que plantas en una estación, lo cosechas en la siguiente. Estás plantando ahora mismo.'},
-    {e:'⚡',tipo:'Epigenética',t:'6 meses cambian tu expresión genética',txt:'Szyf y Meaney demostraron que 6 meses de cambios sostenidos producen cambios epigenéticos medibles. No solo cambias tú — cambia tu biología.'},
+  var _mv=getMissionDays();
+  var _SM=[
+    {e:'🧬',tipo:'Neurociencia',t:'6 meses: el ciclo completo del cerebro',txt:'La mielinización de nuevos circuitos — convertir un hábito en automático — requiere 4-8 meses. Estás en el inicio del ciclo completo de transformación neurológica.'},
+    {e:'💪',tipo:'Fisiología',t:'El músculo visible tarda 6 meses',txt:'Hipertrofia tiene dos fases: neurológica (0-8 semanas) y estructural (8-24 semanas). Solo a los 6 meses tienes ambas. El cambio visible está en el mes 4-6.'},
+    {e:'🗣️',tipo:'Lingüística',t:'500 horas para la fluidez básica',txt:'Krashen: el cerebro necesita ~500 horas de input comprensible para fluidez básica. A 2-3h diarias, 6 meses son exactamente eso.'},
+    {e:'🌀',tipo:'Cosmología Maya',t:'El tzolkin: 260 días de transformación',txt:'El calendario sagrado maya tiene 260 días — casi 6 meses. Era el ciclo necesario para una transformación completa del ser.'},
+    {e:'🌱',tipo:'Chamanismo andino',t:'Un ciclo completo de siembra a cosecha',txt:'En la tradición andina, la siembra a cosecha dura 6-7 meses. Lo que plantas en una estación, lo cosechas en la siguiente. Estás plantando ahora.'},
+    {e:'⚡',tipo:'Epigenética',t:'6 meses cambian tu expresión genética',txt:'6 meses de cambios sostenidos producen cambios epigenéticos medibles (Szyf, Meaney). No solo cambias tú — cambia tu biología.'},
   ];
-  var sm=SEIS[(now.getDate()+now.getMonth())%SEIS.length];
+  var _sm=_SM[(now.getDate()+now.getMonth())%_SM.length];
   h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shad);display:flex;gap:12px">';
-  h+='<span style="font-size:24px">'+sm.e+'</span>';
-  h+='<div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:3px;font-weight:300">'+sm.tipo+'</div>';
-  h+='<div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">'+sm.t+'</div>';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">'+sm.txt+'</div>';
-  h+='</div></div>';
-
+  h+='<span style="font-size:24px">'+_sm.e+'</span>';
+  h+='<div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:3px;font-weight:300">'+_sm.tipo+'</div>';
+  h+='<div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">'+_sm.t+'</div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">'+_sm.txt+'</div></div></div>';
 h+='<div class="sec-ttl"><span>Metas 2026</span><div class="sec-ln"></div></div>';
   CAT_META.forEach(function(cat){
     var cg=GOALS_DATA.filter(function(g){return g.cat===cat.k;});
@@ -3003,13 +3030,12 @@ var FUTURO_M=[
   {id:'f1',periodo:'Julio 2025 · 3 meses',meta:'Gym 3x/semana sin romperla más de 2 semanas seguidas.',tipo:'cuerpo'},
   {id:'f2',periodo:'Julio 2025 · 3 meses',meta:'Conversación básica en inglés sin necesitar traductor.',tipo:'idioma'},
   {id:'f3',periodo:'Julio 2025 · 3 meses',meta:'Las 6am el 80% de los días del mes.',tipo:'habito'},
-  {id:'f4',periodo:'Julio 2025 · 3 meses',meta:'Primera fuente de ingreso adicional identificada y activa.',tipo:'dinero'},
+  {id:'f4',periodo:'Julio 2025 · 3 meses',meta:'Primera fuente de ingreso adicional activa.',tipo:'dinero'},
   {id:'f5',periodo:'Octubre 2025 · 6 meses',meta:'Cambio muscular visible en piernas y glúteos.',tipo:'cuerpo'},
-  {id:'f6',periodo:'Octubre 2025 · 6 meses',meta:'Inglés intermedio — entender series sin subtítulos.',tipo:'idioma'},
+  {id:'f6',periodo:'Octubre 2025 · 6 meses',meta:'Inglés intermedio — series sin subtítulos.',tipo:'idioma'},
   {id:'f7',periodo:'Octubre 2025 · 6 meses',meta:'Las 6am como identidad, no como esfuerzo.',tipo:'habito'},
   {id:'f8',periodo:'Octubre 2025 · 6 meses',meta:'Prosperidad activa — más de lo que necesito.',tipo:'dinero'},
 ];
-
 
 var FUTURO_EJ=[
   {id:'fe1',n:'Visualización de fin de año',dur:'10 min',
@@ -3343,19 +3369,19 @@ if('serviceWorker' in navigator){
 var DAILY_QUOTES=[
   {q:"El 20 de abril comenzó algo real. El 10 de octubre lo verás en el espejo.",a:"Tu yo de octubre"},
   {q:"La constancia sin perfección mueve montañas. La perfección sin constancia no mueve nada.",a:"—"},
-  {q:"6 meses es exactamente el tiempo que el cerebro necesita para reescribir un hábito profundo.",a:"Neurociencia"},
+  {q:"6 meses es el tiempo exacto que el cerebro necesita para reescribir un hábito profundo.",a:"Neurociencia"},
   {q:"No necesitas motivación todos los días. Necesitas un sistema que funcione sin ganas.",a:"James Clear"},
-  {q:"El músculo no se construye en el gym — se construye mientras duermes.",a:"Fisiología deportiva"},
+  {q:"El músculo no se construye en el gym — se construye mientras duermes.",a:"Fisiología"},
   {q:"La disciplina es elegirte a ti misma una y otra vez, incluso cuando el colchón dice que no.",a:"—"},
   {q:"En seis meses, quien eres hoy le parecerá pequeña a quien te convertirás.",a:"—"},
-  {q:"Los telómeros se alargan con el ejercicio constante. Estás construyendo literalmente más vida.",a:"Elizabeth Blackburn"},
+  {q:"Los telómeros se alargan con el ejercicio constante. Estás construyendo más vida, literalmente.",a:"Elizabeth Blackburn"},
   {q:"Cada mañana a las 6 es un voto por quien quieres ser.",a:"—"},
   {q:"Lo que practicas diariamente es lo que te conviertes.",a:"James Clear"},
   {q:"Seis meses de práctica deliberada producen cambios que duran décadas.",a:"Anders Ericsson"},
   {q:"La luna no pide permiso para cambiar de fase. Tú tampoco.",a:"—"},
   {q:"Tu inglés de octubre ya existe. Solo tiene que alcanzarte.",a:"—"},
   {q:"Ser consistente el 80% del tiempo produce el 95% de los resultados.",a:"—"},
-  {q:"No es sobre las 6am. Es sobre quien decides ser antes de que el mundo te diga quién ser.",a:"—"},
+  {q:"No es sobre las 6am. Es sobre quién decides ser antes de que el mundo te diga quién ser.",a:"—"},
   {q:"La epigenética demostró lo que los ancestros sabían: el ambiente forma al ser.",a:"Bruce Lipton"},
   {q:"Octubre te espera. Y tiene cara de alguien que se levantó a las 6.",a:"—"},
   {q:"El cortisol baja cuando dejas de correrte de ti misma.",a:"—"},
@@ -3364,14 +3390,14 @@ var DAILY_QUOTES=[
   {q:"Hoy no tienes que hacer todo. Solo tienes que hacer algo.",a:"—"},
   {q:"Tu voz tiene poder. Tus palabras construyen realidades.",a:"—"},
   {q:"Cada dato que aprendes hoy cambia silenciosamente quién eres mañana.",a:"—"},
-  {q:"Prosper no es un destino. Es una identidad que eliges ahora.",a:"—"},
   {q:"El cuerpo recuerda todo lo que le das: cada proteína, cada repetición, cada hora de sueño.",a:"—"},
-  {q:"Soy curiosa, valiente y capaz de reinventarme. Siempre.",a:"—"},
   {q:"Lo que planto hoy, lo cosecho en octubre. Ya está plantado.",a:"Tradición andina"},
   {q:"El flow llega cuando la tarea y la habilidad están al límite. Sigue empujando el límite.",a:"Csikszentmihalyi"},
   {q:"Quien duerme bien, decide mejor, entrena mejor, aprende mejor.",a:"—"},
   {q:"Tu combinación de habilidades es única. Úsala sin pedir permiso.",a:"—"},
   {q:"La constancia es el único superpoder disponible para todos.",a:"—"},
+  {q:"I am becoming fluent. It is already happening.",a:"Helen, tu yo bilingüe"},
+  {q:"Próspera no es un destino. Es una identidad que eliges ahora.",a:"—"},
 ];
 
 
@@ -3388,13 +3414,13 @@ function getWeekOfMonth(){
 
 const PNL_SEMANAS = [
   {k:"identidad",titulo:"Semana de Identidad",emoji:"🪞",color:"rgba(196,112,79,.08)",
-   frase:"Esta semana te preguntas: ¿quién soy yo en mi máxima expresión?",
+   frase:"¿Quién soy yo el 10 de octubre? Ya existe. Solo me estoy alcanzando.",
    dailyAff:["id1","id2","id3"],dailyEx:["ide1"]},
   {k:"creencias",titulo:"Semana de Creencias",emoji:"⛓️",color:"rgba(122,158,106,.08)",
-   frase:"Esta semana identificas y reescribes lo que te frena.",
+   frase:"Esta semana identifico lo que me frena y lo reemplazo con algo más preciso.",
    dailyAff:["cr1","cr2","cr3"],dailyEx:["cre1"]},
   {k:"emociones",titulo:"Semana de Emociones",emoji:"💧",color:"rgba(136,152,184,.1)",
-   frase:"Esta semana aprendes a mover la energía, no suprimirla.",
+   frase:"Las emociones son datos, no sentencias. Las muevo, no las suprimo.",
    dailyAff:["et1","et2"],dailyEx:["et3"]},
   {k:"futuro",titulo:"Semana de Futuro",emoji:"✨",color:"rgba(201,168,76,.08)",
    frase:"Esta semana programas tu sistema de activación reticular para 2026.",
@@ -3408,6 +3434,16 @@ function getPnlDailyDone(){
   return pw.dailyAff.concat(pw.dailyEx).filter(function(id){return !!pnlD[id];}).length;
 }
 
+
+// ═══ MISSION HELPERS ═══
+function getMissionDays(){
+  var s=new Date(2025,3,20),e=new Date(2025,9,10),n=new Date();
+  var tot=Math.round((e-s)/864e5);
+  var el=Math.max(0,Math.round((n-s)/864e5));
+  var lft=Math.max(0,tot-el);
+  var pct=Math.min(100,Math.round(el/tot*100));
+  return {tot:tot,el:el,lft:lft,pct:pct};
+}
 
 render();tick();updateProgress();
 setInterval(tick,15000);
@@ -4183,18 +4219,4 @@ function togProyecto(i){
 
 </script>
 </body>
-</htmlvar PNL_SEMANAS = [
-  {k:"identidad",titulo:"Identidad",emoji:"🪞",color:"rgba(196,112,79,.08)",
-   frase:"¿Quién soy yo el 10 de octubre? Ya existe. Solo me estoy alcanzando.",
-   dailyAff:["id1","id8","id9"],dailyEx:["ide1"]},
-  {k:"creencias",titulo:"Creencias",emoji:"⛓️",color:"rgba(122,158,106,.08)",
-   frase:"Esta semana identifico lo que me frena y lo reemplazo con algo más preciso.",
-   dailyAff:["cr1","cr2","cr3"],dailyEx:["cre1"]},
-  {k:"emociones",titulo:"Emociones",emoji:"💧",color:"rgba(136,152,184,.1)",
-   frase:"Las emociones son datos, no sentencias. Esta semana las muevo, no las suprimo.",
-   dailyAff:["et1","et2"],dailyEx:["et3"]},
-  {k:"futuro",titulo:"Futuro",emoji:"✨",color:"rgba(201,168,76,.08)",
-   frase:"Esta semana programo mi SAR para el 10 de octubre. Ya está tejido — solo me alcanzo.",
-   dailyAff:["f1","f2","f3"],dailyEx:["fe1"]}
-];
->
+</html>
