@@ -703,9 +703,10 @@ function getQuoteOfDay(){
 
 function getMissionDays(){
   var s=new Date(2026,3,20),e=new Date(2026,9,10),n=new Date();
-  var tot=Math.round((e-s)/864e5);
-  var el=Math.max(0,Math.round((n-s)/864e5));
-  return {tot:tot,el:el,lft:Math.max(0,tot-el),pct:Math.min(100,Math.round(el/tot*100))};
+  var tot=Math.ceil((e-s)/864e5);
+  var lft=Math.max(0,Math.ceil((e-n)/864e5));
+  var el=Math.max(0,tot-lft);
+  return {tot:tot,el:el,lft:lft,pct:Math.min(100,Math.round(el/tot*100))};
 }
 
 // ═══════════════════════════════════════════
@@ -1264,8 +1265,80 @@ function renderCuerpo(){
 // ═══════════════════════════════════════════
 //  RENDER INGLÉS
 // ═══════════════════════════════════════════
+// ═══════════════════════════════════════════
+//  WEEKEND CARD (shared by all tabs)
+// ═══════════════════════════════════════════
+var WEEKEND_TIPS={
+  mente:[
+    {e:"🎬",t:"Series / película en inglés",d:"Sin subtítulos en español. Prueba con los en inglés si los necesitas. Solo escucha. Pasiva pero real."},
+    {e:"🎵",t:"Playlist en inglés — sin traducir",d:"Busca letras que entiendas el 60%. Canta sin vergüenza. La música consolida la pronunciación sin esfuerzo."},
+    {e:"📖",t:"Lee algo breve en inglés",d:"Un artículo de BBC, una nota de Medium, las instrucciones de algo. Sin presión de entenderlo todo."},
+    {e:"🗣️",t:"Habla sola en inglés 5 minutos",d:"Describe lo que estás haciendo. Lo que ves. En voz alta. Sin audiencia. Solo entrenas el circuito."},
+    {e:"📱",t:"Cambia el idioma de tu cel a inglés",d:"Solo hoy. La exposición ambiental es inputs gratis. El inconfort dura 2 días."},
+  ],
+  voz:[
+    {e:"🎶",t:"Canta lo que quieras",d:"En voz alta, con energía. El canto trabaja el diafragma, la articulación y la confianza al mismo tiempo."},
+    {e:"🎙️",t:"Escucha una voz que admiras",d:"Podcast, audiolibro, oradora. Solo la voz. ¿Qué hace diferente? Tono, pausas, ritmo. Observa sin copiar aún."},
+    {e:"💧",t:"Hidratación vocal",d:"Agua tibia. El vapor de una infusión hidrata las cuerdas desde adentro. Nada de gritar ni forzar hoy."},
+  ],
+  meca:[
+    {e:"⌨️",t:"10 minutos de tipeo libre",d:"Sin test, sin presión. Escribe lo que quieras — una idea, lo que piensas, tu día. Solo mueve los dedos."},
+    {e:"🎮",t:"Juega TypeRacer o Keybr",d:"Solo si tienes ganas. Es práctica sin que se sienta práctica. No obligatoria."},
+    {e:"🧘",t:"Estira los dedos",d:"Abre y cierra la mano completa 20 veces. Circulares de muñeca. El cuidado del instrumento también es entrenamiento."},
+  ],
+  pnl:[
+    {e:"📓",t:"Diario libre",d:"Sin estructura. Qué sientes, qué piensas, qué quieres. El journaling no estructurado activa insight que el guiado a veces bloquea."},
+    {e:"🧘",t:"Meditación sin objetivo",d:"10 minutos. Sin afirmaciones, sin visualización. Solo observar la mente. El descanso del sistema también es PNL."},
+    {e:"🌿",t:"Caminar y observar",d:"Sin teléfono. Sin AirPods. Solo mirar. La DMN procesa la semana en silencio. Esto es trabajo invisible."},
+  ],
+  dinero:[
+    {e:"📊",t:"Revisa tus finanzas 10 min",d:"¿En qué gastaste esta semana? Sin juicio. Solo observar. El dinero se organiza cuando le prestas atención."},
+    {e:"📚",t:"Lee algo sobre finanzas personales",d:"Un artículo, un capítulo. 'El hombre más rico de Babilonia' si aún no lo has leído. Corto y poderoso."},
+    {e:"💭",t:"¿Qué habilidad tuya podría generar ingresos?",d:"Solo piénsalo. No actúes aún. Planta la semilla en el subconsciente."},
+  ],
+  crear:[
+    {e:"✍️",t:"Escribe sin objetivo",d:"Una página. Lo que sea. Sin que sea 'bueno'. Solo el hábito de producir cuando no hay presión."},
+    {e:"🌀",t:"Consume diferente hoy",d:"Una película vieja, música que no escuchas, un libro de género distinto. Alimentas el pozo creativo."},
+    {e:"🧵",t:"Cierra algo pequeño",d:"Un proyecto de 20 minutos que tengas pendiente. El cerebro ama el cierre. Un pendiente menos = energía liberada."},
+  ],
+};
+
+function renderWeekend(tipo){
+  var now=new Date();
+  var esdom=now.getDay()===0;
+  var tips=WEEKEND_TIPS[tipo]||[];
+  var miss=getMissionDays();
+  var NOMBRES={mente:"Inglés",voz:"Voz",meca:"Mecanografía",pnl:"PNL",dinero:"Dinero",crear:"Crear"};
+  var COLORES={mente:"rgba(122,158,132,.12)",voz:"rgba(184,144,154,.12)",meca:"rgba(144,96,192,.1)",pnl:"rgba(201,169,110,.1)",dinero:"rgba(201,169,110,.1)",crear:"rgba(184,144,154,.1)"};
+  var TEXTO_COLOR={mente:"#5A9E8A",voz:"var(--mauve)",meca:"var(--purple)",pnl:"var(--gold2)",dinero:"var(--gold2)",crear:"var(--mauve)"};
+
+  var h='';
+  h+='<div style="background:var(--ink);border-radius:18px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden">';
+  h+='<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(201,169,110,.4),transparent)"></div>';
+  h+='<div style="font-size:38px;margin-bottom:10px">'+(esdom?'☀️':'🌿')+'</div>';
+  h+='<div style="font-family:var(--ff);font-size:20px;font-style:italic;color:var(--ivory);margin-bottom:6px">'+(esdom?'Domingo':'Sábado')+'</div>';
+  h+='<div style="font-size:12px;color:rgba(250,248,245,.45);line-height:1.7;font-weight:300">Sin rutina. El sistema nervioso también necesita un ciclo de 7 días, no de 5.</div>';
+  h+='<div style="margin-top:12px;font-size:10px;color:rgba(201,169,110,.6);letter-spacing:1.5px">'+miss.lft+' días para oct 10</div>';
+  h+='</div>';
+
+  h+='<div style="background:rgba(201,169,110,.05);border-left:2px solid rgba(201,169,110,.25);border-radius:0 12px 12px 0;padding:11px 14px;margin-bottom:14px;font-size:11px;color:var(--ink);line-height:1.75;font-weight:300">';
+  h+='La constancia no significa 7 días de intensidad. Significa un sistema que puedes sostener 6 meses. El descanso no interrumpe el progreso — es parte del protocolo.';
+  h+='</div>';
+
+  h+='<div class="sec-ttl"><span>Si quieres hacer algo — '+NOMBRES[tipo]+'</span><div class="sec-ln"></div></div>';
+  h+='<div style="font-size:11px;color:var(--mu);margin-bottom:10px;font-style:italic">Opcional. Sin presión. Solo si sale solo.</div>';
+  tips.forEach(function(tip){
+    h+='<div style="background:var(--white);border-radius:14px;padding:13px 15px;margin-bottom:8px;box-shadow:var(--shad);display:flex;gap:12px;align-items:flex-start">';
+    h+='<span style="font-size:22px;margin-top:1px">'+tip.e+'</span>';
+    h+='<div><div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px">'+tip.t+'</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-weight:300">'+tip.d+'</div></div></div>';
+  });
+  return h;
+}
+
 function renderMente(){
   var now=new Date(),day=now.getDate(),mon=now.getMonth(),dow=now.getDay();
+  if(dow===0||dow===6) return renderWeekend('mente');
   var miss=getMissionDays();
   var totalWeeks=Math.ceil(miss.tot/7);
   var weeksDone=Math.ceil(miss.el/7);
@@ -1368,6 +1441,7 @@ function renderMente(){
 // ═══════════════════════════════════════════
 function renderVoz(){
   var now=new Date(),dow=now.getDay();
+  if(dow===0||dow===6) return renderWeekend('voz');
   var nv=getVozNivel();
   var nivel=VOZ_NIVELES[nv];
   var h='';
@@ -1438,6 +1512,7 @@ function renderVoz(){
 // ═══════════════════════════════════════════
 function renderMeca(){
   var now=new Date(),day=now.getDate(),mon=now.getMonth(),dow=now.getDay();
+  if(dow===0||dow===6) return renderWeekend('meca');
   var miss=getMissionDays();
   var todayWpm=mecaD[TK]?mecaD[TK].wpm:null;
   var h='';
@@ -1679,6 +1754,7 @@ var PNL_DATA={
 
 function renderPnl(){
   var now=new Date(),dow=now.getDay(),day=now.getDate(),mon=now.getMonth();
+  if(dow===0||dow===6) return renderWeekend('pnl');
   var miss=getMissionDays();
   var semana=getPnlWeek();
   var semData=PNL_DATA[semana.k];
@@ -1821,6 +1897,7 @@ function renderVision(){
 // ═══════════════════════════════════════════
 function renderDinero(){
   var now=new Date(),day=now.getDate(),mon=now.getMonth(),dow=now.getDay();
+  if(dow===0||dow===6) return renderWeekend('dinero');
   var dineroD=JSON.parse(localStorage.getItem('dinero_check')||'{}');
   var h='';
 
@@ -1903,6 +1980,7 @@ function renderDinero(){
 // ═══════════════════════════════════════════
 function renderCrear(){
   var now=new Date(),day=now.getDate(),mon=now.getMonth(),dow=now.getDay();
+  if(dow===0||dow===6) return renderWeekend('crear');
   var crearD=JSON.parse(localStorage.getItem('crear_data')||'{}');
   var h='';
 
