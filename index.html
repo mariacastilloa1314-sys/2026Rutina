@@ -1978,98 +1978,339 @@ function renderDinero(){
 // ═══════════════════════════════════════════
 //  RENDER CREAR
 // ═══════════════════════════════════════════
+
+// ─── DATA ───────────────────────────────────
+var IMAGINATION_EX=[
+  {id:"im1",cat:"Imaginación",dur:"5 min",e:"🌀",
+   titulo:"Escritura automática",
+   instruccion:"Bolígrafo en la mano, no para. Escribe durante 5 minutos sin levantar la mano, sin editar, sin releer. No importa si sale basura. Escribe: 'No sé qué escribir' y sigue desde ahí.",
+   sci:"La escritura automática bypasea el córtex prefrontal — el juez interno. Activa asociaciones del inconsciente que la escritura racional bloquea.",
+   sha:"Los surrealistas lo llamaron écriture automatique. Los chamanes lo llaman 'dejar hablar al espíritu'. La mano sabe cosas que la mente controla."},
+  {id:"im2",cat:"Percepción",dur:"3 min",e:"👁️",
+   titulo:"Observación alienígena",
+   instruccion:"Elige un objeto cotidiano — un vaso, un zapato, tu mano. Míralo como si nunca hubieras visto algo igual. ¿Qué es? ¿Para qué sirve? Descríbelo para alguien que llegó de otro planeta.",
+   sci:"La familiaridad crea ceguera perceptual (Mack & Rock, 1998). Romper el automatismo perceptual activa la misma red que la innovación creativa.",
+   sha:"Los maestros zen llaman a esto 'mente de principiante'. Ver por primera vez lo que ya conoces es el acto creativo más radical."},
+  {id:"im3",cat:"Conexión",dur:"5 min",e:"🔗",
+   titulo:"Dos cosas que no tienen nada que ver",
+   instruccion:"Elige dos palabras al azar — una de tu cuarto y una de la naturaleza. Escribe durante 5 minutos encontrando conexiones imposibles entre ellas. Cuanto más absurdo, mejor.",
+   sci:"El pensamiento lateral (De Bono) y la bisociación (Koestler) son los mecanismos del insight creativo. El cerebro aprende a conectar lo inconexo con práctica.",
+   sha:"El chamán une el mundo de abajo y el de arriba. Tú unes dos mundos que nadie ha conectado antes. Eso es una metáfora nueva. Y las metáforas nuevas cambian el mundo."},
+  {id:"im4",cat:"Perspectiva",dur:"4 min",e:"🎭",
+   titulo:"Habla desde el objeto",
+   instruccion:"Elige algo en tu cuarto. Escribe en primera persona como si fueras ese objeto. ¿Qué ves? ¿Qué sientes cuando te usan? ¿Qué quieres decirle a la persona que vive contigo?",
+   sci:"El cambio de perspectiva forzado activa la teoría de la mente (mentalización) y amplía la empatía narrativa — la habilidad que hace a los escritores extraordinarios.",
+   sha:"En las tradiciones animistas andinas, los objetos tienen espíritu. Darles voz no es fantasía — es recuperar una forma de percibir que la modernidad anestesió."},
+  {id:"im5",cat:"Imagen",dur:"6 min",e:"🖼️",
+   titulo:"Escena desde una sola línea",
+   instruccion:"Escribe una sola frase que describa un lugar. Solo una. Luego cierra los ojos 30 segundos e imagina esa escena completa. Abre los ojos y escribe todo lo que viste durante 5 minutos.",
+   sci:"La visualización creativa activa las mismas regiones que la percepción visual real (Kosslyn, 1994). Entrenar la imagen mental mejora la imaginación estructural.",
+   sha:"Los poetas quechuas construían imágenes en capas — el paisaje físico y el espiritual simultáneos. Una sola línea podía contener un mundo entero."},
+  {id:"im6",cat:"Tiempo",dur:"5 min",e:"⏳",
+   titulo:"Carta hacia el pasado",
+   instruccion:"Escríbele a tu yo de hace exactamente 5 años. ¿Qué le dirías? ¿Qué sabe la de ahora que la de antes no sabía? Sin condescendencia — con la ternura que merece alguien que hacía lo mejor que podía.",
+   sci:"La perspectiva temporal (Zimbardo) afecta directamente la creatividad y la toma de decisiones. Dialogar con el yo pasado activa autocompasión y claridad.",
+   sha:"El trabajo chamánico incluye sanar versiones pasadas del ser. No como metáfora — como práctica real de integración. Esta carta es eso."},
+  {id:"im7",cat:"Sentidos",dur:"4 min",e:"🌿",
+   titulo:"Sinestesia forzada",
+   instruccion:"¿De qué color es el miércoles? ¿A qué huele la nostalgia? ¿Qué textura tiene la incertidumbre? Elige 5 conceptos abstractos y asígnales propiedades sensoriales. Explica por qué.",
+   sci:"La sinestesia cognitiva (combinación cruzada de sentidos) activa redes de asociación más amplias. Los poetas más memorables la usan de forma sistemática.",
+   sha:"Los curanderos amazónicos 'escuchan' los colores de las plantas antes de usarlas. El cruce sensorial no es metáfora para ellos — es método diagnóstico."},
+  {id:"im8",cat:"Ruptura",dur:"5 min",e:"🔥",
+   titulo:"Destruye la historia que te cuentas",
+   instruccion:"Escribe una historia que te cuentes sobre ti misma que te limita. Luego escríbela como si fuera la historia de otra persona que admiras. ¿Qué haría ella con esa misma historia?",
+   sci:"La narrativa de identidad (McAdams) determina la agencia percibida. Reescribir en tercera persona reduce el procesamiento emocional reactivo (Ethan Kross, 2014).",
+   sha:"El chamán trabaja con el 'narrador herido'. Cuando cambias el narrador, cambia el relato. Cuando cambia el relato, cambia la realidad que construye."},
+  {id:"im9",cat:"Volumen",dur:"5 min",e:"💡",
+   titulo:"10 ideas sin filtro",
+   instruccion:"Pon el temporizador en 5 minutos. Escribe 10 ideas sobre cualquier cosa: un proyecto, una historia, un negocio, una solución. Buenas y malas juntas. No evalúes. La idea número 10 suele ser la mejor.",
+   sci:"James Webb Young (1939): las ideas son combinaciones de elementos existentes. A más combinaciones posibles, más ideas útiles. El volumen precede a la calidad.",
+   sha:"Los curanderos no usan una sola planta — crean combinaciones. La medicina viene de la mezcla. Tus ideas funcionan igual."},
+  {id:"im10",cat:"Silencio",dur:"7 min",e:"🌙",
+   titulo:"Escribe lo que no puedes decir",
+   instruccion:"Hay algo que sientes, piensas o quieres y no lo has dicho en voz alta ni escrito antes. No porque sea malo — sino porque es demasiado real, demasiado tuyo. Escríbelo. Solo para ti.",
+   sci:"La supresión de pensamientos (Wegner, 1994) aumenta su intrusividad. Escribir lo no dicho reduce la carga cognitiva y libera capacidad creativa.",
+   sha:"En los ritos de paso andinos, hay un momento de confesión total — no ante un dios, sino ante uno mismo. Lo que se nombra, se puede transformar."},
+];
+
+var JOURNALING_NOCHE=[
+  {id:"jn1",hora:"20:30",titulo:"Las 3 verdades del día",
+   prompts:["¿Qué hice hoy que la Mary de octubre haría?","¿Qué evité que debí hacer?","¿Qué me sorprendió de mí misma hoy?"],
+   sci:"El journaling de gratitud específica activa el sistema de recompensa y recalibra el sesgo negativo del cerebro (Emmons & McCullough, 2003).",
+   sha:"La tradición inca del 'tinkuy' — el encuentro de opuestos. Cada día tiene luz y sombra. Nombrando ambas, cierras el ciclo completo."},
+  {id:"jn2",hora:"20:30",titulo:"El día como historia",
+   prompts:["Describe hoy como si fuera una escena de un libro — con personaje, conflicto y resolución.","¿Cuál fue el momento más pequeño pero real?","¿Qué frase resumiría este día en el libro de tu vida?"],
+   sci:"La narrativización de experiencias consolida la memoria episódica y aumenta la coherencia del yo (Dan McAdams). Es también el fundamento del procesamiento emocional.",
+   sha:"Los abuelos quechuas contaban el día antes de dormir — no como reporte, sino como tejido. Cada día era un hilo en el tapiz del ser."},
+  {id:"jn3",hora:"20:30",titulo:"Datos del experimento",
+   prompts:["¿Qué aprendí hoy que no sabía ayer?","¿Dónde sentí resistencia? ¿Qué me dice esa resistencia?","Una cosa concreta que mañana haré diferente."],
+   sci:"El journaling de aprendizaje activa la metacognición — pensar sobre el pensar. Mejora la retención en un 25% y acelera la curva de aprendizaje (Dewey).",
+   sha:"El científico loco documenta todo. El chamán también. El diario es el registro del experimento que eres tú misma."},
+  {id:"jn4",hora:"20:30",titulo:"Carta al subconsciente",
+   prompts:["Esta noche mientras duermo, quiero que mi mente trabaje en...","Una pregunta que dejo abierta para que el sueño responda:","Mañana cuando despierte, ya sé que..."],
+   sci:"El efecto de incubación (Wallas, 1926): el subconsciente sigue procesando problemas durante el sueño. Darle instrucciones antes de dormir aumenta la probabilidad de insight al despertar.",
+   sha:"Los chamanes 'programan' sus sueños como viajes de conocimiento. Este journaling es la versión contemporánea del sueño lúcido intencional."},
+  {id:"jn5",hora:"20:30",titulo:"El cuerpo habló hoy",
+   prompts:["¿Dónde sentí tensión física? ¿Qué emoción cargaba ese lugar?","¿Cuándo mi energía estuvo más alta? ¿Qué la causó?","Una cosa que mi cuerpo necesita mañana."],
+   sci:"El somapsicología estudia cómo el cuerpo almacena emociones (Van der Kolk). El journaling corporal integra el procesamiento emocional top-down y bottom-up simultáneamente.",
+   sha:"En el curanderismo andino, el cuerpo es el mapa. Cada tensión es un mensaje. El ritual de nombrarlo es el inicio de la sanación."},
+  {id:"jn6",hora:"20:30",titulo:"Gratitud específica",
+   prompts:["Una persona que hizo algo por mí hoy — grande o pequeño.","Un momento de belleza que habría pasado desapercibido.","Algo de mí misma que funcionó bien hoy."],
+   sci:"La gratitud específica (no genérica) activa el lóbulo prefrontal medial y modifica la neuroplasticidad hacia patrones de bienestar sostenido (Zahn et al., 2009).",
+   sha:"El ayni — la reciprocidad sagrada andina — empieza con reconocer lo que ya recibes. La gratitud no es sentimentalismo. Es ver la realidad completa."},
+  {id:"jn7",hora:"20:30",titulo:"La Mary de octubre",
+   prompts:["¿Qué haría mañana la Mary del 10 de octubre?","Una diferencia concreta entre quien fui hoy y quien quiero ser.","Una decisión que tomaré mañana desde mi yo futuro, no desde el miedo."],
+   sci:"La visualización prospectiva del yo futuro (Future Self) activa la continuidad de identidad y aumenta la autoregulación (Hershfield, 2011).",
+   sha:"Invocar al yo futuro es la práctica del llamado del alma. La versión de octubre ya existe. Hoy la acercas un día más."},
+];
+
+var NADA_PROTOCOL=[
+  {e:"👁️",titulo:"El ejercicio de los 5 minutos",
+   instruccion:"Siéntate. Pon un timer en 5 minutos. No hagas nada. Sin teléfono, sin música, sin libreta. Solo mira un punto fijo o cierra los ojos. Cuando quieras agarrar el teléfono — no lo hagas.",
+   sci:"La Default Mode Network necesita entre 5 y 7 minutos de inactividad para activarse completamente. Es literalmente el modo de creatividad e integración del cerebro.",
+   sha:"El yachaq (sabio andino) aprende a sentarse con el silencio antes de aprender cualquier otra cosa. El vacío no está vacío — es el espacio donde aparece lo nuevo."},
+  {e:"🚶",titulo:"Caminar sin destino ni audio",
+   instruccion:"20 minutos. Sin AirPods. Sin ruta predeterminada. Camina y deja que los ojos elijan hacia dónde. No 'pienses en algo'. Deja que los pensamientos vengan solos.",
+   sci:"La caminata sin estímulo auditivo activa el hipocampo y la corteza prefrontal medial — la red de navegación espacial y procesamiento autobiográfico. Mejora creatividad un 81% (Stanford, 2014).",
+   sha:"Los chamanes amazónicos caminan para 'escuchar'. El bosque habla cuando dejas de hacer ruido interno. Tu ciudad también."},
+  {e:"☁️",titulo:"Mirar el techo o el cielo",
+   instruccion:"Acuéstate o siéntate. Mira hacia arriba durante 10 minutos. Sin objetivo. Si vienen pensamientos, obsérvalos como nubes que pasan. No los sigas, no los bloquees.",
+   sci:"Esta postura activa el descanso del sistema de alerta (locus coeruleus) y permite la consolidación de memorias del día — el mismo proceso que ocurre en el sueño ligero.",
+   sha:"El chamán mira el cielo para leer patrones. Tú no lees patrones aún — pero entrenas el ojo que algún día lo hará. La contemplación es una habilidad, no un estado."},
+  {e:"🍵",titulo:"Tomar algo sin pantalla",
+   instruccion:"Prepara un té o un café. Siéntate. Sostén la taza con las dos manos. Siente el calor. Bébelo en silencio, solo mirando el cuarto o la ventana. Sin teléfono en la misma habitación.",
+   sci:"El rito pausado reduce el cortisol, activa el sistema parasimpático y produce ondas alfa — el estado previo al insight creativo.",
+   sha:"La ceremonia del té japonesa fue diseñada para producir exactamente este estado — presencia total en un acto mínimo. El ritual cotidiano como práctica de conciencia."},
+  {e:"🌙",titulo:"Los 10 minutos antes de dormir",
+   instruccion:"Sin teléfono 10 minutos antes de cerrar los ojos. Ni una pantalla. Deja que la mente vague. No planifiques, no repases. Solo deja que los pensamientos sean sin dirigirlos.",
+   sci:"La hipnagogia — el estado entre vigilia y sueño — fue explotada deliberadamente por Edison y Dalí para capturar ideas. Es el estado más creativo del día.",
+   sha:"La tradición maya considera el umbral entre vigilia y sueño como el momento de mayor acceso al conocimiento profundo. No lo malgastes con scroll."},
+];
+
+var FLOW_TRIGGERS=[
+  {e:"🎵",t:"Música sin letra del mismo género siempre",d:"El cerebro asocia estímulos sensoriales con estados. Si usas siempre la misma playlist sin letra para trabajar o crear, con el tiempo esa música activa el estado de flow automáticamente."},
+  {e:"⏱️",t:"Bloques de 25 minutos con intención declarada",d:"Antes de empezar: di en voz alta qué vas a hacer. El ritmo de tiempo más intención previa reduce el tiempo de entrada al estado de flow de 15 min a 5."},
+  {e:"📵",t:"Teléfono en otra habitación",d:"No en silencio, en otra habitación. La sola presencia del teléfono boca abajo reduce la capacidad cognitiva disponible (Ward et al., 2017)."},
+  {e:"🕯️",t:"Un ritual de inicio",d:"Siempre el mismo: encender una vela, preparar el espacio, hacer 3 respiraciones profundas. El cerebro aprende que ese ritual = modo creativo. En 3 semanas es automático."},
+  {e:"🌡️",t:"Temperatura ligeramente fresca",d:"19-21°C activa el estado de alerta sin tensión. El calor excesivo sube el cortisol. El cerebro crea mejor cuando el cuerpo está cómodo pero no dormido."},
+  {e:"✍️",t:"Empezar con la mano, no con la pantalla",d:"El primer borrador siempre a mano. La pantalla activa el modo edición. La libreta activa el modo exploración. Son estados cerebrales diferentes."},
+];
+
 function renderCrear(){
   var now=new Date(),day=now.getDate(),mon=now.getMonth(),dow=now.getDay();
   if(dow===0||dow===6) return renderWeekend('crear');
   var crearD=JSON.parse(localStorage.getItem('crear_data')||'{}');
+  var crearChecks=JSON.parse(localStorage.getItem('crear_checks_'+TK)||'{}');
   var h='';
+  var miss=getMissionDays();
 
-  // Header
-  h+='<div style="background:linear-gradient(135deg,rgba(184,144,154,.1),rgba(184,144,154,.03));border-radius:20px;padding:18px;margin-bottom:14px;border:1px solid rgba(184,144,154,.2)">';
-  h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--mauve);margin-bottom:6px">Creatividad como identidad · Oct 10</div>';
-  h+='<div style="font-family:var(--ff);font-size:20px;font-style:italic;color:var(--ink);margin-bottom:6px">Crear es quien eres, no lo que haces</div>';
-  h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">La creatividad no es un talento especial. Es una práctica. Se construye con uso, no con espera.</div>';
+  // ── HEADER ──────────────────────────────────
+  h+='<div style="background:var(--ink);border-radius:20px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden">';
+  h+='<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--mauve),transparent)"></div>';
+  h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(184,144,154,.8);margin-bottom:6px">Crear · Imaginar · Registrar · Oct 10</div>';
+  h+='<div style="font-family:var(--ff);font-size:20px;font-style:italic;color:var(--ivory);margin-bottom:6px">La imaginación es una habilidad. Se entrena.</div>';
+  h+='<div style="font-size:12px;color:rgba(250,248,245,.45);line-height:1.7;font-weight:300">Los ancestros sin tecnología memorizaban el cosmos. Tú con toda la tecnología encima apenas recuerdas lo que soñaste anoche. La diferencia: ellos practicaban.</div>';
+  h+='<div style="margin-top:10px;font-size:10px;color:rgba(184,144,154,.6);letter-spacing:1px">'+miss.lft+' días para convertirte en alguien que crea todos los días</div>';
   h+='</div>';
 
-  // Dato de neuociencia creativa
-  var CREAR_SCIENCE=[
-    {e:"🧠",t:"La DMN y la creatividad",txt:"La Default Mode Network se activa cuando te aburres. Es el motor de las conexiones inesperadas. Proteger momentos de 'nada' no es perder el tiempo — es producir las condiciones para el insight."},
-    {e:"📱",t:"El scroll anestesia la imaginación",txt:"Cada vez que abres redes en un momento de inactividad, interrumpes la DMN. Tu creatividad necesita aburrimiento para encenderse."},
-    {e:"⏳",t:"Los grandes pensadores cultivaban el vacío",txt:"Darwin caminaba sin destino. Newton vio la manzana porque estaba sentado sin hacer nada. Einstein tocaba violín cuando se bloqueaba. El aburrimiento no es enemigo — es incubadora."},
-    {e:"🔬",t:"Dopamina y flujo creativo",txt:"El estado de flow (Csikszentmihalyi) ocurre cuando la habilidad y la dificultad se igualan. No nace del talento — nace de empujar constantemente el límite de lo que sabes hacer."},
-    {e:"💡",t:"La brecha de gusto",txt:"Ira Glass: 'Tu gusto está adelantado a tu habilidad. Así es cómo funciona para todo el mundo al principio.' La única solución es producir volumen. La brecha se cierra con cantidad."},
-  ];
-  var cs=CREAR_SCIENCE[(day+mon)%CREAR_SCIENCE.length];
-  h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shad);display:flex;gap:12px">';
-  h+='<span style="font-size:22px">'+cs.e+'</span>';
-  h+='<div><div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px">'+cs.t+'</div>';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.75;font-weight:300">'+cs.txt+'</div></div></div>';
+  // ── EJERCICIO DE IMAGINACIÓN DEL DÍA ────────
+  var ejercicio=IMAGINATION_EX[(day+mon*3+dow)%IMAGINATION_EX.length];
+  var ejKey='imex_'+ejercicio.id;
+  var ejDone=!!crearChecks[ejKey];
+  var ejExp=expanded===('imex'+ejercicio.id);
+  h+='<div class="sec-ttl"><span>Ejercicio de imaginación</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--white);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 3px 20px rgba(28,20,16,.1);cursor:pointer;border:1.5px solid '+(ejDone?"rgba(184,144,154,.35)":"var(--border)")+'" onclick="togExpCrear(\'imex'+ejercicio.id+'\')">';
+  h+='<div style="display:flex;align-items:flex-start;gap:12px">';
+  h+='<div style="min-width:46px;height:46px;border-radius:14px;background:'+(ejDone?"rgba(184,144,154,.2)":"rgba(184,144,154,.08)")+';display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">'+ejercicio.e+'</div>';
+  h+='<div style="flex:1">';
+  h+='<div style="display:flex;gap:6px;align-items:center;margin-bottom:4px">';
+  h+='<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mauve);font-weight:400">'+ejercicio.cat+'</span>';
+  h+='<span style="font-size:9px;color:var(--mu);font-weight:300">·</span>';
+  h+='<span style="font-size:9px;color:var(--mu);font-weight:300">'+ejercicio.dur+'</span>';
+  h+='</div>';
+  h+='<div style="font-family:var(--ff);font-size:17px;font-style:italic;color:var(--ink);margin-bottom:4px">'+ejercicio.titulo+'</div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">'+ejercicio.instruccion+'</div>';
+  if(ejExp){
+    h+='<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">';
+    h+='<div style="background:rgba(201,169,110,.05);border-radius:10px;padding:10px 12px;margin-bottom:8px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">Neurociencia</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+ejercicio.sci+'</div></div>';
+    h+='<div style="background:rgba(144,96,192,.05);border-radius:10px;padding:10px 12px;margin-bottom:12px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:4px">Energía chamánica</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic;font-weight:300">'+ejercicio.sha+'</div></div>';
+    h+='<button onclick="event.stopPropagation();togCrearCheck(\''+ejKey+'\')" style="width:100%;padding:10px;background:'+(ejDone?"var(--mauve)":"transparent")+';border:1.5px solid var(--mauve);border-radius:10px;color:'+(ejDone?"white":"var(--mauve)")+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(ejDone?"✓ COMPLETADO":"MARCAR COMO HECHO")+'</button>';
+    h+='</div>';
+  } else {
+    h+='<div style="margin-top:8px;font-size:10px;color:var(--mu2)">Toca para ver ciencia + energía ↓</div>';
+  }
+  h+='</div></div>';
+  if(!ejExp){
+    h+='<button onclick="event.stopPropagation();togCrearCheck(\''+ejKey+'\')" style="width:100%;padding:9px;margin-top:8px;background:'+(ejDone?"var(--mauve)":"transparent")+';border:1.5px solid var(--mauve);border-radius:10px;color:'+(ejDone?"white":"var(--mauve)")+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(ejDone?"✓ COMPLETADO":"MARCAR COMO HECHO")+'</button>';
+  }
+  h+='</div>';
 
-  // Proyectos
+  // Explora más ejercicios
+  var otrosEx=IMAGINATION_EX.filter(function(e){return e.id!==ejercicio.id;}).slice(0,3);
+  h+='<div style="font-size:11px;color:var(--mu);margin-bottom:8px;font-style:italic">Otros ejercicios disponibles:</div>';
+  otrosEx.forEach(function(ex){
+    var exKey='imex_'+ex.id;
+    var exDone=!!crearChecks[exKey];
+    var exExp=expanded===('otras'+ex.id);
+    h+='<div style="background:var(--white);border-radius:12px;padding:12px 14px;margin-bottom:6px;box-shadow:var(--shad);cursor:pointer" onclick="togExpCrear(\'otras'+ex.id+'\')">';
+    h+='<div style="display:flex;align-items:center;gap:10px">';
+    h+='<span style="font-size:20px">'+ex.e+'</span>';
+    h+='<div style="flex:1">';
+    h+='<div style="font-size:12px;font-weight:500;color:'+(exDone?"var(--mu)":"var(--ink)")+';'+(exDone?"text-decoration:line-through":"")+'">'+ex.titulo+'</div>';
+    h+='<div style="font-size:10px;color:var(--mu);font-weight:300">'+ex.cat+' · '+ex.dur+'</div>';
+    h+='</div>';
+    h+='<span style="color:var(--mu);font-size:14px">'+(exExp?"▾":"▸")+'</span>';
+    h+='</div>';
+    if(exExp){
+      h+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">';
+      h+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300;margin-bottom:10px">'+ex.instruccion+'</div>';
+      h+='<div style="background:rgba(201,169,110,.05);border-radius:8px;padding:9px 11px;margin-bottom:6px">';
+      h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:3px">Neurociencia</div>';
+      h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-weight:300">'+ex.sci+'</div></div>';
+      h+='<div style="background:rgba(144,96,192,.05);border-radius:8px;padding:9px 11px;margin-bottom:10px">';
+      h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:3px">Energía chamánica</div>';
+      h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-style:italic;font-weight:300">'+ex.sha+'</div></div>';
+      h+='<button onclick="event.stopPropagation();togCrearCheck(\''+exKey+'\')" style="width:100%;padding:9px;background:'+(exDone?"var(--mauve)":"transparent")+';border:1.5px solid var(--mauve);border-radius:10px;color:'+(exDone?"white":"var(--mauve)")+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(exDone?"✓ COMPLETADO":"MARCAR COMO HECHO")+'</button>';
+      h+='</div>';
+    }
+    h+='</div>';
+  });
+
+  // ── APRENDER A NO HACER NADA ─────────────────
+  var nadaEj=NADA_PROTOCOL[(day+mon)%NADA_PROTOCOL.length];
+  var nadaKey='nada_'+nadaEj.titulo.replace(/\s/g,'_');
+  var nadaDone=!!crearChecks[nadaKey];
+  h+='<div class="sec-ttl" style="margin-top:6px"><span>Aprender a no hacer nada</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:rgba(26,18,16,.03);border-radius:16px;padding:14px 16px;margin-bottom:14px;border:1px solid var(--border)">';
+  h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:300">Por qué es la habilidad más difícil que vas a aprender</div>';
+  h+='<div style="background:var(--white);border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:var(--shad)">';
+  h+='<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px">';
+  h+='<span style="font-size:26px">'+nadaEj.e+'</span>';
+  h+='<div><div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px">'+nadaEj.titulo+'</div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">'+nadaEj.instruccion+'</div></div></div>';
+  h+='<div style="background:rgba(201,169,110,.05);border-radius:8px;padding:10px 12px;margin-bottom:8px">';
+  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:3px">Por qué funciona</div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+nadaEj.sci+'</div></div>';
+  h+='<div style="background:rgba(144,96,192,.05);border-radius:8px;padding:10px 12px;margin-bottom:10px">';
+  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:3px">Perspectiva ancestral</div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic;font-weight:300">'+nadaEj.sha+'</div></div>';
+  h+='<button onclick="togCrearCheck(\''+nadaKey+'\')" style="width:100%;padding:9px;background:'+(nadaDone?"rgba(201,169,110,.15)":"transparent")+';border:1.5px solid rgba(201,169,110,.4);border-radius:10px;color:var(--gold2);font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(nadaDone?"✓ HECHO HOY":"LO HICE")+'</button>';
+  h+='</div>';
+
+  // Escalera de "no hacer nada"
+  h+='<div style="font-size:10px;color:var(--mu);margin-bottom:6px">La escalera — de donde estás hasta donde vas:</div>';
+  var ladderSteps=[
+    {t:"5 min sin teléfono",d:"Solo sentada, mirando el cuarto"},
+    {t:"10 min sin audio",d:"Caminar afuera sin AirPods"},
+    {t:"Una comida en silencio",d:"Sin pantalla ni podcast"},
+    {t:"20 min de observación",d:"Nada que hacer. Solo existir."},
+    {t:"1 hora de aburrimiento",d:"El cerebro empieza a crear solo"},
+  ];
+  ladderSteps.forEach(function(s,i){
+    var lk='ladder_'+i;
+    var ld=!!crearChecks[lk];
+    h+='<div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(26,18,16,.04);cursor:pointer" onclick="togCrearCheck(\''+lk+'\')">';
+    h+='<div style="width:22px;height:22px;border-radius:50%;background:'+(ld?"rgba(201,169,110,.3)":"var(--border)")+';display:flex;align-items:center;justify-content:center;font-size:9px;color:'+(ld?"var(--gold2)":"var(--mu)")+';font-weight:700;flex-shrink:0">'+(i+1)+'</div>';
+    h+='<div style="flex:1"><div style="font-size:12px;color:'+(ld?"var(--mu)":"var(--ink)")+';font-weight:'+(ld?"300":"500")+';'+(ld?"text-decoration:line-through":"")+'">'+s.t+'</div>';
+    h+='<div style="font-size:10px;color:var(--mu);font-weight:300">'+s.d+'</div></div>';
+    h+='</div>';
+  });
+  h+='</div>';
+
+  // ── JOURNALING NOCTURNO ───────────────────────
+  var jnHoy=JOURNALING_NOCHE[(day+mon*2)%JOURNALING_NOCHE.length];
+  var jnKey='jn_'+jnHoy.id;
+  var jnDone=!!crearChecks[jnKey];
+  h+='<div class="sec-ttl" style="margin-top:6px"><span>Journaling de esta noche</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:var(--ink);border-radius:18px;padding:16px;margin-bottom:10px;position:relative;overflow:hidden">';
+  h+='<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(184,144,154,.5),transparent)"></div>';
+  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(184,144,154,.7);margin-bottom:8px">Hoy a las '+jnHoy.hora+' — libreta física</div>';
+  h+='<div style="font-family:var(--ff);font-size:17px;font-style:italic;color:var(--ivory);margin-bottom:12px">'+jnHoy.titulo+'</div>';
+  jnHoy.prompts.forEach(function(p,i){
+    h+='<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid rgba(255,255,255,.06)">';
+    h+='<div style="font-size:11px;font-weight:700;color:rgba(184,144,154,.7);min-width:16px;margin-top:1px">'+(i+1)+'</div>';
+    h+='<div style="font-size:13px;color:rgba(250,248,245,.8);line-height:1.6;font-weight:300;font-style:italic">'+p+'</div></div>';
+  });
+  h+='<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)">';
+  h+='<div style="font-size:10px;color:rgba(255,255,255,.3);margin-bottom:8px">'+jnHoy.sci+'</div>';
+  h+='<button onclick="togCrearCheck(\''+jnKey+'\')" style="width:100%;padding:9px;background:'+(jnDone?"rgba(184,144,154,.25)":"rgba(255,255,255,.06)")+';border:1px solid rgba(184,144,154,'+(jnDone?".5":".25")+'	);border-radius:10px;color:'+(jnDone?"var(--mauve2)":"rgba(250,248,245,.5)")+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(jnDone?"✓ LO ESCRIBÍ HOY":"MARCAR CUANDO LO HAGAS")+'</button>';
+  h+='</div></div>';
+
+  // Journaling rotativo — semana completa
+  h+='<div style="font-size:10px;color:var(--mu);font-style:italic;margin-bottom:8px">Rotación de la semana — un tipo de journaling por día:</div>';
+  var diasLabel=["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+  h+='<div style="display:flex;gap:4px;margin-bottom:14px">';
+  for(var di=0;di<7;di++){
+    var jData=JOURNALING_NOCHE[di%JOURNALING_NOCHE.length];
+    var isToday=(di===dow);
+    h+='<div style="flex:1;background:'+(isToday?"var(--ink)":"var(--white)")+';border:1px solid '+(isToday?"var(--mauve)":"var(--border)")+';border-radius:8px;padding:6px 4px;text-align:center">';
+    h+='<div style="font-size:8px;color:'+(isToday?"var(--mauve)":"var(--mu)")+';font-weight:'+(isToday?"600":"300")+'">'+diasLabel[di]+'</div>';
+    h+='<div style="font-size:16px;margin:3px 0">'+JOURNALING_NOCHE[di%JOURNALING_NOCHE.length].titulo.split(' ')[0].replace(/[^A-Za-záéíóúñÁÉÍÓÚÑ]/g,'').slice(0,4)+'</div>';
+    h+='</div>';
+  }
+  h+='</div>';
+
+  // ── CÓMO ACTIVAR EL FLOW ────────────────────
+  var flowTip=FLOW_TRIGGERS[(day+dow)%FLOW_TRIGGERS.length];
+  var flowKey='flow_'+flowTip.t.replace(/\s/g,'_');
+  var flowDone=!!crearChecks[flowKey];
+  h+='<div class="sec-ttl"><span>Activar el flow</span><div class="sec-ln"></div></div>';
+  h+='<div style="background:rgba(201,169,110,.04);border-radius:16px;padding:14px;margin-bottom:14px;border:1px solid rgba(201,169,110,.15)">';
+  h+='<div style="font-size:10px;color:var(--mu);line-height:1.7;margin-bottom:10px;font-weight:300">El flow no se espera — se diseña. Csikszentmihalyi estudió miles de personas en estado de flow. Todas tenían condiciones específicas. Estas son las tuyas.</div>';
+  h+='<div style="background:var(--white);border-radius:12px;padding:13px;box-shadow:var(--shad);display:flex;gap:12px;align-items:flex-start;margin-bottom:8px">';
+  h+='<span style="font-size:24px">'+flowTip.e+'</span>';
+  h+='<div><div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">'+flowTip.t+'</div>';
+  h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+flowTip.d+'</div></div></div>';
+  h+='<button onclick="togCrearCheck(\''+flowKey+'\')" style="width:100%;padding:9px;background:'+(flowDone?"rgba(201,169,110,.15)":"transparent")+';border:1.5px solid rgba(201,169,110,.4);border-radius:10px;color:var(--gold2);font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(flowDone?"✓ ACTIVADO HOY":"LO APLIQUÉ")+'</button>';
+  h+='</div>';
+
+  // Todos los triggers
+  h+='<div style="font-size:10px;color:var(--mu);margin-bottom:8px;font-style:italic">Todos los triggers — construye tu ritual:</div>';
+  FLOW_TRIGGERS.forEach(function(ft){
+    var fk='flow_'+ft.t.replace(/\s/g,'_');
+    var fd=!!crearChecks[fk];
+    h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(26,18,16,.04);cursor:pointer" onclick="togCrearCheck(\''+fk+'\')">';
+    h+='<span style="font-size:16px">'+ft.e+'</span>';
+    h+='<div style="flex:1;font-size:12px;color:'+(fd?"var(--mu)":"var(--ink)")+';font-weight:'+(fd?"300":"400")+';'+(fd?"text-decoration:line-through":"")+'">'+ft.t+'</div>';
+    h+='<div style="width:20px;height:20px;border-radius:50%;background:'+(fd?"var(--gold)":"var(--border)")+';display:flex;align-items:center;justify-content:center;font-size:9px;color:white;flex-shrink:0">'+(fd?"✓":"")+'</div>';
+    h+='</div>';
+  });
+
+  // ── PROYECTOS ────────────────────────────────
   var proyectos=crearD.proyectos||[];
-  h+='<div class="sec-ttl"><span>Proyectos en libreta</span><div class="sec-ln"></div></div>';
+  h+='<div class="sec-ttl" style="margin-top:10px"><span>Proyectos vivos</span><div class="sec-ln"></div></div>';
   if(proyectos.length===0){
-    h+='<div style="font-size:12px;color:var(--mu);font-style:italic;margin-bottom:8px">Agrega tus proyectos creativos en curso...</div>';
+    h+='<div style="font-size:12px;color:var(--mu);font-style:italic;margin-bottom:8px;padding:12px;background:var(--ivory2);border-radius:10px">Agrega lo que tienes en construcción...</div>';
   }
   proyectos.forEach(function(p,i){
-    h+='<div style="background:var(--white);border-radius:12px;padding:11px 14px;margin-bottom:8px;box-shadow:var(--shad);display:flex;gap:10px;align-items:center">';
+    h+='<div style="background:var(--white);border-radius:12px;padding:11px 14px;margin-bottom:6px;box-shadow:var(--shad);display:flex;gap:10px;align-items:center">';
+    h+='<div style="width:8px;height:8px;border-radius:50%;background:'+(p.done?"var(--sage)":"var(--mauve)")+';flex-shrink:0"></div>';
     h+='<div style="flex:1"><div style="font-size:13px;color:'+(p.done?"var(--mu)":"var(--ink)")+';font-weight:500;'+(p.done?"text-decoration:line-through":"")+'">'+p.nombre+'</div>';
-    if(p.fecha) h+='<div style="font-size:10px;color:var(--mu);margin-top:2px">'+p.fecha+'</div>';
+    if(p.fecha) h+='<div style="font-size:10px;color:var(--mu);margin-top:1px">'+p.fecha+'</div>';
     h+='</div>';
-    h+='<button onclick="togProyecto('+i+')" style="min-width:36px;height:30px;border-radius:8px;border:1.5px solid '+(p.done?"var(--mauve)":"var(--border)")+';background:'+(p.done?"var(--mauve)":"transparent")+';color:'+(p.done?"white":"var(--mu)")+';font-size:11px;cursor:pointer;padding:0 8px;font-family:var(--fb)">'+(p.done?"✓":"→")+'</button>';
-    h+='<button onclick="delProyecto('+i+')" style="width:28px;height:28px;border-radius:50%;border:none;background:none;color:var(--mu);font-size:18px;cursor:pointer">×</button>';
+    h+='<button onclick="togProyecto('+i+')" style="padding:5px 12px;border-radius:8px;border:1.5px solid '+(p.done?"var(--sage)":"var(--border)")+';background:'+(p.done?"rgba(122,158,132,.15)":"transparent")+';color:'+(p.done?"var(--sage)":"var(--mu)")+';font-size:10px;cursor:pointer;font-family:var(--fb)">'+(p.done?"✓ listo":"→")+'</button>';
+    h+='<button onclick="delProyecto('+i+')" style="width:26px;height:26px;border-radius:50%;border:none;background:none;color:var(--mu2);font-size:16px;cursor:pointer;line-height:1">×</button>';
     h+='</div>';
   });
   h+='<div style="display:flex;gap:8px;margin-bottom:6px">';
-  h+='<input id="proy-nombre" placeholder="Título del proyecto..." style="flex:1;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);outline:none">';
-  h+='<input id="proy-fecha" placeholder="Fecha" style="width:70px;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 8px;font-family:var(--fb);font-size:11px;color:var(--ink);outline:none;text-align:center">';
+  h+='<input id="proy-nombre" placeholder="Nombre del proyecto..." style="flex:1;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);outline:none">';
+  h+='<input id="proy-fecha" placeholder="Meta" style="width:72px;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 8px;font-family:var(--fb);font-size:11px;color:var(--ink);outline:none;text-align:center">';
   h+='</div>';
-  h+='<button onclick="addProyecto()" style="width:100%;padding:10px;background:var(--ink);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:11px;cursor:pointer;margin-bottom:14px">+ Agregar proyecto</button>';
-
-  // Prompt del día
-  var PROMPTS=[
-    {icono:"✍️",accion:"Escritura automática 5 minutos",detalle:"Bolígrafo que no para. Sin editar, sin levantar la mano. Lo que salga. Sin juicio."},
-    {icono:"🔍",accion:"¿Cuándo perdiste la noción del tiempo esta semana?",detalle:"Escribe qué hacías, cómo se sentía, qué lo diferenciaba de otras actividades."},
-    {icono:"🌱",accion:"Un proyecto pendiente desde hace meses",detalle:"Escríbelo. El primer paso concreto. Solo el primero."},
-    {icono:"🎭",accion:"Escribe desde el punto de vista de un objeto",detalle:"Elige algo en tu cuarto. ¿Qué ve? ¿Qué piensa de ti? ¿Qué quiere decirte?"},
-    {icono:"💌",accion:"Carta a tu yo creativo de los 8 años",detalle:"¿Qué hacías que ahora no haces? ¿Qué vas a recuperar?"},
-    {icono:"🌀",accion:"Mapa mental: YO SOY CREATIVA",detalle:"En el centro eso. Conecta todo sin orden ni lógica. La mano manda."},
-    {icono:"🔥",accion:"¿Qué te frena creativamente?",detalle:"¿Qué crees que no puedes hacer? ¿De dónde viene esa creencia? ¿Es verdad?"},
-    {icono:"⭐",accion:"¿Qué hace que algo sea tuyo y no de cualquiera?",detalle:"Tu voz. Tu perspectiva. Tu mezcla rara de todo lo que eres. Escríbela."},
-    {icono:"💡",accion:"10 ideas — las que sean",detalle:"Buenas o malas, absurdas o banales. Sin filtro. La idea 10 suele ser la mejor."},
-    {icono:"🎯",accion:"Tu proceso creativo ideal",detalle:"¿Dónde estás? ¿A qué hora? ¿Qué suena? ¿Qué tienes cerca? Descríbelo en detalle."},
-  ];
-  var prompt=PROMPTS[(day+mon*3)%PROMPTS.length];
-  h+='<div class="sec-ttl"><span>Prompt de hoy</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shad)">';
-  h+='<div style="font-size:10px;color:var(--mu);margin-bottom:12px;font-weight:300">La app da el qué. Tu libreta hace el trabajo real.</div>';
-  h+='<div style="display:flex;gap:12px;align-items:flex-start">';
-  h+='<span style="font-size:28px">'+prompt.icono+'</span>';
-  h+='<div><div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ink);margin-bottom:6px">'+prompt.accion+'</div>';
-  h+='<div style="font-size:12px;color:var(--mu);line-height:1.65;font-weight:300">'+prompt.detalle+'</div></div></div>';
-  h+='<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--mu);text-align:center">✍️ Bolígrafo + libreta. Sin teléfono mientras escribes.</div>';
-  h+='</div>';
-
-  // Aprender a aburrirse
-  var ABURR=[
-    {e:"🧠",t:"El aburrimiento activa la DMN",txt:"Cuando te aburres, la Default Mode Network se enciende. Es el motor de la creatividad. 7-10 minutos de nada activan el modo creativo profundo."},
-    {e:"📱",t:"El scroll anestesia la imaginación",txt:"Cada apertura de Instagram en inactividad interrumpe la consolidación cerebral. Tu cerebro necesita silencios para conectar ideas."},
-    {e:"⏳",t:"Los grandes pensadores se aburrían a propósito",txt:"Darwin caminaba sin destino. Einstein tocaba el violín cuando se bloqueaba. El aburrimiento no es pérdida de tiempo — es incubadora."},
-    {e:"🎯",t:"El umbral de aburrimiento se entrena",txt:"Empieza con 5 minutos sin teléfono. Luego 10. Luego camina sin AirPods. El discomfort inicial es la señal de que está funcionando."},
-  ];
-  var ab=ABURR[(day+dow)%ABURR.length];
-  var TIPS_AB=["5 min sin teléfono al despertar — antes de tocarlo","Camina sin AirPods ni música","Come una comida sin pantalla ni podcast","Espera en fila sin sacar el teléfono","Siéntate 5 min sin hacer nada. Solo observa."];
-  h+='<div class="sec-ttl"><span>Aprender a aburrirse</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--shad);display:flex;gap:12px">';
-  h+='<span style="font-size:22px">'+ab.e+'</span>';
-  h+='<div><div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px">'+ab.t+'</div>';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.75;font-weight:300">'+ab.txt+'</div></div></div>';
-  h+='<div style="background:rgba(201,169,110,.05);border-radius:12px;padding:12px 14px;margin-bottom:14px">';
-  h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:6px">Práctica de hoy</div>';
-  h+='<div style="font-size:13px;color:var(--ink);font-weight:500">'+TIPS_AB[(day+mon)%TIPS_AB.length]+'</div>';
-  h+='</div>';
+  h+='<button onclick="addProyecto()" style="width:100%;padding:10px;background:var(--ink);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:11px;cursor:pointer;margin-bottom:6px;letter-spacing:.5px">+ Agregar proyecto</button>';
 
   return h;
+}
+
+function togExpCrear(id){expanded=(expanded===id)?null:id;render();}
+function togCrearCheck(key){
+  var d=JSON.parse(localStorage.getItem('crear_checks_'+TK)||'{}');
+  d[key]=!d[key];
+  localStorage.setItem('crear_checks_'+TK,JSON.stringify(d));
+  playChime();render();
 }
 
 // ═══════════════════════════════════════════
