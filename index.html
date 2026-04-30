@@ -272,6 +272,7 @@ body{background:var(--ivory2);font-family:var(--fb);color:var(--ink);min-height:
     <button class="drw-btn" onclick="swDrawer('pnl',this)"><span class="drw-ico">🧬</span><span class="drw-lbl">PNL</span></button>
     <button class="drw-btn" onclick="swDrawer('vision',this)"><span class="drw-ico">✨</span><span class="drw-lbl">Visión</span></button>
     <button class="drw-btn" onclick="swDrawer('dinero',this)"><span class="drw-ico">💰</span><span class="drw-lbl">Dinero</span></button>
+    <button class="drw-btn" onclick="swDrawer('analisis',this)"><span class="drw-ico">🧠</span><span class="drw-lbl">Análisis & Memoria</span></button>
     <button class="drw-btn" onclick="swDrawer('crear',this)"><span class="drw-ico">🎨</span><span class="drw-lbl">Crear</span></button>
   </nav>
   <div style="padding:16px 24px 32px;border-top:1px solid var(--border)">
@@ -961,7 +962,7 @@ function swDrawer(t,btn){
   tab=t;
   document.querySelectorAll('.drw-btn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
-  var labels={hoy:'Hoy',cuerpo:'Cuerpo',mente:'Inglés',voz:'Voz',meca:'Mecanografía',pnl:'PNL',vision:'Visión',dinero:'Dinero',crear:'Crear'};
+  var labels={hoy:'Hoy',cuerpo:'Cuerpo',mente:'Inglés',voz:'Voz',meca:'Mecanografía',pnl:'PNL',vision:'Visión',dinero:'Dinero',crear:'Crear',analisis:'Análisis & Memoria'};
   document.getElementById('hdr-section').textContent=labels[t]||t;
   closeDrawer();render();
   document.getElementById('content').scrollTop=0;
@@ -1295,6 +1296,11 @@ var WEEKEND_TIPS={
     {e:"📊",t:"Revisa tus finanzas 10 min",d:"¿En qué gastaste esta semana? Sin juicio. Solo observar. El dinero se organiza cuando le prestas atención."},
     {e:"📚",t:"Lee algo sobre finanzas personales",d:"Un artículo, un capítulo. 'El hombre más rico de Babilonia' si aún no lo has leído. Corto y poderoso."},
     {e:"💭",t:"¿Qué habilidad tuya podría generar ingresos?",d:"Solo piénsalo. No actúes aún. Planta la semilla en el subconsciente."},
+  ],
+  analisis:[
+    {e:"🔍",t:"Observa un problema sin resolverlo",d:"Elige algo que te preocupe o intrigue. No lo resuelvas. Solo descríbelo desde 3 ángulos distintos durante 5 minutos. El cerebro trabaja en segundo plano."},
+    {e:"📚",t:"Releer una página subrayada",d:"Abre cualquier libro que hayas leído. Busca una página marcada. Léela otra vez. ¿Qué entiendes ahora que antes no entendías?"},
+    {e:"🧩",t:"Juego de lógica libre",d:"Sudoku, ajedrez online, un acertijo. Sin presión de ganar. Solo activa el circuito analítico en modo recreativo."},
   ],
   crear:[
     {e:"✍️",t:"Escribe sin objetivo",d:"Una página. Lo que sea. Sin que sea 'bueno'. Solo el hábito de producir cuando no hay presión."},
@@ -1980,6 +1986,230 @@ function renderDinero(){
 // ═══════════════════════════════════════════
 
 // ─── DATA ───────────────────────────────────
+// ═══════════════════════════════════════════
+//  RENDER ANÁLISIS & MEMORIA
+// ═══════════════════════════════════════════
+
+var ANALISIS_DIARIO=[
+  {id:"a1",cat:"Pensamiento crítico",dur:"10 min",e:"⚔️",
+   titulo:"El abogado del diablo",
+   instruccion:"Elige una creencia que tienes como cierta — sobre ti, el trabajo, la vida. Ahora arguméntala en CONTRA tan fuerte como puedas. No para destruirla: para ver sus puntos ciegos. Escribe los mejores 3 contraargumentos.",
+   sci:"El pensamiento contrafactual activa la corteza prefrontal dorsolateral — la misma región que diferencia a los buenos analistas de los promedio. Cuestionar lo que crees activa circuitos que el pensamiento confirmatorio adormece.",
+   sha:"El yachaq andino aprende a 'ver con los dos ojos' — el del sol y el de la luna. Lo que parece verdad bajo una luz, es sombra bajo otra. La sabiduría no elige un solo ojo."},
+  {id:"a2",cat:"Memoria activa",dur:"5 min",e:"📤",
+   titulo:"Volcado libre de memoria",
+   instruccion:"Sin abrir ningún libro ni app: escribe todo lo que recuerdas del último libro, artículo, podcast o conversación importante que tuviste. Sin filtro, sin orden. Solo vacía lo que hay. Luego verifica qué faltó.",
+   sci:"El efecto testing (Roediger & Karpicke, 2006): recuperar información activamente produce 50% más retención que releer. Cada vez que recuerdas algo sin ayuda, el trazo de memoria se refuerza.",
+   sha:"Los aedos griegos y los quipucamayocs incas no tenían libros. Tenían práctica de recuperación diaria. La memoria no era almacenamiento — era un ritual de invocación."},
+  {id:"a3",cat:"Análisis sistémico",dur:"8 min",e:"🕸️",
+   titulo:"Mapa de causas y efectos",
+   instruccion:"Elige algo que te pasó esta semana — bueno o malo. Dibuja en papel: en el centro el evento. Alrededor, todas las causas posibles con flechas. Alrededor de esas, sus causas. ¿Qué patrones ves? ¿Qué puedes controlar?",
+   sci:"El pensamiento sistémico activa la integración prefrontal-parietal. Las personas que mapean causas antes de actuar toman decisiones 40% más acertadas en seguimiento (Senge, 'La quinta disciplina').",
+   sha:"Los chamanes diagnosticaban enfermedad rastreando su origen — no trataban síntomas sino raíces. El mapa de causas es eso: medicina antes de que duela."},
+  {id:"a4",cat:"Lectura activa",dur:"15 min",e:"📖",
+   titulo:"Leer para enseñar",
+   instruccion:"Lee 5-10 páginas de cualquier libro. Pero mientras lees, imagina que debes explicárselo a alguien que no sabe nada del tema. Después cierra el libro y escribe la explicación de memoria. Compara.",
+   sci:"La técnica Feynman: si no puedes explicarlo en simple, no lo entendiste. El aprendizaje activo produce retención 3-4× mayor que la lectura pasiva. La comprensión y la memoria son el mismo proceso.",
+   sha:"Los maestros curanderos aprendían cada planta hasta poder enseñarla. El conocimiento que no se puede transmitir no es conocimiento — es información acumulada sin raíz."},
+  {id:"a5",cat:"Predicción",dur:"5 min",e:"🎯",
+   titulo:"La predicción del día",
+   instruccion:"Antes de que ocurra algo hoy (una reunión, una conversación, una tarea): predice por escrito cómo crees que irá, qué obstáculos habrá, qué resultado esperas. Al final del día, verifica. ¿Dónde fallaste? ¿Por qué?",
+   sci:"El calibrado predictivo es la habilidad que separa a los analistas expertos de los novatos (Tetlock, 'Superforecasting'). Predecir y verificar entrena la metacognición — pensar sobre cómo piensas.",
+   sha:"Los augures romanos, los astrólogos mayas, los adivinos andinos — todos practicaban el arte de la predicción. No porque fueran correctos siempre, sino porque la predicción agudiza la observación del presente."},
+  {id:"a6",cat:"Síntesis",dur:"8 min",e:"⚗️",
+   titulo:"La regla del 1%",
+   instruccion:"De todo lo que has leído, aprendido o experimentado este mes, ¿cuál es el 1% más importante? Escribe ese 1% en máximo 5 oraciones. Si no puedes reducirlo, no lo has procesado aún. Inténtalo de nuevo.",
+   sci:"La síntesis activa el procesamiento semántico profundo (Craik & Lockhart, 1972). Comprimir la información fuerza al cerebro a distinguir lo fundamental de lo periférico — la habilidad analítica más valiosa.",
+   sha:"El kondor andino vuela más alto que todos los pájaros — para ver el paisaje completo, no los detalles. La síntesis es el vuelo del kondor. Ver desde arriba para entender el patrón."},
+  {id:"a7",cat:"Conexión cruzada",dur:"6 min",e:"🔗",
+   titulo:"¿En qué se parecen?",
+   instruccion:"Elige dos cosas aparentemente sin relación: un concepto de tu trabajo y algo de la naturaleza, o un libro que leíste y un problema actual. Escribe durante 5 minutos todas las conexiones posibles. Cuanto más forzada parezca la conexión, más interesante es.",
+   sci:"La bisociación (Koestler): toda idea creativa y todo insight analítico son conexiones entre dominios distantes. Los mejores pensadores son los que tienen más conexiones cruzadas en su red semántica.",
+   sha:"El chamán es el mediador entre mundos — el de los vivos y los muertos, el de arriba y el de abajo. Su poder viene de tender puentes donde otros ven fronteras. Tú haces lo mismo con ideas."},
+];
+
+var MEMORIA_TECNICAS=[
+  {id:"mt1",e:"🏛️",titulo:"El Palacio de Memoria",
+   desc:"Técnica usada por Cicerón, los griegos, y campeones de memoria mundiales.",
+   instruccion:"Elige un lugar que conozcas bien — tu casa. Asigna a cada habitación un concepto que quieres recordar. Visualiza el concepto como un objeto raro o absurdo en ese espacio. Para recordar, 'camina' mentalmente por el lugar.",
+   ejemplo:"Quieres recordar 5 principios de PNL: coloca uno en la puerta (ancla), otro en el sofá (submodalidades), otro en la cocina (rapport)... El viaje mental los recupera todos.",
+   sci:"El hipocampo procesa tanto la memoria espacial como la episódica. Anclar conceptos abstractos a espacios concretos activa ambos sistemas — triplicando la retención.",
+   sha:"Los bardos celtas y los guardianes de la memoria oral indígena usaban el paisaje como archivo. La tierra era su biblioteca. Tú usas tu casa."},
+  {id:"mt2",e:"🔗",titulo:"Encadenamiento narrativo",
+   desc:"Convierte cualquier lista en una historia absurda e irracional.",
+   instruccion:"Toma 5-7 conceptos que quieres recordar. Conéctalos en una historia breve, cuanto más rara y emotiva mejor. El cerebro recuerda historias, no listas.",
+   ejemplo:"Quieres recordar: dopamina, hábito, recompensa, corteza prefrontal, amígdala. Historia: 'La DOPAMINA era adicta al HÁBITO de robarle RECOMPENSAS a la CORTEZA PREFRONTAL, pero la AMÍGDALA la atrapó.'",
+   sci:"La codificación elaborativa (Craik & Lockhart): la memoria es proporcional a la profundidad del procesamiento. Una historia activa emoción, visual, narrativa — tres sistemas de memoria simultáneos.",
+   sha:"Todas las culturas orales del mundo preservaron su conocimiento en historias. No por tradición — porque es como funciona el cerebro humano. Siempre funcionó así."},
+  {id:"mt3",e:"🎨",titulo:"Imágenes absurdas",
+   desc:"El cerebro recuerda lo raro, no lo ordinario.",
+   instruccion:"Para cualquier concepto abstracto que quieras retener, transfórmalo en una imagen visual lo más extraña, exagerada y emotiva posible. La imagen debe hacerte sonreír o incomodar — eso garantiza que se quede.",
+   ejemplo:"'Epigenética' → imagina un gen en pijama siendo despertado por el ambiente (una taza de café gigante que llama a la puerta). Absurdo. Memorable.",
+   sci:"El efecto de bizarreza (von Restorff, 1933): los elementos inusuales se recuerdan significativamente mejor. El cerebro filtra lo rutinario — lo extraño lo clasifica como 'importante'.",
+   sha:"Los pintores de cuevas paleolíticas no dibujaban lo ordinario — dibujaban lo sagrado, lo extraño, lo que debía transmitirse. Lo visual es el lenguaje más antiguo del cerebro."},
+  {id:"mt4",e:"📝",titulo:"El método Cornell de notas",
+   desc:"El sistema de toma de notas más estudiado para retención real.",
+   instruccion:"Divide la hoja en 3: columna izquierda angosta (preguntas clave), columna derecha ancha (notas), banda inferior (resumen de 3 líneas). Al repasar: tapa las notas y responde las preguntas de la izquierda.",
+   ejemplo:"Nota derecha: 'La dopamina no produce placer — produce anticipación del placer.' Pregunta izquierda: '¿Qué produce la dopamina realmente?' Resumen: 'La dopamina motiva, no recompensa.'",
+   sci:"La autoexplicación y el self-testing duplican la retención vs. releer pasivamente. El método Cornell fuerza ambos. Diseñado en Cornell University, validado en cientos de estudios.",
+   sha:"Los códices mayas y los manuscritos tibetanos separaban la enseñanza central de los comentarios. La estructura del conocimiento no es decoración — es la mitad del aprendizaje."},
+  {id:"mt5",e:"⏰",titulo:"Repaso espaciado intencional",
+   desc:"La curva del olvido de Ebbinghaus: sin repaso, olvidas el 80% en 24h.",
+   instruccion:"Después de aprender algo importante: repásalo en 1 día, luego en 3 días, luego en 7, luego en 21. Cada repaso debe ser activo — intenta recordar antes de verificar.",
+   ejemplo:"Lunes aprendes X. Martes: ¿qué era X? (sin mirar). Jueves: ¿X? Lunes siguiente: ¿X? Lunes del mes: ¿X? En ese punto, X es permanente.",
+   sci:"Ebbinghaus (1885) demostró que la retención decae exponencialmente sin repaso. El repaso espaciado interrumpe esa curva y reencuadra el trazo de memoria como 'importante'.",
+   sha:"Los aprendices de chamán repetían los cantos de curación durante meses antes de usarlos. No era ritual vacío — era comprensión de cómo funciona la memoria humana, milenios antes de Ebbinghaus."},
+];
+
+var LIBROS_SISTEMA=[
+  {paso:1,titulo:"Leer con una pregunta",desc:"Antes de abrir el libro, escribe UNA pregunta que quieres que te responda. Lees en busca de esa respuesta. El cerebro activa el SAR hacia esa pregunta y filtra el ruido."},
+  {paso:2,titulo:"Subrayar → una oración por página",desc:"Máximo una oración subrayada por página. Obliga a elegir. Elegir es procesar. El que subraya todo no subrayó nada."},
+  {paso:3,titulo:"Al terminar el capítulo: pausa de 2 min",desc:"Cierra el libro. ¿Qué recuerdas? ¿Qué cambió en cómo piensas? Sin anotar aún — solo procesar. El hipocampo consolida en ese silencio."},
+  {paso:4,titulo:"Nota de una página por libro",desc:"Al terminar el libro: una sola página. El argumento central, 3 ideas que cambian algo en ti, una pregunta que quedó abierta, una cita. Una página. No más."},
+  {paso:5,titulo:"Aplícalo esta semana",desc:"Elige UNA idea del libro y aplícala esta semana de forma concreta. No en abstracto — algo observable. La aplicación crea el puente entre información y conocimiento."},
+];
+
+var PENSAMIENTO_LATERAL=[
+  "¿Por qué lo contrario de esto también podría ser verdad?",
+  "¿Cómo resolvería este problema alguien de una cultura completamente diferente a la tuya?",
+  "¿Cuál es el supuesto que estás dando por sentado y que nadie cuestionó?",
+  "Si tuvieras el doble de tiempo o el doble de recursos, ¿qué harías diferente?",
+  "¿Cuál es el segundo orden de consecuencia de esta decisión? ¿Y el tercero?",
+  "¿Qué haría la persona más inteligente que conoces con este problema?",
+  "Si este problema fuera una enfermedad, ¿cuál sería el síntoma y cuál la causa raíz?",
+  "¿Qué le dirías a alguien que te dijera exactamente lo que tú te estás diciendo?",
+  "¿Cómo se vería este problema desde dentro de 10 años mirando hacia atrás?",
+  "¿Qué información te falta que cambiaría completamente tu perspectiva si la tuvieras?",
+  "¿Qué es lo más obvio que todos están ignorando?",
+  "Si tuvieras que explicar esto a un niño de 8 años, ¿qué parte no podrías explicar? Esa es la que no entiendes.",
+];
+
+function renderAnalisis(){
+  var now=new Date(),day=now.getDate(),mon=now.getMonth(),dow=now.getDay();
+  if(dow===0||dow===6) return renderWeekend('analisis');
+  var analD=JSON.parse(localStorage.getItem('anal_checks_'+TK)||'{}');
+  var analPerm=JSON.parse(localStorage.getItem('anal_perm')||'{}');
+  var miss=getMissionDays();
+  var h='';
+  var DIAS_N=["","Lunes","Martes","Miércoles","Jueves","Viernes"];
+
+  // Asignar por día de semana — fijo, sin sorpresas
+  var semIdx=Math.floor(miss.el/7);
+  var ejHoy=ANALISIS_DIARIO[(dow-1+semIdx*2)%ANALISIS_DIARIO.length];
+  var tecHoy=MEMORIA_TECNICAS[(dow-1)%MEMORIA_TECNICAS.length];
+  var pregHoy=PENSAMIENTO_LATERAL[(dow-1+mon)%PENSAMIENTO_LATERAL.length];
+
+  var ejKey='anal_'+ejHoy.id;
+  var ejDone=!!analD[ejKey];
+  var ejExp=expanded==='anal_main';
+  var tecKey='tec_'+tecHoy.id;
+  var tecDone=!!analD[tecKey];
+  var tecExp=expanded==='anal_tec';
+  var pregKey='preg_'+dow+'_'+mon;
+  var pregDone=!!analD[pregKey];
+  var sysExp=expanded==='anal_sys';
+
+  // PILL HEADER
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">';
+  h+='<div style="display:inline-flex;align-items:center;gap:8px;background:rgba(122,184,232,.08);border:1px solid rgba(122,184,232,.2);border-radius:100px;padding:6px 14px">';
+  h+='<span style="font-size:13px">🧠</span>';
+  h+='<span style="font-size:11px;color:#5A8EB8;font-weight:500">'+DIAS_N[dow]+'</span>';
+  h+='</div>';
+  h+='<span style="font-size:11px;color:var(--mu)">'+miss.lft+' días</span>';
+  h+='</div>';
+
+  // ── EJERCICIO DEL DÍA ────────────────────────
+  h+='<div style="background:var(--white);border-radius:18px;padding:18px;margin-bottom:10px;box-shadow:0 2px 18px rgba(28,20,16,.09);border:1.5px solid '+(ejDone?"rgba(122,184,232,.3)":"var(--border)")+'">';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#5A8EB8;margin-bottom:8px;font-weight:400">Ejercicio de hoy · '+ejHoy.cat+' · '+ejHoy.dur+'</div>';
+  h+='<div style="font-size:32px;margin-bottom:8px">'+ejHoy.e+'</div>';
+  h+='<div style="font-family:var(--ff);font-size:20px;font-style:italic;color:var(--ink);margin-bottom:10px;line-height:1.3">'+ejHoy.titulo+'</div>';
+  h+='<div style="font-size:13px;color:var(--ink);line-height:1.8;font-weight:300;margin-bottom:14px">'+ejHoy.instruccion+'</div>';
+
+  // Ciencia/sha colapsable
+  h+='<div style="border-top:1px solid var(--border);padding-top:10px;margin-bottom:12px">';
+  h+='<button onclick="togExpA(\'anal_main\')" style="background:none;border:none;font-size:11px;color:var(--mu);cursor:pointer;padding:0;letter-spacing:.5px;font-family:var(--fb)">'+(ejExp?"▾ ocultar":"▸ por qué funciona")+'</button>';
+  if(ejExp){
+    h+='<div style="margin-top:10px;background:rgba(122,184,232,.05);border-radius:10px;padding:10px 12px;margin-bottom:8px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#5A8EB8;margin-bottom:4px">Neurociencia</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">'+ejHoy.sci+'</div></div>';
+    h+='<div style="background:rgba(144,96,192,.05);border-radius:10px;padding:10px 12px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:4px">Perspectiva ancestral</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-style:italic;font-weight:300">'+ejHoy.sha+'</div></div>';
+  }
+  h+='</div>';
+
+  h+='<button onclick="togAnalCheck(\''+ejKey+'\')" style="width:100%;padding:11px;background:'+(ejDone?"rgba(122,184,232,.15)":"var(--ink)")+';border:none;border-radius:12px;color:'+(ejDone?"#5A8EB8":"white")+';font-family:var(--fb);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;font-weight:600">'+(ejDone?"✓ Hecho":"Marcar como hecho")+'</button>';
+  h+='</div>';
+
+  // ── PREGUNTA DEL DÍA ─────────────────────────
+  h+='<div style="background:var(--ink);border-radius:16px;padding:16px;margin-bottom:10px;position:relative;overflow:hidden">';
+  h+='<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(122,184,232,.4),transparent)"></div>';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(122,184,232,.6);margin-bottom:8px">Pregunta del día — piénsala en algún momento</div>';
+  h+='<div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ivory);line-height:1.6;margin-bottom:12px">'+pregHoy+'</div>';
+  h+='<button onclick="togAnalCheck(\''+pregKey+'\')" style="background:'+(pregDone?"rgba(122,184,232,.2)":"rgba(255,255,255,.06)")+';border:1px solid rgba(122,184,232,'+(pregDone?".4":".15")+');border-radius:10px;padding:7px 16px;color:'+(pregDone?"#7AB8E8":"rgba(250,248,245,.4)")+';font-size:10px;letter-spacing:1px;font-family:var(--fb);cursor:pointer">'+(pregDone?"✓ La pensé":"Ya la pensé")+'</button>';
+  h+='</div>';
+
+  // ── TÉCNICA DE MEMORIA ───────────────────────
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shad);border:1.5px solid '+(tecDone?"rgba(122,184,232,.3)":"var(--border)")+';cursor:pointer" onclick="togExpA(\'anal_tec\')">';
+  h+='<div style="display:flex;gap:12px;align-items:flex-start">';
+  h+='<span style="font-size:26px;margin-top:2px">'+tecHoy.e+'</span>';
+  h+='<div style="flex:1">';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#5A8EB8;margin-bottom:4px">Técnica de memoria de la semana</div>';
+  h+='<div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:3px">'+tecHoy.titulo+'</div>';
+  h+='<div style="font-size:11px;color:var(--mu);font-weight:300;margin-bottom:6px">'+tecHoy.desc+'</div>';
+  if(tecExp){
+    h+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300;margin-bottom:10px">'+tecHoy.instruccion+'</div>';
+    h+='<div style="background:rgba(122,184,232,.06);border-radius:8px;padding:10px 12px;margin-bottom:8px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#5A8EB8;margin-bottom:3px">Ejemplo</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic;font-weight:300">'+tecHoy.ejemplo+'</div></div>';
+    h+='<div style="background:rgba(201,169,110,.05);border-radius:8px;padding:10px 12px;margin-bottom:8px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:3px">Neurociencia</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+tecHoy.sci+'</div></div>';
+    h+='<button onclick="event.stopPropagation();togAnalCheck(\''+tecKey+'\')" style="width:100%;padding:9px;background:'+(tecDone?"rgba(122,184,232,.15)":"transparent")+';border:1.5px solid rgba(122,184,232,.4);border-radius:10px;color:#5A8EB8;font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(tecDone?"✓ La uso":"La voy a aplicar")+'</button>';
+  } else {
+    h+='<div style="font-size:10px;color:var(--mu2)">Toca para ver cómo se hace ↓</div>';
+  }
+  h+='</div></div></div>';
+
+  // ── SISTEMA ANTI-OLVIDO (colapsable) ─────────
+  h+='<div style="border:1px solid var(--border);border-radius:14px;overflow:hidden">';
+  h+='<button onclick="togExpA(\'anal_sys\')" style="width:100%;padding:13px 16px;background:none;border:none;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:var(--fb)">';
+  h+='<span style="font-size:12px;color:var(--ink);font-weight:500">📚 ¿Por qué olvidas los libros?</span>';
+  h+='<span style="font-size:12px;color:var(--mu)">'+(sysExp?"▾":"▸")+'</span>';
+  h+='</button>';
+  if(sysExp){
+    h+='<div style="padding:0 16px 14px">';
+    h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;margin-bottom:12px;font-weight:300">No es que tengas mala memoria. Es que leer pasivo no crea memoria. Esto sí:</div>';
+    LIBROS_SISTEMA.forEach(function(paso){
+      var pk='libro_paso_'+paso.paso;
+      var pd=!!analPerm[pk];
+      h+='<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid rgba(26,18,16,.04);cursor:pointer" onclick="togAnalPerm(\''+pk+'\')">';
+      h+='<div style="width:24px;height:24px;border-radius:50%;background:'+(pd?"rgba(122,184,232,.2)":"var(--border)")+';display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:'+(pd?"#5A8EB8":"var(--mu)")+';flex-shrink:0;margin-top:1px">'+paso.paso+'</div>';
+      h+='<div><div style="font-size:12px;font-weight:600;color:'+(pd?"var(--mu)":"var(--ink)")+';'+(pd?"text-decoration:line-through":"")+'">'+paso.titulo+'</div>';
+      h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-weight:300">'+paso.desc+'</div></div></div>';
+    });
+    h+='<div style="font-size:10px;color:var(--mu);margin-top:8px;text-align:center;font-style:italic">Marca lo que ya haces. El resto es tu próximo hábito.</div>';
+    h+='</div>';
+  }
+  h+='</div>';
+
+  return h;
+}
+
+function togExpA(id){expanded=(expanded===id)?null:id;render();}
+function togAnalCheck(key){
+  var d=JSON.parse(localStorage.getItem('anal_checks_'+TK)||'{}');
+  d[key]=!d[key];
+  localStorage.setItem('anal_checks_'+TK,JSON.stringify(d));
+  playChime();render();
+}
+function togAnalPerm(key){
+  var d=JSON.parse(localStorage.getItem('anal_perm')||'{}');
+  d[key]=!d[key];
+  localStorage.setItem('anal_perm',JSON.stringify(d));
+  playChime();render();
+}
+
 var IMAGINATION_EX=[
   {id:"im1",cat:"Imaginación",dur:"5 min",e:"🌀",
    titulo:"Escritura automática",
@@ -2100,273 +2330,229 @@ function renderCrear(){
   var now=new Date(),day=now.getDate(),mon=now.getMonth(),dow=now.getDay();
   if(dow===0||dow===6) return renderWeekend('crear');
   var crearD=JSON.parse(localStorage.getItem('crear_data')||'{}');
-  var crearChecks=JSON.parse(localStorage.getItem('crear_checks_'+TK)||'{}');
-  var h='';
+  var cc=JSON.parse(localStorage.getItem('crear_checks_'+TK)||'{}');
   var miss=getMissionDays();
+  var h='';
+  var DIAS_N=["","Lunes","Martes","Miércoles","Jueves","Viernes"];
 
-  // ── HEADER ──────────────────────────────────
-  h+='<div style="background:var(--ink);border-radius:20px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden">';
-  h+='<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--mauve),transparent)"></div>';
-  h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(184,144,154,.8);margin-bottom:6px">Crear · Imaginar · Registrar · Oct 10</div>';
-  h+='<div style="font-family:var(--ff);font-size:20px;font-style:italic;color:var(--ivory);margin-bottom:6px">La imaginación es una habilidad. Se entrena.</div>';
-  h+='<div style="font-size:12px;color:rgba(250,248,245,.45);line-height:1.7;font-weight:300">Los ancestros sin tecnología memorizaban el cosmos. Tú con toda la tecnología encima apenas recuerdas lo que soñaste anoche. La diferencia: ellos practicaban.</div>';
-  h+='<div style="margin-top:10px;font-size:10px;color:rgba(184,144,154,.6);letter-spacing:1px">'+miss.lft+' días para convertirte en alguien que crea todos los días</div>';
-  h+='</div>';
+  // Datos rotativos
+  var semIdx=Math.floor(miss.el/7);
+  var ej=IMAGINATION_EX[(semIdx+dow-1)%IMAGINATION_EX.length];
+  var jn=JOURNALING_NOCHE[(semIdx+dow-1)%JOURNALING_NOCHE.length];
 
-  // ── EJERCICIO DE IMAGINACIÓN DEL DÍA ────────
-  var ejercicio=IMAGINATION_EX[(day+mon*3+dow)%IMAGINATION_EX.length];
-  var ejKey='imex_'+ejercicio.id;
-  var ejDone=!!crearChecks[ejKey];
-  var ejExp=expanded===('imex'+ejercicio.id);
-  h+='<div class="sec-ttl"><span>Ejercicio de imaginación</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--white);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 3px 20px rgba(28,20,16,.1);cursor:pointer;border:1.5px solid '+(ejDone?"rgba(184,144,154,.35)":"var(--border)")+'" onclick="togExpCrear(\'imex'+ejercicio.id+'\')">';
-  h+='<div style="display:flex;align-items:flex-start;gap:12px">';
-  h+='<div style="min-width:46px;height:46px;border-radius:14px;background:'+(ejDone?"rgba(184,144,154,.2)":"rgba(184,144,154,.08)")+';display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">'+ejercicio.e+'</div>';
-  h+='<div style="flex:1">';
-  h+='<div style="display:flex;gap:6px;align-items:center;margin-bottom:4px">';
-  h+='<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mauve);font-weight:400">'+ejercicio.cat+'</span>';
-  h+='<span style="font-size:9px;color:var(--mu);font-weight:300">·</span>';
-  h+='<span style="font-size:9px;color:var(--mu);font-weight:300">'+ejercicio.dur+'</span>';
-  h+='</div>';
-  h+='<div style="font-family:var(--ff);font-size:17px;font-style:italic;color:var(--ink);margin-bottom:4px">'+ejercicio.titulo+'</div>';
-  h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">'+ejercicio.instruccion+'</div>';
-  if(ejExp){
-    h+='<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">';
-    h+='<div style="background:rgba(201,169,110,.05);border-radius:10px;padding:10px 12px;margin-bottom:8px">';
-    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">Neurociencia</div>';
-    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+ejercicio.sci+'</div></div>';
-    h+='<div style="background:rgba(144,96,192,.05);border-radius:10px;padding:10px 12px;margin-bottom:12px">';
-    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:4px">Energía chamánica</div>';
-    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic;font-weight:300">'+ejercicio.sha+'</div></div>';
-    h+='<button onclick="event.stopPropagation();togCrearCheck(\''+ejKey+'\')" style="width:100%;padding:10px;background:'+(ejDone?"var(--mauve)":"transparent")+';border:1.5px solid var(--mauve);border-radius:10px;color:'+(ejDone?"white":"var(--mauve)")+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(ejDone?"✓ COMPLETADO":"MARCAR COMO HECHO")+'</button>';
-    h+='</div>';
-  } else {
-    h+='<div style="margin-top:8px;font-size:10px;color:var(--mu2)">Toca para ver ciencia + energía ↓</div>';
-  }
-  h+='</div></div>';
-  if(!ejExp){
-    h+='<button onclick="event.stopPropagation();togCrearCheck(\''+ejKey+'\')" style="width:100%;padding:9px;margin-top:8px;background:'+(ejDone?"var(--mauve)":"transparent")+';border:1.5px solid var(--mauve);border-radius:10px;color:'+(ejDone?"white":"var(--mauve)")+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(ejDone?"✓ COMPLETADO":"MARCAR COMO HECHO")+'</button>';
-  }
-  h+='</div>';
-
-  // Explora más ejercicios
-  var otrosEx=IMAGINATION_EX.filter(function(e){return e.id!==ejercicio.id;}).slice(0,3);
-  h+='<div style="font-size:11px;color:var(--mu);margin-bottom:8px;font-style:italic">Otros ejercicios disponibles:</div>';
-  otrosEx.forEach(function(ex){
-    var exKey='imex_'+ex.id;
-    var exDone=!!crearChecks[exKey];
-    var exExp=expanded===('otras'+ex.id);
-    h+='<div style="background:var(--white);border-radius:12px;padding:12px 14px;margin-bottom:6px;box-shadow:var(--shad);cursor:pointer" onclick="togExpCrear(\'otras'+ex.id+'\')">';
-    h+='<div style="display:flex;align-items:center;gap:10px">';
-    h+='<span style="font-size:20px">'+ex.e+'</span>';
-    h+='<div style="flex:1">';
-    h+='<div style="font-size:12px;font-weight:500;color:'+(exDone?"var(--mu)":"var(--ink)")+';'+(exDone?"text-decoration:line-through":"")+'">'+ex.titulo+'</div>';
-    h+='<div style="font-size:10px;color:var(--mu);font-weight:300">'+ex.cat+' · '+ex.dur+'</div>';
-    h+='</div>';
-    h+='<span style="color:var(--mu);font-size:14px">'+(exExp?"▾":"▸")+'</span>';
-    h+='</div>';
-    if(exExp){
-      h+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">';
-      h+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300;margin-bottom:10px">'+ex.instruccion+'</div>';
-      h+='<div style="background:rgba(201,169,110,.05);border-radius:8px;padding:9px 11px;margin-bottom:6px">';
-      h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:3px">Neurociencia</div>';
-      h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-weight:300">'+ex.sci+'</div></div>';
-      h+='<div style="background:rgba(144,96,192,.05);border-radius:8px;padding:9px 11px;margin-bottom:10px">';
-      h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:3px">Energía chamánica</div>';
-      h+='<div style="font-size:11px;color:var(--mu);line-height:1.6;font-style:italic;font-weight:300">'+ex.sha+'</div></div>';
-      h+='<button onclick="event.stopPropagation();togCrearCheck(\''+exKey+'\')" style="width:100%;padding:9px;background:'+(exDone?"var(--mauve)":"transparent")+';border:1.5px solid var(--mauve);border-radius:10px;color:'+(exDone?"white":"var(--mauve)")+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(exDone?"✓ COMPLETADO":"MARCAR COMO HECHO")+'</button>';
-      h+='</div>';
-    }
-    h+='</div>';
-  });
-
-  // ── APRENDER A NO HACER NADA ─────────────────
-  var nadaEj=NADA_PROTOCOL[(day+mon)%NADA_PROTOCOL.length];
-  var nadaKey='nada_'+nadaEj.titulo.replace(/\s/g,'_');
-  var nadaDone=!!crearChecks[nadaKey];
-  h+='<div class="sec-ttl" style="margin-top:6px"><span>Aprender a no hacer nada</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:rgba(26,18,16,.03);border-radius:16px;padding:14px 16px;margin-bottom:14px;border:1px solid var(--border)">';
-  h+='<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;font-weight:300">Por qué es la habilidad más difícil que vas a aprender</div>';
-  h+='<div style="background:var(--white);border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:var(--shad)">';
-  h+='<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px">';
-  h+='<span style="font-size:26px">'+nadaEj.e+'</span>';
-  h+='<div><div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px">'+nadaEj.titulo+'</div>';
-  h+='<div style="font-size:12px;color:var(--mu);line-height:1.7;font-weight:300">'+nadaEj.instruccion+'</div></div></div>';
-  h+='<div style="background:rgba(201,169,110,.05);border-radius:8px;padding:10px 12px;margin-bottom:8px">';
-  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:3px">Por qué funciona</div>';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+nadaEj.sci+'</div></div>';
-  h+='<div style="background:rgba(144,96,192,.05);border-radius:8px;padding:10px 12px;margin-bottom:10px">';
-  h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:3px">Perspectiva ancestral</div>';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic;font-weight:300">'+nadaEj.sha+'</div></div>';
-  h+='<button onclick="togCrearCheck(\''+nadaKey+'\')" style="width:100%;padding:9px;background:'+(nadaDone?"rgba(201,169,110,.15)":"transparent")+';border:1.5px solid rgba(201,169,110,.4);border-radius:10px;color:var(--gold2);font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(nadaDone?"✓ HECHO HOY":"LO HICE")+'</button>';
-  h+='</div>';
-
-  // Escalera de "no hacer nada"
-  h+='<div style="font-size:10px;color:var(--mu);margin-bottom:6px">La escalera — de donde estás hasta donde vas:</div>';
-  var ladderSteps=[
-    {t:"5 min sin teléfono",d:"Solo sentada, mirando el cuarto"},
-    {t:"10 min sin audio",d:"Caminar afuera sin AirPods"},
-    {t:"Una comida en silencio",d:"Sin pantalla ni podcast"},
-    {t:"20 min de observación",d:"Nada que hacer. Solo existir."},
-    {t:"1 hora de aburrimiento",d:"El cerebro empieza a crear solo"},
+  var MEDITACIONES=[
+    {id:"m1",dur:"3 min",titulo:"Respiración 4-7-8",
+     instruccion:"Inhala 4 seg · sostén 7 · exhala 8. Repite 4 veces. Activa el nervio vago y baja el cortisol casi de inmediato.",
+     sci:"Reduce la frecuencia cardíaca y activa el sistema parasimpático en menos de 90 segundos.",
+     sha:"El pranayama yóguico y la respiración chamánica andina comparten la misma premisa: controlar el aliento es controlar el estado interno."},
+    {id:"m2",dur:"5 min",titulo:"Escaneo corporal",
+     instruccion:"Cierra los ojos. Recorre mentalmente desde los pies hasta la cabeza. Sin cambiar nada, solo observa. Si hay tensión, respira hacia ese lugar.",
+     sci:"El body scan activa la ínsula — región de interoception — y mejora la regulación emocional (Farb, 2013).",
+     sha:"Los curanderos andinos 'leen' el cuerpo antes de curar. Tú aprendes a leer el tuyo."},
+    {id:"m3",dur:"3 min",titulo:"Observación sin juicio",
+     instruccion:"Elige un objeto cercano. Obsérvalo 3 minutos completos sin nombrar, sin pensar en él. Solo percibir. Cuando la mente se vaya, regresa.",
+     sci:"Entrena la atención selectiva y reduce la actividad de la default mode network — el ruido mental de fondo.",
+     sha:"Los maestros zen llaman a esto 'mente de principiante'. Ver sin etiquetar es la forma más pura de presencia."},
+    {id:"m4",dur:"4 min",titulo:"Gratitud en el cuerpo",
+     instruccion:"Piensa en 3 cosas concretas de hoy. Por cada una, siente dónde lo percibes físicamente. No es una lista — es una sensación.",
+     sci:"La gratitud activa el sistema de recompensa y modifica patrones de neuroplasticidad hacia el bienestar sostenido (Zahn, 2009).",
+     sha:"El ayni andino — reciprocidad sagrada — empieza por reconocer lo que ya recibes. La gratitud no es sentimentalismo. Es ver la realidad completa."},
+    {id:"m5",dur:"5 min",titulo:"Visualización del yo de octubre",
+     instruccion:"Cierra los ojos. Es el 10 de octubre. ¿Cómo caminas? ¿Cómo hablas? ¿Qué sientes en el cuerpo? Quédate en esa imagen 5 minutos completos.",
+     sci:"Visualizar activa las mismas regiones motoras y emocionales que la experiencia real (Kosslyn, 1994). El cerebro no distingue imagen vívida de realidad.",
+     sha:"Invocar al yo futuro es el llamado del alma en tradición andina. La versión de octubre ya existe. Hoy la acercas."},
   ];
-  ladderSteps.forEach(function(s,i){
-    var lk='ladder_'+i;
-    var ld=!!crearChecks[lk];
-    h+='<div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(26,18,16,.04);cursor:pointer" onclick="togCrearCheck(\''+lk+'\')">';
-    h+='<div style="width:22px;height:22px;border-radius:50%;background:'+(ld?"rgba(201,169,110,.3)":"var(--border)")+';display:flex;align-items:center;justify-content:center;font-size:9px;color:'+(ld?"var(--gold2)":"var(--mu)")+';font-weight:700;flex-shrink:0">'+(i+1)+'</div>';
-    h+='<div style="flex:1"><div style="font-size:12px;color:'+(ld?"var(--mu)":"var(--ink)")+';font-weight:'+(ld?"300":"500")+';'+(ld?"text-decoration:line-through":"")+'">'+s.t+'</div>';
-    h+='<div style="font-size:10px;color:var(--mu);font-weight:300">'+s.d+'</div></div>';
-    h+='</div>';
-  });
+  var med=MEDITACIONES[(semIdx+dow-1)%MEDITACIONES.length];
+
+  var FRASES_CIENCIA=[
+    "La creatividad no es talento — es una red neuronal que se fortalece con uso deliberado.",
+    "La DMN (Default Mode Network) es literalmente el modo creatividad del cerebro. Se activa cuando no haces nada.",
+    "El flow ocurre cuando la habilidad y el reto se igualan. Empuja el límite — siempre.",
+    "Escribir a mano activa más regiones del cerebro que escribir en teclado (Mueller & Oppenheimer, 2014).",
+    "Los estados emocionales positivos amplían el pensamiento y generan más conexiones creativas (Fredrickson, 2001).",
+  ];
+  var FRASES_CHAMAN=[
+    "El chamán no crea desde la nada — teje con lo que existe. Tú también.",
+    "Lo que no se expresa se reprime. Lo que se reprime crea sombra. Crea para liberar.",
+    "Los ancestros grababan su conocimiento en rocas, cantos y tejidos. Tú usas palabras. La función es la misma.",
+    "Crear es un acto de presencia total. Cuando creas, existes completamente.",
+    "El artesano andino no separa arte de espiritualidad. El hacer ES el ritual.",
+  ];
+  var fCiencia=FRASES_CIENCIA[(day+mon)%FRASES_CIENCIA.length];
+  var fChaman=FRASES_CHAMAN[(day+dow)%FRASES_CHAMAN.length];
+
+  // Keys
+  var ejKey='imex_'+ej.id;
+  var ejDone=!!cc[ejKey];
+  var ejExp=expanded==='crear_ej';
+  var medKey='med_'+med.id+'_'+dow;
+  var medDone=!!cc[medKey];
+  var medExp=expanded==='crear_med';
+  var jnKey='jn_'+jn.id+'_'+dow;
+  var jnDone=!!cc[jnKey];
+  var jnExp=expanded==='crear_jn';
+  var proyectos=crearD.proyectos||[];
+
+  // ── PILL HEADER ──────────────────────────────
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">';
+  h+='<div style="display:inline-flex;align-items:center;gap:8px;background:rgba(184,144,154,.1);border:1px solid rgba(184,144,154,.25);border-radius:100px;padding:5px 14px">';
+  h+='<span style="font-size:12px">🎨</span><span style="font-size:11px;color:var(--mauve);font-weight:500">'+DIAS_N[dow]+'</span></div>';
+  h+='<span style="font-size:11px;color:var(--mu)">'+miss.lft+' días</span></div>';
+
+  // ── FRASES del día ────────────────────────────
+  h+='<div style="background:var(--ink);border-radius:16px;padding:14px 16px;margin-bottom:10px;position:relative;overflow:hidden">';
+  h+='<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--mauve),transparent)"></div>';
+  h+='<div style="font-size:11px;color:rgba(250,248,245,.65);line-height:1.7;margin-bottom:8px;font-style:italic">&ldquo;'+fCiencia+'&rdquo;</div>';
+  h+='<div style="height:1px;background:rgba(255,255,255,.07);margin-bottom:8px"></div>';
+  h+='<div style="font-size:11px;color:rgba(184,144,154,.8);line-height:1.7;font-style:italic">&ldquo;'+fChaman+'&rdquo;</div>';
   h+='</div>';
 
-  // ── JOURNALING NOCTURNO ───────────────────────
-  var jnHoy=JOURNALING_NOCHE[(day+mon*2)%JOURNALING_NOCHE.length];
-  var jnKey='jn_'+jnHoy.id;
-  var jnDone=!!crearChecks[jnKey];
-  h+='<div class="sec-ttl" style="margin-top:6px"><span>Journaling de esta noche</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:var(--ink);border-radius:18px;padding:16px;margin-bottom:10px;position:relative;overflow:hidden">';
-  h+='<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(184,144,154,.5),transparent)"></div>';
-  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(184,144,154,.7);margin-bottom:8px">Hoy a las '+jnHoy.hora+' — libreta física</div>';
-  h+='<div style="font-family:var(--ff);font-size:17px;font-style:italic;color:var(--ivory);margin-bottom:12px">'+jnHoy.titulo+'</div>';
-  jnHoy.prompts.forEach(function(p,i){
-    h+='<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid rgba(255,255,255,.06)">';
-    h+='<div style="font-size:11px;font-weight:700;color:rgba(184,144,154,.7);min-width:16px;margin-top:1px">'+(i+1)+'</div>';
-    h+='<div style="font-size:13px;color:rgba(250,248,245,.8);line-height:1.6;font-weight:300;font-style:italic">'+p+'</div></div>';
-  });
-  h+='<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)">';
-  h+='<div style="font-size:10px;color:rgba(255,255,255,.3);margin-bottom:8px">'+jnHoy.sci+'</div>';
-  h+='<button onclick="togCrearCheck(\''+jnKey+'\')" style="width:100%;padding:9px;background:'+(jnDone?"rgba(184,144,154,.25)":"rgba(255,255,255,.06)")+';border:1px solid rgba(184,144,154,'+(jnDone?".5":".25")+'	);border-radius:10px;color:'+(jnDone?"var(--mauve2)":"rgba(250,248,245,.5)")+';font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(jnDone?"✓ LO ESCRIBÍ HOY":"MARCAR CUANDO LO HAGAS")+'</button>';
-  h+='</div></div>';
+  // ── EJERCICIO CREATIVO ────────────────────────
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:8px;box-shadow:var(--shad);border:1.5px solid '+( ejDone?'rgba(184,144,154,.3)':"var(--border)")+'">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mauve)">Ejercicio creativo · '+ej.cat+' · '+ej.dur+'</div>';
+  h+='<span style="font-size:20px">'+ej.e+'</span></div>';
+  h+='<div style="font-family:var(--ff);font-size:17px;font-style:italic;color:var(--ink);margin-bottom:8px;line-height:1.3">'+ej.titulo+'</div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.75;font-weight:300;margin-bottom:10px">'+ej.instruccion+'</div>';
+  h+='<div style="border-top:1px solid var(--border);padding-top:8px;display:flex;align-items:center;justify-content:space-between">';
+  h+='<button onclick="togExpCrear(\'crear_ej\')" style="background:none;border:none;font-size:11px;color:var(--mu);cursor:pointer;padding:0;font-family:var(--fb)">'+( ejExp?'▾ ocultar':"▸ ciencia & chamán")+'</button>';
+  h+='<button onclick="togCrearCheck(\''+ejKey+'\'" style="padding:5px 14px;background:'+( ejDone?'rgba(184,144,154,.15)':"transparent")+';border:1px solid var(--mauve);border-radius:100px;color:var(--mauve);font-size:10px;font-family:var(--fb);cursor:pointer;letter-spacing:.5px">'+( ejDone?'✓ Hecho':'Hecho')+'</button></div>';
+  if(ejExp){
+    h+='<div style="margin-top:10px;background:rgba(201,169,110,.05);border-radius:10px;padding:10px 12px;margin-bottom:6px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:3px">Neurociencia</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+ej.sci+'</div></div>';
+    h+='<div style="background:rgba(144,96,192,.05);border-radius:10px;padding:10px 12px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:3px">Energía chamánica</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic;font-weight:300">'+ej.sha+'</div></div>';
+  }
+  h+='</div>';
 
-  // Journaling rotativo — semana completa
-  h+='<div style="font-size:10px;color:var(--mu);font-style:italic;margin-bottom:8px">Rotación de la semana — un tipo de journaling por día:</div>';
-  var diasLabel=["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
-  h+='<div style="display:flex;gap:4px;margin-bottom:14px">';
-  for(var di=0;di<7;di++){
-    var jData=JOURNALING_NOCHE[di%JOURNALING_NOCHE.length];
-    var isToday=(di===dow);
-    h+='<div style="flex:1;background:'+(isToday?"var(--ink)":"var(--white)")+';border:1px solid '+(isToday?"var(--mauve)":"var(--border)")+';border-radius:8px;padding:6px 4px;text-align:center">';
-    h+='<div style="font-size:8px;color:'+(isToday?"var(--mauve)":"var(--mu)")+';font-weight:'+(isToday?"600":"300")+'">'+diasLabel[di]+'</div>';
-    h+='<div style="font-size:16px;margin:3px 0">'+JOURNALING_NOCHE[di%JOURNALING_NOCHE.length].titulo.split(' ')[0].replace(/[^A-Za-záéíóúñÁÉÍÓÚÑ]/g,'').slice(0,4)+'</div>';
+  // ── MEDITACIÓN ───────────────────────────────
+  h+='<div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:8px;box-shadow:var(--shad);border:1.5px solid '+( medDone?'rgba(122,158,132,.3)':"var(--border)")+'">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--sage)">Meditación · '+med.dur+'</div>';
+  h+='<span style="font-size:18px">🧘</span></div>';
+  h+='<div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px">'+med.titulo+'</div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.75;font-weight:300;margin-bottom:10px">'+med.instruccion+'</div>';
+  h+='<div style="border-top:1px solid var(--border);padding-top:8px;display:flex;align-items:center;justify-content:space-between">';
+  h+='<button onclick="togExpCrear(\'crear_med\')" style="background:none;border:none;font-size:11px;color:var(--mu);cursor:pointer;padding:0;font-family:var(--fb)">'+( medExp?'▾ ocultar':"▸ ciencia & chamán")+'</button>';
+  h+='<button onclick="togCrearCheck(\''+medKey+'\'" style="padding:5px 14px;background:'+( medDone?'rgba(122,158,132,.15)':"transparent")+';border:1px solid var(--sage);border-radius:100px;color:var(--sage);font-size:10px;font-family:var(--fb);cursor:pointer;letter-spacing:.5px">'+( medDone?'✓ Hecha':'La hice')+'</button></div>';
+  if(medExp){
+    h+='<div style="margin-top:10px;background:rgba(122,158,132,.05);border-radius:10px;padding:10px 12px;margin-bottom:6px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage);margin-bottom:3px">Neurociencia</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+med.sci+'</div></div>';
+    h+='<div style="background:rgba(144,96,192,.05);border-radius:10px;padding:10px 12px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:3px">Energía chamánica</div>';
+    h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic;font-weight:300">'+med.sha+'</div></div>';
+  }
+  h+='</div>';
+
+  // ── JOURNALING (expandible) ───────────────────
+  h+='<div style="border:1.5px solid '+( jnDone?'rgba(184,144,154,.3)':"var(--border)")+';border-radius:16px;overflow:hidden;margin-bottom:8px">';
+  h+='<button onclick="togExpCrear(\'crear_jn\')" style="width:100%;padding:13px 16px;background:'+( jnDone?'rgba(184,144,154,.06)':"var(--white)")+';border:none;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:var(--fb)">';
+  h+='<div style="display:flex;align-items:center;gap:10px">';
+  h+='<span style="font-size:16px">📓</span>';
+  h+='<div style="text-align:left"><div style="font-size:12px;font-weight:600;color:var(--ink)">'+jn.titulo+'</div>';
+  h+='<div style="font-size:10px;color:var(--mu);font-weight:300">Esta noche · 20:30 · Libreta física</div></div></div>';
+  h+='<div style="display:flex;align-items:center;gap:8px">';
+  h+=( jnDone?'<span style="font-size:10px;color:var(--mauve)">✓</span>':"");
+  h+='<span style="font-size:12px;color:var(--mu)">'+( jnExp?'▾':'▸')+'</span></div></button>';
+  if(jnExp){
+    h+='<div style="padding:0 16px 14px;background:var(--white)">';
+    jn.prompts.forEach(function(p,i){
+      h+='<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid rgba(26,18,16,.05)">';
+      h+='<div style="font-size:10px;font-weight:700;color:rgba(184,144,154,.6);min-width:16px;margin-top:2px">'+( i+1)+'</div>';
+      h+='<div style="font-size:13px;color:var(--ink);line-height:1.65;font-style:italic;font-weight:300">'+p+'</div></div>';
+    });
+    h+='<div style="font-size:10px;color:var(--mu);margin-top:8px;line-height:1.6;font-style:italic">'+jn.sci+'</div>';
+    h+='<button onclick="event.stopPropagation();togCrearCheck(\''+jnKey+'\'" style="width:100%;padding:9px;margin-top:10px;background:'+( jnDone?'rgba(184,144,154,.12)':"transparent")+';border:1px solid var(--mauve);border-radius:10px;color:var(--mauve);font-family:var(--fb);font-size:10px;letter-spacing:1px;cursor:pointer">'+( jnDone?'✓ Lo escribí esta noche':'Lo escribí')+'</button>';
     h+='</div>';
   }
   h+='</div>';
 
-  // ── CÓMO ACTIVAR EL FLOW ────────────────────
-  var flowTip=FLOW_TRIGGERS[(day+dow)%FLOW_TRIGGERS.length];
-  var flowKey='flow_'+flowTip.t.replace(/\s/g,'_');
-  var flowDone=!!crearChecks[flowKey];
-  h+='<div class="sec-ttl"><span>Activar el flow</span><div class="sec-ln"></div></div>';
-  h+='<div style="background:rgba(201,169,110,.04);border-radius:16px;padding:14px;margin-bottom:14px;border:1px solid rgba(201,169,110,.15)">';
-  h+='<div style="font-size:10px;color:var(--mu);line-height:1.7;margin-bottom:10px;font-weight:300">El flow no se espera — se diseña. Csikszentmihalyi estudió miles de personas en estado de flow. Todas tenían condiciones específicas. Estas son las tuyas.</div>';
-  h+='<div style="background:var(--white);border-radius:12px;padding:13px;box-shadow:var(--shad);display:flex;gap:12px;align-items:flex-start;margin-bottom:8px">';
-  h+='<span style="font-size:24px">'+flowTip.e+'</span>';
-  h+='<div><div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">'+flowTip.t+'</div>';
-  h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+flowTip.d+'</div></div></div>';
-  h+='<button onclick="togCrearCheck(\''+flowKey+'\')" style="width:100%;padding:9px;background:'+(flowDone?"rgba(201,169,110,.15)":"transparent")+';border:1.5px solid rgba(201,169,110,.4);border-radius:10px;color:var(--gold2);font-family:var(--fb);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">'+(flowDone?"✓ ACTIVADO HOY":"LO APLIQUÉ")+'</button>';
-  h+='</div>';
-
-  // Todos los triggers
-  h+='<div style="font-size:10px;color:var(--mu);margin-bottom:8px;font-style:italic">Todos los triggers — construye tu ritual:</div>';
-  FLOW_TRIGGERS.forEach(function(ft){
-    var fk='flow_'+ft.t.replace(/\s/g,'_');
-    var fd=!!crearChecks[fk];
-    h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(26,18,16,.04);cursor:pointer" onclick="togCrearCheck(\''+fk+'\')">';
-    h+='<span style="font-size:16px">'+ft.e+'</span>';
-    h+='<div style="flex:1;font-size:12px;color:'+(fd?"var(--mu)":"var(--ink)")+';font-weight:'+(fd?"300":"400")+';'+(fd?"text-decoration:line-through":"")+'">'+ft.t+'</div>';
-    h+='<div style="width:20px;height:20px;border-radius:50%;background:'+(fd?"var(--gold)":"var(--border)")+';display:flex;align-items:center;justify-content:center;font-size:9px;color:white;flex-shrink:0">'+(fd?"✓":"")+'</div>';
-    h+='</div>';
-  });
-
-  // ── PROYECTOS ────────────────────────────────
-  var proyectos=crearD.proyectos||[];
-  h+='<div class="sec-ttl" style="margin-top:10px"><span>Proyectos vivos</span><div class="sec-ln"></div></div>';
+  // ── PROYECTOS (siempre visible, compacto) ─────
+  h+='<div style="background:var(--white);border-radius:16px;padding:14px 16px;box-shadow:var(--shad)">';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mauve);margin-bottom:10px">Proyectos · '+proyectos.length+' en curso</div>';
   if(proyectos.length===0){
-    h+='<div style="font-size:12px;color:var(--mu);font-style:italic;margin-bottom:8px;padding:12px;background:var(--ivory2);border-radius:10px">Agrega lo que tienes en construcción...</div>';
+    h+='<div style="font-size:12px;color:var(--mu);font-style:italic;padding:4px 0 10px">¿Qué tienes en construcción?</div>';
   }
   proyectos.forEach(function(p,i){
-    h+='<div style="background:var(--white);border-radius:12px;padding:11px 14px;margin-bottom:6px;box-shadow:var(--shad);display:flex;gap:10px;align-items:center">';
-    h+='<div style="width:8px;height:8px;border-radius:50%;background:'+(p.done?"var(--sage)":"var(--mauve)")+';flex-shrink:0"></div>';
-    h+='<div style="flex:1"><div style="font-size:13px;color:'+(p.done?"var(--mu)":"var(--ink)")+';font-weight:500;'+(p.done?"text-decoration:line-through":"")+'">'+p.nombre+'</div>';
-    if(p.fecha) h+='<div style="font-size:10px;color:var(--mu);margin-top:1px">'+p.fecha+'</div>';
-    h+='</div>';
-    h+='<button onclick="togProyecto('+i+')" style="padding:5px 12px;border-radius:8px;border:1.5px solid '+(p.done?"var(--sage)":"var(--border)")+';background:'+(p.done?"rgba(122,158,132,.15)":"transparent")+';color:'+(p.done?"var(--sage)":"var(--mu)")+';font-size:10px;cursor:pointer;font-family:var(--fb)">'+(p.done?"✓ listo":"→")+'</button>';
-    h+='<button onclick="delProyecto('+i+')" style="width:26px;height:26px;border-radius:50%;border:none;background:none;color:var(--mu2);font-size:16px;cursor:pointer;line-height:1">×</button>';
+    h+='<div style="display:flex;gap:8px;align-items:center;padding:7px 0;border-top:1px solid rgba(26,18,16,.05)">';
+    h+='<div style="width:7px;height:7px;border-radius:50%;background:'+( p.done?'var(--sage)':"var(--mauve)")+';flex-shrink:0"></div>';
+    h+='<div style="flex:1;font-size:12px;color:'+( p.done?'var(--mu)':"var(--ink)")+';font-weight:'+( p.done?'300':'500')+';'+( p.done?'text-decoration:line-through':'')+'">'+p.nombre+'</div>';
+    if(p.fecha) h+='<div style="font-size:10px;color:var(--mu)">'+p.fecha+'</div>';
+    h+='<button onclick="togProyecto('+i+')" style="padding:3px 10px;border-radius:8px;border:1px solid '+( p.done?'var(--sage)':"var(--border)")+';background:transparent;color:'+( p.done?'var(--sage)':"var(--mu)")+';font-size:10px;cursor:pointer;font-family:var(--fb)">'+( p.done?'✓':'→')+'</button>';
+    h+='<button onclick="delProyecto('+i+')" style="width:22px;height:22px;border-radius:50%;border:none;background:none;color:var(--mu2);font-size:14px;cursor:pointer;line-height:1">×</button>';
     h+='</div>';
   });
-  h+='<div style="display:flex;gap:8px;margin-bottom:6px">';
-  h+='<input id="proy-nombre" placeholder="Nombre del proyecto..." style="flex:1;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);outline:none">';
-  h+='<input id="proy-fecha" placeholder="Meta" style="width:72px;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:10px 8px;font-family:var(--fb);font-size:11px;color:var(--ink);outline:none;text-align:center">';
+  h+='<div style="display:flex;gap:6px;margin-top:10px">';
+  h+='<input id="proy-nombre" placeholder="Nuevo proyecto..." style="flex:1;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-family:var(--fb);font-size:12px;color:var(--ink);outline:none">';
+  h+='<input id="proy-fecha" placeholder="Meta" style="width:68px;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:9px 8px;font-family:var(--fb);font-size:11px;color:var(--ink);outline:none;text-align:center">';
   h+='</div>';
-  h+='<button onclick="addProyecto()" style="width:100%;padding:10px;background:var(--ink);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:11px;cursor:pointer;margin-bottom:6px;letter-spacing:.5px">+ Agregar proyecto</button>';
+  h+='<button onclick="addProyecto()" style="width:100%;padding:9px;margin-top:6px;background:var(--ink);border:none;border-radius:10px;color:white;font-family:var(--fb);font-size:11px;cursor:pointer;font-weight:600">+ Agregar</button>';
+  h+='</div>';
 
   return h;
 }
 
 function togExpCrear(id){expanded=(expanded===id)?null:id;render();}
 function togCrearCheck(key){
-  var d=JSON.parse(localStorage.getItem('crear_checks_'+TK)||'{}');
+  var d=JSON.parse(localStorage.getItem('crear_checks_'+TK)||'{}'  );
   d[key]=!d[key];
   localStorage.setItem('crear_checks_'+TK,JSON.stringify(d));
   playChime();render();
 }
-
-// ═══════════════════════════════════════════
-//  RENDER
-// ═══════════════════════════════════════════
-function render(){
-  var el=document.getElementById("content");
-  try{
-    var content='';
-    if(tab==="hoy")     content=renderHoy();
-    else if(tab==="cuerpo") content=renderCuerpo();
-    else if(tab==="mente")  content=renderMente();
-    else if(tab==="voz")    content=renderVoz();
-    else if(tab==="meca")   content=renderMeca();
-    else if(tab==="pnl")    content=renderPnl();
-    else if(tab==="vision") content=renderVision();
-    else if(tab==="dinero") content=renderDinero();
-    else if(tab==="crear")  content=renderCrear();
-    else content=renderHoy();
-    el.innerHTML=content;
-  }catch(err){
-    el.innerHTML='<div style="padding:24px;color:var(--ink);font-size:13px;line-height:1.7"><b>Error en '+tab+':</b><br>'+err.message+'<br><small style="color:var(--mu)">'+err.stack.split("\n").slice(0,3).join("<br>")+'</small></div>';
-  }
-  try{updateProgress();}catch(e){}
-}
-
-// ═══════════════════════════════════════════
-//  CREAR HELPERS
-// ═══════════════════════════════════════════
 function addProyecto(){
   var el=document.getElementById('proy-nombre');
   var ef=document.getElementById('proy-fecha');
   if(!el||!el.value.trim())return;
-  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
-  if(!d.proyectos) d.proyectos=[];
-  var fecha=ef&&ef.value.trim()?ef.value.trim():(function(){var n=new Date();return n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear();}());
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}'  );
+  if(!d.proyectos)d.proyectos=[];
+  var n=new Date();
+  var fecha=ef&&ef.value.trim()?ef.value.trim():n.getDate()+'/ '+(n.getMonth()+1)+'/'+n.getFullYear();
   d.proyectos.push({nombre:el.value.trim(),fecha:fecha,done:false});
   localStorage.setItem('crear_data',JSON.stringify(d));
   render();
 }
 function delProyecto(i){
-  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
-  if(d.proyectos) d.proyectos.splice(i,1);
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}'  );
+  if(d.proyectos)d.proyectos.splice(i,1);
   localStorage.setItem('crear_data',JSON.stringify(d));
   render();
 }
 function togProyecto(i){
-  var d=JSON.parse(localStorage.getItem('crear_data')||'{}');
-  if(d.proyectos&&d.proyectos[i]) d.proyectos[i].done=!d.proyectos[i].done;
+  var d=JSON.parse(localStorage.getItem('crear_data')||'{}'  );
+  if(d.proyectos&&d.proyectos[i])d.proyectos[i].done=!d.proyectos[i].done;
   localStorage.setItem('crear_data',JSON.stringify(d));
   render();
 }
 
 // ═══════════════════════════════════════════
-//  INIT
+//  RENDER DISPATCHER
 // ═══════════════════════════════════════════
+function render(){
+  var el=document.getElementById("content");
+  if(!el) return;
+  try{
+    var content='';
+    if(tab==="hoy")      content=renderHoy();
+    else if(tab==="cuerpo")   content=renderCuerpo();
+    else if(tab==="mente")    content=renderMente();
+    else if(tab==="voz")      content=renderVoz();
+    else if(tab==="meca")     content=renderMeca();
+    else if(tab==="pnl")      content=renderPnl();
+    else if(tab==="vision")   content=renderVision();
+    else if(tab==="dinero")   content=renderDinero();
+    else if(tab==="analisis") content=renderAnalisis();
+    else if(tab==="crear")    content=renderCrear();
+    else content=renderHoy();
+    el.innerHTML=content;
+  }catch(err){
+    el.innerHTML='<div style="padding:24px;color:var(--ink);font-size:13px;line-height:1.7"><b>Error en '+tab+':</b><br>'+err.message+'<br><small style="color:var(--mu)">'+String(err.stack||'').split("\n").slice(0,3).join("<br>")+'</small></div>';
+  }
+  try{updateProgress();}catch(e){}
+}
+
 render();
 tick();
 updateProgress();
