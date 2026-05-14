@@ -159,7 +159,30 @@ body{background:var(--ivory2);font-family:var(--fb);color:var(--ink);min-height:
 .drw-lbl{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);font-weight:400;letter-spacing:.2px;}
 .drw-btn.active .drw-lbl{color:var(--gold2);font-weight:600;}
 
-/* ══ TOAST ══ */
+/* ══ STREAK ══ */
+.streak-card{background:var(--ink);border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
+.streak-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.streak-num{font-family:var(--ff);font-size:48px;font-style:italic;color:var(--gold);line-height:1;min-width:64px;text-align:center;}
+.streak-dots{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;}
+.streak-dot{width:7px;height:7px;border-radius:50%;}
+
+/* ══ DISCOVERY CARD ══ */
+.disc-card{border-radius:18px;padding:16px 18px;margin-bottom:10px;cursor:pointer;transition:transform .15s;position:relative;overflow:hidden;}
+.disc-card:active{transform:scale(.99)}
+.disc-tag{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;font-weight:400;margin-bottom:8px;}
+.disc-txt{font-family:var(--ff);font-size:17px;font-style:italic;line-height:1.65;margin-bottom:6px;}
+.disc-sub{font-size:11px;line-height:1.7;font-weight:300;opacity:.7;}
+.disc-tap{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-top:10px;opacity:.4;}
+
+/* ══ GRATITUD ══ */
+.grat-card{background:var(--white);border-radius:18px;padding:16px 18px;margin-bottom:10px;box-shadow:var(--shad);border:1.5px solid var(--border);}
+.grat-card.done-all{border-color:rgba(201,169,110,.35);background:rgba(201,169,110,.03);}
+.grat-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(26,18,16,.05);cursor:pointer;}
+.grat-num{font-family:var(--ff);font-size:18px;font-style:italic;color:var(--gold2);min-width:20px;line-height:1.4;flex-shrink:0;}
+.grat-prompt{font-size:13px;color:var(--ink);line-height:1.65;font-weight:300;flex:1;}
+.grat-check{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;transition:all .2s;}
+.grat-check.on{background:var(--gold);border-color:var(--gold);color:white;}
+
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--ivory);padding:10px 20px;border-radius:var(--r-pill);font-size:11px;font-family:var(--fb);letter-spacing:.5px;display:none;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);}
 
 /* ══ ANIMATIONS ══ */
@@ -934,6 +957,31 @@ function togPnl(id){
   localStorage.setItem("pnl_"+TK,JSON.stringify(pnlD));
   playChime();render();
 }
+function togGrat(idx,dow){
+  var k='grat_'+todayKey();
+  var d=JSON.parse(localStorage.getItem(k)||'{}');
+  d['g'+idx]=!d['g'+idx];
+  localStorage.setItem(k,JSON.stringify(d));
+  playChime();render();
+}
+var _discIdx=0;
+function flipDisc(key,area,txt,sub){
+  _discIdx=(_discIdx+1)%DISCOVERY.length;
+  var disc=DISCOVERY[_discIdx];
+  var card=event.currentTarget;
+  if(!card)return;
+  card.style.opacity='0';card.style.transform='scale(.97)';
+  setTimeout(function(){
+    card.querySelector('.disc-tag').textContent=disc.area;
+    card.querySelector('.disc-txt').textContent='"'+disc.txt+'"';
+    card.querySelector('.disc-sub').textContent=disc.sub;
+    card.style.background=disc.color;
+    card.querySelector('.disc-tag').style.color=disc.tc;
+    card.style.opacity='1';card.style.transform='scale(1)';
+  },180);
+  card.style.transition='opacity .18s,transform .18s';
+}
+
 function togGoal(id){
   goals[id]=!goals[id];
   localStorage.setItem("goals",JSON.stringify(goals));
@@ -1014,6 +1062,113 @@ function togMoonInfo(){
 // ═══════════════════════════════════════════
 //  RENDER HOY
 // ═══════════════════════════════════════════
+// ─── STREAK ────────────────────────────────
+function getStreak(){
+  var streak=0;
+  var d=new Date();
+  for(var i=0;i<180;i++){
+    var k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    var data=JSON.parse(localStorage.getItem('done_'+k)||'{}');
+    var cc=JSON.parse(localStorage.getItem('crear_checks_'+k)||'{}');
+    var hasAny=Object.values(data).some(Boolean)||Object.values(cc).some(Boolean);
+    if(hasAny){streak++;}
+    else if(i>0){break;}
+    d.setDate(d.getDate()-1);
+  }
+  return streak;
+}
+
+// ─── DISCOVERY POOL ────────────────────────
+var DISCOVERY=[
+  {area:"🧠 Memoria",color:"rgba(122,184,232,.08)",tc:"#5A8EB8",
+   txt:"Cada vez que recuerdas algo sin ayuda, el trazo de memoria se hace el doble de fuerte. El olvido no es fracaso — es la señal de que el siguiente repaso llegó a tiempo.",
+   sub:"Efecto testing · Roediger & Karpicke, 2006"},
+  {area:"🌿 Cuerpo",color:"rgba(122,158,132,.08)",tc:"#5A9E8A",
+   txt:"El músculo no crece en el gym. Crece mientras duermes. Las primeras 2 horas de sueño profundo producen el 70% de la hormona de crecimiento diaria.",
+   sub:"Fisiología del sueño · Matthew Walker"},
+  {area:"🇬🇧 Inglés",color:"rgba(122,158,132,.06)",tc:"#5A9E8A",
+   txt:"Hablar en voz alta activa neuronas espejo que escuchar no puede activar. 10 minutos de shadowing valen más que 1 hora de lectura pasiva.",
+   sub:"Output Hypothesis · Merrill Swain, 1985"},
+  {area:"🌙 Luna",color:"rgba(201,169,110,.07)",tc:"#A8873F",
+   txt:"La luna no cambia de fase para impresionar. Cambia porque es su naturaleza. Tu transformación tampoco necesita audiencia — solo constancia.",
+   sub:"Energía lunar · Astronomía"},
+  {area:"🧬 PNL",color:"rgba(201,169,110,.07)",tc:"#A8873F",
+   txt:"Tu Sistema de Activación Reticular filtra 11 millones de bits por segundo a solo 40 conscientes. Le dices qué buscar con lo que repites. Elige bien.",
+   sub:"Neurociencia del SAR · Joseph LeDoux"},
+  {area:"🎨 Creatividad",color:"rgba(184,144,154,.08)",tc:"var(--mauve)",
+   txt:"La Default Mode Network se activa cuando te aburres. Es literalmente el modo creatividad de tu cerebro. Cada vez que evitas el aburrimiento, apagas tu motor creativo.",
+   sub:"DMN & Creatividad · Beaty et al., 2016"},
+  {area:"⌨️ Mecanografía",color:"rgba(144,96,192,.07)",tc:"var(--purple)",
+   txt:"El cerebelo almacena el programa motor del teclado, no la corteza prefrontal. Por eso cuando dominas, no piensas cada tecla — simplemente fluyes.",
+   sub:"Neurología del aprendizaje motor"},
+  {area:"🎤 Voz",color:"rgba(184,144,154,.08)",tc:"var(--mauve)",
+   txt:"Una power pose de 2 minutos antes de hablar baja el cortisol un 25% y sube la testosterona. Tu cuerpo no sigue a tu mente — tu mente sigue a tu cuerpo.",
+   sub:"Amy Cuddy · Harvard Business School"},
+  {area:"💰 Dinero",color:"rgba(201,169,110,.07)",tc:"#A8873F",
+   txt:"Pensar en escasez reduce el IQ operativo en 13 puntos — equivalente a no dormir una noche. La mentalidad de escasez literalmente te hace menos inteligente.",
+   sub:"Mullainathan & Shafir · Harvard, 2013"},
+  {area:"✨ Visión",color:"rgba(144,96,192,.07)",tc:"var(--purple)",
+   txt:"El yo futuro activa en el cerebro las mismas regiones que un extraño. Si lo haces concreto y vívido, lo activas como alguien familiar — y empiezas a protegerlo.",
+   sub:"Hershfield · Future Self continuity, 2011"},
+  {area:"🌿 Ancestral",color:"rgba(122,158,132,.07)",tc:"#5A9E8A",
+   txt:"Los quipucamayocs incas administraban un imperio sin escritura. Toda la complejidad del Tawantinsuyu vivía en cuerdas y nudos memorizados. Tu cerebro puede más de lo que crees.",
+   sub:"Tradición quechua · Khipu"},
+  {area:"🧠 Análisis",color:"rgba(122,184,232,.08)",tc:"#5A8EB8",
+   txt:"Los mejores predicctores del mundo no tienen más información que los demás. Tienen un hábito: siempre preguntan '¿qué tan seguro estoy realmente?' antes de decidir.",
+   sub:"Philip Tetlock · Superforecasting"},
+  {area:"🌙 Chamán",color:"rgba(144,96,192,.08)",tc:"var(--purple)",
+   txt:"El chamán no cura enfermedades. Restaura el orden. La enfermedad es desorden. Tu caos no es un defecto — es la señal de que algo busca reordenarse.",
+   sub:"Cosmología andina"},
+  {area:"🎨 Flow",color:"rgba(184,144,154,.08)",tc:"var(--mauve)",
+   txt:"El estado de flow ocurre en el umbral exacto entre aburrimiento y ansiedad. No demasiado fácil, no demasiado difícil. Empuja el límite 10% cada semana.",
+   sub:"Mihaly Csikszentmihalyi · Flow, 1990"},
+  {area:"🌿 Cuerpo",color:"rgba(122,158,132,.08)",tc:"#5A9E8A",
+   txt:"Los telómeros — los extremos de tus cromosomas — se alargan con el ejercicio consistente. No es metáfora: estás construyendo más vida con cada sesión.",
+   sub:"Elizabeth Blackburn · Nobel de Medicina 2009"},
+  {area:"🧬 Epigenética",color:"rgba(201,169,110,.07)",tc:"#A8873F",
+   txt:"El ambiente moldea qué genes se expresan. No eres prisionera de tu ADN. Cada hábito que construyes le está dando instrucciones diferentes a tu biología.",
+   sub:"Bruce Lipton · Biología de la creencia"},
+  {area:"📚 Lectura",color:"rgba(122,184,232,.08)",tc:"#5A8EB8",
+   txt:"Leer para enseñar produce 3× más retención que leer para recordar. Cambia la pregunta: no '¿qué debo recordar?' sino '¿cómo se lo explicaría a alguien?'",
+   sub:"Técnica Feynman · Aprendizaje activo"},
+  {area:"🌙 Sueño",color:"rgba(144,96,192,.07)",tc:"var(--purple)",
+   txt:"Las horas 22–02 concentran el mayor porcentaje de sueño delta. Dormirse tarde no se compensa durmiendo más. La ventana biológica óptima no es negociable.",
+   sub:"Circadian biology · Walker, 2017"},
+];
+
+// ─── GRATITUD PROMPTS ──────────────────────
+var GRATITUD_PROMPTS=[
+  [
+    "Piensa en una persona que estuvo ahí hoy — aunque sea de lejos. Siéntelo 10 segundos.",
+    "Nombra algo de tu cuerpo que funcionó bien hoy. Un órgano, un músculo, tus ojos.",
+    "¿Hubo algo incómodo hoy que te empujó a crecer? Reconócelo sin queja."
+  ],[
+    "Encuentra el momento más pequeño del día que valió la pena. Recréalo en tu mente.",
+    "¿Tienes algo hoy que hace un año no tenías? Nómbralo, aunque sea pequeño.",
+    "¿Qué habilidad tuya salió hoy, aunque nadie la viera?"
+  ],[
+    "¿Algo del experimento ya cambió en ti, aunque sea un poco? Nómbralo en una oración.",
+    "Piensa en alguien que te formó aunque ya no esté cerca. Dile gracias en silencio.",
+    "Elige un lujo cotidiano que normalmente ignoras. El agua caliente. La luz. El silencio."
+  ],[
+    "¿Algo de tu historia, aunque haya dolido, te hizo más tú? Reconócelo sin dramatismo.",
+    "¿Cometiste un error esta semana del que aprendiste algo real? Ese error es un regalo.",
+    "Recuerda que mañana puedes intentarlo de nuevo. Eso no es poca cosa."
+  ],[
+    "Siente tu capacidad de sentir — aunque a veces duela. Es señal de que estás viva.",
+    "¿Algo funciona en tu vida sin que lo hayas pedido o controlado? Nómbralo.",
+    "Tienes metas. El hecho de tenerlas ya es un privilegio que mucha gente no tiene."
+  ],[
+    "Agradece a tu cuerpo por algo concreto que hizo hoy sin que tú lo pidieras.",
+    "¿Hay alguien que creyó en ti antes de que tú lo hicieras? Piensa en esa persona.",
+    "¿Hubo una conversación esta semana que valió la pena? Revívela brevemente."
+  ],[
+    "Busca algo bello que viste hoy — aunque fuera pequeñísimo. Cierra los ojos y míralo de nuevo.",
+    "¿Qué hábito ya es tuyo y antes no lo era? Ese cambio eres tú construyéndote.",
+    "El día de hoy, exactamente como fue. Agradécelo completo — lo bueno y lo que costó."
+  ],
+];
+
 function renderHoy(){
   var now=new Date();
   var cid=getCurrent();
@@ -1047,6 +1202,84 @@ function renderHoy(){
   h+='<button onclick="if(confirm(\'¿Reiniciar las marcas de hoy?\')){localStorage.removeItem(\'done_\'+TK);done={};render();}" style="font-size:9px;color:var(--mu);background:none;border:none;cursor:pointer;padding:0">↺ reiniciar</button>';
   h+='</div>';
   h+='<div style="margin-top:12px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)" id="ring-bar"></div>';
+  h+='</div>';
+
+  // ── STREAK ────────────────────────────────
+  var streak=getStreak();
+  var RACHA_MSG=[
+    [0,"Empieza hoy. El día 1 también vale."],
+    [1,"Primer día. El sistema nervioso ya tomó nota."],
+    [2,"Dos días seguidos. Más de lo que parece."],
+    [3,"3 días. El hábito empieza a formarse neurológicamente."],
+    [5,"5 días. Tu cerebro ya empieza a esperar esto."],
+    [7,"Una semana. Eso es real."],
+    [10,"10 días. Los investigadores lo llaman 'hábito naciente'."],
+    [14,"2 semanas. La identidad empieza a cambiar."],
+    [21,"21 días. El mito dice que es suficiente. La ciencia dice que es el inicio."],
+    [30,"30 días. Un mes de elegirte."],
+    [60,"2 meses. Cambio estructural en la corteza prefrontal."],
+    [90,"90 días. Ya eres una persona diferente que la que empezó."],
+    [150,"150 días. Casi en octubre. Esto es lo que prometiste."],
+  ];
+  var rachaMsg=RACHA_MSG[0][1];
+  for(var ri=RACHA_MSG.length-1;ri>=0;ri--){if(streak>=RACHA_MSG[ri][0]){rachaMsg=RACHA_MSG[ri][1];break;}}
+  var weekDots='';
+  for(var wi=6;wi>=0;wi--){
+    var wd=new Date();wd.setDate(wd.getDate()-wi);
+    var wk=wd.getFullYear()+'-'+String(wd.getMonth()+1).padStart(2,'0')+'-'+String(wd.getDate()).padStart(2,'0');
+    var wdata=JSON.parse(localStorage.getItem('done_'+wk)||'{}');
+    var wcc=JSON.parse(localStorage.getItem('crear_checks_'+wk)||'{}');
+    var wdone=Object.values(wdata).some(Boolean)||Object.values(wcc).some(Boolean);
+    weekDots+='<div class="streak-dot" style="background:'+(wdone?'var(--gold)':'rgba(255,255,255,.12)')+'"></div>';
+  }
+  h+='<div class="streak-card">';
+  h+='<div style="text-align:center">';
+  h+='<div class="streak-num">'+streak+'</div>';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5);margin-top:2px">días seguidos</div>';
+  h+='</div>';
+  h+='<div style="flex:1">';
+  h+='<div style="font-size:12px;color:rgba(250,248,245,.8);line-height:1.6;font-weight:300;margin-bottom:8px">'+rachaMsg+'</div>';
+  h+='<div class="streak-dots">'+weekDots+'</div>';
+  h+='<div style="font-size:9px;color:rgba(255,255,255,.25);margin-top:4px;letter-spacing:.5px">últimos 7 días</div>';
+  h+='</div></div>';
+
+  // ── DESCUBRIMIENTO DEL DÍA ─────────────────
+  var disc=DISCOVERY[(now.getDate()+now.getMonth()*7+now.getDay())%DISCOVERY.length];
+  var discNext=DISCOVERY[(now.getDate()+now.getMonth()*7+now.getDay()+1)%DISCOVERY.length];
+  var discKey='disc_'+todayKey();
+  var discFlipped=!!localStorage.getItem(discKey);
+  h+='<div class="disc-card" style="background:'+disc.color+';border:1px solid '+disc.color.replace('.0','.4')+'border:1px solid rgba(26,18,16,.06)" onclick="flipDisc(\''+discKey+'\',\''+discNext.area.replace(/'/g,'')+'\',\''+encodeURIComponent(discNext.txt)+'\',\''+encodeURIComponent(discNext.sub)+'\')">';
+  h+='<div class="disc-tag" style="color:'+disc.tc+'">'+disc.area+'</div>';
+  h+='<div class="disc-txt" style="color:var(--ink)">"'+disc.txt+'"</div>';
+  h+='<div class="disc-sub" style="color:var(--mu)">'+disc.sub+'</div>';
+  h+='<div class="disc-tap">toca para el siguiente →</div>';
+  h+='</div>';
+
+  // ── GRATITUD ──────────────────────────────
+  var gratIdx=now.getDay()%GRATITUD_PROMPTS.length;
+  var gratPrompts=GRATITUD_PROMPTS[gratIdx];
+  var gratD=JSON.parse(localStorage.getItem('grat_'+todayKey())||'{}');
+  var gratDone=gratPrompts.filter(function(_,i){return !!gratD['g'+i];}).length;
+  var gratAll=gratDone===gratPrompts.length;
+  h+='<div class="grat-card '+(gratAll?'done-all':'')+'">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold2);font-weight:400">Gratitud diaria</div>';
+  h+='<div style="font-size:10px;color:var(--mu)">'+gratDone+'/'+gratPrompts.length+'</div>';
+  h+='</div>';
+  h+='<div style="font-size:12px;color:var(--mu);line-height:1.65;font-weight:300;margin-bottom:10px;padding:8px 10px;background:rgba(201,169,110,.05);border-radius:8px;border-left:2px solid rgba(201,169,110,.25)">';
+  h+='<b style="color:var(--ink);font-weight:500">Cómo hacerlo:</b> Lee cada prompt. Cierra los ojos 10 segundos y piensa en algo concreto que encaje. Luego toca para marcar. Sin escribir — solo sentir y reconocer.';
+  h+='</div>';
+  gratPrompts.forEach(function(p,i){
+    var gDone=!!gratD['g'+i];
+    h+='<div class="grat-item" onclick="togGrat('+i+')">';
+    h+='<div class="grat-num">'+(i+1)+'</div>';
+    h+='<div class="grat-prompt" style="'+(gDone?'text-decoration:line-through;color:var(--mu)':'')+'">'+p+'</div>';
+    h+='<div class="grat-check '+(gDone?'on':'')+'">'+(gDone?'✓':'')+'</div>';
+    h+='</div>';
+  });
+  if(gratAll){
+    h+='<div style="text-align:center;padding-top:8px;font-size:11px;color:var(--gold2);font-style:italic">✨ Gratitud completa hoy</div>';
+  }
   h+='</div>';
 
   // Quote of the day
