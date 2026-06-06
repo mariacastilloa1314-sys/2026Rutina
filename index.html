@@ -65,7 +65,7 @@ body{background:var(--ivory2);font-family:var(--fb);color:var(--ink);min-height:
 .pbf{height:100%;background:linear-gradient(90deg,var(--gold),rgba(201,169,110,.3));transition:width .9s cubic-bezier(.4,0,.2,1);}
 
 /* ══ CONTENT ══ */
-.content{padding:18px 16px 120px;max-width:500px;margin:0 auto;}
+.content{padding:18px 16px 140px;max-width:500px;margin:0 auto;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .content{animation:fadeIn .28s ease}
 
@@ -159,6 +159,92 @@ body{background:var(--ivory2);font-family:var(--fb);color:var(--ink);min-height:
 .drw-lbl{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);font-weight:400;letter-spacing:.2px;}
 .drw-btn.active .drw-lbl{color:var(--gold2);font-weight:600;}
 
+
+/* ══ CONFETTI & CELEBRATIONS ══ */
+@keyframes confettiDrop{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(201,169,110,0)}50%{box-shadow:0 0 20px 8px rgba(201,169,110,.25)}}
+@keyframes celebrate{0%{transform:scale(1)}30%{transform:scale(1.08)}60%{transform:scale(.97)}100%{transform:scale(1)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+.confetti-piece{position:fixed;width:8px;height:8px;pointer-events:none;z-index:9999;border-radius:1px;}
+.celebrate-ping{animation:celebrate .4s ease;}
+.achievement-toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,#1C1410,#2E2018);
+  color:var(--gold);border:1px solid rgba(201,169,110,.3);
+  padding:12px 22px;border-radius:100px;font-size:12px;font-family:var(--ff);
+  font-style:italic;letter-spacing:.5px;z-index:9998;
+  box-shadow:0 8px 32px rgba(0,0,0,.3);
+  animation:slideUp .35s ease;
+  white-space:nowrap;
+}
+.mission-complete{
+  background:linear-gradient(135deg,var(--ink),#2E2018);
+  border:1px solid rgba(201,169,110,.2);border-radius:20px;
+  padding:20px;text-align:center;margin-bottom:14px;
+  position:relative;overflow:hidden;
+}
+.mission-complete::before{
+  content:'';position:absolute;top:0;left:-100%;right:-100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:shimmer 2s infinite;
+  background-size:200% 100%;
+}
+/* Level badge */
+.level-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,rgba(193,127,58,.2),rgba(193,127,58,.05));
+  border:1px solid rgba(193,127,58,.35);border-radius:100px;
+  padding:5px 14px;font-size:10px;color:var(--alq);font-weight:600;letter-spacing:1px;
+}
+/* Streak fire */
+.streak-fire{
+  font-size:28px;line-height:1;
+  filter:drop-shadow(0 0 8px rgba(255,140,0,.5));
+}
+/* Pulse dot */
+.pulse-gold{
+  width:8px;height:8px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 0 0 rgba(201,169,110,.4);
+  animation:ripple 1.5s infinite;
+}
+/* Card hover lift */
+.card-lift{transition:transform .2s ease,box-shadow .2s ease;cursor:pointer;}
+.card-lift:active{transform:scale(.98);}
+
+/* ══ BOTTOM NAV ══ */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:rgba(250,248,245,.95);backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  padding:8px 4px 20px;
+  display:flex;align-items:center;justify-content:center;
+  gap:2px;
+}
+.nav-btn{
+  flex:1;max-width:60px;display:flex;flex-direction:column;
+  align-items:center;gap:3px;padding:6px 4px;
+  background:none;border:none;cursor:pointer;border-radius:12px;
+  transition:background .15s;
+}
+.nav-btn.active{background:rgba(201,169,110,.12);}
+.nav-ico{font-size:20px;line-height:1;}
+.nav-lbl{font-size:8px;color:var(--mu);letter-spacing:.5px;font-weight:400;font-family:var(--fb);}
+.nav-btn.active .nav-lbl{color:var(--gold2);font-weight:600;}
+
+/* ══ MISSION CARD ══ */
+.mission-header{
+  background:var(--ink);border-radius:20px;padding:20px 18px;
+  margin-bottom:14px;position:relative;overflow:hidden;
+  border:1px solid rgba(201,169,110,.1);
+}
+.mission-header::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at top right,rgba(193,127,58,.08),transparent 60%);
+  pointer-events:none;
+}
+
 /* ══ STREAK ══ */
 .streak-card{background:var(--ink);border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
 .streak-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
@@ -209,72 +295,123 @@ body{background:var(--ivory2);font-family:var(--fb);color:var(--ink);min-height:
 <!-- ══════════════════════════════ -->
 <!--  WELCOME SCREEN               -->
 <!-- ══════════════════════════════ -->
-<div id="welcome" style="position:fixed;inset:0;z-index:900;background:#1C1410;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 28px;transition:opacity .6s">
-  <div style="width:100%;max-width:360px;text-align:center">
-    <div id="w-days" style="font-size:60px;font-family:'Bodoni Moda',serif;font-style:italic;color:#C9A96E;line-height:1;margin-bottom:4px">—</div>
-    <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#A8873F;margin-bottom:24px">días para el 10 de octubre</div>
-    <div style="width:60px;height:1px;background:rgba(201,169,110,.3);margin:0 auto 24px"></div>
-    <div id="w-quote" style="font-family:'Bodoni Moda',serif;font-size:20px;font-style:italic;color:#FAF8F5;line-height:1.7;margin-bottom:12px">&ldquo;&rdquo;</div>
-    <div id="w-author" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#A0928A;margin-bottom:40px">&nbsp;</div>
-    <div id="w-date" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#A8873F;margin-bottom:36px">cargando...</div>
-    <button onclick="closeWelcome()" style="display:block;width:100%;padding:17px;background:var(--gold,#C9A96E);border:none;border-radius:14px;color:#1C1410;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;margin-bottom:12px;font-weight:600">Comenzar el día</button>
-    <button onclick="closeWelcome()" style="display:block;width:100%;padding:10px;background:none;border:none;color:#A0928A;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer;letter-spacing:1px">saltar →</button>
+<div id="welcome" style="position:fixed;inset:0;z-index:900;background:#0F0C08;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 28px;transition:opacity .7s">
+  <div style="width:100%;max-width:360px">
+
+    <!-- Phase + days -->
+    <div style="text-align:center;margin-bottom:32px">
+      <div id="w-phase" style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#C17F3A;margin-bottom:16px;opacity:.8">⚗️ cargando fase...</div>
+      <div id="w-days" style="font-size:80px;font-family:'Bodoni Moda',serif;font-style:italic;color:#C9A96E;line-height:.9;margin-bottom:4px">—</div>
+      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,.4)">días para el 10 de octubre</div>
+    </div>
+
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px">
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,110,.2))"></div>
+      <div style="font-size:16px;color:rgba(201,169,110,.3)">⚗</div>
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(201,169,110,.2),transparent)"></div>
+    </div>
+
+    <!-- Quote -->
+    <div style="text-align:center;margin-bottom:32px">
+      <div id="w-quote" style="font-family:'Bodoni Moda',serif;font-size:22px;font-style:italic;color:#FAF8F5;line-height:1.7;margin-bottom:10px;min-height:60px"></div>
+      <div id="w-author" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.45)"></div>
+    </div>
+
+    <!-- Date + streak -->
+    <div style="text-align:center;margin-bottom:36px">
+      <div id="w-date" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(250,248,245,.3);margin-bottom:8px">cargando...</div>
+      <div id="w-streak" style="font-size:11px;color:rgba(201,169,110,.6)"></div>
+    </div>
+
+    <!-- CTA -->
+    <button onclick="closeWelcome()" style="display:block;width:100%;padding:18px;background:linear-gradient(135deg,#C9A96E,#A8873F);border:none;border-radius:16px;color:#0F0C08;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;margin-bottom:12px;font-weight:700;box-shadow:0 8px 32px rgba(201,169,110,.2)">
+      Comenzar la transmutación
+    </button>
+    <button onclick="closeWelcome()" style="display:block;width:100%;padding:10px;background:none;border:none;color:rgba(250,248,245,.25);font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer;letter-spacing:1px">
+      entrar →
+    </button>
   </div>
 
 <script>
 (function(){
   var Q=[
-    {q:"Si los ancestros aprendían sin tecnología, no tienes excusa.",a:"El científico loco"},
+    {q:"El plomo no sabe que puede ser oro. Tú sí sabes. Esa diferencia lo cambia todo.",a:"Gran Obra"},
+    {q:"No estás empezando de cero. Estás empezando con todo lo que ya eres.",a:"—"},
+    {q:"Solve et Coagula. Disuelve lo que ya no sirve. Solidifica lo que quieres ser.",a:"Alquimia"},
+    {q:"Lo que construyes en silencio aparece en tu presencia. Siempre.",a:"Tabla Esmeralda"},
     {q:"Elegiste ser el experimento. Ahora sé la hipótesis que se comprueba.",a:"—"},
+    {q:"6 meses de práctica deliberada producen cambios que duran décadas.",a:"Anders Ericsson"},
     {q:"La epigenética demostró lo que los ancestros sabían: el ambiente forma al ser.",a:"Bruce Lipton"},
-    {q:"Seis meses de práctica deliberada producen cambios que duran décadas.",a:"Anders Ericsson"},
-    {q:"Los rituales no son superstición — son arquitectura de la mente.",a:"Neurología del hábito"},
-    {q:"Quien controla su respiración, controla su estado interno.",a:"Wim Hof"},
-    {q:"El músculo crece mientras duermes, no mientras entrenas.",a:"Fisiología"},
+    {q:"El fuego no destruye al oro — lo purifica. El dolor tampoco te destruye.",a:"Alquimia"},
+    {q:"Quien controla su respiración, controla su estado interno.",a:"Pranayama"},
     {q:"La luna no pide permiso para cambiar de fase. Tú tampoco.",a:"—"},
-    {q:"Una mente entrenada ve patrones donde los demás ven caos.",a:"—"},
-    {q:"Ser rara no es un defecto de diseño. Es el diseño.",a:"—"},
-    {q:"La ciencia sin alma informa. El alma sin ciencia sueña. Juntas transforman.",a:"—"},
     {q:"Tu acento es tu firma. Tu historia es tu activo.",a:"—"},
-    {q:"El subconsciente reprograma con repetición y emoción juntos.",a:"PNL · Baudoin"},
     {q:"I am becoming fluent. It is already happening.",a:"—"},
-    {q:"Cada tecla que aprendes hoy es velocidad que tendrás en octubre.",a:"El científico loco"},
-    {q:"Los telómeros se alargan con ejercicio constante. Estás construyendo más vida.",a:"Elizabeth Blackburn"},
-    {q:"El cortisol baja cuando dejas de correrte de ti misma.",a:"—"},
+    {q:"Cada tecla que aprendes hoy es velocidad que tendrás en octubre.",a:"—"},
     {q:"Constancia sin perfección mueve montañas. Perfección sin constancia no mueve nada.",a:"—"},
-    {q:"El flow requiere que la tarea y la habilidad estén al límite. Empuja el límite.",a:"Csikszentmihalyi"},
+    {q:"La Piedra Filosofal no se fabrica. Se revela en lo que ya eres.",a:"Paracelso"},
+    {q:"As above, so below. Lo que transformas adentro se refleja afuera.",a:"Tabla Esmeralda"},
+    {q:"Los telómeros se alargan con el ejercicio constante. Estás construyendo más vida.",a:"Elizabeth Blackburn"},
+    {q:"El Athanor necesita calor constante. Tu rutina es el fuego.",a:"Alquimia operativa"},
     {q:"Octubre te espera. Tiene cara de alguien que no puso excusas.",a:"—"},
-    {q:"Transforma y créate — un día a la vez.",a:"Experimento 2026"},
-    {q:"La intuición es experiencia comprimida. Confía en ella, pero también entrénala.",a:"Gary Klein"},
-    {q:"Lo ancestral no es lo opuesto a lo científico. Es su origen.",a:"—"},
-    {q:"La creatividad no es un don. Es un músculo. Se entrena.",a:"—"},
-    {q:"Tu combinación de habilidades es única. Úsala sin pedir permiso.",a:"—"},
-    {q:"El sueño es el hábito de alto rendimiento más subestimado.",a:"Matthew Walker"},
+    {q:"Ser rara no es un defecto de diseño. Es el diseño.",a:"—"},
+    {q:"La Mary de octubre existe. Hoy te acercas un día más a ella.",a:"—"},
     {q:"Los sistemas ganan a la motivación. La rutina gana al impulso.",a:"—"},
-    {q:"La marca personal no se construye — se revela.",a:"—"},
+    {q:"El Nigredo no es el fracaso. Es la primera fase de la transmutación.",a:"Gran Obra"},
+    {q:"Tu combinación de habilidades es única. Úsala sin pedir permiso.",a:"—"},
+    {q:"Los ancestros aprendían sin tecnología. No tienes excusa.",a:"El experimento"},
     {q:"Lo que planto hoy, lo cosecho en octubre. Ya está plantado.",a:"Tradición andina"},
-    {q:"El subconsciente trabaja 24 horas. Dale las instrucciones correctas.",a:"Joseph Murphy"},
+    {q:"El subconsciente trabaja 24h. Dale las instrucciones correctas.",a:"PNL"},
+    {q:"El flow requiere empujar el límite. Empújalo hoy.",a:"Csikszentmihalyi"},
+    {q:"La creatividad no es talento. Es una red neuronal que se fortalece con uso.",a:"Neurociencia"},
+    {q:"Proxima a ser la persona que siempre supiste que podías ser.",a:"—"},
   ];
-  var d=new Date();
   var DAYS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
   var MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var ALQ_NAMES=['Nigredo','Albedo','Citrinitas','Rubedo'];
+  var ALQ_SUBS=['Prima Materia · el inicio','Purificación · la escoria cae','El Amanecer · los patrones brillan','La Gran Obra · el oro emerge'];
+
+  var d=new Date();
   var oct10=new Date(2026,9,10);
+  var start=new Date(2026,3,20);
   var daysLeft=Math.max(0,Math.ceil((oct10-d)/864e5));
+  var elapsed=Math.max(0,Math.floor((d-start)/864e5));
+  var phaseIdx=elapsed<35?0:elapsed<70?1:elapsed<105?2:3;
+  
+  // streak
+  var streak=0;
+  var dd=new Date();
+  for(var i=0;i<180;i++){
+    var kk=dd.getFullYear()+'-'+String(dd.getMonth()+1).padStart(2,'0')+'-'+String(dd.getDate()).padStart(2,'0');
+    var dd2=JSON.parse(localStorage.getItem('done_'+kk)||'{}');
+    if(Object.values(dd2).some(Boolean)){streak++;}else if(i>0){break;}
+    dd.setDate(dd.getDate()-1);
+  }
+
   var q=Q[(d.getDate()+d.getMonth()*7)%Q.length];
   var el_d=document.getElementById('w-date');
   var el_q=document.getElementById('w-quote');
   var el_a=document.getElementById('w-author');
   var el_days=document.getElementById('w-days');
-  if(el_d) el_d.textContent=DAYS[d.getDay()]+', '+d.getDate()+' de '+MONTHS[d.getMonth()]+' · 2026';
+  var el_phase=document.getElementById('w-phase');
+  var el_streak=document.getElementById('w-streak');
+
+  if(el_days) el_days.textContent=daysLeft;
   if(el_q) el_q.textContent='"'+q.q+'"';
   if(el_a&&q.a!=='—') el_a.textContent='— '+q.a;
-  if(el_days) el_days.textContent=daysLeft;
+  if(el_d) el_d.textContent=DAYS[d.getDay()]+', '+d.getDate()+' de '+MONTHS[d.getMonth()];
+  if(el_phase) el_phase.textContent='⚗️ '+ALQ_NAMES[phaseIdx]+' · '+ALQ_SUBS[phaseIdx];
+  if(el_streak&&streak>0) el_streak.textContent='🔥 '+streak+' días seguidos';
+
   if(sessionStorage.getItem('wel')){
     var ov=document.getElementById('welcome');
     if(ov) ov.style.display='none';
   }
 })();
 </script></div>
+
+</div>
 
 <!-- ══════════════════════════════ -->
 <!--  SIDEBAR DRAWER               -->
@@ -311,7 +448,7 @@ body{background:var(--ivory2);font-family:var(--fb);color:var(--ink);min-height:
   <!-- HEADER -->
   <div class="hdr" id="hdr">
     <div style="display:flex;align-items:center;justify-content:space-between">
-      <button onclick="openDrawer()" style="background:none;border:none;cursor:pointer;padding:4px 8px 4px 0;display:flex;flex-direction:column;gap:5px">
+      <button onclick="togMore()" style="background:none;border:none;cursor:pointer;padding:4px 8px 4px 0;display:flex;flex-direction:column;gap:5px">
         <span style="display:block;width:22px;height:1.5px;background:var(--ink);border-radius:2px"></span>
         <span style="display:block;width:16px;height:1.5px;background:var(--ink);border-radius:2px"></span>
         <span style="display:block;width:20px;height:1.5px;background:var(--ink);border-radius:2px"></span>
@@ -350,6 +487,29 @@ body{background:var(--ivory2);font-family:var(--fb);color:var(--ink);min-height:
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- ══ BOTTOM NAV ══ -->
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="nav-btn active" onclick="swNav('hoy',this)"><span class="nav-ico">☀️</span><span class="nav-lbl">HOY</span></button>
+  <button class="nav-btn" onclick="swNav('cuerpo',this)"><span class="nav-ico">💪</span><span class="nav-lbl">CUERPO</span></button>
+  <button class="nav-btn" onclick="swNav('mente',this)"><span class="nav-ico">🇬🇧</span><span class="nav-lbl">INGLÉS</span></button>
+  <button class="nav-btn" onclick="swNav('meca',this)"><span class="nav-ico">⌨️</span><span class="nav-lbl">MECA</span></button>
+  <button class="nav-btn" onclick="togMore()" id="nav-more"><span class="nav-ico">✦</span><span class="nav-lbl">MÁS</span></button>
+</nav>
+<!-- MORE MENU -->
+<div id="more-menu" style="display:none;position:fixed;bottom:80px;left:0;right:0;z-index:299;padding:0 16px">
+  <div style="background:var(--white);border-radius:20px;box-shadow:0 8px 40px rgba(28,20,16,.18);border:1px solid var(--border);overflow:hidden">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+      <button onclick="swNav('voz',null);closeMore()" style="padding:16px 8px;background:none;border:none;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:22px">🎤</span><span style="font-size:10px;color:var(--mu)">VOZ</span></button>
+      <button onclick="swNav('pnl',null);closeMore()" style="padding:16px 8px;background:none;border:none;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:22px">🧬</span><span style="font-size:10px;color:var(--mu)">PNL</span></button>
+      <button onclick="swNav('vision',null);closeMore()" style="padding:16px 8px;background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:22px">✨</span><span style="font-size:10px;color:var(--mu)">VISIÓN</span></button>
+      <button onclick="swNav('dinero',null);closeMore()" style="padding:16px 8px;background:none;border:none;border-right:1px solid var(--border);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:22px">💰</span><span style="font-size:10px;color:var(--mu)">DINERO</span></button>
+      <button onclick="swNav('crear',null);closeMore()" style="padding:16px 8px;background:none;border:none;border-right:1px solid var(--border);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:22px">🎨</span><span style="font-size:10px;color:var(--mu)">CREAR</span></button>
+      <button onclick="swNav('analisis',null);closeMore()" style="padding:16px 8px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:22px">🧠</span><span style="font-size:10px;color:var(--mu)">MENTE</span></button>
+    </div>
+  </div>
+</div>
+
 
 <script>
 // ═══════════════════════════════════════════
@@ -405,7 +565,8 @@ const WK={
     st:["Glúteo acostada 30s c/pierna","Cuádriceps 30s c/pierna","Femoral 30s c/pierna"],
     tip:"Si terminas sin sensación de llenura → sube peso la próxima vez.",
     sci:"El glúteo mayor es el músculo más grande del cuerpo. El hip thrust activa el glúteo 3× más que la sentadilla.",
-    sha:"Cada hip thrust es un acto de enraizamiento — conectas con tu fuerza más ancestral."},
+    sha:"Cada hip thrust es un acto de enraizamiento — conectas con tu fuerza más ancestral.",
+    alq:"Coagulatio: el centro de poder físico se solidifica. El glúteo es el ancla de la transmutación corporal. Cuando esta fuerza crece, todo lo demás se reorganiza alrededor del nuevo centro."},
   2:{n:"Espalda + Brazos 💪",e:"💪",prot:false,ex:[
     {n:"Remo con mancuernas",  s:"3×10",r:"75s"},
     {n:"Pull over con pesa",   s:"3×12",r:"75s"},
@@ -414,7 +575,8 @@ const WK={
     st:["Espalda 30s","Bíceps y tríceps 30s c/u","Hombros 30s"],
     tip:"Hombros atrás y abajo durante todo el entrenamiento.",
     sci:"El triángulo invertido: espalda + brazos construyen la forma V y mejoran postura contra el daño de estar sentada.",
-    sha:"La espalda es tu protección ancestral. Fortalecerla es honrar tus raíces mientras te preparas para avanzar."},
+    sha:"La espalda es tu protección ancestral. Fortalecerla es honrar tus raíces mientras te preparas para avanzar.",
+    alq:"Albedo: la postura hundida es el plomo. La espalda abierta es el oro. Esta fase purifica la forma — la escoria del cuerpo que cargo cae, emerge el ser que ya no carga sino que sostiene."},
   3:{n:"Pierna Completa 🦵",e:"🦵",prot:true,ex:[
     {n:"Peso muerto rumano",     s:"4×10",         r:"120s",big:true},
     {n:"Zancadas atrás",         s:"3×12 c/pierna",r:"90s"},
@@ -423,7 +585,8 @@ const WK={
     st:["Glúteo — 30s ×2","Femoral — 30s ×2","Cuádriceps — 30s ×2"],
     tip:"Piernas pesadas al terminar = señal de que trabajaste bien.",
     sci:"La sentadilla búlgara y el RDL son los ejercicios más efectivos para crear curva en la parte inferior del cuerpo.",
-    sha:"Miércoles es el punto de equilibrio. Lo que entrenas hoy se consolida mientras duermes esta noche."},
+    sha:"Miércoles es el punto de equilibrio. Lo que entrenas hoy se consolida mientras duermes esta noche.",
+    alq:"Fixatio: las piernas son la raíz del árbol alquímico. Vuelve permanente lo que era volátil. Sin raíces, la transmutación se dispersa y se pierde."},
   4:{n:"Abdomen + Cintura ⚡",e:"⚡",prot:false,ex:[
     {n:"Plancha",               s:"3×40s",r:"45s"},
     {n:"Dead bug",              s:"3×12", r:"45s"},
@@ -432,7 +595,8 @@ const WK={
     st:["Abdomen suave","Lumbar","Cadera — 30s c/u"],
     tip:"Cardio opcional: caminata suave 10–15 min. Solo este día.",
     sci:"El core profundo (transverso abdominal) es el que 'aplana' el vientre desde adentro. Dead bug y hollow hold lo trabajan mejor que los crunches.",
-    sha:"El centro de tu cuerpo es el centro de tu poder. Core fuerte, vida más estable."},
+    sha:"El centro de tu cuerpo es el centro de tu poder. Core fuerte, vida más estable.",
+    alq:"Circulatio: el Athanor necesita un recipiente que contenga el proceso. El core es ese recipiente. Sin centro fuerte, la energía de la transmutación se escapa por los lados."},
   5:{n:"Glúteo Estético 🍑",e:"🍑",prot:true,ex:[
     {n:"Hip thrust ligero",s:"4×20",         r:"60s"},
     {n:"Step ups",         s:"3×12 c/pierna",r:"60s"},
@@ -441,7 +605,8 @@ const WK={
     st:["Glúteo + pierna completa con cariño 💛"],
     tip:"Peso ligero, muchas reps. Siente el bombeo. Este día es arte.",
     sci:"Alto volumen y bajo peso aumenta el flujo sanguíneo y potencia la síntesis proteica del fin de semana.",
-    sha:"Viernes integra. Lo que sembraste esta semana se cosecha aquí."},
+    sha:"Viernes integra. Lo que sembraste esta semana se cosecha aquí.",
+    alq:"Rubedo: la fase final. El trabajo suave de viernes no es el fácil — es el sofisticado. La integración consciente es la operación más difícil de la Gran Obra semanal."},
   6:{n:"Descanso Total 🌿",e:"🌿",rest:true},
   0:{n:"Descanso Total 🌿",e:"🌿",rest:true}
 };
@@ -494,6 +659,7 @@ var VOZ_NIVELES={
       1:{tema:"Respiración diafragmática",
          sci:"El diafragma es el músculo principal de la voz. La respiración superficial tensa las cuerdas. La respiración abdominal activa el nervio vago y da soporte a frases largas.",
          sha:"El pranayama yóguico y la respiración chamánica andina tienen la misma premisa: controlar el prana a través del aliento.",
+         alq:"Circulatio: el primer elemento purificado en el laboratorio es el aire. Tu voz es aire transformado por la intención. Dominar la respiración es dominar el primer elemento.",
          ejs:[
            {id:"v1a",n:"Respiración 4-4-4",d:"Inhala 4 seg → sostén 4 → exhala 4. Mano en el abdomen — que se mueva, no el pecho. 5 rondas."},
            {id:"v1b",n:"Exhala con S",d:"Inhala profundo → exhala haciendo ssssss lo más largo posible. Meta: +20 segundos."},
@@ -518,6 +684,7 @@ var VOZ_NIVELES={
       4:{tema:"Articulación clara",
          sci:"La dicción no es exagerar sonidos — es activar los músculos articuladores que el uso del celular va atrofiando.",
          sha:"Los actores griegos debían ser escuchados a 100 metros sin micrófono. La claridad es más poderosa que el volumen.",
+         alq:"Coagulatio: condensar la energía dispersa en forma precisa. La articulación es Coagulatio vocal — tomar el aire difuso y darle forma exacta que el otro puede recibir.",
          ejs:[
            {id:"v4a",n:"Trabalenguas lento",d:"'Tres tristes tigres' — muy lento, exagerando cada consonante. Luego normal. Luego rápido. 3 rondas."},
            {id:"v4b",n:"Vocales exageradas",d:"A-E-I-O-U abriendo la boca al máximo. 10 repeticiones."},
@@ -570,6 +737,7 @@ var VOZ_NIVELES={
       5:{tema:"Conversación con presencia",
          sci:"El contacto visual, velocidad y volumen se sincronizan con el interlocutor. Esto cambia la dinámica de poder en la conversación.",
          sha:"En el ayni andino, la comunicación es intercambio de energía. Hablar con presencia es dar — no solo transmitir.",
+         alq:"Fermentatio: la fase donde el material muerto cobra vida nueva. La presencia vocal es fermentación — introduces vida en cada palabra. El oro vocal no es técnica, es alquimia.",
          ejs:[
            {id:"v25a",n:"Simulación de conversación",d:"Habla en voz alta como si le explicaras algo a alguien. 3 minutos."},
            {id:"v25b",n:"Escucha activa real",d:"En tu próxima conversación: repite con tus palabras lo que escuchaste antes de responder."},
@@ -714,6 +882,13 @@ var DAILY_QUOTES=[
   {q:"El cortisol baja cuando dejas de correrte de ti misma.",a:"—"},
   {q:"La ciencia sin alma informa. El alma sin ciencia sueña. Las dos juntas transforman.",a:"—"},
   {q:"No compites con nadie. Tu única carrera es con quien fuiste ayer.",a:"—"},
+  {q:"Solve et Coagula. Disuelve lo viejo. Solidifica lo nuevo. Eso es todo el secreto.",a:"Alquimia"},
+  {q:"El plomo no sabe que puede ser oro. Tú sí sabes. Esa diferencia lo cambia todo.",a:"Gran Obra"},
+  {q:"As above, so below. Lo que construyes adentro aparece afuera. Siempre.",a:"Tabla Esmeralda"},
+  {q:"El Nigredo no es el fracaso — es la Primera Operación. Bienvenida al laboratorio.",a:"Alquimia · Fase I"},
+  {q:"El Athanor necesita calor constante. Tu rutina es el fuego. Sin fuego, no hay transmutación.",a:"Alquimia operativa"},
+  {q:"La Piedra Filosofal no se fabrica desde cero. Se revela en lo que ya eres.",a:"Paracelso"},
+
   {q:"El cuerpo recuerda todo lo que le das: cada proteína, cada rep, cada hora de sueño.",a:"—"},
   {q:"Hoy no tienes que hacer todo. Solo tienes que hacer algo.",a:"—"},
   {q:"Los rituales no son superstición — son arquitectura de la mente.",a:"Neurología del hábito"},
@@ -821,7 +996,8 @@ function updateProgLabel(){
   var tot=getTotalToday(),dn=getTotalDone();
   var pct=tot>0?Math.round(dn/tot*100):0;
   var pl=document.getElementById('prog-label');
-  if(pl) pl.textContent=dn+' de '+tot+' completadas · '+pct+'%';
+  var progMsg=pct===0?'Empieza la obra':pct<25?'El Nigredo avanza':pct<50?'A mitad de la transmutación':pct<75?'El oro se vislumbra':pct<100?'La obra casi completa':'✦ Gran Obra del día: completa';
+  if(pl) pl.textContent=dn+'/'+tot+' · '+progMsg;
   var dw=document.getElementById('drw-progress');
   if(dw) dw.textContent='Hoy: '+dn+'/'+tot+' · '+pct+'%';
 }
@@ -936,14 +1112,17 @@ function save(){
 function tog(id){
   done[id]=!done[id];
   save();playChime();render();
+  setTimeout(checkDayComplete,300);
 }
 function togEng(id){
   engD[id]=!engD[id];
+  setTimeout(checkDayComplete,300);
   localStorage.setItem("eng_"+TK,JSON.stringify(engD));
   playChime();render();
 }
 function togEx(id){
   exD[id]=!exD[id];
+  setTimeout(checkDayComplete,300);
   localStorage.setItem("ex_"+TK,JSON.stringify(exD));
   playChime();render();
 }
@@ -1062,6 +1241,58 @@ function togMoonInfo(){
 // ═══════════════════════════════════════════
 //  RENDER HOY
 // ═══════════════════════════════════════════
+
+// ─── ALCHEMICAL PHASE ─────────────────────
+
+// --- TRIPLE INSIGHTS (Ciencia + Chaman + Alquimia) ---
+var TRIPLE_INSIGHTS=[
+  {area:"Cuerpo",col:"rgba(122,158,132,.07)",tc:"#5A9E8A",sci:"El ejercicio consistente alarga los telómeros. Cada sesión es literalmente más vida construida.",sha:"Los guerreros andinos entrenaban el cuerpo como acto sagrado. El cuerpo fuerte es el templo que permite al espíritu cumplir su misión.",alq:"Calcinación: el fuego del entrenamiento quema la impureza. Lo que permanece es oro. Tu cuerpo es el Athanor."},
+  {area:"Mente",col:"rgba(122,184,232,.07)",tc:"#5A8EB8",sci:"La neuroplasticidad no tiene fecha de vencimiento. El cerebro puede crear nuevas conexiones sinápticas hasta el final de la vida.",sha:"Para el yachaq, el conocimiento que no cambia al que aprende no es conocimiento — es acumulación sin raíz.",alq:"Multiplicatio: cada aprendizaje auténtico multiplica tu capacidad de aprender más. La sabiduría se autorreplica."},
+  {area:"Voz",col:"rgba(184,144,154,.07)",tc:"var(--mauve)",sci:"La prosodia activa en el oyente el mismo sistema de recompensa que la música. Una voz bien usada conecta, no solo informa.",sha:"En las tradiciones orales, la voz era el vehículo del alma. Lo que dices con tu voz completa es transmisión de esencia.",alq:"Fermentatio: tu voz era plomo funcional. Con práctica deliberada, fermenta. Se vuelve oro que otros quieren escuchar."},
+  {area:"Memoria",col:"rgba(193,127,58,.07)",tc:"var(--alq)",sci:"Recordar activamente triplica la retención versus releer pasivamente. El olvido es la señal del próximo repaso.",sha:"Los quipucamayocs administraban un imperio sin escritura. Recordar era práctica diaria sagrada.",alq:"Coagulatio: solidificar lo disperso. La memoria cristaliza la experiencia en forma usable cuando la evocas activamente."},
+  {area:"Inglés",col:"rgba(122,158,132,.07)",tc:"#5A9E8A",sci:"El cerebro aprende idiomas como aprende a caminar: por exposición masiva y producción activa.",sha:"Hablar el idioma de otro era un acto de respeto profundo — entrar en su mundo conceptual.",alq:"Solutio: disolver la barrera entre tú y el idioma. Tu acento es la Prima Materia única que traes al proceso."},
+  {area:"Creatividad",col:"rgba(184,144,154,.07)",tc:"var(--mauve)",sci:"La Default Mode Network se activa en el aburrimiento. Cada vez que evitas el vacío con scroll, apagas tu motor creativo.",sha:"Los artesanos andinos no separaban arte de espiritualidad. Crear era comunicarse con lo sagrado.",alq:"Opus: los alquimistas llamaban opus a su trabajo diario. Tu creación también es opus. Solo aparece y trabaja."},
+  {area:"Análisis",col:"rgba(122,184,232,.07)",tc:"#5A8EB8",sci:"Los mejores analistas tienen un hábito: preguntar cuán seguros están realmente antes de decidir.",sha:"El chamán diagnostica trazando el origen, no tratando el síntoma. Lo que se ve es siempre el efecto.",alq:"Separatio: separar los elementos para entenderlos antes de recombinarlos. Sin ella, el proceso opera en confusión."},
+  {area:"PNL",col:"rgba(201,169,110,.07)",tc:"var(--gold2)",sci:"El SAR filtra 11 millones de bits por segundo a solo 40 conscientes. No ves la realidad — ves lo que el SAR decide mostrar.",sha:"El chamán no lucha contra la realidad — cambia el lente. La misma situación puede ser señal u obstáculo.",alq:"Solve et Coagula mental: disuelve la creencia que limita, reformula con nuevos principios. Plomo mental a oro de identidad."},
+  {area:"Dinero",col:"rgba(201,169,110,.08)",tc:"var(--gold2)",sci:"La mentalidad de escasez reduce el IQ operativo en 13 puntos. La pobreza mental es un estado cognitivo, no una condición permanente.",sha:"En el ayni andino, la prosperidad es reciprocidad. El dinero es energía que responde a quién eres.",alq:"Multiplicatio: el primer capital de valor se multiplica solo cuando ya existe. Primero crea valor genuino, luego fluye."},
+  {area:"Visión",col:"rgba(144,96,192,.07)",tc:"var(--purple)",sci:"Visualizar el yo futuro activa las mismas regiones que recordar el pasado. El cerebro trata la identidad futura como extraña hasta que la haces vívida.",sha:"Invocar al yo futuro es el llamado del alma: traer la versión que ya existe en potencia.",alq:"Projectio: cuando la Piedra ya formada se proyecta sobre el metal base y lo transmuta. Visualizar octubre ES la Projectio."},
+  {area:"Identidad",col:"rgba(193,127,58,.08)",tc:"var(--alq)",sci:"La identidad es un sistema de creencias activas. Cambiar conductas sin cambiar la identidad es limpiar el vaso por fuera sin vaciarlo.",sha:"En la cosmología andina, transformarse implica trabajar cuerpo, alma y espíritu simultáneamente.",alq:"La Gran Obra: Nigredo — disolución. Albedo — purificación. Citrinitas — patrones brillan. Rubedo — integración. Octubre es el Rubedo."},
+  {area:"Hábito",col:"rgba(122,158,132,.07)",tc:"#5A9E8A",sci:"Los hábitos se forman por repetición en contexto consistente, no por fuerza de voluntad. El sistema es infinito.",sha:"Los rituales son la tecnología ancestral de formación de hábitos. Cada ritual crea una señal neurológica automática.",alq:"Fixatio: volver permanente lo que era volátil. El hábito cristaliza con calor y tiempo lo que podría desvanecerse."},
+];
+function getDailyTriple(){var d=new Date();return TRIPLE_INSIGHTS[(d.getDate()+d.getMonth()*5+d.getDay())%TRIPLE_INSIGHTS.length];}
+function tripleCard(triple){
+  if(!triple)return '';
+  var h='';
+  h+='<div style="background:'+triple.col+';border-radius:14px;padding:14px 16px;margin-bottom:10px;border:1px solid rgba(26,18,16,.06)">';
+  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:'+triple.tc+';margin-bottom:10px;font-weight:400">'+triple.area+' &middot; hoy</div>';
+  h+='<div style="display:flex;flex-direction:column;gap:8px">';
+  h+='<div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:13px;min-width:20px">&#x1F52C;</span><div style="font-size:12px;color:var(--ink);line-height:1.7;font-weight:300">'+triple.sci+'</div></div>';
+  h+='<div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:13px;min-width:20px">&#x1F33F;</span><div style="font-size:12px;color:var(--ink);line-height:1.7;font-style:italic;font-weight:300">'+triple.sha+'</div></div>';
+  h+='<div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:13px;min-width:20px">&#x2697;&#xFE0F;</span><div style="font-size:12px;color:var(--alq);line-height:1.7;font-style:italic;font-weight:300">'+triple.alq+'</div></div>';
+  h+='</div></div>';
+  return h;
+}
+var ALQ_PHASES=[
+  {days:[0,35],  name:"NIGREDO",    symbol:"🜏", sub:"Prima Materia", 
+   desc:"Disolución de lo viejo. El plomo reconoce que es plomo.",
+   instruction:"Esta fase pide honestidad radical. Observa sin juzgar. Lo que se disuelve, lo merece."},
+  {days:[35,70], name:"ALBEDO",     symbol:"🜔", sub:"Purificación",
+   desc:"La escoria cae. La esencia empieza a verse.",
+   instruction:"Esta fase pide limpieza. Hábitos, pensamientos, relaciones. Lo que queda es más tú."},
+  {days:[70,105],name:"CITRINITAS", symbol:"☀", sub:"El Amanecer",
+   desc:"Los patrones se consolidan. El oro empieza a brillar.",
+   instruction:"Esta fase pide constancia. Los nuevos patrones piden ser ratificados cada día."},
+  {days:[105,143],name:"RUBEDO",    symbol:"🜹", sub:"La Gran Obra",
+   desc:"La transmutación se completa. El oro es real.",
+   instruction:"Esta fase pide integración. Ya eres quien querías ser. Ahora vívelo."},
+];
+function getAlqPhase(elapsed){
+  for(var i=0;i<ALQ_PHASES.length;i++){
+    if(elapsed>=ALQ_PHASES[i].days[0]&&elapsed<ALQ_PHASES[i].days[1]) return ALQ_PHASES[i];
+  }
+  return ALQ_PHASES[ALQ_PHASES.length-1];
+}
+
 // ─── STREAK ────────────────────────────────
 function getStreak(){
   var streak=0;
@@ -1134,6 +1365,24 @@ var DISCOVERY=[
   {area:"🌙 Sueño",color:"rgba(144,96,192,.07)",tc:"var(--purple)",
    txt:"Las horas 22–02 concentran el mayor porcentaje de sueño delta. Dormirse tarde no se compensa durmiendo más. La ventana biológica óptima no es negociable.",
    sub:"Circadian biology · Walker, 2017"},
+  {area:"⚗️ Nigredo",color:"rgba(193,127,58,.07)",tc:"var(--alq)",
+   txt:"El Nigredo es la primera fase: disolución, oscuridad, descomposición de lo viejo. No es fracaso — es la condición necesaria para que aparezca algo nuevo. El plomo no puede volverse oro sin pasar primero por el fuego.",
+   sub:"Alquimia · Primera Operación"},
+  {area:"🔥 Solve et Coagula",color:"rgba(193,127,58,.08)",tc:"var(--alq)",
+   txt:"Disuelve lo que ya no sirve. Coagula lo que quieres ser. Esta es toda la alquimia resumida en tres palabras. Cada hábito que rompes es Solve. Cada nuevo patrón que consolidas es Coagula.",
+   sub:"Principio hermético fundamental"},
+  {area:"🜏 Prima Materia",color:"rgba(193,127,58,.06)",tc:"var(--alq)",
+   txt:"La Prima Materia — la materia prima — no parece valiosa. Así es como tienes que mirarte ahora: no como plomo con defectos, sino como materia prima con potencial ilimitado.",
+   sub:"Alquimia · El punto de partida"},
+  {area:"☀ Rubedo",color:"rgba(193,127,58,.09)",tc:"var(--alq)",
+   txt:"El Rubedo es la fase final: el rojo, la integración, el oro que emerge. No es la ausencia de plomo — es el plomo completamente transformado. Octubre no es el fin. Es el Rubedo.",
+   sub:"Alquimia · La Gran Obra completa"},
+  {area:"🜔 As Above, So Below",color:"rgba(144,96,192,.07)",tc:"var(--purple)",
+   txt:"Lo que transformas adentro se refleja afuera. Lo que construyes en silencio aparece en tu presencia, tu voz, tu cuerpo. La Tabla Esmeralda lo dijo hace milenios. La neurociencia lo confirmó.",
+   sub:"Hermes Trismegisto · Tabla Esmeralda"},
+  {area:"⚗️ El Athanor",color:"rgba(193,127,58,.07)",tc:"var(--alq)",
+   txt:"El Athanor es el horno alquímico — el recipiente donde ocurre la transmutación. Tu rutina diaria es tu Athanor. Sin calor constante y controlado, el oro no emerge. Cada día que apareces es una sesión de horno.",
+   sub:"Alquimia operativa"},
 ];
 
 // ─── GRATITUD PROMPTS ──────────────────────
@@ -1175,7 +1424,66 @@ function renderHoy(){
   var curMin=now2m();
   var miss=getMissionDays();
   var q=getQuoteOfDay();
+  var streak=getStreak();
+  var alqPhase=getAlqPhase(miss.el);
   var h='';
+  var HOURS_MSG=[
+    [6,"Buenos días. El Athanor se enciende."],
+    [9,"La mente está en su pico. Úsala."],
+    [12,"La mitad del día. ¿Qué hiciste con ella?"],
+    [15,"Tarde de trabajo profundo. Enfócate."],
+    [17,"El cuerpo pide movimiento. Dale lo que quiere."],
+    [20,"Cierra el día bien. Lo que haces ahora importa."],
+    [23,"Última oportunidad del día. ¿Qué te queda?"]
+  ];
+  var hourMsg="Hoy es el día "+miss.el+" del experimento.";
+  for(var hi=HOURS_MSG.length-1;hi>=0;hi--){if(now.getHours()>=HOURS_MSG[hi][0]){hourMsg=HOURS_MSG[hi][1];break;}}
+
+  // MISSION HEADER
+  h+='<div class="mission-header">';
+  h+='<div style="position:relative;z-index:1">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+  h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(193,127,58,.7)">'+alqPhase.symbol+' '+alqPhase.name+' · Día '+miss.el+'</div>';
+  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5)">'+miss.lft+' días</div>';
+  h+='</div>';
+  h+='<div style="font-family:var(--ff);font-size:22px;font-style:italic;color:var(--ivory);line-height:1.3;margin-bottom:8px">'+hourMsg+'</div>';
+  h+='<div style="font-size:11px;color:rgba(250,248,245,.45);line-height:1.6;font-weight:300">'+alqPhase.instruction+'</div>';
+  // progress bar
+  h+='<div style="margin-top:14px;height:2px;background:rgba(255,255,255,.08);border-radius:1px;overflow:hidden">';
+  h+='<div style="height:100%;width:'+miss.pct+'%;background:linear-gradient(90deg,var(--gold),rgba(193,127,58,.4));transition:width 1s ease;border-radius:1px"></div>';
+  h+='</div>';
+  h+='<div style="display:flex;justify-content:space-between;margin-top:4px">';
+  h+='<div style="font-size:9px;color:rgba(255,255,255,.2)">20 abr</div>';
+  h+='<div style="font-size:9px;color:rgba(201,169,110,.5);font-weight:600">'+miss.pct+'% de la obra completada</div>';
+  h+='<div style="font-size:9px;color:rgba(255,255,255,.2)">10 oct</div>';
+  h+='</div></div></div>';
+
+  // STREAK
+  if(streak>0){
+    var STREAK_MSG={1:"Primer día. El sistema nervioso ya tomó nota.",3:"3 días. El hábito empieza.",7:"Una semana real. Eso no lo tiene todo el mundo.",14:"2 semanas. La identidad empieza a cambiar.",21:"21 días. La corteza prefrontal ya se reescribió.",30:"Un mes. Ya eres diferente a la que empezó.",60:"2 meses. Cambio estructural comprobable.",90:"90 días. Eres otra persona. Literalmente."};
+    var sm="Racha activa.";
+    var keys=Object.keys(STREAK_MSG).map(Number).sort(function(a,b){return a-b;});
+    for(var ki=keys.length-1;ki>=0;ki--){if(streak>=keys[ki]){sm=STREAK_MSG[keys[ki]];break;}}
+    var weekDots='';
+    for(var wi=6;wi>=0;wi--){
+      var wd=new Date(now);wd.setDate(now.getDate()-wi);
+      var wk=wd.getFullYear()+'-'+String(wd.getMonth()+1).padStart(2,'0')+'-'+String(wd.getDate()).padStart(2,'0');
+      var wdata=JSON.parse(localStorage.getItem('done_'+wk)||'{}');
+      var wdone=Object.values(wdata).some(Boolean);
+      weekDots+='<div style="width:8px;height:8px;border-radius:50%;background:'+(wdone?'var(--gold)':'rgba(255,255,255,.1)')+'"></div>';
+    }
+    h+='<div class="streak-card">';
+    h+='<div style="text-align:center;min-width:70px">';
+    h+='<div class="streak-fire">'+(streak>=7?'🔥':'✦')+'</div>';
+    h+='<div style="font-family:var(--ff);font-size:42px;font-style:italic;color:var(--gold);line-height:1">'+streak+'</div>';
+    h+='<div style="font-size:8px;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px">días</div>';
+    h+='</div>';
+    h+='<div style="flex:1">';
+    h+='<div style="font-size:12px;color:rgba(250,248,245,.8);font-weight:300;line-height:1.6;margin-bottom:10px">'+sm+'</div>';
+    h+='<div style="display:flex;gap:4px">'+weekDots+'</div>';
+    h+='</div></div>';
+  }
+
 
   // Experiment countdown banner
   h+='<div class="oct-banner">';
@@ -1204,55 +1512,30 @@ function renderHoy(){
   h+='<div style="margin-top:12px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)" id="ring-bar"></div>';
   h+='</div>';
 
-  // ── STREAK ────────────────────────────────
-  var streak=getStreak();
-  var RACHA_MSG=[
-    [0,"Empieza hoy. El día 1 también vale."],
-    [1,"Primer día. El sistema nervioso ya tomó nota."],
-    [2,"Dos días seguidos. Más de lo que parece."],
-    [3,"3 días. El hábito empieza a formarse neurológicamente."],
-    [5,"5 días. Tu cerebro ya empieza a esperar esto."],
-    [7,"Una semana. Eso es real."],
-    [10,"10 días. Los investigadores lo llaman 'hábito naciente'."],
-    [14,"2 semanas. La identidad empieza a cambiar."],
-    [21,"21 días. El mito dice que es suficiente. La ciencia dice que es el inicio."],
-    [30,"30 días. Un mes de elegirte."],
-    [60,"2 meses. Cambio estructural en la corteza prefrontal."],
-    [90,"90 días. Ya eres una persona diferente que la que empezó."],
-    [150,"150 días. Casi en octubre. Esto es lo que prometiste."],
-  ];
-  var rachaMsg=RACHA_MSG[0][1];
-  for(var ri=RACHA_MSG.length-1;ri>=0;ri--){if(streak>=RACHA_MSG[ri][0]){rachaMsg=RACHA_MSG[ri][1];break;}}
-  var weekDots='';
-  for(var wi=6;wi>=0;wi--){
-    var wd=new Date();wd.setDate(wd.getDate()-wi);
-    var wk=wd.getFullYear()+'-'+String(wd.getMonth()+1).padStart(2,'0')+'-'+String(wd.getDate()).padStart(2,'0');
-    var wdata=JSON.parse(localStorage.getItem('done_'+wk)||'{}');
-    var wcc=JSON.parse(localStorage.getItem('crear_checks_'+wk)||'{}');
-    var wdone=Object.values(wdata).some(Boolean)||Object.values(wcc).some(Boolean);
-    weekDots+='<div class="streak-dot" style="background:'+(wdone?'var(--gold)':'rgba(255,255,255,.12)')+'"></div>';
-  }
-  h+='<div class="streak-card">';
-  h+='<div style="text-align:center">';
-  h+='<div class="streak-num">'+streak+'</div>';
-  h+='<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.5);margin-top:2px">días seguidos</div>';
-  h+='</div>';
-  h+='<div style="flex:1">';
-  h+='<div style="font-size:12px;color:rgba(250,248,245,.8);line-height:1.6;font-weight:300;margin-bottom:8px">'+rachaMsg+'</div>';
-  h+='<div class="streak-dots">'+weekDots+'</div>';
-  h+='<div style="font-size:9px;color:rgba(255,255,255,.25);margin-top:4px;letter-spacing:.5px">últimos 7 días</div>';
-  h+='</div></div>';
+  // ── ALCHEMICAL PHASE ──────────────────────────
+  var alqPhase=getAlqPhase(miss.el);
+  h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">';
+  h+='<div style="flex:1;background:rgba(193,127,58,.06);border:1px solid rgba(193,127,58,.18);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px">';
+  h+='<span style="font-size:20px">'+alqPhase.symbol+'</span>';
+  h+='<div>';
+  h+='<div style="font-size:9px;color:var(--alq);letter-spacing:2px;text-transform:uppercase;font-weight:400">'+alqPhase.name+' · '+alqPhase.sub+'</div>';
+  h+='<div style="font-size:11px;color:var(--ink);font-weight:300;margin-top:2px">'+alqPhase.desc+'</div>';
+  h+='</div></div></div>';
+
+  // ── TRIPLE INSIGHT ─────────────────────────
+  h+=tripleCard(getDailyTriple());
 
   // ── DESCUBRIMIENTO DEL DÍA ─────────────────
   var disc=DISCOVERY[(now.getDate()+now.getMonth()*7+now.getDay())%DISCOVERY.length];
   var discNext=DISCOVERY[(now.getDate()+now.getMonth()*7+now.getDay()+1)%DISCOVERY.length];
   var discKey='disc_'+todayKey();
   var discFlipped=!!localStorage.getItem(discKey);
-  h+='<div class="disc-card" style="background:'+disc.color+';border:1px solid '+disc.color.replace('.0','.4')+'border:1px solid rgba(26,18,16,.06)" onclick="flipDisc(\''+discKey+'\',\''+discNext.area.replace(/'/g,'')+'\',\''+encodeURIComponent(discNext.txt)+'\',\''+encodeURIComponent(discNext.sub)+'\')">';
-  h+='<div class="disc-tag" style="color:'+disc.tc+'">'+disc.area+'</div>';
-  h+='<div class="disc-txt" style="color:var(--ink)">"'+disc.txt+'"</div>';
-  h+='<div class="disc-sub" style="color:var(--mu)">'+disc.sub+'</div>';
-  h+='<div class="disc-tap">toca para el siguiente →</div>';
+    h+='<div class="disc-card" style="background:var(--ink);border:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden" onclick="flipDisc()">';
+  h+='<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,'+disc.tc+',transparent)"></div>';
+  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:'+disc.tc+';margin-bottom:10px;font-weight:400">'+disc.area+'</div>';
+  h+='<div style="font-family:var(--ff);font-size:18px;font-style:italic;color:var(--ivory);line-height:1.65;margin-bottom:8px">&ldquo;'+disc.txt+'&rdquo;</div>';
+  h+='<div style="font-size:10px;color:rgba(250,248,245,.35);margin-bottom:10px">'+disc.sub+'</div>';
+  h+='<div style="display:flex;align-items:center;gap:6px"><span style="font-size:9px;color:rgba(255,255,255,.2);letter-spacing:1.5px">siguiente descubrimiento →</span></div>';
   h+='</div>';
 
   // ── GRATITUD ──────────────────────────────
@@ -1261,9 +1544,9 @@ function renderHoy(){
   var gratD=JSON.parse(localStorage.getItem('grat_'+todayKey())||'{}');
   var gratDone=gratPrompts.filter(function(_,i){return !!gratD['g'+i];}).length;
   var gratAll=gratDone===gratPrompts.length;
-  h+='<div class="grat-card '+(gratAll?'done-all':'')+'">';
+  h+='<div class="grat-card '+(gratAll?'done-all':'')+'" style="border:1.5px solid '+(gratAll?'rgba(201,169,110,.35)':'var(--border)')+';">';
   h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
-  h+='<div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold2);font-weight:400">Gratitud diaria</div>';
+  h+='<div style="display:flex;align-items:center;gap:8px"><div class="pulse-gold" style="'+(gratAll?'background:var(--gold)':'')+'"></div><div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold2);font-weight:400">Gratitud · '+(gratAll?'Completa ✦':''+gratDone+'/3')+'</div></div>';
   h+='<div style="font-size:10px;color:var(--mu)">'+gratDone+'/'+gratPrompts.length+'</div>';
   h+='</div>';
   h+='<div style="font-size:12px;color:var(--mu);line-height:1.65;font-weight:300;margin-bottom:10px;padding:8px 10px;background:rgba(201,169,110,.05);border-radius:8px;border-left:2px solid rgba(201,169,110,.25)">';
@@ -1282,10 +1565,11 @@ function renderHoy(){
   }
   h+='</div>';
 
-  // Quote of the day
-  h+='<div class="vision-quote" style="margin-bottom:14px">';
-  h+='<div class="vision-quote-txt">'+q.q+'</div>';
-  if(q.a&&q.a!=='—') h+='<div class="vision-quote-src">— '+q.a+'</div>';
+  // Quote of the day - dark and dramatic
+  h+='<div style="background:rgba(26,18,16,.04);border-radius:16px;padding:16px 18px;margin-bottom:14px;border:1px solid rgba(26,18,16,.07);position:relative">';
+  h+='<div style="font-size:36px;color:rgba(201,169,110,.07);position:absolute;top:6px;left:12px;font-family:serif;line-height:1">&ldquo;</div>';
+  h+='<div style="font-family:var(--ff);font-size:16px;font-style:italic;color:var(--ink);line-height:1.75;position:relative;padding-left:6px">'+q.q+'</div>';
+  if(q.a&&q.a!=='—') h+='<div style="font-size:9px;color:var(--mu);letter-spacing:2px;text-transform:uppercase;margin-top:8px;padding-left:6px">— '+q.a+'</div>';
   h+='</div>';
 
   // Schedule
@@ -1306,6 +1590,7 @@ function renderHoy(){
     h+='<div class="now-icon">'+current.i+'</div>';
     h+='<div class="now-name">'+current.l+'</div>';
     h+='<div class="now-sci">'+current.s+'</div>';
+    if(current.alq){h+='<div style="margin-top:8px;padding:8px 12px;background:rgba(193,127,58,.08);border-radius:10px;border-left:2px solid rgba(193,127,58,.35);font-size:11px;color:var(--alq);line-height:1.6;font-style:italic">⚗️ '+current.alq+'</div>';}
     h+='<div class="now-check"><button class="done-btn '+(isDone?"":"undone")+'" onclick="tog('+current.id+')">'+(isDone?"✓ Completada — tap para desmarcar":"Marcar como completada")+'</button></div>';
     h+='</div></div>';
   }
@@ -1323,7 +1608,10 @@ function renderHoy(){
       h+='<span class="clbl '+(isDone?"done":"")+'">'+item.l+'</span>';
       h+='<button class="ckbtn '+(isDone?"on":"")+'" onclick="event.stopPropagation();tog('+item.id+')">'+(isDone?"✓":"")+'</button>';
       h+='</div>';
-      if(isExp) h+='<div class="sci-box">'+item.s+'</div>';
+      if(isExp){
+      h+='<div class="sci-box">'+item.s+'</div>';
+      if(item.alq){h+='<div style="margin-top:6px;padding:7px 12px;background:rgba(193,127,58,.07);border-radius:0 8px 8px 0;border-left:1.5px solid rgba(193,127,58,.3);font-size:10px;color:var(--alq);line-height:1.6;font-style:italic">⚗️ '+item.alq+'</div>';}
+    }
       h+='</div>';
     });
   }
@@ -1343,7 +1631,10 @@ function renderHoy(){
         h+='<span style="flex:1;font-size:12px;color:var(--mu);'+(isDone?"text-decoration:line-through":"")+'">' +item.l+'</span>';
         h+='<button class="ckbtn '+(isDone?"on":"")+'" onclick="event.stopPropagation();tog('+item.id+')" style="opacity:1">'+(isDone?"✓":"")+'</button>';
         h+='</div>';
-        if(isExp) h+='<div class="sci-box" style="font-size:11px">'+item.s+'</div>';
+        if(isExp){
+          h+='<div class="sci-box" style="font-size:11px">'+item.s+'</div>';
+          if(item.alq){h+='<div style="margin-top:5px;padding:6px 11px;background:rgba(193,127,58,.07);border-radius:0 7px 7px 0;border-left:1.5px solid rgba(193,127,58,.3);font-size:10px;color:var(--alq);line-height:1.5;font-style:italic">⚗️ '+item.alq+'</div>';}
+        }
         h+='</div>';
       });
     }
@@ -1430,6 +1721,9 @@ function renderCuerpo(){
   var wkDay=WK[dow];
   if(!wkDay||wkDay.rest) return renderCuerpoWeekend();
 
+  // ── TRIPLE INSIGHT ─────────────────────────
+  h2+=tripleCard(getDailyTriple());
+
   var CALEN=[
     {n:"Movilidad cadera + rodillas",s:"2 min"},
     {n:"Puentes de glúteo sin peso",s:"2×20"},
@@ -1451,13 +1745,12 @@ function renderCuerpo(){
   h2+='</div>';
 
   // Ciencia + Energía del día (conciso)
-  h2+='<div style="background:rgba(26,18,16,.04);border-left:2px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 14px;margin-bottom:8px">';
-  h2+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px;font-weight:400">Por qué funciona</div>';
-  h2+='<div style="font-size:12px;color:var(--ink);line-height:1.65;font-weight:300">'+wkDay.sci+'</div>';
-  h2+='</div>';
-  h2+='<div style="background:rgba(144,96,192,.05);border-left:2px solid rgba(144,96,192,.4);border-radius:0 10px 10px 0;padding:10px 14px;margin-bottom:14px">';
-  h2+='<div style="font-size:11px;color:var(--ink);line-height:1.6;font-style:italic;font-weight:300">'+wkDay.sha+'</div>';
-  h2+='</div>';
+  h2+='<div style="background:rgba(26,18,16,.03);border-radius:14px;padding:12px 14px;margin-bottom:12px;border:1px solid rgba(26,18,16,.06)">';
+  h2+='<div style="display:flex;flex-direction:column;gap:8px">';
+  h2+='<div style="display:flex;gap:8px"><span style="font-size:12px;min-width:18px">🔬</span><div style="font-size:12px;color:var(--ink);line-height:1.65;font-weight:300">'+wkDay.sci+'</div></div>';
+  h2+='<div style="display:flex;gap:8px"><span style="font-size:12px;min-width:18px">🜏</span><div style="font-size:12px;color:var(--ink);line-height:1.65;font-style:italic;font-weight:300">'+wkDay.sha+'</div></div>';
+  if(wkDay.alq){h2+='<div style="display:flex;gap:8px"><span style="font-size:12px;min-width:18px">⚗️</span><div style="font-size:12px;color:var(--alq);line-height:1.65;font-style:italic;font-weight:300">'+wkDay.alq+'</div></div>';}
+  h2+='</div></div>';
 
   // Calentamiento
   h2+='<div class="sec-ttl"><span>Calentamiento</span><div class="sec-ln"></div></div>';
@@ -1585,6 +1878,8 @@ function renderMente(){
   var h='';
 
   // Header Oct 10
+  h+=tripleCard(getDailyTriple());
+
   h+='<div style="background:linear-gradient(135deg,rgba(122,158,132,.08),rgba(122,158,132,.03));border-radius:20px;padding:18px;margin-bottom:14px;border:1px solid rgba(122,158,132,.2)">';
   h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#5A9E8A;margin-bottom:6px;font-weight:300">Misión · 10 oct 2026</div>';
   h+='<div style="font-family:var(--ff);font-size:20px;font-style:italic;color:var(--ink);margin-bottom:6px">Inglés conversacional confiado</div>';
@@ -1684,6 +1979,8 @@ function renderVoz(){
   var nv=getVozNivel();
   var nivel=VOZ_NIVELES[nv];
   var h='';
+
+  h+=tripleCard(getDailyTriple());
 
   // Header
   h+='<div style="background:linear-gradient(135deg,rgba(184,144,154,.08),rgba(184,144,154,.03));border-radius:20px;padding:18px;margin-bottom:14px;border:1px solid rgba(184,144,154,.2)">';
@@ -1948,7 +2245,8 @@ var PNL_DATA={
       {id:"ide1",n:"Carta de tu yo de octubre",
        d:"Escribe una carta de la Mary del 10 de octubre describiendo cómo llegó ahí. En primera persona, tiempo pasado, con detalles concretos. Sin irte por las ramas — hechos de la transformación.",
        sci:"La escritura prospectiva activa el hipocampo de la misma forma que el recuerdo. El cerebro no distingue perfectamente entre imaginar vívido y recordar.",
-       sha:"Los chamanes andinos practican el 'llamado del alma' — invocar a tu yo futuro para que regrese y te guíe. Esta carta es eso."},
+       sha:"Los chamanes andinos practican el 'llamado del alma' — invocar a tu yo futuro para que regrese y te guíe. Esta carta es eso.",
+       alq:"Projectio: el alquimista proyecta la esencia purificada sobre el metal base para transformarlo. Escribir desde tu yo de octubre ES la Projectio. Ya tienes la Piedra. Úsala."},
     ]
   },
   creencias:{
@@ -1961,7 +2259,8 @@ var PNL_DATA={
       {id:"cre1",n:"Arqueología de una creencia limitante",
        d:"Identifica una creencia que te frena. Trázala: ¿dónde la aprendiste? ¿A qué edad? ¿Quién te la enseñó? ¿Es 100% verdad? ¿Tienes evidencia en contra? Escribe la versión actualizada al final.",
        sci:"Las creencias limitantes funcionan como esquemas cognitivos (Beck): filtros automáticos que seleccionan evidencia confirmatoria. Identificarlas las desactiva.",
-       sha:"En las tradiciones chamánicas, los miedos aprendidos son 'parásitos de la mente'. El ritual de nombrarlo explícitamente es el primer paso para soltarlo."},
+       sha:"En las tradiciones chamánicas, los miedos aprendidos son 'parásitos de la mente'. El ritual de nombrarlo explícitamente es el primer paso para soltarlo.",
+       alq:"Mortificatio: la muerte de lo que impide la transmutación. Las creencias limitantes son la escoria que bloquea el proceso. Nombrarlas es la primera operación de purificación."},
     ]
   },
   emociones:{
@@ -1973,7 +2272,8 @@ var PNL_DATA={
       {id:"et3",n:"Check-in emocional estructurado",
        d:"Nombra lo que sientes ahora con precisión (no 'mal' — qué específicamente). ¿Dónde lo sientes en el cuerpo? ¿Qué información te da? ¿Qué necesitas? 5 minutos, a mano.",
        sci:"El etiquetado emocional preciso (affect labeling) reduce la activación de la amígdala en un 30% (Lieberman et al., 2007).",
-       sha:"En las tradiciones de sanación amazónica, los estados emocionales son 'visitantes' — llegan con un mensaje. No los expulsas: los escuchas y los liberas."},
+       sha:"En las tradiciones de sanación amazónica, los estados emocionales son 'visitantes' — llegan con un mensaje. No los expulsas: los escuchas y los liberas.",
+       alq:"Solve: antes de coagular, disuelves. Las emociones no procesadas son materia sin disolver. El check-in emocional es la operación Solve — reduce la mezcla a sus componentes para poder trabajar con ellos."},
     ]
   },
   futuro:{
@@ -1998,6 +2298,7 @@ function renderPnl(){
   var semana=getPnlWeek();
   var semData=PNL_DATA[semana.k];
   var h='';
+  h+=tripleCard(getDailyTriple());
 
   // Header Oct 10
   h+='<div style="background:'+semana.color+';border-radius:18px;padding:18px;margin-bottom:14px;border:1px solid rgba(26,18,16,.06)">';
@@ -2052,7 +2353,9 @@ function renderPnl(){
       h+='<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">';
       h+='<div style="font-size:12px;color:var(--ink);line-height:1.75;font-weight:300;margin-bottom:10px">'+ej.d+'</div>';
       h+='<div style="background:rgba(201,169,110,.04);border-radius:8px;padding:10px 12px;margin-bottom:8px"><div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">Ciencia</div><div style="font-size:11px;color:var(--mu);line-height:1.65">'+ej.sci+'</div></div>';
-      h+='<div style="background:rgba(144,96,192,.05);border-radius:8px;padding:10px 12px;margin-bottom:10px"><div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:4px">Energía chamánica</div><div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic">'+ej.sha+'</div></div>';
+      h+='<div style="background:rgba(144,96,192,.05);border-radius:8px;padding:10px 12px;margin-bottom:10px"><div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:4px">Chamán</div><div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic">'+ej.sha+'</div></div>';
+      if(ej.alq){h+='<div class="alq-block"><div class="alq-label">Alquimia</div><div class="alq-txt">'+ej.alq+'</div></div>';}
+      if(ej.alq){h+='<div class="alq-block"><div class="alq-label">Alquimia</div><div class="alq-txt">'+ej.alq+'</div></div>';}
       h+='<button onclick="event.stopPropagation();togPnl(\''+ej.id+'\')" style="width:100%;padding:10px;background:'+(isDone?"var(--gold)":"transparent")+';border:1.5px solid var(--gold);border-radius:10px;color:'+(isDone?"white":"var(--gold2)")+';font-family:var(--fb);font-size:11px;cursor:pointer;letter-spacing:1px;text-transform:uppercase">'+(isDone?"✓ COMPLETADO":"MARCAR COMO COMPLETADO")+'</button>';
       h+='</div>';
     }
@@ -2083,13 +2386,15 @@ function renderVision(){
   var now=new Date(),day=now.getDate(),mon=now.getMonth();
   var miss=getMissionDays();
   var h='';
+  h+=tripleCard(getDailyTriple());
 
   // Mission statement
   h+='<div style="background:var(--ink);border-radius:20px;padding:22px;margin-bottom:14px;position:relative;overflow:hidden">';
   h+='<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>';
-  h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);margin-bottom:10px">El experimento · '+miss.lft+' días restantes</div>';
-  h+='<div style="font-family:var(--ff);font-size:22px;font-style:italic;color:var(--ivory);line-height:1.5;margin-bottom:10px">"El 10 de octubre no voy a ser la misma.<br>Esa es la premisa.<br>Esa es la promesa."</div>';
-  h+='<div style="font-size:11px;color:rgba(250,248,245,.45);letter-spacing:1px">— Mary · 20 de abril, 2026</div>';
+  h+='<div style="position:absolute;bottom:-20px;right:-20px;font-size:100px;opacity:.03;font-family:serif;line-height:1">⚗</div>';
+  h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(193,127,58,.7);margin-bottom:10px">'+alqPhase.symbol+' '+alqPhase.name+' · Día '+miss.el+' de 173</div>';
+  h+='<div style="font-family:var(--ff);font-size:22px;font-style:italic;color:var(--ivory);line-height:1.55;margin-bottom:12px">&ldquo;El 10 de octubre no voy a ser la misma.<br>Esa es la premisa.<br>Esa es la promesa.&rdquo;</div>';
+  h+='<div style="font-size:10px;color:rgba(201,169,110,.4);letter-spacing:1.5px;margin-bottom:14px">— Mary · 20 de abril, 2026</div>';
   h+='<div style="margin-top:14px">';
   h+='<div style="height:3px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden">';
   h+='<div style="height:100%;width:'+miss.pct+'%;background:linear-gradient(90deg,var(--gold),var(--mauve));border-radius:2px;transition:width 1s ease"></div></div>';
@@ -2139,6 +2444,7 @@ function renderDinero(){
   if(dow===0||dow===6) return renderWeekend('dinero');
   var dineroD=JSON.parse(localStorage.getItem('dinero_check')||'{}');
   var h='';
+  h+=tripleCard(getDailyTriple());
 
   h+='<div style="background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(201,169,110,.03));border-radius:20px;padding:18px;margin-bottom:14px;border:1px solid rgba(201,169,110,.2)">';
   h+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);margin-bottom:6px;font-weight:300">Protocolo de prosperidad · 10 oct 2026</div>';
@@ -2228,17 +2534,20 @@ var ANALISIS_DIARIO=[
    titulo:"El abogado del diablo",
    instruccion:"Elige una creencia que tienes como cierta — sobre ti, el trabajo, la vida. Ahora arguméntala en CONTRA tan fuerte como puedas. No para destruirla: para ver sus puntos ciegos. Escribe los mejores 3 contraargumentos.",
    sci:"El pensamiento contrafactual activa la corteza prefrontal dorsolateral — la misma región que diferencia a los buenos analistas de los promedio. Cuestionar lo que crees activa circuitos que el pensamiento confirmatorio adormece.",
-   sha:"El yachaq andino aprende a 'ver con los dos ojos' — el del sol y el de la luna. Lo que parece verdad bajo una luz, es sombra bajo otra. La sabiduría no elige un solo ojo."},
+   sha:"El yachaq andino aprende a 'ver con los dos ojos' — el del sol y el de la luna. Lo que parece verdad bajo una luz, es sombra bajo otra. La sabiduría no elige un solo ojo.",
+   alq:"En alquimia, el principio del Mercurio representa la dualidad — el que puede ser ambas cosas. Cuestionar lo que crees es invocar al Mercurio interior. Sin él, el Azufre no puede purificarse."},
   {id:"a2",cat:"Memoria activa",dur:"5 min",e:"📤",
    titulo:"Volcado libre de memoria",
    instruccion:"Sin abrir ningún libro ni app: escribe todo lo que recuerdas del último libro, artículo, podcast o conversación importante que tuviste. Sin filtro, sin orden. Solo vacía lo que hay. Luego verifica qué faltó.",
    sci:"El efecto testing (Roediger & Karpicke, 2006): recuperar información activamente produce 50% más retención que releer. Cada vez que recuerdas algo sin ayuda, el trazo de memoria se refuerza.",
-   sha:"Los aedos griegos y los quipucamayocs incas no tenían libros. Tenían práctica de recuperación diaria. La memoria no era almacenamiento — era un ritual de invocación."},
+   sha:"Los aedos griegos y los quipucamayocs incas no tenían libros. Tenían práctica de recuperación diaria. La memoria no era almacenamiento — era un ritual de invocación.",
+   alq:"El alquimista llama a esto 'extracción de la esencia': vaciar el recipiente antes de añadir material nuevo. Tu volcado de memoria es una destilación pura."},
   {id:"a3",cat:"Análisis sistémico",dur:"8 min",e:"🕸️",
    titulo:"Mapa de causas y efectos",
    instruccion:"Elige algo que te pasó esta semana — bueno o malo. Dibuja en papel: en el centro el evento. Alrededor, todas las causas posibles con flechas. Alrededor de esas, sus causas. ¿Qué patrones ves? ¿Qué puedes controlar?",
    sci:"El pensamiento sistémico activa la integración prefrontal-parietal. Las personas que mapean causas antes de actuar toman decisiones 40% más acertadas en seguimiento (Senge, 'La quinta disciplina').",
-   sha:"Los chamanes diagnosticaban enfermedad rastreando su origen — no trataban síntomas sino raíces. El mapa de causas es eso: medicina antes de que duela."},
+   sha:"Los chamanes diagnosticaban enfermedad rastreando su origen — no trataban síntomas sino raíces. El mapa de causas es eso: medicina antes de que duela.",
+   alq:"Solve et Coagula en práctica: disuelves el problema en partes (Solve), lo recoagulas con nueva comprensión (Coagula). El mapa es el proceso alquímico haciéndose visible."},
   {id:"a4",cat:"Lectura activa",dur:"15 min",e:"📖",
    titulo:"Leer para enseñar",
    instruccion:"Lee 5-10 páginas de cualquier libro. Pero mientras lees, imagina que debes explicárselo a alguien que no sabe nada del tema. Después cierra el libro y escribe la explicación de memoria. Compara.",
@@ -2253,7 +2562,8 @@ var ANALISIS_DIARIO=[
    titulo:"La regla del 1%",
    instruccion:"De todo lo que has leído, aprendido o experimentado este mes, ¿cuál es el 1% más importante? Escribe ese 1% en máximo 5 oraciones. Si no puedes reducirlo, no lo has procesado aún. Inténtalo de nuevo.",
    sci:"La síntesis activa el procesamiento semántico profundo (Craik & Lockhart, 1972). Comprimir la información fuerza al cerebro a distinguir lo fundamental de lo periférico — la habilidad analítica más valiosa.",
-   sha:"El kondor andino vuela más alto que todos los pájaros — para ver el paisaje completo, no los detalles. La síntesis es el vuelo del kondor. Ver desde arriba para entender el patrón."},
+   sha:"El kondor andino vuela más alto que todos los pájaros — para ver el paisaje completo, no los detalles. La síntesis es el vuelo del kondor. Ver desde arriba para entender el patrón.",
+   alq:"Quintaesencia: más allá de tierra, agua, fuego y aire existe la quinta esencia. Destilar hasta que solo quede lo más puro. Tu 1% es la Quintaesencia del mes."},
   {id:"a7",cat:"Conexión cruzada",dur:"6 min",e:"🔗",
    titulo:"¿En qué se parecen?",
    instruccion:"Elige dos cosas aparentemente sin relación: un concepto de tu trabajo y algo de la naturaleza, o un libro que leíste y un problema actual. Escribe durante 5 minutos todas las conexiones posibles. Cuanto más forzada parezca la conexión, más interesante es.",
@@ -2324,6 +2634,7 @@ function renderAnalisis(){
   var analPerm=JSON.parse(localStorage.getItem('anal_perm')||'{}');
   var miss=getMissionDays();
   var h='';
+  h+=tripleCard(getDailyTriple());
   var DIAS_N=["","Lunes","Martes","Miércoles","Jueves","Viernes"];
 
   // Asignar por día de semana — fijo, sin sorpresas
@@ -2360,14 +2671,16 @@ function renderAnalisis(){
 
   // Ciencia/sha colapsable
   h+='<div style="border-top:1px solid var(--border);padding-top:10px;margin-bottom:12px">';
-  h+='<button onclick="togExpA(\'anal_main\')" style="background:none;border:none;font-size:11px;color:var(--mu);cursor:pointer;padding:0;letter-spacing:.5px;font-family:var(--fb)">'+(ejExp?"▾ ocultar":"▸ por qué funciona")+'</button>';
+  h+='<button onclick="togExpA(\'anal_main\')" style="background:none;border:none;font-size:11px;color:var(--mu);cursor:pointer;padding:0;letter-spacing:.5px;font-family:var(--fb)">'+(ejExp?"▾ ocultar":"▸ 🔬 ciencia · 🜏 chamán · ⚗️ alquimia")+'</button>';
   if(ejExp){
     h+='<div style="margin-top:10px;background:rgba(122,184,232,.05);border-radius:10px;padding:10px 12px;margin-bottom:8px">';
     h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#5A8EB8;margin-bottom:4px">Neurociencia</div>';
     h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-weight:300">'+ejHoy.sci+'</div></div>';
-    h+='<div style="background:rgba(144,96,192,.05);border-radius:10px;padding:10px 12px">';
-    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:4px">Perspectiva ancestral</div>';
+    h+='<div style="background:rgba(144,96,192,.05);border-radius:10px;padding:10px 12px;margin-bottom:6px">';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:4px">Chamán</div>';
     h+='<div style="font-size:11px;color:var(--mu);line-height:1.7;font-style:italic;font-weight:300">'+ejHoy.sha+'</div></div>';
+      if(ejHoy.alq){h+='<div class="alq-block"><div class="alq-label">Alquimia</div><div class="alq-txt">'+ejHoy.alq+'</div></div>';}
+    if(ejHoy.alq){h+='<div class="alq-block"><div class="alq-label">Alquimia</div><div class="alq-txt">'+ejHoy.alq+'</div></div>';}
   }
   h+='</div>';
 
@@ -2448,90 +2761,108 @@ var IMAGINATION_EX=[
    titulo:"Escritura automática",
    instruccion:"Bolígrafo en la mano, no para. Escribe durante 5 minutos sin levantar la mano, sin editar, sin releer. No importa si sale basura. Escribe: 'No sé qué escribir' y sigue desde ahí.",
    sci:"La escritura automática bypasea el córtex prefrontal — el juez interno. Activa asociaciones del inconsciente que la escritura racional bloquea.",
-   sha:"Los surrealistas lo llamaron écriture automatique. Los chamanes lo llaman 'dejar hablar al espíritu'. La mano sabe cosas que la mente controla."},
+   sha:"Los surrealistas lo llamaron écriture automatique. Los chamanes lo llaman 'dejar hablar al espíritu'. La mano sabe cosas que la mente controla.",
+   alq:"Opus — la obra de las manos. Los alquimistas sabían que el Gran Trabajo se hace a través del cuerpo, no solo de la mente. Cuando escribes sin filtro, el Athanor se enciende."},
   {id:"im2",cat:"Percepción",dur:"3 min",e:"👁️",
    titulo:"Observación alienígena",
    instruccion:"Elige un objeto cotidiano — un vaso, un zapato, tu mano. Míralo como si nunca hubieras visto algo igual. ¿Qué es? ¿Para qué sirve? Descríbelo para alguien que llegó de otro planeta.",
    sci:"La familiaridad crea ceguera perceptual (Mack & Rock, 1998). Romper el automatismo perceptual activa la misma red que la innovación creativa.",
-   sha:"Los maestros zen llaman a esto 'mente de principiante'. Ver por primera vez lo que ya conoces es el acto creativo más radical."},
+   sha:"Los maestros zen llaman a esto 'mente de principiante'. Ver por primera vez lo que ya conoces es el acto creativo más radical.",
+   alq:"Prima Materia: la materia prima parece ordinaria a quien no sabe mirar. El alquimista ve el oro en lo que otros llaman basura. Tú estás aprendiendo a mirar así."},
   {id:"im3",cat:"Conexión",dur:"5 min",e:"🔗",
    titulo:"Dos cosas que no tienen nada que ver",
    instruccion:"Elige dos palabras al azar — una de tu cuarto y una de la naturaleza. Escribe durante 5 minutos encontrando conexiones imposibles entre ellas. Cuanto más absurdo, mejor.",
    sci:"El pensamiento lateral (De Bono) y la bisociación (Koestler) son los mecanismos del insight creativo. El cerebro aprende a conectar lo inconexo con práctica.",
-   sha:"El chamán une el mundo de abajo y el de arriba. Tú unes dos mundos que nadie ha conectado antes. Eso es una metáfora nueva. Y las metáforas nuevas cambian el mundo."},
+   sha:"El chamán une el mundo de abajo y el de arriba. Tú unes dos mundos que nadie ha conectado antes. Eso es una metáfora nueva. Y las metáforas nuevas cambian el mundo.",
+   alq:"Conjunctio: la unión sagrada de los opuestos es la operación más poderosa de la alquimia. Sol y Luna. Azufre y Mercurio. Dos ideas que nadie había unido antes."},
   {id:"im4",cat:"Perspectiva",dur:"4 min",e:"🎭",
    titulo:"Habla desde el objeto",
    instruccion:"Elige algo en tu cuarto. Escribe en primera persona como si fueras ese objeto. ¿Qué ves? ¿Qué sientes cuando te usan? ¿Qué quieres decirle a la persona que vive contigo?",
    sci:"El cambio de perspectiva forzado activa la teoría de la mente (mentalización) y amplía la empatía narrativa — la habilidad que hace a los escritores extraordinarios.",
-   sha:"En las tradiciones animistas andinas, los objetos tienen espíritu. Darles voz no es fantasía — es recuperar una forma de percibir que la modernidad anestesió."},
+   sha:"En las tradiciones animistas andinas, los objetos tienen espíritu. Darles voz no es fantasía — es recuperar una forma de percibir que la modernidad anestesió.",
+   alq:"El alquimista habla con sus materiales. No es locura — es el lenguaje de quien practica la Gran Obra con atención total. Cada cosa tiene su inteligencia."},
   {id:"im5",cat:"Imagen",dur:"6 min",e:"🖼️",
    titulo:"Escena desde una sola línea",
    instruccion:"Escribe una sola frase que describa un lugar. Solo una. Luego cierra los ojos 30 segundos e imagina esa escena completa. Abre los ojos y escribe todo lo que viste durante 5 minutos.",
    sci:"La visualización creativa activa las mismas regiones que la percepción visual real (Kosslyn, 1994). Entrenar la imagen mental mejora la imaginación estructural.",
-   sha:"Los poetas quechuas construían imágenes en capas — el paisaje físico y el espiritual simultáneos. Una sola línea podía contener un mundo entero."},
+   sha:"Los poetas quechuas construían imágenes en capas — el paisaje físico y el espiritual simultáneos. Una sola línea podía contener un mundo entero.",
+   alq:"As above, so below — la Tabla Esmeralda. Una sola imagen bien elegida contiene el cosmos entero. La síntesis es siempre más poderosa que la expansión."},
   {id:"im6",cat:"Tiempo",dur:"5 min",e:"⏳",
    titulo:"Carta hacia el pasado",
    instruccion:"Escríbele a tu yo de hace exactamente 5 años. ¿Qué le dirías? ¿Qué sabe la de ahora que la de antes no sabía? Sin condescendencia — con la ternura que merece alguien que hacía lo mejor que podía.",
    sci:"La perspectiva temporal (Zimbardo) afecta directamente la creatividad y la toma de decisiones. Dialogar con el yo pasado activa autocompasión y claridad.",
-   sha:"El trabajo chamánico incluye sanar versiones pasadas del ser. No como metáfora — como práctica real de integración. Esta carta es eso."},
+   sha:"El trabajo chamánico incluye sanar versiones pasadas del ser. No como metáfora — como práctica real de integración. Esta carta es eso.",
+   alq:"Calcinación: quemar lo que ya no sirve del pasado para liberar la esencia. Esta carta completa esa operación alquímica con amor en vez de juicio."},
   {id:"im7",cat:"Sentidos",dur:"4 min",e:"🌿",
    titulo:"Sinestesia forzada",
    instruccion:"¿De qué color es el miércoles? ¿A qué huele la nostalgia? ¿Qué textura tiene la incertidumbre? Elige 5 conceptos abstractos y asígnales propiedades sensoriales. Explica por qué.",
    sci:"La sinestesia cognitiva (combinación cruzada de sentidos) activa redes de asociación más amplias. Los poetas más memorables la usan de forma sistemática.",
-   sha:"Los curanderos amazónicos 'escuchan' los colores de las plantas antes de usarlas. El cruce sensorial no es metáfora para ellos — es método diagnóstico."},
+   sha:"Los curanderos amazónicos 'escuchan' los colores de las plantas antes de usarlas. El cruce sensorial no es metáfora para ellos — es método diagnóstico.",
+   alq:"Tabla de Correspondencias: en alquimia cada color tiene un metal, cada metal un planeta, cada planeta una cualidad interior. Las correspondencias son la gramática del universo."},
   {id:"im8",cat:"Ruptura",dur:"5 min",e:"🔥",
    titulo:"Destruye la historia que te cuentas",
    instruccion:"Escribe una historia que te cuentes sobre ti misma que te limita. Luego escríbela como si fuera la historia de otra persona que admiras. ¿Qué haría ella con esa misma historia?",
    sci:"La narrativa de identidad (McAdams) determina la agencia percibida. Reescribir en tercera persona reduce el procesamiento emocional reactivo (Ethan Kross, 2014).",
-   sha:"El chamán trabaja con el 'narrador herido'. Cuando cambias el narrador, cambia el relato. Cuando cambia el relato, cambia la realidad que construye."},
+   sha:"El chamán trabaja con el 'narrador herido'. Cuando cambias el narrador, cambia el relato. Cuando cambia el relato, cambia la realidad que construye.",
+   alq:"Mortificatio y Resurrectio: la muerte del ego-narrador herido y su resurrección purificada. El Fénix alquímico. Exactamente lo que ocurre cuando reescribes tu historia."},
   {id:"im9",cat:"Volumen",dur:"5 min",e:"💡",
    titulo:"10 ideas sin filtro",
    instruccion:"Pon el temporizador en 5 minutos. Escribe 10 ideas sobre cualquier cosa: un proyecto, una historia, un negocio, una solución. Buenas y malas juntas. No evalúes. La idea número 10 suele ser la mejor.",
    sci:"James Webb Young (1939): las ideas son combinaciones de elementos existentes. A más combinaciones posibles, más ideas útiles. El volumen precede a la calidad.",
-   sha:"Los curanderos no usan una sola planta — crean combinaciones. La medicina viene de la mezcla. Tus ideas funcionan igual."},
+   sha:"Los curanderos no usan una sola planta — crean combinaciones. La medicina viene de la mezcla. Tus ideas funcionan igual.",
+   alq:"El Athanor — el horno alquímico — mezcla elementos distintos bajo calor controlado. El calor es tu atención sostenida. El recipiente es tu mente. Las ideas son los elementos."},
   {id:"im10",cat:"Silencio",dur:"7 min",e:"🌙",
    titulo:"Escribe lo que no puedes decir",
    instruccion:"Hay algo que sientes, piensas o quieres y no lo has dicho en voz alta ni escrito antes. No porque sea malo — sino porque es demasiado real, demasiado tuyo. Escríbelo. Solo para ti.",
    sci:"La supresión de pensamientos (Wegner, 1994) aumenta su intrusividad. Escribir lo no dicho reduce la carga cognitiva y libera capacidad creativa.",
-   sha:"En los ritos de paso andinos, hay un momento de confesión total — no ante un dios, sino ante uno mismo. Lo que se nombra, se puede transformar."},
+   sha:"En los ritos de paso andinos, hay un momento de confesión total — no ante un dios, sino ante uno mismo. Lo que se nombra, se puede transformar.",
+   alq:"En la tradición hermética, nombrar correctamente da poder sobre la cosa nombrada. Escribir lo no dicho no es solo expresión — es un acto de poder sobre tu propio Nigredo."},
 ];
 
 var JOURNALING_NOCHE=[
   {id:"jn1",hora:"20:30",titulo:"Las 3 verdades del día",
    prompts:["¿Qué hice hoy que la Mary de octubre haría?","¿Qué evité que debí hacer?","¿Qué me sorprendió de mí misma hoy?"],
    sci:"El journaling de gratitud específica activa el sistema de recompensa y recalibra el sesgo negativo del cerebro (Emmons & McCullough, 2003).",
-   sha:"La tradición inca del 'tinkuy' — el encuentro de opuestos. Cada día tiene luz y sombra. Nombrando ambas, cierras el ciclo completo."},
+   sha:"La tradición inca del 'tinkuy' — el encuentro de opuestos. Cada día tiene luz y sombra. Nombrando ambas, cierras el ciclo completo.",
+   alq:"Solve et Coagula: cada día tiene su fase de disolución (lo que costó) y su fase de coagulación (lo que construiste). Las 3 verdades completan el ciclo alquímico diario."},
   {id:"jn2",hora:"20:30",titulo:"El día como historia",
    prompts:["Describe hoy como si fuera una escena de un libro — con personaje, conflicto y resolución.","¿Cuál fue el momento más pequeño pero real?","¿Qué frase resumiría este día en el libro de tu vida?"],
    sci:"La narrativización de experiencias consolida la memoria episódica y aumenta la coherencia del yo (Dan McAdams). Es también el fundamento del procesamiento emocional.",
-   sha:"Los abuelos quechuas contaban el día antes de dormir — no como reporte, sino como tejido. Cada día era un hilo en el tapiz del ser."},
+   sha:"Los abuelos quechuas contaban el día antes de dormir — no como reporte, sino como tejido. Cada día era un hilo en el tapiz del ser.",
+   alq:"El Gran Obra es también el Gran Tejido. Cada día es un hilo de oro o de plomo. El tejedor alquímico convierte ambos en patrón. Ningún día es desperdiciado."},
   {id:"jn3",hora:"20:30",titulo:"Datos del experimento",
    prompts:["¿Qué aprendí hoy que no sabía ayer?","¿Dónde sentí resistencia? ¿Qué me dice esa resistencia?","Una cosa concreta que mañana haré diferente."],
    sci:"El journaling de aprendizaje activa la metacognición — pensar sobre el pensar. Mejora la retención en un 25% y acelera la curva de aprendizaje (Dewey).",
-   sha:"El científico loco documenta todo. El chamán también. El diario es el registro del experimento que eres tú misma."},
+   sha:"El científico loco documenta todo. El chamán también. El diario es el registro del experimento que eres tú misma.",
+   alq:"Los alquimistas documentaban cada operación en su Liber — el libro secreto. Sin registro, la transmutación no se puede repetir ni perfeccionar. Tu diario es tu Liber."},
   {id:"jn4",hora:"20:30",titulo:"Carta al subconsciente",
    prompts:["Esta noche mientras duermo, quiero que mi mente trabaje en...","Una pregunta que dejo abierta para que el sueño responda:","Mañana cuando despierte, ya sé que..."],
    sci:"El efecto de incubación (Wallas, 1926): el subconsciente sigue procesando problemas durante el sueño. Darle instrucciones antes de dormir aumenta la probabilidad de insight al despertar.",
-   sha:"Los chamanes 'programan' sus sueños como viajes de conocimiento. Este journaling es la versión contemporánea del sueño lúcido intencional."},
+   sha:"Los chamanes 'programan' sus sueños como viajes de conocimiento. Este journaling es la versión contemporánea del sueño lúcido intencional.",
+   alq:"El sueño alquímico: los grandes maestros recibían revelaciones en sueños — Jung, Kekulé, Paracelsso. Programar el sueño es abrir la cámara de operaciones nocturna."},
   {id:"jn5",hora:"20:30",titulo:"El cuerpo habló hoy",
    prompts:["¿Dónde sentí tensión física? ¿Qué emoción cargaba ese lugar?","¿Cuándo mi energía estuvo más alta? ¿Qué la causó?","Una cosa que mi cuerpo necesita mañana."],
    sci:"El somapsicología estudia cómo el cuerpo almacena emociones (Van der Kolk). El journaling corporal integra el procesamiento emocional top-down y bottom-up simultáneamente.",
-   sha:"En el curanderismo andino, el cuerpo es el mapa. Cada tensión es un mensaje. El ritual de nombrarlo es el inicio de la sanación."},
+   sha:"En el curanderismo andino, el cuerpo es el mapa. Cada tensión es un mensaje. El ritual de nombrarlo es el inicio de la sanación.",
+   alq:"Separatio: separar el cuerpo de sus tensiones acumuladas es una operación alquímica real. El cuerpo es el laboratorio. La tensión es el material a transformar."},
   {id:"jn6",hora:"20:30",titulo:"Gratitud específica",
    prompts:["Una persona que hizo algo por mí hoy — grande o pequeño.","Un momento de belleza que habría pasado desapercibido.","Algo de mí misma que funcionó bien hoy."],
    sci:"La gratitud específica (no genérica) activa el lóbulo prefrontal medial y modifica la neuroplasticidad hacia patrones de bienestar sostenido (Zahn et al., 2009).",
-   sha:"El ayni — la reciprocidad sagrada andina — empieza con reconocer lo que ya recibes. La gratitud no es sentimentalismo. Es ver la realidad completa."},
+   sha:"El ayni — la reciprocidad sagrada andina — empieza con reconocer lo que ya recibes. La gratitud no es sentimentalismo. Es ver la realidad completa.",
+   alq:"El Azufre en alquimia representa el principio activo, el alma, la vitalidad. La gratitud activa el Azufre interior — transforma el plomo de lo cotidiano en el oro de lo sagrado."},
   {id:"jn7",hora:"20:30",titulo:"La Mary de octubre",
    prompts:["¿Qué haría mañana la Mary del 10 de octubre?","Una diferencia concreta entre quien fui hoy y quien quiero ser.","Una decisión que tomaré mañana desde mi yo futuro, no desde el miedo."],
    sci:"La visualización prospectiva del yo futuro (Future Self) activa la continuidad de identidad y aumenta la autoregulación (Hershfield, 2011).",
-   sha:"Invocar al yo futuro es la práctica del llamado del alma. La versión de octubre ya existe. Hoy la acercas un día más."},
+   sha:"Invocar al yo futuro es la práctica del llamado del alma. La versión de octubre ya existe. Hoy la acercas un día más.",
+   alq:"La Piedra Filosofal no se fabrica — se revela. Ya existe en estado potencial. Cada día que la invocas conscientemente, reduces la distancia entre el plomo de hoy y el oro de octubre."},
 ];
 
 var NADA_PROTOCOL=[
   {e:"👁️",titulo:"El ejercicio de los 5 minutos",
    instruccion:"Siéntate. Pon un timer en 5 minutos. No hagas nada. Sin teléfono, sin música, sin libreta. Solo mira un punto fijo o cierra los ojos. Cuando quieras agarrar el teléfono — no lo hagas.",
    sci:"La Default Mode Network necesita entre 5 y 7 minutos de inactividad para activarse completamente. Es literalmente el modo de creatividad e integración del cerebro.",
-   sha:"El yachaq (sabio andino) aprende a sentarse con el silencio antes de aprender cualquier otra cosa. El vacío no está vacío — es el espacio donde aparece lo nuevo."},
+   sha:"El yachaq (sabio andino) aprende a sentarse con el silencio antes de aprender cualquier otra cosa. El vacío no está vacío — es el espacio donde aparece lo nuevo.",
+   alq:"Vas Hermeticum: el recipiente hermético sellado donde ocurre la transmutación. Tu mente en silencio es el recipiente cerrado. Nada entra, nada sale — la obra se hace sola."},
   {e:"🚶",titulo:"Caminar sin destino ni audio",
    instruccion:"20 minutos. Sin AirPods. Sin ruta predeterminada. Camina y deja que los ojos elijan hacia dónde. No 'pienses en algo'. Deja que los pensamientos vengan solos.",
    sci:"La caminata sin estímulo auditivo activa el hipocampo y la corteza prefrontal medial — la red de navegación espacial y procesamiento autobiográfico. Mejora creatividad un 81% (Stanford, 2014).",
@@ -2566,6 +2897,7 @@ function renderCrear(){
   var cc=JSON.parse(localStorage.getItem('crear_checks_'+TK)||'{}');
   var miss=getMissionDays();
   var h='';
+  h+=tripleCard(getDailyTriple());
   var DIAS_N=["","Lunes","Martes","Miércoles","Jueves","Viernes"];
 
   // Datos rotativos
@@ -2577,23 +2909,28 @@ function renderCrear(){
     {id:"m1",dur:"3 min",titulo:"Respiración 4-7-8",
      instruccion:"Inhala 4 seg · sostén 7 · exhala 8. Repite 4 veces. Activa el nervio vago y baja el cortisol casi de inmediato.",
      sci:"Reduce la frecuencia cardíaca y activa el sistema parasimpático en menos de 90 segundos.",
-     sha:"El pranayama yóguico y la respiración chamánica andina comparten la misma premisa: controlar el aliento es controlar el estado interno."},
+     sha:"El pranayama yóguico y la respiración chamánica andina comparten la misma premisa: controlar el aliento es controlar el estado interno.",
+   alq:"Circulatio: la circulación del aire alquímico. En el laboratorio hermético, el aire purifica. Tu respiración es la primera operación de destilación — purifica antes de que empiece cualquier otra obra."},
     {id:"m2",dur:"5 min",titulo:"Escaneo corporal",
      instruccion:"Cierra los ojos. Recorre mentalmente desde los pies hasta la cabeza. Sin cambiar nada, solo observa. Si hay tensión, respira hacia ese lugar.",
      sci:"El body scan activa la ínsula — región de interoception — y mejora la regulación emocional (Farb, 2013).",
-     sha:"Los curanderos andinos 'leen' el cuerpo antes de curar. Tú aprendes a leer el tuyo."},
+     sha:"Los curanderos andinos 'leen' el cuerpo antes de curar. Tú aprendes a leer el tuyo.",
+   alq:"Separatio: separar la esencia de la impureza. El escaneo corporal es Separatio — identificar qué tensión es real, qué es ruido, qué necesita trabajo. Antes de transmutar, debes separar."},
     {id:"m3",dur:"3 min",titulo:"Observación sin juicio",
      instruccion:"Elige un objeto cercano. Obsérvalo 3 minutos completos sin nombrar, sin pensar en él. Solo percibir. Cuando la mente se vaya, regresa.",
      sci:"Entrena la atención selectiva y reduce la actividad de la default mode network — el ruido mental de fondo.",
-     sha:"Los maestros zen llaman a esto 'mente de principiante'. Ver sin etiquetar es la forma más pura de presencia."},
+     sha:"Los maestros zen llaman a esto 'mente de principiante'. Ver sin etiquetar es la forma más pura de presencia.",
+   alq:"Calcinación de la mente: quemar los hábitos perceptuales. Ver sin nombrar es una Calcinación — reduces la experiencia a su esencia, sin la ceniza del lenguaje habitual."},
     {id:"m4",dur:"4 min",titulo:"Gratitud en el cuerpo",
      instruccion:"Piensa en 3 cosas concretas de hoy. Por cada una, siente dónde lo percibes físicamente. No es una lista — es una sensación.",
      sci:"La gratitud activa el sistema de recompensa y modifica patrones de neuroplasticidad hacia el bienestar sostenido (Zahn, 2009).",
-     sha:"El ayni andino — reciprocidad sagrada — empieza por reconocer lo que ya recibes. La gratitud no es sentimentalismo. Es ver la realidad completa."},
+     sha:"El ayni andino — reciprocidad sagrada — empieza por reconocer lo que ya recibes. La gratitud no es sentimentalismo. Es ver la realidad completa.",
+   alq:"El Azufre alquímico es el principio activo, el alma que anima la materia. La gratitud sentida en el cuerpo activa el Azufre interior — convierte el plomo de lo cotidiano en el oro de lo sagrado."},
     {id:"m5",dur:"5 min",titulo:"Visualización del yo de octubre",
      instruccion:"Cierra los ojos. Es el 10 de octubre. ¿Cómo caminas? ¿Cómo hablas? ¿Qué sientes en el cuerpo? Quédate en esa imagen 5 minutos completos.",
      sci:"Visualizar activa las mismas regiones motoras y emocionales que la experiencia real (Kosslyn, 1994). El cerebro no distingue imagen vívida de realidad.",
-     sha:"Invocar al yo futuro es el llamado del alma en tradición andina. La versión de octubre ya existe. Hoy la acercas."},
+     sha:"Invocar al yo futuro es el llamado del alma en tradición andina. La versión de octubre ya existe. Hoy la acercas.",
+   alq:"Projectio: la proyección final, donde la Piedra Filosofal transmuta el metal base. Visualizar tu yo de octubre ES la Projectio — proyectas la Piedra sobre el plomo de hoy y lo ves convertirse en oro."},
   ];
   var med=MEDITACIONES[(semIdx+dow-1)%MEDITACIONES.length];
 
@@ -2655,8 +2992,9 @@ function renderCrear(){
     h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:3px">Neurociencia</div>';
     h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+ej.sci+'</div></div>';
     h+='<div style="background:rgba(144,96,192,.05);border-radius:10px;padding:10px 12px">';
-    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:3px">Energía chamánica</div>';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:3px">Chamán</div>';
     h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic;font-weight:300">'+ej.sha+'</div></div>';
+      if(ej.alq){h+='<div class="alq-block"><div class="alq-label">Alquimia</div><div class="alq-txt">'+ej.alq+'</div></div>';}
   }
   h+='</div>';
 
@@ -2675,8 +3013,9 @@ function renderCrear(){
     h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage);margin-bottom:3px">Neurociencia</div>';
     h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-weight:300">'+med.sci+'</div></div>';
     h+='<div style="background:rgba(144,96,192,.05);border-radius:10px;padding:10px 12px">';
-    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:3px">Energía chamánica</div>';
+    h+='<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:3px">Chamán</div>';
     h+='<div style="font-size:11px;color:var(--mu);line-height:1.65;font-style:italic;font-weight:300">'+med.sha+'</div></div>';
+      if(med.alq){h+='<div class="alq-block"><div class="alq-label">Alquimia</div><div class="alq-txt">'+med.alq+'</div></div>';}
   }
   h+='</div>';
 
@@ -2785,6 +3124,72 @@ function render(){
   }
   try{updateProgress();}catch(e){}
 }
+
+// ─── BOTTOM NAV ──────────────────────────────
+function swNav(t, btn){
+  tab=t;
+  // update bottom nav active state
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn) btn.classList.add('active');
+  var labels={hoy:'Hoy',cuerpo:'Cuerpo',mente:'Inglés',voz:'Voz',meca:'Mecanografía',pnl:'PNL',vision:'Visión',dinero:'Dinero',crear:'Crear',analisis:'Análisis'};
+  var hdrEl=document.getElementById('hdr-section');
+  if(hdrEl) hdrEl.textContent=labels[t]||t;
+  closeMore();
+  render();
+  window.scrollTo(0,0);
+}
+function closeMore(){
+  var m=document.getElementById('more-menu');
+  if(m) m.style.display='none';
+}
+function togMore(){
+  var m=document.getElementById('more-menu');
+  if(m) m.style.display=m.style.display==='none'?'block':'none';
+}
+
+// ─── CONFETTI ────────────────────────────────
+function launchConfetti(){
+  var colors=['#C9A96E','#B8909A','#7A9E84','#9060C0','#FAF8F5','#C17F3A'];
+  for(var i=0;i<60;i++){
+    (function(i){
+      setTimeout(function(){
+        var el=document.createElement('div');
+        el.className='confetti-piece';
+        el.style.left=Math.random()*100+'vw';
+        el.style.top='-10px';
+        el.style.background=colors[Math.floor(Math.random()*colors.length)];
+        el.style.width=(Math.random()*8+4)+'px';
+        el.style.height=(Math.random()*8+4)+'px';
+        el.style.borderRadius=Math.random()>.5?'50%':'2px';
+        el.style.animation='confettiDrop '+(Math.random()*2+1.5)+'s ease forwards';
+        el.style.animationDelay=(Math.random()*.5)+'s';
+        document.body.appendChild(el);
+        setTimeout(function(){el.remove();},4000);
+      },i*30);
+    })(i);
+  }
+}
+
+function showAchievement(msg){
+  var existing=document.querySelector('.achievement-toast');
+  if(existing) existing.remove();
+  var el=document.createElement('div');
+  el.className='achievement-toast';
+  el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(function(){el.style.opacity='0';el.style.transition='opacity .5s';setTimeout(function(){el.remove();},500);},3000);
+}
+
+function checkDayComplete(){
+  var tot=getTotalToday(),done=getTotalDone();
+  if(tot>0&&done>=tot){
+    launchConfetti();
+    showAchievement('✦ Misión del día completa. La obra avanza.');
+  } else if(done>0&&done%5===0){
+    showAchievement('⚗️ '+done+' tareas completadas hoy');
+  }
+}
+
 
 render();
 tick();
